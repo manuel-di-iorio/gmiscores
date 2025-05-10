@@ -731,3 +731,867 @@ textarea {
 .modern-footer .footer-bottom p {
   margin: 0;
 }
+
+/* Cookie Banner Styles */
+#cookie-banner {
+    position: fixed;
+    bottom: 0; /* Inizia fuori schermo per l'animazione */
+    left: 0;
+    right: 0;
+    background-color: rgba(255,255,255,0.95); /* Usa RGB per trasparenza */
+    color: var(--text-color-primary);
+    padding: 15px 20px;
+    z-index: 90000;
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -3px 15px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    transform: translateY(100%); /* Inizia nascosto sotto */
+    animation: slideUpBanner 0.5s ease-out forwards;
+}
+
+@keyframes slideUpBanner {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.cookie-banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Spazio tra icona e testo */
+    flex-grow: 1;
+}
+
+.cookie-icon {
+    font-size: 1.8em; /* Dimensione icona */
+    color: var(--accent-color);
+}
+
+#cookie-banner p {
+    margin: 0;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+#cookie-banner a {
+    color: var(--accent-color);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+#cookie-banner button#accept-cookie-banner {
+    color: var(--button-text-color, #ffffff);
+    border: none;
+    padding: 10px 22px;
+    font-size: 0.85em;
+    font-weight: bold;
+    border-radius: 20px; /* Pulsante "pill-shaped" */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+#cookie-banner button#accept-cookie-banner:hover {
+    background-color: var(--accent-color-hover);
+    transform: scale(1.05); /* Leggero ingrandimento all'hover */
+}
+
+/* Cookie Banner */
+#cookie-banner {
+  background-color: var(--cookie-banner-bg, #2c3e50); /* Sfondo scuro e moderno */
+  color: var(--cookie-banner-text-color, #ecf0f1); /* Testo chiaro */
+  padding: 20px 30px; /* Aumentato padding */
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050; /* Sopra la maggior parte degli elementi */
+  box-shadow: 0 -2px 15px rgba(0,0,0,0.2); /* Ombra superiore per distacco */
+  display: flex; /* Flex per allineare contenuto e bottone */
+  justify-content: space-between; /* Spazio tra testo e bottone */
+  align-items: center; /* Allineamento verticale */
+  border-top: 3px solid var(--primary-color, #3498db); /* Bordo superiore colorato */
+}
+
+#cookie-banner p {
+  margin: 0;
+  font-size: 0.95em; /* Dimensione font leggermente aumentata */
+  line-height: 1.6;
+}
+
+#cookie-banner a {
+  color: var(--cookie-banner-link-color, #3498db); /* Colore link coordinato */
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+#cookie-banner a:hover {
+  color: var(--cookie-banner-link-hover-color, #5dade2);
+}
+
+#accept-cookie-banner {
+  background-color: var(--primary-color, #3498db) !important; /* Colore primario per il bottone */
+  color: white !important;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 25px !important; /* Padding bottone */
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 20px; /* Spazio dal testo */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#accept-cookie-banner:hover {
+  background-color: var(--primary-color-darker, #2980b9) !important; /* Scurisci al passaggio del mouse */
+  transform: translateY(-1px);
+}
+
+/* Stili per la pagina di login */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 160px); /* Altezza meno header e footer approssimativi */
+  background: var(--bg-color-offset, #f4f7f6);
+}
+
+.login-box {
+  background: var(--bg-color-card, white);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-2-prominent, 0 10px 30px rgba(0,0,0,0.1));
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.login-logo {
+  max-width: 80px;
+  margin-bottom: 25px;
+}
+
+.login-box h4 {
+  margin-bottom: 25px;
+  font-size: 1.3em;
+  color: var(--text-color-headings, #333);
+}
+
+.discord-login-button .w3-button {
+  background-color: #5865F2 !important; /* Colore Discord */
+  color: white !important;
+  border-radius: 8px;
+  padding: 12px 25px !important;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.discord-login-button .w3-button:hover {
+  background-color: #4752C4 !important; /* Scurisci al passaggio del mouse */
+  transform: translateY(-2px);
+}
+
+.discord-login-button .w3-button .fab.fa-discord {
+  font-size: 1.2em;
+}
+
+/* Documentation Page Styles */
+.documentation-page {
+  padding-top: 30px;
+  padding-bottom: 50px;
+}
+
+.documentation-subtitle {
+  font-size: 1.5em;
+  font-weight: 500;
+  color: var(--text-color-headings, #333);
+  margin-bottom: 20px;
+}
+
+.documentation-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: var(--bg-color-card, white);
+  border-radius: 8px;
+  box-shadow: var(--shadow-1, 0 2px 10px rgba(0,0,0,0.07));
+}
+
+.documentation-text {
+  font-size: 1em;
+  line-height: 1.7;
+  color: var(--text-color-secondary, #555);
+  margin-bottom: 15px;
+}
+
+.documentation-text .inline-code {
+  padding: 3px 6px;
+  font-size: 0.9em;
+  border-radius: 4px;
+}
+
+.accordion-container {
+  margin-bottom: 15px;
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 8px;
+  overflow: hidden; /* Per contenere il bordo dell'accordion header */
+}
+
+.accordion-header {
+  background-color: var(--bg-color-offset, #f8f9fa);
+  color: var(--text-color-headings, #333);
+  padding: 15px 20px !important;
+  width: 100%;
+  text-align: left;
+  border: none;
+  border-bottom: 1px solid var(--border-color, #e0e0e0); /* Separatore se l'accordion è chiuso */
+  font-size: 1.1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex; /* Per allineare testo e icona */
+  justify-content: space-between; /* Spinge l'icona a destra */
+  align-items: center;
+}
+
+.accordion-header:hover {
+  background-color: var(--bg-color-offset-hover, #e9ecef);
+}
+
+.accordion-header.active {
+  background-color: var(--primary-color-light, #e7f3ff);
+  border-bottom-color: transparent; /* Rimuove il bordo quando aperto */
+}
+
+.accordion-header .accordion-icon {
+  transition: transform 0.3s ease;
+  font-size: 0.9em;
+}
+
+.accordion-header.active .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  padding: 20px;
+  background-color: var(--bg-color-card, white);
+  border-top: 1px solid var(--border-color, #e0e0e0); /* Bordo superiore per separare dal header quando aperto */
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Aggiunto padding alla transizione */
+}
+
+.accordion-content.w3-show {
+    padding: 20px; /* Assicura il padding quando visibile */
+}
+
+.code-block {
+  background-color: var(--bg-color-code, #2d2d2d);
+  color: var(--text-color-code, #f8f8f2);
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9em;
+  line-height: 1.5;
+  overflow-x: auto; /* Per scroll orizzontale se il codice è lungo */
+}
+
+.documentation-example-title {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: var(--text-color-headings, #333);
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.modern-panel {
+  background-color: var(--info-panel-bg, #e0f2fe) !important; /* Azzurrino per info */
+  color: var(--info-panel-text, #0c5460) !important;
+  border-left: 4px solid var(--info-panel-border, #0ea5e9) !important;
+  padding: 15px !important;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+.modern-panel p {
+  margin-top: 0; /* Rimuove margine superiore del paragrafo interno */
+  margin-bottom: 0; /* Rimuove margine inferiore del paragrafo interno */
+}
+
+.modern-panel .fas {
+  margin-right: 10px;
+}
+
+.documentation-divider {
+  border-color: var(--border-color, #e0e0e0);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.documentation-button-link {
+  text-decoration: none; /* Rimuove sottolineatura dal link del bottone */
+}
+
+.documentation-button {
+  display: inline-flex; /* Per allineare icona e testo */
+  align-items: center;
+  justify-content: center;
+}
+
+.documentation-button .fa-download,
+.documentation-button .fab.fa-github {
+  margin-right: 10px; /* Spazio tra icona e testo */
+}
+
+.documentation-link {
+  color: var(--primary-color, #007bff);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.documentation-link:hover {
+  color: var(--primary-color-dark, #0056b3);
+  text-decoration: underline;
+}
+
+/* Modern Footer Styles */
+.modern-footer {
+  background-color: var(--footer-bg, #1f2937); /* Colore di sfondo scuro per il footer */
+  color: var(--footer-text-color, #9ca3af); /* Colore testo grigio chiaro */
+  padding-top: 40px;
+  padding-bottom: 20px;
+  border-top: 1px solid var(--footer-border-color, #374151);
+  margin-top: 50px; /* Aggiunto spazio sopra il footer */
+  box-shadow: var(--shadow-footer); /* Aggiunta ombra per staccare */
+}
+
+.modern-footer .footer-content {
+  display: flex;
+  flex-wrap: wrap; /* Per responsività su schermi piccoli */
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px; /* Larghezza massima del contenuto del footer */
+  margin: 0 auto; /* Centra il contenuto */
+  padding-left: 15px; /* Padding per schermi piccoli */
+  padding-right: 15px;
+}
+
+.modern-footer .footer-section {
+  margin-bottom: 30px;
+  flex-basis: 100%; /* Default per mobile, una colonna */
+}
+
+@media (min-width: 768px) { /* Tablet e superiori */
+  .modern-footer .footer-section {
+    flex-basis: calc(33.333% - 20px); /* Tre colonne con spazio tra loro */
+    margin-right: 20px;
+  }
+  .modern-footer .footer-section:last-child {
+    margin-right: 0;
+  }
+}
+
+.modern-footer .footer-heading {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--footer-heading-color, #e5e7eb); /* Colore più chiaro per i titoli */
+  margin-bottom: 15px;
+}
+
+.modern-footer .footer-section p {
+  font-size: 0.9em;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.modern-footer .footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modern-footer .footer-section ul li {
+  margin-bottom: 8px;
+}
+
+.modern-footer .footer-link {
+  color: var(--footer-link-color, #9ca3af);
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: color 0.2s ease;
+}
+
+.modern-footer .footer-link:hover {
+  color: var(--footer-link-hover-color, #d1d5db);
+  text-decoration: underline;
+}
+
+.modern-footer .social-link {
+  color: var(--footer-social-icon-color, #9ca3af);
+  font-size: 1.5em; /* Icone social più grandi */
+  margin-right: 15px;
+  transition: color 0.2s ease;
+}
+
+.modern-footer .social-link:last-child {
+  margin-right: 0;
+}
+
+.modern-footer .social-link:hover {
+  color: var(--footer-social-icon-hover-color, #d1d5db);
+}
+
+.modern-footer .footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid var(--footer-border-color, #374151);
+  font-size: 0.85em;
+  color: var(--footer-text-color, #9ca3af);
+}
+
+.modern-footer .footer-bottom p {
+  margin: 0;
+}
+
+/* Cookie Banner Styles */
+#cookie-banner {
+    position: fixed;
+    bottom: 0; /* Inizia fuori schermo per l'animazione */
+    left: 0;
+    right: 0;
+    background-color: rgba(255,255,255,0.95); /* Usa RGB per trasparenza */
+    color: var(--text-color-primary);
+    padding: 15px 20px;
+    z-index: 90000;
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -3px 15px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    transform: translateY(100%); /* Inizia nascosto sotto */
+    animation: slideUpBanner 0.5s ease-out forwards;
+}
+
+@keyframes slideUpBanner {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.cookie-banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Spazio tra icona e testo */
+    flex-grow: 1;
+}
+
+.cookie-icon {
+    font-size: 1.8em; /* Dimensione icona */
+    color: var(--accent-color);
+}
+
+#cookie-banner p {
+    margin: 0;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+#cookie-banner a {
+    color: var(--accent-color);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+#cookie-banner button#accept-cookie-banner {
+    color: var(--button-text-color, #ffffff);
+    border: none;
+    padding: 10px 22px;
+    font-size: 0.85em;
+    font-weight: bold;
+    border-radius: 20px; /* Pulsante "pill-shaped" */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+#cookie-banner button#accept-cookie-banner:hover {
+    background-color: var(--accent-color-hover);
+    transform: scale(1.05); /* Leggero ingrandimento all'hover */
+}
+
+/* Cookie Banner */
+#cookie-banner {
+  background-color: var(--cookie-banner-bg, #2c3e50); /* Sfondo scuro e moderno */
+  color: var(--cookie-banner-text-color, #ecf0f1); /* Testo chiaro */
+  padding: 10px 30px; /* Aumentato padding */
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050; /* Sopra la maggior parte degli elementi */
+  box-shadow: 0 -2px 15px rgba(0,0,0,0.2); /* Ombra superiore per distacco */
+  display: flex; /* Flex per allineare contenuto e bottone */
+  justify-content: space-between; /* Spazio tra testo e bottone */
+  align-items: center; /* Allineamento verticale */
+  border-top: 3px solid var(--primary-color, #3498db); /* Bordo superiore colorato */
+}
+
+#cookie-banner p {
+  margin: 0;
+  font-size: 0.95em; /* Dimensione font leggermente aumentata */
+  line-height: 1.6;
+}
+
+#cookie-banner a {
+  color: var(--cookie-banner-link-color, #3498db); /* Colore link coordinato */
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+#cookie-banner a:hover {
+  color: var(--cookie-banner-link-hover-color, #5dade2);
+}
+
+#accept-cookie-banner {
+  background-color: var(--primary-color, #3498db) !important; /* Colore primario per il bottone */
+  color: white !important;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 25px !important; /* Padding bottone */
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 20px; /* Spazio dal testo */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#accept-cookie-banner:hover {
+  background-color: var(--primary-color-darker, #2980b9) !important; /* Scurisci al passaggio del mouse */
+  transform: translateY(-1px);
+}
+
+/* Stili per la pagina di login */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 160px); /* Altezza meno header e footer approssimativi */
+  background: var(--bg-color-offset, #f4f7f6);
+}
+
+.login-box {
+  background: var(--bg-color-card, white);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-2-prominent, 0 10px 30px rgba(0,0,0,0.1));
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.login-logo {
+  max-width: 80px;
+  margin-bottom: 25px;
+}
+
+.login-box h4 {
+  margin-bottom: 25px;
+  font-size: 1.3em;
+  color: var(--text-color-headings, #333);
+}
+
+.discord-login-button .w3-button {
+  background-color: #5865F2 !important; /* Colore Discord */
+  color: white !important;
+  border-radius: 8px;
+  padding: 12px 25px !important;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.discord-login-button .w3-button:hover {
+  background-color: #4752C4 !important; /* Scurisci al passaggio del mouse */
+  transform: translateY(-2px);
+}
+
+.discord-login-button .w3-button .fab.fa-discord {
+  font-size: 1.2em;
+}
+
+/* Documentation Page Styles */
+.documentation-page {
+  padding-top: 30px;
+  padding-bottom: 50px;
+}
+
+.documentation-subtitle {
+  font-size: 1.5em;
+  font-weight: 500;
+  color: var(--text-color-headings, #333);
+  margin-bottom: 20px;
+}
+
+.documentation-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: var(--bg-color-card, white);
+  border-radius: 8px;
+  box-shadow: var(--shadow-1, 0 2px 10px rgba(0,0,0,0.07));
+}
+
+.documentation-text {
+  font-size: 1em;
+  line-height: 1.7;
+  color: var(--text-color-secondary, #555);
+  margin-bottom: 15px;
+}
+
+.documentation-text .inline-code {
+  padding: 3px 6px;
+  font-size: 0.9em;
+  border-radius: 4px;
+}
+
+.accordion-container {
+  margin-bottom: 15px;
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 8px;
+  overflow: hidden; /* Per contenere il bordo dell'accordion header */
+}
+
+.accordion-header {
+  background-color: var(--bg-color-offset, #f8f9fa);
+  color: var(--text-color-headings, #333);
+  padding: 15px 20px !important;
+  width: 100%;
+  text-align: left;
+  border: none;
+  border-bottom: 1px solid var(--border-color, #e0e0e0); /* Separatore se l'accordion è chiuso */
+  font-size: 1.1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex; /* Per allineare testo e icona */
+  justify-content: space-between; /* Spinge l'icona a destra */
+  align-items: center;
+}
+
+.accordion-header:hover {
+  background-color: var(--bg-color-offset-hover, #e9ecef);
+}
+
+.accordion-header.active {
+  background-color: var(--primary-color-light, #e7f3ff);
+  border-bottom-color: transparent; /* Rimuove il bordo quando aperto */
+}
+
+.accordion-header .accordion-icon {
+  transition: transform 0.3s ease;
+  font-size: 0.9em;
+}
+
+.accordion-header.active .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  padding: 20px;
+  background-color: var(--bg-color-card, white);
+  border-top: 1px solid var(--border-color, #e0e0e0); /* Bordo superiore per separare dal header quando aperto */
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Aggiunto padding alla transizione */
+}
+
+.accordion-content.w3-show {
+    padding: 20px; /* Assicura il padding quando visibile */
+}
+
+.code-block {
+  background-color: var(--bg-color-code, #2d2d2d);
+  color: var(--text-color-code, #f8f8f2);
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9em;
+  line-height: 1.5;
+  overflow-x: auto; /* Per scroll orizzontale se il codice è lungo */
+}
+
+.documentation-example-title {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: var(--text-color-headings, #333);
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.modern-panel {
+  background-color: var(--info-panel-bg, #e0f2fe) !important; /* Azzurrino per info */
+  color: var(--info-panel-text, #0c5460) !important;
+  border-left: 4px solid var(--info-panel-border, #0ea5e9) !important;
+  padding: 15px !important;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+.modern-panel p {
+  margin-top: 0; /* Rimuove margine superiore del paragrafo interno */
+  margin-bottom: 0; /* Rimuove margine inferiore del paragrafo interno */
+}
+
+.modern-panel .fas {
+  margin-right: 10px;
+}
+
+.documentation-divider {
+  border-color: var(--border-color, #e0e0e0);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.documentation-button-link {
+  text-decoration: none; /* Rimuove sottolineatura dal link del bottone */
+}
+
+.documentation-button {
+  display: inline-flex; /* Per allineare icona e testo */
+  align-items: center;
+  justify-content: center;
+}
+
+.documentation-button .fa-download,
+.documentation-button .fab.fa-github {
+  margin-right: 10px; /* Spazio tra icona e testo */
+}
+
+.documentation-link {
+  color: var(--primary-color, #007bff);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.documentation-link:hover {
+  color: var(--primary-color-dark, #0056b3);
+  text-decoration: underline;
+}
+
+/* Modern Footer Styles */
+.modern-footer {
+  background-color: var(--footer-bg, #1f2937); /* Colore di sfondo scuro per il footer */
+  color: var(--footer-text-color, #9ca3af); /* Colore testo grigio chiaro */
+  padding-top: 40px;
+  padding-bottom: 20px;
+  border-top: 1px solid var(--footer-border-color, #374151);
+  margin-top: 50px; /* Aggiunto spazio sopra il footer */
+  box-shadow: var(--shadow-footer); /* Aggiunta ombra per staccare */
+}
+
+.modern-footer .footer-content {
+  display: flex;
+  flex-wrap: wrap; /* Per responsività su schermi piccoli */
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px; /* Larghezza massima del contenuto del footer */
+  margin: 0 auto; /* Centra il contenuto */
+  padding-left: 15px; /* Padding per schermi piccoli */
+  padding-right: 15px;
+}
+
+.modern-footer .footer-section {
+  margin-bottom: 30px;
+  flex-basis: 100%; /* Default per mobile, una colonna */
+}
+
+@media (min-width: 768px) { /* Tablet e superiori */
+  .modern-footer .footer-section {
+    flex-basis: calc(33.333% - 20px); /* Tre colonne con spazio tra loro */
+    margin-right: 20px;
+  }
+  .modern-footer .footer-section:last-child {
+    margin-right: 0;
+  }
+}
+
+.modern-footer .footer-heading {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--footer-heading-color, #e5e7eb); /* Colore più chiaro per i titoli */
+  margin-bottom: 15px;
+}
+
+.modern-footer .footer-section p {
+  font-size: 0.9em;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.modern-footer .footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modern-footer .footer-section ul li {
+  margin-bottom: 8px;
+}
+
+.modern-footer .footer-link {
+  color: var(--footer-link-color, #9ca3af);
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: color 0.2s ease;
+}
+
+.modern-footer .footer-link:hover {
+  color: var(--footer-link-hover-color, #d1d5db);
+  text-decoration: underline;
+}
+
+.modern-footer .social-link {
+  color: var(--footer-social-icon-color, #9ca3af);
+  font-size: 1.5em; /* Icone social più grandi */
+  margin-right: 15px;
+  transition: color 0.2s ease;
+}
+
+.modern-footer .social-link:last-child {
+  margin-right: 0;
+}
+
+.modern-footer .social-link:hover {
+  color: var(--footer-social-icon-hover-color, #d1d5db);
+}
+
+.modern-footer .footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid var(--footer-border-color, #374151);
+  font-size: 0.85em;
+  color: var(--footer-text-color, #9ca3af);
+}
+
+.modern-footer .footer-bottom p {
+  margin: 0;
+}

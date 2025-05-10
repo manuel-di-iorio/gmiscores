@@ -43,6 +43,14 @@ $gameNameShowBackIcon = strpos($pageURI, "/game-scores.php") === 0 || strpos($pa
   </head>
 
   <body class="w3-content">
+    <div id="cookie-banner" style="display: none;">
+        <div class="cookie-banner-content">
+          <div>
+            <p>Questo sito utilizza solo cookie tecnici per garantirti la migliore esperienza. Non usiamo cookie di terze parti. <a href="cookie.php">Maggiori informazioni</a></p>
+          </div>
+        </div>
+        <button id="accept-cookie-banner" class="w3-button w3-black">Ok</button>
+    </div>
     <?php if (!$isIndexPage) { // Conditionally include navbar
       require_once("includes/navbar.php"); 
     } ?>
@@ -87,15 +95,16 @@ $gameNameShowBackIcon = strpos($pageURI, "/game-scores.php") === 0 || strpos($pa
         <div class="footer-section links">
           <h5 class="footer-heading">Link Utili</h5>
           <ul>
-            <li><a href="/" class="footer-link">Home</a></li>
-            <li><a href="/games.php" class="footer-link">I tuoi giochi</a></li>
-            <li><a href="/documentation.php" class="footer-link">Documentazione API</a></li>
+            <li><a href="/documentation.php" class="footer-link">Documentazione</a></li>
+            <li><a href="/terms.php" class="footer-link">Termini e Condizioni</a></li>
+            <li><a href="/privacy.php" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/cookie.php" class="footer-link">Cookie Policy</a></li>
             <!-- Aggiungi altri link se necessario -->
           </ul>
         </div>
         <div class="footer-section social">
           <h5 class="footer-heading">Seguici</h5>
-          <a href="https://discord.gg/XfMfpNA" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="fab fa-discord"></i></a>
+          <a href="https://discord.gg/85RCMD9VQD" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="fab fa-discord"></i></a>
           <a href="https://www.facebook.com/gmitalia" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
           <a href="https://twitter.com/gamemakerita" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
         </div>

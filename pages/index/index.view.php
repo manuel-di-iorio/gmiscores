@@ -535,7 +535,7 @@
     <div class="FeatureCard fade-in-up-on-scroll">
       <div class="FeatureCard__Icon"><i class="fab fa-github"></i></div>
       <h5>Open Source e Trasparente</h5>
-      <p>Il codice sorgente è disponibile su GitHub. Contribuisci o adatta la piattaforma.</p>
+      <p>Il codice sorgente è disponibile su <a href="https://github.com/manuel-di-iorio/gmiscores">GitHub</a>. Contribuisci o adatta la piattaforma.</p>
     </div>
     <div class="FeatureCard fade-in-up-on-scroll">
       <div class="FeatureCard__Icon"><i class="fas fa-rocket"></i></div>

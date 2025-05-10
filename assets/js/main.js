@@ -69,3 +69,20 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     }
   });
 });
+
+window.addEventListener("load", () => {
+  const cookieBanner = document.getElementById('cookie-banner');
+  const acceptCookieBannerButton = document.getElementById('accept-cookie-banner');
+
+  // Controlla se l'utente ha già accettato i cookie
+  if (localStorage.getItem('cookieConsentAccepted') === 'true') {
+    cookieBanner.style.display = 'none';
+  } else {
+    cookieBanner.style.display = 'flex';
+  }
+
+  acceptCookieBannerButton.addEventListener('click', () => {
+    cookieBanner.style.display = 'none';
+    localStorage.setItem('cookieConsentAccepted', 'true');
+  });
+});
