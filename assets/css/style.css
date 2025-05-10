@@ -1,0 +1,733 @@
+body, h1, h2, h3, h4, h5, h6 {
+  font-family: "Raleway", sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-smooth: always; /* Migliora antialiasing font */
+  -webkit-font-smoothing: antialiased; /* Migliora antialiasing font per Webkit */
+  -moz-osx-font-smoothing: grayscale; /* Migliora antialiasing font per Firefox */
+}
+
+.w3-content {
+  max-width: 100%;
+}
+
+/* Link hovering */
+a:hover {
+  color: #555;
+}
+
+.page-title {
+  font-weight: 600;
+  color: var(--text-color-headings, #333);
+  margin-bottom: 30px;
+  border-bottom: 2px solid var(--primary-color, #007bff);
+  padding-bottom: 5px;
+  
+  hr {
+    margin-bottom: 10px;
+  }
+}
+
+/* Buttons */
+.w3-button.w3-black {
+  outline: none;
+  background: var(--button-bg, #007bff) !important; /* Cambiato colore primario per CTA */
+  color: var(--text-color--reversed, #ffffff) !important; 
+  border-radius: 8px; /* Aumentato border-radius */
+  border: none; 
+  font-weight: 600; /* Peso font per bottoni */
+  letter-spacing: 0.5px; /* Leggera spaziatura lettere */
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Transizioni più fluide */
+}
+
+.w3-button.w3-black:hover {
+  background-color: var(--button-bg--hover, #0056b3) !important; /* Scurito il colore primario per hover */
+  color: var(--text-color--reversed) !important; 
+  transform: translateY(-2px); /* Leggero sollevamento */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Ombra più definita */
+}  
+
+/* Link button without text decoration */
+.btn-link {
+  text-decoration: none;
+}
+
+/* Responsive images */
+img {
+  width: 100%;
+  height: auto;
+}
+
+/* Navbar */
+#navbar {
+  width: 260px; /* Leggermente ridotta la larghezza per un look più snello */
+  padding-top: 0; /* Rimosso padding superiore, gestito da LogoContainer */
+  z-index: 1030; 
+  background: var(--navbar-bg, #1e293b) !important; /* Nuovo colore di sfondo moderno e scuro */
+  box-shadow: var(--shadow-navbar, 2px 0 10px rgba(0,0,0,0.15)); /* Ombra più morbida */
+  transition: transform 0.3s ease-in-out; /* Transizione più fluida */
+  border-right: 1px solid var(--navbar-border-color, #334155); /* Bordo destro per separazione */
+}
+
+/* Stile per la navbar quando è collassata su mobile (esempio) */
+.navbar-collapsed {
+  transform: translateX(-100%);
+}
+
+@media (min-width: 300px) {
+  #navbar {
+    padding-top: 30px;
+  }
+}
+
+@media (min-width: 1000px) {
+  #navbar {
+    padding-top: 15px;
+  }
+}
+
+@media (min-width: 992px) { /* Adattato breakpoint per coerenza con W3.CSS large */
+  #navbar {
+    transform: translateX(0) !important; 
+  }
+  .PageContent, .PageContentFooter {
+    margin-left: 260px; /* Adattato al nuovo width della navbar */
+  }
+  .w3-overlay.NavbarOverlay {
+    display: none !important; /* Nasconde l'overlay su desktop */
+  }
+}
+
+#navbar .LogoContainer {
+  text-align: center;
+  padding: 25px 15px; /* Aumentato padding verticale, ridotto orizzontale */
+  border-bottom: 1px solid var(--navbar-border-color, #334155); /* Bordo inferiore per separazione */
+  margin-bottom: 10px; 
+}
+
+#navbar .navbar-logo-link {
+  display: inline-block; /* Per corretto posizionamento */
+}
+
+#navbar .Logo {
+  max-width: 100px; /* Logo leggermente più grande */
+  height: auto;
+  margin-bottom: 8px; /* Spazio ridotto sotto il logo */
+}
+
+#navbar .BrandTitle {
+  font-size: 1.1em; /* Dimensione font titolo piattaforma */
+  font-weight: 600; /* Peso font */
+  margin-top: 5px;
+  color: var(--navbar-text-color, #e2e8f0); /* Colore testo titolo */
+}
+
+#navbar .w3-bar-block .w3-bar-item.w3-button.navbar-item { /* Selettore più specifico */
+  padding: 12px 20px; /* Padding item navbar */
+  border-left: 3px solid transparent; 
+  transition: background-color 0.2s ease, border-left-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+  color: var(--navbar-link-color, #cbd5e1); /* Colore link navbar */
+  font-size: 0.95em;
+}
+
+#navbar .w3-bar-block .w3-bar-item.w3-button.navbar-item:hover {
+  padding-left: 23px; 
+  border-left-color: var(--navbar-link-hover-border-color, #64748b); /* Colore bordo hover */
+  color: var(--navbar-link-hover-color, #f1f5f9); /* Colore testo hover */
+}
+
+#navbar .w3-bar-block .w3-bar-item.w3-button.navbar-item.active-link { 
+  background-color: var(--navbar-link-active-bg, #0f172a); /* Sfondo link attivo */
+  border-left-color: var(--primary-color, #3b82f6); /* Colore primario per bordo link attivo */
+  color: var(--navbar-link-active-color, #ffffff); /* Colore testo link attivo */
+  font-weight: 500; /* Leggermente più bold per l'attivo */
+  padding-left: 23px; 
+}
+
+#navbar .w3-bar-block .w3-bar-item.w3-button.navbar-item .fa-fw {
+  margin-right: 12px; /* Spazio icona */
+  width: 18px; 
+  text-align: center; 
+  font-size: 1.1em; /* Dimensione icone */
+}
+
+#navbar .navbar-divider { /* Stile per il tag hr */
+  border-color: var(--navbar-border-color, #334155);
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#navbar .UserBox {
+  padding: 15px 20px; /* Padding UserBox */
+  font-size: 0.9em;
+  text-align: center; /* Centra contenuto UserBox */
+}
+
+#navbar .UserBox .user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centra avatar e username */
+  margin-bottom: 12px;
+  color: var(--navbar-text-color, #e2e8f0);
+}
+
+#navbar .UserBox .NavbarUserAvatar {
+  width: 36px; 
+  height: 36px;
+  margin-right: 10px;
+  border: 1px solid var(--navbar-logo-border-color, #475569);
+}
+
+#navbar .UserBox .username {
+  font-weight: 500;
+}
+
+#navbar .UserBox .logout-button,
+#navbar .UserBox .login-button {
+  background-color: var(--navbar-button-bg, #334155) !important;
+  color: var(--navbar-button-text-color, #e2e8f0) !important;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 15px !important;
+  font-size: 0.9em;
+  width: 100%;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+#navbar .UserBox .logout-button:hover,
+#navbar .UserBox .login-button:hover {
+  background-color: var(--navbar-button-hover-bg, #475569) !important;
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+#navbar hr {
+  border-color: var(--border-color-sidebar, rgba(255,255,255,0.1));
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#navbar .UserBox {
+  padding: 10px 20px;
+  font-size: 0.9em;
+}
+
+#navbar .UserBox .NavbarUserAvatar {
+  width: 30px; /* Avatar leggermente più grande */
+  height: 30px;
+  margin-right: 10px;
+  border: 1px solid var(--border-color-sidebar, rgba(255,255,255,0.2));
+}
+
+#navbar .UserBox a {
+  color: var(--primary-color-light, #7cceff); /* Colore link logout più vivace */
+  text-decoration: none;
+}
+#navbar .UserBox a:hover {
+  text-decoration: underline;
+}
+
+#navbar .UserBox .btn-link {
+  color: var(--text-color-sidebar-link, #bdc3c7);
+}
+#navbar .UserBox .btn-link:hover {
+  color: var(--text-color-sidebar-link-hover, #ffffff);
+}
+
+.navbar__theme-switcher {
+  position: absolute;
+  bottom: 0;
+  padding: 1em;
+  width: 100%;
+  cursor: pointer;
+  border-top: 1px solid var(--border-color-sidebar, rgba(255,255,255,0.1));
+  background-color: var(--bg-color-sidebar-footer, rgba(0,0,0,0.1));
+}
+
+/* Layout */
+header .LogoSmall {
+  width: 65px;
+}
+
+.PageContent { 
+  padding-top: 0; 
+  flex-grow: 1; /* Assicura che il contenuto principale occupi lo spazio disponibile */
+  transition: margin-left 0.3s ease; /* Transizione per il margin quando la navbar si apre/chiude */
+}
+
+.PageContentFooter {
+  flex-shrink: 0;
+  transition: margin-left 0.3s ease; /* Transizione per il margin quando la navbar si apre/chiude */
+}
+
+.PageContent {
+  margin-left: 300px;
+  margin-top: 0px;
+}
+
+/* Aggiunta stili per animazioni globali se necessario */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUpGlobal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-up-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Modals */
+.w3-modal .ModalContent {
+  padding: 32px !important;
+  box-shadow: var(--shadow-2);
+  background: var(--bg-color);
+}
+
+.w3-modal footer.w3-container {
+  background: var(--bg-color-sidebar) !important;
+}
+
+.w3-modal .ModalFooterLink {
+  margin-right: 32px;
+}
+
+.w3-modal .ModalFooterLink:hover {
+  color: #f77 !important;
+}
+
+.w3-modal .ModalFooterLink i.fas {
+  margin-right: 8px;
+}
+
+/* Content and footer */
+.PageContent {
+  flex: 1 0 auto;
+  transition: none;
+}
+
+.PageContentFooter {
+  flex-shrink: 0;
+}
+
+.PageContent {
+  margin-left: 300px;
+  margin-top: 0px;
+}
+
+/* Tables */
+table tr:first-child {
+  border-bottom: 1px solid var(--table-line-color);
+}
+
+/* HR */
+hr {
+  border-color: var(--hr-color) !important;
+}
+
+/* Code box */
+.w3-codespan {
+  background: var(--bg-color-sidebar);
+}
+
+/* Inputs */
+.w3-input:not(:disabled) {
+  background: var(--input-bg);
+  border-color: var(--hr-color);
+  color: var(--text-color);
+}
+
+.w3-input:disabled {
+  background: var(--input-bg--disabled);
+  border-color: var(--hr-color);
+  color: var(--input-text-color--disabled);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 3rem;
+  max-height: 18rem;
+}
+
+.w3-select {
+  font-weight: normal;
+}
+
+/* Tooltips */
+.tippy-box {
+  background: var(--bg-color--reversed);
+  color: var(--text-color--reversed);
+}
+
+.tippy-box[data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: var(--bg-color--reversed);
+}
+
+/* Text Opacity */
+.w3-opacity, .w3-hover-opacity:hover {
+  opacity: .7;
+}
+
+/* Game name > Back icon */
+.GameNameBackIcon {
+  font-size: 19px;
+  vertical-align: middle;
+}
+
+/** End Notice */
+.end-notice {
+  z-index: 1000;
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  right: 2rem;
+  background: rgba(27, 27, 27, .97);
+  box-shadow: 0 0 20px rgba(0,0,0,.3);
+  border-radius: 4px;
+  padding: 1rem;
+  color: white;
+}
+
+.end-notice__header {
+  font-weight: bold;
+  margin-bottom: .5rem;
+}
+
+.end-notice__close-icon {
+  float: right;
+  cursor: pointer;
+}
+
+.end-notice__close-icon i {
+  font-size: 1.6rem;
+}
+
+.end-notice__close-icon:hover {
+  color: #555;
+}
+
+/* Stili per la pagina di login */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 160px); /* Altezza meno header e footer approssimativi */
+  background: var(--bg-color-offset, #f4f7f6);
+}
+
+.login-box {
+  background: var(--bg-color-card, white);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-2-prominent, 0 10px 30px rgba(0,0,0,0.1));
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.login-logo {
+  max-width: 80px;
+  margin-bottom: 25px;
+}
+
+.login-box h4 {
+  margin-bottom: 25px;
+  font-size: 1.3em;
+  color: var(--text-color-headings, #333);
+}
+
+.discord-login-button .w3-button {
+  background-color: #5865F2 !important; /* Colore Discord */
+  color: white !important;
+  border-radius: 8px;
+  padding: 12px 25px !important;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.discord-login-button .w3-button:hover {
+  background-color: #4752C4 !important; /* Scurisci al passaggio del mouse */
+  transform: translateY(-2px);
+}
+
+.discord-login-button .w3-button .fab.fa-discord {
+  font-size: 1.2em;
+}
+
+/* Documentation Page Styles */
+.documentation-page {
+  padding-top: 30px;
+  padding-bottom: 50px;
+}
+
+.documentation-subtitle {
+  font-size: 1.5em;
+  font-weight: 500;
+  color: var(--text-color-headings, #333);
+  margin-bottom: 20px;
+}
+
+.documentation-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: var(--bg-color-card, white);
+  border-radius: 8px;
+  box-shadow: var(--shadow-1, 0 2px 10px rgba(0,0,0,0.07));
+}
+
+.documentation-text {
+  font-size: 1em;
+  line-height: 1.7;
+  color: var(--text-color-secondary, #555);
+  margin-bottom: 15px;
+}
+
+.documentation-text .inline-code {
+  padding: 3px 6px;
+  font-size: 0.9em;
+  border-radius: 4px;
+}
+
+.accordion-container {
+  margin-bottom: 15px;
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 8px;
+  overflow: hidden; /* Per contenere il bordo dell'accordion header */
+}
+
+.accordion-header {
+  background-color: var(--bg-color-offset, #f8f9fa);
+  color: var(--text-color-headings, #333);
+  padding: 15px 20px !important;
+  width: 100%;
+  text-align: left;
+  border: none;
+  border-bottom: 1px solid var(--border-color, #e0e0e0); /* Separatore se l'accordion è chiuso */
+  font-size: 1.1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex; /* Per allineare testo e icona */
+  justify-content: space-between; /* Spinge l'icona a destra */
+  align-items: center;
+}
+
+.accordion-header:hover {
+  background-color: var(--bg-color-offset-hover, #e9ecef);
+}
+
+.accordion-header.active {
+  background-color: var(--primary-color-light, #e7f3ff);
+  border-bottom-color: transparent; /* Rimuove il bordo quando aperto */
+}
+
+.accordion-header .accordion-icon {
+  transition: transform 0.3s ease;
+  font-size: 0.9em;
+}
+
+.accordion-header.active .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  padding: 20px;
+  background-color: var(--bg-color-card, white);
+  border-top: 1px solid var(--border-color, #e0e0e0); /* Bordo superiore per separare dal header quando aperto */
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Aggiunto padding alla transizione */
+}
+
+.accordion-content.w3-show {
+    padding: 20px; /* Assicura il padding quando visibile */
+}
+
+.code-block {
+  background-color: var(--bg-color-code, #2d2d2d);
+  color: var(--text-color-code, #f8f8f2);
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9em;
+  line-height: 1.5;
+  overflow-x: auto; /* Per scroll orizzontale se il codice è lungo */
+}
+
+.documentation-example-title {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: var(--text-color-headings, #333);
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.modern-panel {
+  background-color: var(--info-panel-bg, #e0f2fe) !important; /* Azzurrino per info */
+  color: var(--info-panel-text, #0c5460) !important;
+  border-left: 4px solid var(--info-panel-border, #0ea5e9) !important;
+  padding: 15px !important;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+.modern-panel p {
+  margin-top: 0; /* Rimuove margine superiore del paragrafo interno */
+  margin-bottom: 0; /* Rimuove margine inferiore del paragrafo interno */
+}
+
+.modern-panel .fas {
+  margin-right: 10px;
+}
+
+.documentation-divider {
+  border-color: var(--border-color, #e0e0e0);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.documentation-button-link {
+  text-decoration: none; /* Rimuove sottolineatura dal link del bottone */
+}
+
+.documentation-button {
+  display: inline-flex; /* Per allineare icona e testo */
+  align-items: center;
+  justify-content: center;
+}
+
+.documentation-button .fa-download,
+.documentation-button .fab.fa-github {
+  margin-right: 10px; /* Spazio tra icona e testo */
+}
+
+.documentation-link {
+  color: var(--primary-color, #007bff);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.documentation-link:hover {
+  color: var(--primary-color-dark, #0056b3);
+  text-decoration: underline;
+}
+
+/* Modern Footer Styles */
+.modern-footer {
+  background-color: var(--footer-bg, #1f2937); /* Colore di sfondo scuro per il footer */
+  color: var(--footer-text-color, #9ca3af); /* Colore testo grigio chiaro */
+  padding-top: 40px;
+  padding-bottom: 20px;
+  border-top: 1px solid var(--footer-border-color, #374151);
+  margin-top: 50px; /* Aggiunto spazio sopra il footer */
+  box-shadow: var(--shadow-footer); /* Aggiunta ombra per staccare */
+}
+
+.modern-footer .footer-content {
+  display: flex;
+  flex-wrap: wrap; /* Per responsività su schermi piccoli */
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px; /* Larghezza massima del contenuto del footer */
+  margin: 0 auto; /* Centra il contenuto */
+  padding-left: 15px; /* Padding per schermi piccoli */
+  padding-right: 15px;
+}
+
+.modern-footer .footer-section {
+  margin-bottom: 30px;
+  flex-basis: 100%; /* Default per mobile, una colonna */
+}
+
+@media (min-width: 768px) { /* Tablet e superiori */
+  .modern-footer .footer-section {
+    flex-basis: calc(33.333% - 20px); /* Tre colonne con spazio tra loro */
+    margin-right: 20px;
+  }
+  .modern-footer .footer-section:last-child {
+    margin-right: 0;
+  }
+}
+
+.modern-footer .footer-heading {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--footer-heading-color, #e5e7eb); /* Colore più chiaro per i titoli */
+  margin-bottom: 15px;
+}
+
+.modern-footer .footer-section p {
+  font-size: 0.9em;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.modern-footer .footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modern-footer .footer-section ul li {
+  margin-bottom: 8px;
+}
+
+.modern-footer .footer-link {
+  color: var(--footer-link-color, #9ca3af);
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: color 0.2s ease;
+}
+
+.modern-footer .footer-link:hover {
+  color: var(--footer-link-hover-color, #d1d5db);
+  text-decoration: underline;
+}
+
+.modern-footer .social-link {
+  color: var(--footer-social-icon-color, #9ca3af);
+  font-size: 1.5em; /* Icone social più grandi */
+  margin-right: 15px;
+  transition: color 0.2s ease;
+}
+
+.modern-footer .social-link:last-child {
+  margin-right: 0;
+}
+
+.modern-footer .social-link:hover {
+  color: var(--footer-social-icon-hover-color, #d1d5db);
+}
+
+.modern-footer .footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid var(--footer-border-color, #374151);
+  font-size: 0.85em;
+  color: var(--footer-text-color, #9ca3af);
+}
+
+.modern-footer .footer-bottom p {
+  margin: 0;
+}

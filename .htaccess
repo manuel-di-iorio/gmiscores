@@ -1,0 +1,19 @@
+# Deny access to .htaccess
+<Files .htaccess>
+  Order allow,deny
+  Deny from all
+</Files>
+
+# Disable directory browsing
+Options -Indexes
+
+# Deny direct access to files
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+  RewriteRule ^(includes|pages) - [F]
+</IfModule>
+
+# Altervista
+
+# # av:php5-engine
+AddHandler av-php8 .php

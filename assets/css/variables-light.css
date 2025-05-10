@@ -1,0 +1,75 @@
+:root {
+  /* Backgrounds */
+  --bg-color: #f7f7f7;
+  --bg-color-sidebar: white;
+  --bg-color--reversed: rgb(28, 30, 31);
+
+  /* Default text color */
+  --text-color: #111;
+  --text-color--reversed: rgb(220, 220, 220);
+
+  /* Input */
+  --input-bg: white;
+  --input-bg--disabled: #eee;
+  --input-text: black;
+  --input-text--disabled: #bbb;
+
+  /* Table line */
+  --table-line-color: #666;
+  
+  /* HR */
+  --hr-color: #f6f6f6;
+
+  /* Buttons */
+  --button-bg: black;
+  --button-bg--hover: rgb(41, 40, 40);
+
+  /* Shadows */
+  --shadow-1--right: 0 1px 10px rgba(0,0,0,.1);
+  --shadow-2: 0 0 20px rgba(0,0,0,.1);
+
+  /* Navbar Light Theme */
+  --navbar-bg: #ffffff;
+  --navbar-border-color: #e5e7eb;
+  --navbar-text-color: #374151;
+  --navbar-logo-border-color: #d1d5db;
+  --navbar-link-color: #4b5563;
+  --navbar-link-hover-bg: #f3f4f6;
+  --navbar-link-hover-border-color: #9ca3af;
+  --navbar-link-hover-color: #1f2937;
+  --navbar-link-active-bg: #4690ff; /* Un blu molto chiaro per l'attivo */
+  --navbar-link-active-color: white; /* Blu scuro per testo attivo */
+  --navbar-button-bg: #e5e7eb;
+  --navbar-button-text-color: #1f2937;
+  --navbar-button-hover-bg: #d1d5db;
+  --navbar-button-hover-text-color: #ffffff;
+  --shadow-navbar: 2px 0 10px rgba(0,0,0,0.05); /* Ombra più leggera per tema chiaro */
+
+  /* Documentation Page */
+  --text-color-headings: #2c3e50; /* Blu scuro per i titoli */
+  --text-color-secondary: #555e68; /* Grigio scuro per testo secondario */
+  --bg-color-card: #ffffff;
+  --bg-color-offset: #f8f9fa; /* Sfondo leggermente grigio per sezioni o accordion header */
+  --bg-color-offset-hover: #e9ecef;
+  --border-color: #e3e7ed; /* Colore bordi più morbido */
+  --primary-color: #007bff; /* Blu primario */
+  --primary-color-light: #e7f3ff; /* Blu molto chiaro per sfondi attivi/hover leggeri */
+  --primary-color-dark: #0056b3;
+  --bg-color-code: #f1f3f5; /* Sfondo chiaro per blocchi di codice */
+  --text-color-code: #212529; /* Testo scuro per codice su sfondo chiaro */
+  --info-panel-bg: #e0f2fe; /* Sfondo per pannelli informativi (azzurrino) */
+  --info-panel-text: #0c5460; /* Testo per pannelli informativi */
+  --info-panel-border: #0ea5e9; /* Bordo per pannelli informativi */
+  --shadow-1: 0 2px 10px rgba(0,0,0,0.07);
+
+  /* Modern Footer */
+  --footer-bg: #f8f9fa; /* Sfondo chiaro per il footer */
+  --footer-text-color: #5f6368; /* Grigio scuro per il testo */
+  --footer-border-color: #e0e0e0; /* Bordo leggero */
+  --footer-heading-color: #202124; /* Nero/grigio molto scuro per i titoli */
+  --footer-link-color: #5f6368;
+  --footer-link-hover-color: #007bff; /* Blu primario per hover dei link */
+  --footer-social-icon-color: #5f6368;
+  --footer-social-icon-hover-color: #007bff;
+  --shadow-footer: 0 -4px 12px rgba(0,0,0,0.08); /* Ombra verso l'alto per il footer */
+}
