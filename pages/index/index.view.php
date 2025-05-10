@@ -364,26 +364,101 @@
     }
   }
 
+  /* Fixed Logo */
+  .fixed-logo {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    width: 200px; /* Puoi aggiustare la dimensione come preferisci */
+    height: auto;
+    z-index: 1000; /* Assicura che sia sopra gli altri elementi */
+    pointer-events: none;
+  }
+
+  /* Visual Showcase Section */
+  .VisualShowcaseSection {
+    padding: 70px 30px;
+    background-color: var(--bg-color, white); /* O un colore leggermente diverso per staccare */
+  }
+
+  .VisualShowcaseContainer {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .VisualShowcase__Text {
+    flex: 1;
+  }
+
+  .VisualShowcase__Text h3 {
+    font-size: 2.2em;
+    font-weight: 700;
+    color: var(--text-color-headings, #333);
+    margin-bottom: 20px;
+  }
+
+  .VisualShowcase__Text p {
+    font-size: 1.15em;
+    color: var(--text-color-secondary, #555);
+    line-height: 1.7;
+    margin-bottom: 25px;
+  }
+
+  .VisualShowcase__Image img {
+    flex: 1;
+    text-align: center;
+    max-height: 600px; /* Limita l'altezza per evitare overflow */
+  }
+
+  .VisualShowcase__Image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: var(--shadow-2-prominent, 0 8px 25px rgba(0,0,0,0.15));
+  }
+
+  /* Responsive adjustments for VisualShowcaseSection */
+  @media (max-width: 768px) {
+    .VisualShowcaseContainer {
+      flex-direction: column;
+      text-align: center;
+    }
+    .VisualShowcase__Text h3 {
+      font-size: 1.8em;
+    }
+    .VisualShowcase__Text p {
+      font-size: 1em;
+    }
+    .VisualShowcase__Image {
+      margin-top: 30px;
+    }
+  }
 </style>
+
+<!-- <img src="assets/images/logo-transparent.webp" alt="Logo" class="fixed-logo"> -->
 
 <div class="HomeBanner">
   <h1><?= htmlspecialchars($config["platformTitle"]) ?></h1>
   <p>Integra classifiche online nei tuoi giochi GameMaker in modo semplice, veloce e gratuito. Dai una marcia in più alle tue creazioni!</p>
   <a href="./add-game.php">
     <button type="submit" class="w3-button w3-white w3-padding-large w3-margin-top w3-margin-bottom CtaButton">
-      <i class="fas fa-rocket w3-margin-right"></i> Inizia Subito
+      <i class="fas fa-rocket w3-margin-right"></i> Inizia subito
     </button>
   </a>
   <div class="scroll-down-arrow">
-    <i class="fas fa-chevron-down"></i>
+    <a href="#how-it-works-section-anchor"><i class="fas fa-chevron-down"></i></a>
   </div>
 </div>
 
+<div id="how-it-works-section-anchor"></div>
 <!-- How It Works Section -->
 <hr class="fade-in-up-on-scroll"/>
 <div class="w3-container HowItWorksSection">
   <h2 class="SectionTitle fade-in-up-on-scroll">Come Funziona? È Semplice!</h2>
-  <div class="HowItWorksContainer">
+  <divù class="HowItWorksContainer">
     <div class="HowItWorksStep fade-in-up-on-scroll">
       <div class="HowItWorksStep__Icon"><i class="fas fa-gamepad"></i></div>
       <h5>1. Registra il Tuo Gioco</h5>
@@ -403,6 +478,21 @@
       <div class="HowItWorksStep__Icon"><i class="fas fa-shield-alt"></i></div>
       <h5>4. Sicurezza e Gestione</h5>
       <p>Gestisci i tuoi giochi, visualizza statistiche e banna giocatori scorretti dalla tua dashboard.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Visual Showcase Section -->
+<hr class="fade-in-up-on-scroll"/>
+<div class="w3-container VisualShowcaseSection">
+  <div class="VisualShowcaseContainer">
+    <div class="VisualShowcase__Text fade-in-up-on-scroll">
+      <h2 class="SectionTitle" style="text-align: left; margin-bottom: 30px; padding-bottom: 10px;">Dai Vita alle Tue Sfide</h2>
+      <p>Immagina i tuoi giocatori scalare le vette delle classifiche, condividere i loro trionfi e sentirsi parte di una community globale. Con la nostra piattaforma, trasformi ogni partita in un'epica competizione. Offri un'esperienza che va oltre il gioco stesso, creando momenti indimenticabili e legami duraturi tra i tuoi utenti.</p>
+      <a href="./add-game.php" class="CtaButton w3-button w3-black" style="margin-top: 20px">Aggiungi il tuo gioco</a>
+    </div>
+    <div class="VisualShowcase__Image fade-in-up-on-scroll">
+      <img src="/assets/images/landing_leaderboard.avif" alt="Visualizzazione Classifiche">
     </div>
   </div>
 </div>
@@ -511,7 +601,7 @@
   <p class="fade-in-up-on-scroll">Non aspettare! Unisciti alla nostra community di sviluppatori e offri ai tuoi giocatori un'esperienza competitiva e coinvolgente.</p>
   <a href="./add-game.php" class="fade-in-up-on-scroll">
     <button type="submit" class="w3-button w3-padding-large CtaButton w3-black">
-      <i class="fas fa-plus-circle w3-margin-right"></i> Aggiungi il Tuo Gioco Ora
+      Aggiungi il tuo gioco
     </button>
   </a>
 </div>

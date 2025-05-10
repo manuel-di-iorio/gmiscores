@@ -15,3 +15,7 @@ Template base per la creazione di nuove aree del sito
 ## .htaccess
 
 Nega l'accesso diretto da browser ad alcune sottocartelle e setta il php engine di Altervista.
+
+## Env
+
+Il file env `lib/config.php` non è convidiso sulla repository GitHub, ma puoi trovare l'esempio default sul file `lib/config.example.php
