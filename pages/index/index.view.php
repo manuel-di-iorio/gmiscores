@@ -49,6 +49,66 @@
     box-shadow: 0 8px 16px rgba(0,0,0,0.3);
   }
 
+  /* Scroll Down Arrow for HomeBanner */
+  .scroll-down-arrow {
+    position: absolute;
+    bottom: 40px; /* Aumentato per più spazio dal fondo */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.5em; /* Leggermente più grande */
+    color: white;
+    animation: bounceUpDown 4s infinite ease-in-out; /* Animazione più fluida */
+    cursor: pointer; /* Indica che è cliccabile, anche se non fa nulla */
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+
+  .scroll-down-arrow:hover {
+    opacity: 1;
+  }
+
+  @keyframes bounceUpDown {
+    0%, 100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      transform: translateX(-50%) translateY(-15px); /* Escursione ridotta per un effetto più soft */
+    }
+  }
+
+  /* Fixed Logo */
+  .fixed-logo {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    width: 200px; /* Puoi aggiustare la dimensione come preferisci */
+    height: auto;
+    z-index: 1000; /* Assicura che sia sopra gli altri elementi */
+    pointer-events: none;
+  }
+
+  /* Responsive adjustments for Hero Section */
+  @media (max-width: 768px) {
+    .HomeBanner {
+      background-attachment: scroll; /* Rimuove effetto parallax su mobile */
+      padding: 80px 20px; /* Padding verticale maggiore, orizzontale ridotto */
+    }
+    .HomeBanner h1 {
+      font-size: 2.2em; /* Dimensione titolo ridotta per mobile */
+    }
+    .HomeBanner p {
+      font-size: 1.1em; /* Dimensione paragrafo ridotta per mobile */
+      max-width: 90%; /* Assicura che il testo non sia troppo largo */
+    }
+    .CtaButton {
+      font-size: 1.1em; /* Dimensione pulsante ridotta */
+      padding: 15px 25px; /* Padding pulsante ridotto */
+    }
+    .scroll-down-arrow {
+      bottom: 60px; /* Spostata significativamente più in basso per evitare sovrapposizioni su mobile */
+    }
+  }
+
   /* Stats Section */
   .StatsSection {
     padding: 60px 20px; /* Più padding */
@@ -335,44 +395,6 @@
     background-color: var(--primary-color-dark, #0056b3); /* Scurisce al hover */
     transform: translateY(-5px) scale(1.05); /* Effetto hover più marcato */
     box-shadow: 0 10px 20px rgba(0,0,0,0.3); /* Ombra hover più marcata */
-  }
-
-  /* Scroll Down Arrow for HomeBanner */
-  .scroll-down-arrow {
-    position: absolute;
-    bottom: 40px; /* Aumentato per più spazio dal fondo */
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2.5em; /* Leggermente più grande */
-    color: white;
-    animation: bounceUpDown 4s infinite ease-in-out; /* Animazione più fluida */
-    cursor: pointer; /* Indica che è cliccabile, anche se non fa nulla */
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
-  }
-
-  .scroll-down-arrow:hover {
-    opacity: 1;
-  }
-
-  @keyframes bounceUpDown {
-    0%, 100% {
-      transform: translateX(-50%) translateY(0);
-    }
-    50% {
-      transform: translateX(-50%) translateY(-15px); /* Escursione ridotta per un effetto più soft */
-    }
-  }
-
-  /* Fixed Logo */
-  .fixed-logo {
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    width: 200px; /* Puoi aggiustare la dimensione come preferisci */
-    height: auto;
-    z-index: 1000; /* Assicura che sia sopra gli altri elementi */
-    pointer-events: none;
   }
 
   /* Visual Showcase Section */

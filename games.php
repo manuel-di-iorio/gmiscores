@@ -2,6 +2,7 @@
 require_once("lib/db.php");
 require_once("lib/checkSession.php");
 require_once("models/Game.php");
+require_once("includes/table.php");
 
 // Get the games
 $result = Game::listByUser($user["id"]);

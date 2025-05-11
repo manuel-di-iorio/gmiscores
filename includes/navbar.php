@@ -4,7 +4,7 @@ $navbarThemeReversed = $theme === "dark" ? "white" : "dark";
 
 $navbarItems = [
   ["label" => "Home", "url" => "/", "icon" => "home", "showOnlyLogged" => false],
-  ["label" => "I tuoi giochi", "url" => "/games.php", "icon" => "gamepad", "showOnlyLogged" => false],
+  ["label" => "I tuoi giochi", "url" => "/games.php", "icon" => "gamepad", "showOnlyLogged" => true],
   ["label" => "Documentazione", "url" => "/documentation.php", "icon" => "book", "showOnlyLogged" => false]
 ];
 ?>
