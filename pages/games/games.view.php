@@ -49,7 +49,7 @@
         "class" => "btn-link",
         "url" => "javascript:;",
         "onclick" => function ($data) {
-          return "openModal('modal-delete-game', onDeleteGameModalOpen, { gameId: {$data['game_id']}, gameName: '" . htmlspecialchars($data['name']) . "}' })";
+          return "openModal('modal-delete-game', onDeleteGameModalOpen, { gameId: {$data['game_id']}, gameName: '" . htmlspecialchars($data['name']) . "' })";
         }
       ]
     ];
@@ -68,7 +68,7 @@
     render_table($games, $tableColumns, $tableActions, $tableOptions);
 
   } else { ?>
-    <p>Non hai ancora aggiunto nessun gioco. <a href="add-game.php">Aggiungine uno ora!</a></p>
+    <p>Non hai ancora aggiunto nessun gioco.</p>
   <?php } ?>
 </div>
 

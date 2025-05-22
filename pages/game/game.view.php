@@ -3,11 +3,12 @@
   font-size: 14px; /* Slightly larger for readability */
   background-color: #f8f8f8; /* Very light grey for code background */
   border: 1px solid #e0e0e0; /* Lighter border */
-  padding: 1.2rem;
+  padding: .7rem 1rem;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   overflow-x: auto; /* Ensure horizontal scroll for long lines */
   line-height: 1.6; /* Improved line height */
+  margin-top: 0 !important;
 }
 
 .input-group {

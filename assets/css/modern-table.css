@@ -1,0 +1,163 @@
+.modern-table-container {
+    margin-bottom: 20px;
+    overflow-x: auto; /* Per la responsività su schermi piccoli */
+}
+
+.modern-table {
+    width: 100%;
+    border-collapse: collapse; /* Rimuove spazi tra bordi delle celle */
+    font-size: 0.95em;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1); /* Ombra più sottile */
+    border-radius: 8px; /* Angoli arrotondati per il contenitore della tabella */
+    overflow: hidden; /* Per far rispettare i border-radius ai figli */
+}
+
+.modern-table th,
+.modern-table td {
+    padding: 12px 15px; /* Padding più generoso */
+    text-align: left;
+    border-bottom: 1px solid var(--table-border-color, #dddddd); /* Usa variabile CSS o default */
+}
+
+.modern-table .modern-table-header {
+    background-color: var(--table-header-bg, #f0f2f5); /* Colore di sfondo per l'header, usa variabile o default */
+    color: var(--table-header-text-color, #333333); /* Colore testo header, usa variabile o default */
+    font-weight: 600;
+    text-transform: uppercase; /* Testo maiuscoletto per gli header */
+    letter-spacing: 0.03em;
+}
+
+.modern-table .modern-table-header-cell a {
+    color: inherit; /* Eredita colore da .modern-table-header */
+    text-decoration: none;
+}
+
+.modern-table .modern-table-header-cell a:hover {
+    text-decoration: underline;
+}
+
+.modern-table .modern-table-header .actions-header-cell {
+    text-align: right;
+}
+
+.modern-table .modern-table-body .modern-table-row:nth-of-type(even) {
+    background-color: var(--table-row-even-bg, #f9f9f9); /* Strisce per le righe pari, usa variabile o default */
+}
+
+.modern-table .modern-table-body .modern-table-row:hover {
+    background-color: var(--table-row-hover-bg, #f1f1f1); /* Colore al passaggio del mouse, usa variabile o default */
+    cursor: default; /* Cambia il cursore per indicare che la riga non è cliccabile di per sé */
+}
+
+.modern-table .modern-table-cell {
+    color: var(--table-cell-text-color, #555555); /* Colore testo celle, usa variabile o default */
+}
+
+.modern-table .actions-cell {
+    text-align: right;
+    white-space: nowrap; /* Evita che le icone vadano a capo */
+}
+
+.modern-table .table-action-icon {
+    color: var(--table-action-icon-color, #555555); /* Colore icone, usa variabile o default */
+    margin: 0 5px;
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.modern-table .table-action-icon:hover {
+    color: var(--table-action-icon-hover-color, #007bff); /* Colore icone al hover, usa variabile o default */
+    background-color: var(--table-action-icon-hover-bg, #e9ecef); /* Sfondo leggero per hover */
+}
+
+.modern-table .modern-table-empty-row td {
+    text-align: center;
+    padding: 20px;
+    color: #777777;
+    font-style: italic;
+}
+
+/* Stili per la paginazione */
+.modern-table-pagination {
+    margin-top: 20px;
+    user-select: none; /* Impedisce la selezione del testo */
+}
+
+.modern-table-pagination .w3-bar .w3-button {
+    margin: 0 2px;
+    border-radius: 4px; /* Angoli arrotondati per i bottoni */
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    padding: 8px 12px;
+}
+
+.modern-table-pagination .w3-bar .pagination-arrow {
+    font-weight: bold;
+}
+
+.modern-table-pagination .w3-bar .pagination-number:hover,
+.modern-table-pagination .w3-bar .pagination-arrow:not(.w3-disabled):hover {
+    background-color: var(--pagination-hover-bg, #e9ecef);
+    color: var(--pagination-hover-text, #0056b3);
+}
+
+.modern-table-pagination .w3-bar .pagination-active {
+    background-color: var(--pagination-active-bg, #007bff) !important;
+    color: var(--pagination-active-text, #ffffff) !important;
+    font-weight: bold;
+}
+
+.modern-table-pagination .w3-bar .w3-disabled,
+.modern-table-pagination .w3-bar .w3-disabled:hover {
+    background-color: var(--pagination-disabled-bg, #f8f9fa) !important;
+    color: var(--pagination-disabled-text, #6c757d) !important;
+    cursor: not-allowed;
+}
+
+.modern-table-pagination .w3-bar .pagination-ellipsis {
+    padding: 8px 0; /* Allinea verticalmente con i bottoni */
+    border: none;
+}
+
+/* Variabili CSS per personalizzazione temi (da definire in style.css o nei file variables-*.css) */
+/*
+:root {
+    --table-border-color: #dddddd;
+    --table-header-bg: #f0f2f5;
+    --table-header-text-color: #333333;
+    --table-row-even-bg: #f9f9f9;
+    --table-row-hover-bg: #f1f1f1;
+    --table-cell-text-color: #555555;
+    --table-action-icon-color: #555555;
+    --table-action-icon-hover-color: #007bff;
+    --table-action-icon-hover-bg: #e9ecef;
+
+    --pagination-hover-bg: #e9ecef;
+    --pagination-hover-text: #0056b3;
+    --pagination-active-bg: #007bff;
+    --pagination-active-text: #ffffff;
+    --pagination-disabled-bg: #f8f9fa;
+    --pagination-disabled-text: #6c757d;
+}
+
+[data-theme="dark"] {
+    --table-border-color: #444444;
+    --table-header-bg: #2c2c2c;
+    --table-header-text-color: #f1f1f1;
+    --table-row-even-bg: #252525;
+    --table-row-hover-bg: #383838;
+    --table-cell-text-color: #cccccc;
+    --table-action-icon-color: #cccccc;
+    --table-action-icon-hover-color: #80bfff;
+    --table-action-icon-hover-bg: #3a3a3a;
+
+    --pagination-hover-bg: #3a3a3a;
+    --pagination-hover-text: #80bfff;
+    --pagination-active-bg: #007bff;
+    --pagination-active-text: #ffffff;
+    --pagination-disabled-bg: #2c2c2c;
+    --pagination-disabled-text: #6a6a6a;
+}
+*/
