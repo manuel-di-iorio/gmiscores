@@ -45,6 +45,8 @@ function render_table(array $data, array $columns, array $actions = [], array $o
     $baseUrl = $options["base_url"] ?? '';
     $primaryKey = $options["primary_key"] ?? 'id';
 
+    // Pagination is always 0-indexed
+
     // Sorting parameters from GET request or defaults
     $sortColumn = $_GET['sort'] ?? $defaultSortColumn;
     $sortDirection = $_GET['dir'] ?? $defaultSortDirection;
@@ -56,37 +58,50 @@ function render_table(array $data, array $columns, array $actions = [], array $o
             $valB = $b[$sortColumn] ?? null;
 
             if ($valA === $valB) {
-                return 0;
+                return 0; // Se i valori sono identici, non c'è bisogno di ordinare
+            }
+
+            // Gestione specifica per valori null: i null vanno alla fine per ascendente, all'inizio per discendente
+            if ($valA === null) {
+                return ($sortDirection === 'asc') ? 1 : -1;
+            }
+            if ($valB === null) {
+                return ($sortDirection === 'asc') ? -1 : 1;
             }
 
             if (is_numeric($valA) && is_numeric($valB)) {
+                // Confronto numerico
                 return ($sortDirection === 'asc') ? ($valA - $valB) : ($valB - $valA);
             } else {
-                return ($sortDirection === 'asc') ? strcmp((string) $valA, (string) $valB) : strcmp((string) $valB, (string) $valA);
+                // Confronto come stringhe (case-sensitive, standard per la maggior parte dei casi)
+                $sValA = strval($valA);
+                $sValB = strval($valB);
+                return ($sortDirection === 'asc') ? strcmp($sValA, $sValB) : strcmp($sValB, $sValA);
             }
         });
     }
 
     // --- Pagination Logic ---
     $pageData = $data;
-    $totalPages = 1;
-    $currentPage = 1;
+    $totalPages = 0; // Default for 0-indexed
+    $currentPage = 0; // Default for 0-indexed
 
     if ($paginationSettings && !empty($data)) {
         $itemsPerPage = (int) ($paginationSettings["items_per_page"] ?? 10);
-        $totalItems = (int) ($paginationSettings["total_items"] ?? count($data)); // If total_items not provided, use count of current data
-        $currentPage = (int) ($_GET['page'] ?? $paginationSettings["current_page"] ?? 1);
-        if ($currentPage < 1)
-            $currentPage = 1;
+        $totalItems = (int) ($paginationSettings["total_items"] ?? count($data)); 
+        
+        // Adjust current page from GET, defaulting to 0 for 0-indexed pagination
+        $currentPage = (int) ($_GET['page'] ?? $paginationSettings["current_page"] ?? 0);
 
-        $totalPages = ceil($totalItems / $itemsPerPage);
-        if ($currentPage > $totalPages && $totalPages > 0)
-            $currentPage = $totalPages;
+        // 0-indexed pagination logic
+        if ($currentPage < 0) $currentPage = 0;
+        $totalPages = $itemsPerPage > 0 ? ceil($totalItems / $itemsPerPage) -1 : 0;
+        if ($totalPages < 0) $totalPages = 0; // Ensure totalPages is not negative
+        if ($currentPage > $totalPages && $totalItems > 0) $currentPage = $totalPages;
+        $offset = $currentPage * $itemsPerPage;
+        
 
-        // If total_items was provided, we assume $data is already the slice for the current page.
-        // Otherwise, if we are paginating the full $data array:
         if (!isset($paginationSettings["total_items"])) {
-            $offset = ($currentPage - 1) * $itemsPerPage;
             $pageData = array_slice($data, $offset, $itemsPerPage);
         } else {
             // If total_items is set, it implies $data is already the correct slice for the current page.
@@ -109,9 +124,28 @@ function render_table(array $data, array $columns, array $actions = [], array $o
         echo '<th class="modern-table-header-cell">';
         if ($column["sortable"] ?? false) {
             $newDirection = ($sortColumn === $column["key"] && $sortDirection === 'asc') ? 'desc' : 'asc';
-            $sortUrlParams = http_build_query(array_merge($_GET, ['sort' => $column["key"], 'dir' => $newDirection, 'page' => ($paginationSettings ? 1 : ($currentPage ?? 1))])); // Reset to page 1 or current if no pagination
-            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $sortUrlParams) . '">';
-            echo $column["label"];
+            
+            $urlParts = parse_url($baseUrl);
+            $path = $urlParts['path'] ?? '';
+            $queryParams = [];
+            if (isset($urlParts['query'])) {
+                parse_str($urlParts['query'], $queryParams);
+            }
+
+            $mergedQueryParams = array_merge($_GET, $queryParams); 
+            $mergedQueryParams['sort'] = $column["key"];
+            $mergedQueryParams['dir'] = $newDirection;
+            // Reset to page 0 when sorting for 0-indexed pagination
+            $mergedQueryParams['page'] = 0; 
+
+            if (isset($queryParams['id']) && !empty($queryParams['id'])) {
+                 $mergedQueryParams['id'] = $queryParams['id']; 
+            }
+
+            $sortUrl = $path . '?' . http_build_query($mergedQueryParams);
+            
+            echo '<a href="' . htmlspecialchars($sortUrl) . '">';
+            echo htmlspecialchars($column["label"]); // Ensure label is also escaped
             if ($sortColumn === $column["key"]) {
                 echo ' <i class="fas fa-sort-' . ($sortDirection === 'asc' ? 'up' : 'down') . '"></i>';
             }
@@ -184,65 +218,73 @@ function render_table(array $data, array $columns, array $actions = [], array $o
     echo '</div>'; // End modern-table-container
 
     // --- Pagination Controls ---
-    if ($paginationSettings && $totalPages > 1) {
-        // MODIFICA: Aggiunta classe 'modern-table-pagination' e rimossa 'w3-border w3-round' per uno stile più pulito dalla paginazione base
-        echo '<div class="w3-center w3-padding-16 modern-table-pagination">';
-        echo '<div class="w3-bar">';
+    // Show pagination controls only if there is more than one page (totalPages > 0 for 0-indexed)
+    if ($paginationSettings && $totalPages > 0) { 
+        echo '<div class="modern-table-pagination w3-bar w3-center w3-margin-top">';
 
-        // Previous button
-        if ($currentPage > 1) {
+        // Previous button (for 0-indexed)
+        if ($currentPage > 0) {
             $prevPageParams = http_build_query(array_merge($_GET, ['page' => $currentPage - 1]));
-            // MODIFICA: Aggiunta classe 'pagination-arrow'
-            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $prevPageParams) . '" class="w3-button pagination-arrow">&laquo;</a>';
-        } else {
-            // MODIFICA: Aggiunta classe 'pagination-arrow'
-            echo '<button class="w3-button w3-disabled pagination-arrow">&laquo;</button>';
+            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $prevPageParams) . '" class="w3-button">&laquo; Precedente</a>';
         }
 
-        // Page numbers
-        $maxPagesToShow = 5;
-        $startPage = max(1, $currentPage - floor($maxPagesToShow / 2));
-        $endPage = min($totalPages, $startPage + $maxPagesToShow - 1);
-        if ($endPage - $startPage + 1 < $maxPagesToShow) {
-            $startPage = max(1, $endPage - $maxPagesToShow + 1);
-        }
+        // Page numbers (for 0-indexed)
+        $numPageLinksToShow = 5; 
+        $startPage = 0;
+        $endPage = $totalPages;
 
-        if ($startPage > 1) {
-            $firstPageParams = http_build_query(array_merge($_GET, ['page' => 1]));
-            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $firstPageParams) . '" class="w3-button pagination-number">1</a>';
-            if ($startPage > 2) {
-                echo '<span class="w3-button w3-disabled pagination-ellipsis">...</span>';
+        if ($totalPages + 1 > $numPageLinksToShow) { // +1 because totalPages is 0-indexed
+            $halfLinks = floor($numPageLinksToShow / 2);
+            $startPage = $currentPage - $halfLinks;
+            $endPage = $currentPage + $halfLinks;
+
+            if ($startPage < 0) {
+                $endPage -= $startPage; 
+                $startPage = 0;
+            }
+            if ($endPage > $totalPages) {
+                $startPage -= ($endPage - $totalPages); 
+                $endPage = $totalPages;
+            }
+            if ($startPage < 0) $startPage = 0; 
+        }
+        
+        // Ellipsis for first page if needed (for 0-indexed)
+        if ($startPage > 0) {
+            $firstPageParams = http_build_query(array_merge($_GET, ['page' => 0]));
+            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $firstPageParams) . '" class="w3-button">0</a>';
+            if ($startPage > 1) { 
+                 echo '<span class="w3-button w3-disabled">...</span>';
             }
         }
 
         for ($i = $startPage; $i <= $endPage; $i++) {
             $pageParams = http_build_query(array_merge($_GET, ['page' => $i]));
-            $activeClass = ($i == $currentPage) ? 'w3-dark-grey pagination-active' : '';
-            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $pageParams) . '" class="w3-button pagination-number ' . $activeClass . '">' . $i . '</a>';
+            if ($i == $currentPage) {
+                echo '<button class="w3-button w3-black"> ' . $i . '</button>';
+            } else {
+                echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $pageParams) . '" class="w3-button">' . $i . '</a>';
+            }
         }
-
+        
+        // Ellipsis for last page if needed (for 0-indexed)
         if ($endPage < $totalPages) {
-            if ($endPage < $totalPages - 1) {
-                echo '<span class="w3-button w3-disabled pagination-ellipsis">...</span>';
+            if ($endPage < $totalPages - 1 ) { 
+                echo '<span class="w3-button w3-disabled">...</span>';
             }
             $lastPageParams = http_build_query(array_merge($_GET, ['page' => $totalPages]));
-            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $lastPageParams) . '" class="w3-button pagination-number">' . $totalPages . '</a>';
+            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $lastPageParams) . '" class="w3-button">' . $totalPages . '</a>';
         }
 
-        // Next button
+        // Next button (for 0-indexed)
         if ($currentPage < $totalPages) {
             $nextPageParams = http_build_query(array_merge($_GET, ['page' => $currentPage + 1]));
-            // MODIFICA: Aggiunta classe 'pagination-arrow'
-            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $nextPageParams) . '" class="w3-button pagination-arrow">Successivo &raquo;</a>';
-        } else {
-            // MODIFICA: Aggiunta classe 'pagination-arrow'
-            echo '<button class="w3-button w3-disabled pagination-arrow">Successivo &raquo;</button>';
+            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $nextPageParams) . '" class="w3-button">Successivo &raquo;</a>';
         }
 
         echo '</div>';
-        echo '<p class="w3-small">Pagina ' . $currentPage . ' di ' . $totalPages . ' (Totale: ' . ($paginationSettings["total_items"] ?? count($data)) . ' elementi)</p>';
-        echo '</div>';
     }
+    echo '</div>'; // Close modern-table-container
 }
 
 ?>

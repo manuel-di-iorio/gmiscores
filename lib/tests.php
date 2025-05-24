@@ -33,17 +33,27 @@ function request($action = "add", $data) {
   
   if ($response === FALSE) {
     $error = error_get_last();
-  	die("Error in request $action: " . json_encode($data) . ". Error: " . $error['message']);
+  	die("Error in request $action: " . json_encode($data) . ". HTTP request failed. Error: " . $error['message']);
   }
 
   $responseJson = json_decode($response, true);
-  if ($responseJson["status"] != 200) {
-    die("Error in request $action: " . json_encode($data));
+
+  if ($responseJson === null && json_last_error() !== JSON_ERROR_NONE) {
+    die("Error in request $action: " . json_encode($data) . ". Failed to decode JSON. JSON error: " . json_last_error_msg() . ". Raw response: " . $response);
+  }
+
+  if (!isset($responseJson["status"]) || $responseJson["status"] != 200) {
+    die("Error in request $action: " . json_encode($data) . ". API returned an error. Response: " . json_encode($responseJson));
   }
 }
 
 $player = base64_encode("test");
-$secret = Game::getClientSecretById(36)->fetch_assoc()["client_secret"];
+$secretData = Game::getClientSecretById(36)->fetch_assoc();
+
+if (!$secretData || !isset($secretData["client_secret"])) {
+  die("Error: Could not retrieve client_secret for gameId 36. Response: " . json_encode($secretData));
+}
+$secret = $secretData["client_secret"];
 
 // Tests: ADD
 $score = 50;

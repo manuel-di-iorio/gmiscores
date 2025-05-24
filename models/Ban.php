@@ -4,7 +4,7 @@ class Ban {
   /**
    * Add a player ban for a game
    */
-  public static function add(int $playerId, string $playerName, string $ip, int $gameId) {
+  public static function add(int $playerId, string $playerName, ?string $ip, int $gameId) {
     global $dbTableBans;
     print_r([$playerId, $playerName, $ip, $gameId]);
     $sql = "INSERT INTO $dbTableBans (player_id, player_name, ip, game_id) VALUES (?, ?, ?, ?)";

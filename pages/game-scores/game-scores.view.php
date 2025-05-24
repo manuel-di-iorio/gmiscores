@@ -60,19 +60,16 @@
   <div class="w3-responsive">
     <table class="w3-table w3-margin-bottom">
       <tr>
-        <th>ID Leaderboard</th>
         <th>Giocatore</th>
         <th>Punteggio</th>
         <th>Nazione</th>
+        <th>Tags (Leaderboard)</th>
         <th>Data</th>
         <th></th>
       </tr>
       
       <?php foreach ($scores as $score) { ?>
       <tr>
-        <!-- Leaderboard ID -->
-        <td><?= htmlspecialchars($score["leaderboard_id"]); ?></td>
-
         <!-- Player name -->
         <td><?= htmlspecialchars($score["username"]); ?></td>
 
@@ -81,6 +78,9 @@
 
         <!-- Country -->
         <td><?= is_null($score["ip_country"]) ? "N/A" : htmlspecialchars($score["ip_country"]); ?></td>
+
+        <!-- Tags -->
+        <td><?= htmlspecialchars($score["leaderboard_id"]); ?></td>
         
         <!-- Created at -->
         <td><?= $score["_updated_at_pretty"]; ?></td>

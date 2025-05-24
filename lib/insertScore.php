@@ -103,6 +103,6 @@ function insert_score($params) {
     "scoreId" => $scoreId,
     "score" => $score,
     "scoreAction" => $scoreAction,
-    //"position" => $position
+    "position" => 0//$position
   ];
 }

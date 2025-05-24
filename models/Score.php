@@ -92,18 +92,30 @@ class Score {
     global $dbTableScores;
     global $dbTablePlayers;
     $pageOffset = $page * 100;
-    $sort = preg_replace("/[^a-z_]/", '', $sort); // Sanitization
+    $sortSanitized = preg_replace("/[^A-Za-z_]/", '', $sort); // Sanitization, allow uppercase for aliases
+
+    // Define allowed sort columns and their corresponding SQL expressions
+    $allowedSortColumns = [
+        'leaderboard_id' => 'S.leaderboard_id',
+        'username' => 'P.username', // Sort by username from Players table
+        'score' => 'S.score',
+        'ip_country' => 'S.ip_country',
+        'updated_at' => 'S.updated_at'
+    ];
+
+    // Determine the SQL sort expression, default to S.updated_at if $sortSanitized is not allowed
+    $sqlSortExpression = $allowedSortColumns[$sortSanitized] ?? 'S.updated_at';
 
     $sql = "SELECT P.player_id, P.username, S.score_id, S.score, S.data, S.updated_at, S.ip_country, S.leaderboard_id
             FROM $dbTableScores AS S
             INNER JOIN $dbTablePlayers AS P ON S.player_id = P.player_id
             WHERE S.game_id=?
-            ORDER BY S.$sort $sortOrder
-            LIMIT $pageOffset,100";
-
-    return exec_query($sql, [ "i", $gameId ]);
+            ORDER BY $sqlSortExpression $sortOrder
+            LIMIT ?,?";
+            
+    return exec_query($sql, ["iii", $gameId, $pageOffset, 100]);
   }
-  
+
   /**
    * Get the scores count by the game
    */
@@ -197,8 +209,19 @@ class Score {
    */
   public static function getRankByScoreId($scoreId, $gameId) {
     global $dbTableScores;
-    $sql = "SELECT rank FROM (SELECT @r:=@r+1 AS rank, score_id FROM $dbTableScores, (SELECT @r:=0) a WHERE game_id=$gameId ORDER BY score DESC) result WHERE score_id=$scoreId";
-    $result = exec_query($sql);
+    // La subquery (SELECT @r:=0) AS a inizializza la variabile @r.
+    // L'ordinamento per 'score DESC' deve avvenire prima dell'assegnazione del rank.
+    $sql = "SELECT rank 
+            FROM (
+                SELECT @r:=@r+1 AS rank, score_id 
+                FROM $dbTableScores, (SELECT @r:=0) AS a 
+                WHERE game_id = ? 
+                ORDER BY score DESC
+            ) AS result 
+            WHERE score_id = ?";
+    // Passa gameId e scoreId come parametri per prevenire SQL injection e errori di sintassi.
+    // Assicura che siano interi per il tipo di binding "ii".
+    $result = exec_query($sql, ["ii", (int)$gameId, (int)$scoreId]);
     return $result->num_rows ? $result->fetch_assoc()["rank"] : -1;
   }
   
