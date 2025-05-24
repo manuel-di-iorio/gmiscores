@@ -594,7 +594,7 @@
 </div>
 
 <!-- Testimonials Section -->
-<hr class="fade-in-up-on-scroll"/>
+<!-- <hr class="fade-in-up-on-scroll"/>
 <div class="w3-container TestimonialsSection">
   <h2 class="SectionTitle fade-in-up-on-scroll">Dicono di Noi</h2>
   <div class="TestimonialsGrid">
@@ -616,7 +616,7 @@
   </div>
 </div>
   
-<hr class="fade-in-up-on-scroll"/>
+<hr class="fade-in-up-on-scroll"/> -->
 
 <div class="w3-container w3-center fade-in-up-on-scroll FinalCtaSection">
   <h4 class="fade-in-up-on-scroll"><strong>Pronto a portare i tuoi giochi al livello successivo?</strong></h4>
