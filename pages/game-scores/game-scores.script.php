@@ -139,6 +139,12 @@ function importUploadOnChange(elem) {
 
 
 /* Add score */
+document.getElementById("form-add-score").addEventListener("submit", function() {
+  var btn = this.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin w3-margin-right"></i> Invio...';
+});
+
 function resetInsertScoreForm() {
   document.getElementById("form-add-score").reset();
 }

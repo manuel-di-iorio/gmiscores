@@ -220,7 +220,7 @@ class Score {
     global $dbTableGames;
     
     $sql = "DELETE S FROM $dbTableScores AS S
-            LEFT JOIN $dbTableGames AS G
+            INNER JOIN $dbTableGames AS G
             ON S.game_id = G.game_id AND G.user_id = ?
             WHERE S.score_id = ?";
 
@@ -237,7 +237,7 @@ class Score {
     $placeholders = implode(',', array_fill(0, count($ids), '?'));
 
     $sql = "DELETE S FROM $dbTableScores AS S
-            LEFT JOIN $dbTableGames AS G
+            INNER JOIN $dbTableGames AS G
             ON S.game_id = G.game_id AND G.user_id = ?
             WHERE S.score_id IN ($placeholders)";
 

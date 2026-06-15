@@ -2,38 +2,13 @@
 require_once("lib/db.php");
 require_once("lib/checkSession.php");
 
-// Check if user has admin privileges (or bootstrap mode)
-$hasAdminColumn = false;
-try {
-  $colResult = exec_query("SHOW COLUMNS FROM users LIKE 'admin'");
-  $hasAdminColumn = $colResult && $colResult->num_rows > 0;
-} catch (Exception $e) {
-  // users table might not exist yet
-}
+// Check admin privileges
+$adminRow = exec_query("SELECT admin FROM users WHERE id = ?", ["i", $user['id']])->fetch_assoc();
+$isAdmin = $adminRow && (int)$adminRow['admin'] === 1;
 
-if ($hasAdminColumn) {
-  // Fetch admin status directly (User model doesn't include admin in SELECT)
-  $adminRow = exec_query("SELECT admin FROM users WHERE id = ?", ["i", $user['id']])->fetch_assoc();
-  $isAdmin = $adminRow && (int)$adminRow['admin'] === 1;
-
-  // Bootstrap: if no admin exists yet, promote the first approved user who accesses this page
-  $adminCount = exec_query("SELECT COUNT(id) AS c FROM users WHERE admin = 1")->fetch_assoc()['c'];
-  if ((int)$adminCount === 0) {
-    if (isset($user['approved']) && $user['approved']) {
-      exec_query("UPDATE users SET admin = 1 WHERE id = ?", ["i", $user['id']]);
-    } else {
-      header("Location: /");
-      exit;
-    }
-  } elseif (!$isAdmin) {
-    header("Location: /");
-    exit;
-  }
-} else {
-  if (!isset($user['approved']) || !$user['approved']) {
-    header("Location: /");
-    exit;
-  }
+if (!$isAdmin) {
+  header("Location: /");
+  exit;
 }
 
 $migrationsDir = __DIR__ . '/migrations';

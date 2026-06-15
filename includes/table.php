@@ -302,6 +302,9 @@ function toggleSelectAll(source, name) {
   for (var i = 0; i < checkboxes.length; i++) {
     checkboxes[i].checked = source.checked;
   }
+  if (typeof updateDeleteSelectedButton === 'function') {
+    updateDeleteSelectedButton();
+  }
 }
 </script>
 <style>
