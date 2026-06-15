@@ -9,5 +9,6 @@ $dbTableAchievements = "achievements";
 $dbTablePlayerAchievements = "player_achievements";
 $dbTableCloudSaves = "cloud_saves";
 $dbTableLeaderboards = "leaderboards";
+$dbTableMigrations = "migrations";
 
 // API tables

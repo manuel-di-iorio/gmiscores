@@ -98,7 +98,7 @@
 
         render_table($leaderboards, $tableColumns, $tableActions, $tableOptions);
     } else {
-        echo "<h4>Non ci sono ancora leaderboards per questo gioco.</h4>";
+        echo "<h4>Non ci sono ancora classifiche per questo gioco.</h4>";
     }
     ?>
 </div>

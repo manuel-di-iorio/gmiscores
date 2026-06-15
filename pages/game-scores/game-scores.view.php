@@ -6,6 +6,21 @@
 .ModalBanUserImage {
   width: 91px;
 }
+
+.env-tag {
+  padding: 4px 12px !important;
+  border-radius: 12px !important;
+  font-size: 0.8rem !important;
+  line-height: 1.4 !important;
+}
+
+.modern-table-cell {
+  vertical-align: middle !important;
+}
+
+.modern-table-header-cell {
+  vertical-align: middle !important;
+}
 </style>
 
 <div class="w3-container w3-padding-large">
@@ -51,7 +66,7 @@
       <!-- Delete selected button (hidden by default) -->
       <?php if (!empty($scores)) { ?>
         <a href="javascript:;" class="btn-link" id="btn-delete-selected-wrapper" style="display:none">
-          <button class="w3-button w3-small w3-red w3-margin-top w3-margin-bottom w3-margin-right"      
+          <button class="w3-button w3-small w3-black w3-margin-top w3-margin-bottom w3-margin-right"      
                   onclick="openModal('modal-delete-selected-scores', onDeleteSelectedScoresModalOpen)">
             <i class="fa fa-trash w3-margin-right"></i> Elimina selezionati
           </button>
@@ -74,7 +89,6 @@
   <?php
     // Filters for the scores table (always shown)
     $envOptions = [
-      '' => 'Tutti',
       'production' => 'Produzione',
       'test' => 'Test',
     ];
@@ -84,11 +98,11 @@
       [ 'name' => 'score_max', 'label' => 'Punteggio max', 'type' => 'number', 'placeholder' => 'Max' ],
       [ 'name' => 'ip_country', 'label' => 'Nazione', 'type' => 'text', 'placeholder' => 'Nazione' ],
       [ 'name' => 'tags', 'label' => 'Tags', 'type' => 'text', 'placeholder' => 'Tags' ],
-      [ 'name' => 'env', 'label' => 'Ambiente', 'type' => 'select', 'options' => $envOptions ],
+      [ 'name' => 'env', 'label' => 'Ambiente', 'type' => 'select', 'options' => $envOptions, 'default' => 'production' ],
       [ 'name' => 'date_from', 'label' => 'Da', 'type' => 'date' ],
       [ 'name' => 'date_to', 'label' => 'A', 'type' => 'date' ],
     ];
-    render_table_filters($scoreFilters);
+    render_table_filters($scoreFilters, ['reset_preserve' => ['id', 'leaderboard_id', 'sort', 'dir']]);
 
     if (!empty($scores)) {
     $tableColumns = [
@@ -126,7 +140,7 @@
           $env = $value ?? 'production';
           $badgeClass = $env === 'test' ? 'w3-yellow' : 'w3-green';
           $label = $env === 'test' ? 'Test' : 'Produzione';
-          return '<span class="w3-tag ' . $badgeClass . ' w3-small">' . $label . '</span>';
+          return '<span class="w3-tag ' . $badgeClass . ' env-tag">' . $label . '</span>';
         }
       ],
       [
@@ -264,7 +278,7 @@
 
         <div class="w3-hide w3-margin-bottom">
           <label><b>Tags <a href="/documentation.php" target="_blank" data-tippy-content="Vedi documentazione"><i class="fas fa-question-circle"></i></a></b></label>
-          <input id="input-insert-score__tags" name="tags" type="text" class="w3-input w3-border w3-round w3-margin-bottom" value="default">
+          <input id="input-insert-score__tags" name="tags" type="text" class="w3-input w3-border w3-round w3-margin-bottom" value="">
 
           <label>
             <b>Firma con chiave privata <a href="/documentation.php" target="_blank" data-tippy-content="Vedi documentazione"><i class="fas fa-question-circle"></i></a></b>
@@ -281,7 +295,7 @@
             <option value="all">In ogni caso (all)</option>
           </select>
 
-          <label><b>Ambiente</b></label>
+          <label class="w3-margin-top" style="display:block"><b>Ambiente</b></label>
           <select class="w3-select" name="env">
             <option value="production">Produzione</option>
             <option value="test">Test</option>
