@@ -1,19 +1,19 @@
 <?php
 
 class Leaderboard {
-    public static function create(int $gameId, string $name, ?string $description, int $userId) {
+    public static function create(int $gameId, string $name, ?string $description, int $userId, bool $isPrivate = false) {
         global $db, $dbTableLeaderboards;
 
         $name = escapeChars($name);
         $description = $description ? escapeChars($description) : null;
 
-        $sql = "INSERT INTO $dbTableLeaderboards (game_id, name, description, user_id) VALUES (?, ?, ?, ?)";
-        return exec_query($sql, ["issi", $gameId, $name, $description, $userId]);
+        $sql = "INSERT INTO $dbTableLeaderboards (game_id, name, description, user_id, is_private) VALUES (?, ?, ?, ?, ?)";
+        return exec_query($sql, ["issii", $gameId, $name, $description, $userId, $isPrivate ? 1 : 0]);
     }
 
     public static function listByGame(int $gameId, array $filters = []) {
         global $db, $dbTableLeaderboards, $dbTableScores;
-        $sql = "SELECT l.leaderboard_id, l.name, l.description, l.created_at, l.updated_at,
+        $sql = "SELECT l.leaderboard_id, l.name, l.description, l.created_at, l.updated_at, l.is_private,
                        COUNT(s.score_id) AS score_count
                 FROM $dbTableLeaderboards l
                 LEFT JOIN $dbTableScores s ON s.leaderboard_id = l.leaderboard_id
@@ -46,22 +46,22 @@ class Leaderboard {
 
     public static function getById(int $leaderboardId) {
         global $db, $dbTableLeaderboards;
-        $sql = "SELECT leaderboard_id, game_id, name, description, created_at, updated_at 
+        $sql = "SELECT leaderboard_id, game_id, name, description, created_at, updated_at, is_private
                 FROM $dbTableLeaderboards 
                 WHERE leaderboard_id = ?";
         $result = exec_query($sql, ["i", $leaderboardId]);
         return $result->fetch_assoc();
     }
 
-    public static function update(int $leaderboardId, string $name, ?string $description) {
+    public static function update(int $leaderboardId, string $name, ?string $description, bool $isPrivate = false) {
         global $db, $dbTableLeaderboards;
 
         $name = escapeChars($name);
         $description = $description ? escapeChars($description) : null;
 
-        $sql = "UPDATE $dbTableLeaderboards SET name = ?, description = ?, updated_at = CURRENT_TIMESTAMP 
+        $sql = "UPDATE $dbTableLeaderboards SET name = ?, description = ?, is_private = ?, updated_at = CURRENT_TIMESTAMP 
                 WHERE leaderboard_id = ?";
-        return exec_query($sql, ["ssi", $name, $description, $leaderboardId]);
+        return exec_query($sql, ["ssii", $name, $description, $isPrivate ? 1 : 0, $leaderboardId]);
     }
 
     public static function delete(int $leaderboardId) {

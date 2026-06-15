@@ -2,12 +2,13 @@
 
 class Score {
   public static function create(int $gameId, int $playerId, float $score, ?string $ip = NULL, ?string $country = NULL,
-  ?string $createdAt = NULL, ?string $sign = NULL, ?int $leaderboardId = NULL, string $tags = 'default', ?string $data = NULL) {
+  ?string $createdAt = NULL, ?string $sign = NULL, ?int $leaderboardId = NULL, string $tags = 'default', ?string $data = NULL,
+  string $env = 'production') {
     global $dbTableScores;
     global $db;
-    $sql = "INSERT INTO $dbTableScores (game_id, leaderboard_id, player_id, score, ip, ip_country, created_at, sign, tags, data) 
-      VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    exec_query($sql, [ "iiidssssss", $gameId, $leaderboardId, $playerId, $score, $ip, $country, $createdAt, $sign, $tags, $data ]);
+    $sql = "INSERT INTO $dbTableScores (game_id, leaderboard_id, player_id, score, ip, ip_country, created_at, sign, tags, data, env) 
+      VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    exec_query($sql, [ "iiidsssssss", $gameId, $leaderboardId, $playerId, $score, $ip, $country, $createdAt, $sign, $tags, $data, $env ]);
 
     return $db->insert_id;
   }
@@ -26,13 +27,13 @@ class Score {
   }
 
   public static function listSortedByGameId(int $gameId, int $leaderboardId, int $page, int $limit, string $order, $playerIdOrName = NULL,
-  ?string $startTime = NULL, ?string $endTime = NULL) {
+  ?string $startTime = NULL, ?string $endTime = NULL, ?string $env = NULL) {
     global $dbTableScores;
     global $dbTablePlayers;
 
     $pageOffset = $page * $limit;
 
-    $sql = "SELECT P.player_id, P.username, S.score_id, S.tags, S.score, S.created_at, S.updated_at, S.sign, S.data
+    $sql = "SELECT P.player_id, P.username, S.score_id, S.tags, S.score, S.created_at, S.updated_at, S.sign, S.data, S.env
             FROM $dbTableScores AS S
             INNER JOIN $dbTablePlayers AS P ON S.player_id = P.player_id
             WHERE S.game_id=? AND S.leaderboard_id=?";
@@ -61,6 +62,11 @@ class Score {
       $params[0] .= "s";
       $params[] = $endTime;
     }
+    if (!is_null($env)) {
+      $sql .= " AND S.env=?";
+      $params[0] .= "s";
+      $params[] = $env;
+    }
 
     $sql .= " ORDER BY S.score $order LIMIT ?,?";
     $params[0] .= "ii";
@@ -86,7 +92,7 @@ class Score {
 
     $sqlSortExpression = $allowedSortColumns[$sortSanitized] ?? 'S.updated_at';
 
-    $sql = "SELECT P.player_id, P.username, S.score_id, S.score, S.data, S.updated_at, S.ip_country, S.tags
+    $sql = "SELECT P.player_id, P.username, S.score_id, S.score, S.data, S.updated_at, S.ip_country, S.tags, S.env
             FROM $dbTableScores AS S
             INNER JOIN $dbTablePlayers AS P ON S.player_id = P.player_id
             WHERE S.game_id=?";
@@ -133,6 +139,11 @@ class Score {
       $sql .= " AND S.updated_at <= ?";
       $params[0] .= "s";
       $params[] = $filters['date_to'];
+    }
+    if (!empty($filters['env'])) {
+      $sql .= " AND S.env = ?";
+      $params[0] .= "s";
+      $params[] = $filters['env'];
     }
 
     $sql .= "\n            ORDER BY $sqlSortExpression $sortOrder\n            LIMIT ?,?";
@@ -195,6 +206,11 @@ class Score {
       $params[0] .= "s";
       $params[] = $filters['date_to'];
     }
+    if (!empty($filters['env'])) {
+      $sql .= " AND S.env = ?";
+      $params[0] .= "s";
+      $params[] = $filters['env'];
+    }
 
     return exec_query($sql, $params);
   }
@@ -209,6 +225,24 @@ class Score {
             WHERE S.score_id = ?";
 
     exec_query($sql, [ "ii", $userId, $scoreId ]);
+  }
+
+  public static function deleteBatch(array $scoreIds, int $userId) {
+    global $dbTableScores;
+    global $dbTableGames;
+
+    if (empty($scoreIds)) return;
+
+    $ids = array_map('intval', $scoreIds);
+    $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
+    $sql = "DELETE S FROM $dbTableScores AS S
+            LEFT JOIN $dbTableGames AS G
+            ON S.game_id = G.game_id AND G.user_id = ?
+            WHERE S.score_id IN ($placeholders)";
+
+    $params = array_merge(["i" . str_repeat("i", count($ids)), $userId], $ids);
+    exec_query($sql, $params);
   }  
 
   public static function clear(int $gameId, int $userId, ?int $leaderboardId = NULL) {
@@ -230,18 +264,25 @@ class Score {
     exec_query($sql, $params);
   }
 
-  public static function getAll(int $gameId, int $userId) {
+  public static function getAll(int $gameId, int $userId, ?string $env = NULL) {
     global $dbTableScores;
     global $dbTablePlayers;
     global $dbTableUsers;
     
-    $sql = "SELECT P.player_id, P.username, S.score, S.ip, S.ip_country, S.created_at, S.sign, S.tags, S.leaderboard_id, S.data
+    $sql = "SELECT P.player_id, P.username, S.score, S.ip, S.ip_country, S.created_at, S.sign, S.tags, S.leaderboard_id, S.data, S.env
     FROM $dbTableScores AS S
     INNER JOIN $dbTablePlayers AS P ON S.player_id = P.player_id
     INNER JOIN $dbTableUsers AS U ON S.game_id = S.game_id AND U.id=?
     WHERE S.game_id=?";
+    $params = [ "ii", $userId, $gameId ];
 
-    return exec_query($sql, [ "ii", $userId, $gameId ]);
+    if (!is_null($env)) {
+      $sql .= " AND S.env=?";
+      $params[0] .= "s";
+      $params[] = $env;
+    }
+
+    return exec_query($sql, $params);
   }
 
   public static function getById(int $scoreId) {

@@ -25,7 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($name)) {
         $error = "Il nome è obbligatorio.";
     } else {
-        Leaderboard::create($game_id, $name, $description ?: null, $user['id']);
+        $isPrivate = isset($_POST['is_private']) && $_POST['is_private'] === '1';
+        Leaderboard::create($game_id, $name, $description ?: null, $user['id'], $isPrivate);
         header("Location: leaderboards.php?game_id=$game_id");
         exit;
     }

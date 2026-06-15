@@ -37,7 +37,8 @@
           &nbsp;&nbsp;hash {string} = sha1("game=" + game_id + "&leaderboard_id=" + leaderboard_id + "&score=" + score + "&player=" + player + secret)<br/>
           &nbsp;&nbsp;sign {string} = Calcolato come gli hash ma con una propria chiave privata invece del secret (opzionale, max 32 caratteri)<br/>
           &nbsp;&nbsp;insertMode {string} = Modalità di inserimento punteggi ("higher" [default], "lower", "all"). Ad esempio, usando 'higher', il punteggio migliore del giocatore aggiornerà quello precedente, piuttosto che inserirlo in ogni caso.<br/>
-          &nbsp;&nbsp;data {string} = Stringa opzionale. Per salvare dati custom associati al punteggio (max 64kb)<br/><br/>
+          &nbsp;&nbsp;data {string} = Stringa opzionale. Per salvare dati custom associati al punteggio (max 64kb)<br/>
+          &nbsp;&nbsp;env {string} = Ambiente ("production" [default] o "test"). I punteggi di test non compaiono nella classifica di produzione.<br/><br/>
 
           Risposta:<br/>
           { "status": 200, "scoreAction": "inserted", "position": 4 }<br/><br/>
@@ -81,7 +82,9 @@
           &nbsp;&nbsp;player {int|string} = ID o nome del giocatore (base64). Se specificato, verranno ritornati solo i punteggi di questo giocatore.<br/>
           &nbsp;&nbsp;startTime {string} = Se specificato, filtra i punteggi partendo da questa data (es. "2020-05-04" oppure "2020-05-04 22:20:20").<br/>
           &nbsp;&nbsp;endTime {string} = Se specificato, filtra i punteggi fino a questa data.<br/>
-          &nbsp;&nbsp;includePlayer {string} = Nome del giocatore (base64). Se specificato, include nella risposta il punteggio migliore del giocatore, in base ai filtri order/startTime/endTime. Questo è utile quando si vuole conoscere il punteggio del giocatore anche quando non rientra tra i primi classificati.<br/><br/>
+          &nbsp;&nbsp;includePlayer {string} = Nome del giocatore (base64). Se specificato, include nella risposta il punteggio migliore del giocatore, in base ai filtri order/startTime/endTime. Questo è utile quando si vuole conoscere il punteggio del giocatore anche quando non rientra tra i primi classificati.<br/>
+          &nbsp;&nbsp;env {string} = Ambiente ("production" [default], "test", "all"). Filtra i punteggi per ambiente.<br/>
+          &nbsp;&nbsp;hash {string} = Obbligatorio per classifiche private. sha1("game=" + game_id + "&leaderboard_id=" + leaderboard_id + secret).<br/><br/>
 
           Esempio di risposta:<br/>
           {<br/>

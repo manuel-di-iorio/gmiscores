@@ -15,6 +15,15 @@
             <textarea name="description" class="w3-input w3-border w3-round"><?= htmlspecialchars($_POST['description'] ?? '') ?></textarea>
         </div>
 
+        <div class="w3-section">
+            <label>
+                <input type="checkbox" name="is_private" value="1" class="w3-check"
+                    <?= (isset($_POST['is_private']) && $_POST['is_private'] === '1') ? 'checked' : '' ?>>
+                <b>Classifica privata</b>
+                <small><i class="fas fa-lock w3-margin-left"></i> Richiede autenticazione per essere letta via API</small>
+            </label>
+        </div>
+
         <button type="submit" class="w3-button w3-black">
             <i class="fas fa-plus-circle w3-margin-right"></i>Crea classifica
         </button>

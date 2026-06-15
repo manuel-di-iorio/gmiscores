@@ -22,6 +22,7 @@ $startTime = isset($_GET["startTime"]) ? $_GET["startTime"] : NULL;
 $endTime = isset($_GET["endTime"]) ? $_GET["endTime"] : NULL;
 $playerIdOrName = isset($_GET["player"]) ? $_GET["player"] : NULL;
 $includePlayer = isset($_GET["includePlayer"]) ? $_GET["includePlayer"] : NULL;
+$env = isset($_GET["env"]) ? $_GET["env"] : "production";
 
 if ($tags === "0") $tags = "default";
 
@@ -50,6 +51,22 @@ if (!$leaderboardId) {
   $leaderboardId = $allLbs[0]['leaderboard_id'];
 }
 
+// Check if leaderboard is private
+$lb = Leaderboard::getById($leaderboardId);
+if ($lb && $lb['is_private']) {
+  $clientHash = isset($_GET["hash"]) ? $_GET["hash"] : '';
+  $secretResult = Game::getClientSecretById($gameId);
+  if (!$secretResult->num_rows) {
+    api_reply_error("Game not found", "NotFoundError", 404);
+  }
+  $clientSecret = $secretResult->fetch_assoc()["client_secret"];
+  $salt = "game=$gameId&leaderboard_id=$leaderboardId";
+  $serverHash = sha1($salt . $clientSecret);
+  if (!hash_equals($clientHash, $serverHash)) {
+    api_reply_error("Access denied: private leaderboard", "AuthorizationError", 403);
+  }
+}
+
 if (!is_null($startTime)) {
   try {
     new DateTime($startTime);
@@ -72,7 +89,9 @@ if (!$result->num_rows) {
   api_reply_error("Game #$gameId does not exists", "NotFoundError", 404);
 }
 
-$result = Score::listSortedByGameId($gameId, $leaderboardId, $page, $limit, $order, $playerIdOrName, $startTime, $endTime);
+$envFilter = in_array($env, ['test', 'production']) ? $env : ($env === 'all' ? null : 'production');
+
+$result = Score::listSortedByGameId($gameId, $leaderboardId, $page, $limit, $order, $playerIdOrName, $startTime, $endTime, $envFilter);
 $scores = [];
 while ($row = $result->fetch_assoc()) {
   $scores[] = $row;
@@ -81,7 +100,7 @@ while ($row = $result->fetch_assoc()) {
 $resp = [ "status" => 200, "scores" => $scores, "playerScore" => NULL ];
 
 if (!is_null($includePlayer)) {
-  $result = Score::listSortedByGameId($gameId, $leaderboardId, 0, 1, $order, $includePlayer, $startTime, $endTime);
+  $result = Score::listSortedByGameId($gameId, $leaderboardId, 0, 1, $order, $includePlayer, $startTime, $endTime, $envFilter);
   if ($result->num_rows) {
     $resp["playerScore"] = $result->fetch_assoc();
   }

@@ -27,7 +27,8 @@
                 "key" => "name",
                 "sortable" => true,
                 "format_callback" => function ($value, $row) {
-                    return htmlspecialchars($value);
+                    $icon = !empty($row['is_private']) ? ' <i class="fas fa-lock w3-text-gray" title="Classifica privata"></i>' : '';
+                    return htmlspecialchars($value) . $icon;
                 }
             ],
             [

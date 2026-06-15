@@ -53,11 +53,12 @@ if (!$file["error"]) {
       $sign = $columnCount > 5 && !empty($line[5]) ? $line[5] : NULL;
       $tags = $columnCount > 6 ? $line[6] : "default";
       $data = $columnCount > 8 ? $line[8] : NULL;
+      $env = $columnCount > 9 && !empty($line[9]) ? $line[9] : 'production';
 
       Player::create($playerName);
       $player = Player::getByName($playerName)->fetch_assoc();
 
-      Score::create($gameId, $player["player_id"], $score, $ip, $country, $createdAt, $sign, $leaderboardId, $tags, $data);
+      Score::create($gameId, $player["player_id"], $score, $ip, $country, $createdAt, $sign, $leaderboardId, $tags, $data, $env);
     }
 
     if (!$db->commit()) throw new Exception("TransactionCommitFailed");

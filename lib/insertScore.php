@@ -13,7 +13,8 @@ function insert_score($params) {
     "tags" => $tags,
     "data" => $data,
     "minScore" => $minScore,
-    "maxScore" => $maxScore
+    "maxScore" => $maxScore,
+    "env" => $env
   ] = $params;
 
   Player::create($playerName);
@@ -22,14 +23,14 @@ function insert_score($params) {
 
   switch ($insertMode) {
     case "all":
-      $scoreId = Score::create($gameId, $playerId, $score, $ip, $country, NULL, $sign, $leaderboardId, $tags, $data);
+      $scoreId = Score::create($gameId, $playerId, $score, $ip, $country, NULL, $sign, $leaderboardId, $tags, $data, $env);
       $scoreAction = "inserted";      
     break;
 
     default:
       $result = Score::findByGameLeaderboardAndPlayerId($gameId, $leaderboardId, $playerId);
       if (!$result->num_rows) {
-        $scoreId = Score::create($gameId, $playerId, $score, $ip, $country, NULL, $sign, $leaderboardId, $tags, $data);
+        $scoreId = Score::create($gameId, $playerId, $score, $ip, $country, NULL, $sign, $leaderboardId, $tags, $data, $env);
         $scoreAction = "inserted";
       } else {
         $scoreAction = "nothing";

@@ -44,6 +44,7 @@ function render_table(array $data, array $columns, array $actions = [], array $o
     $paginationSettings = $options["pagination"] ?? null;
     $baseUrl = $options["base_url"] ?? '';
     $primaryKey = $options["primary_key"] ?? 'id';
+    $selectable = $options["selectable"] ?? false;
 
     // Pagination is always 0-indexed
 
@@ -120,6 +121,9 @@ function render_table(array $data, array $columns, array $actions = [], array $o
 
     // --- Table Header ---
     echo '<thead class="modern-table-header"><tr>';
+    if ($selectable) {
+        echo '<th class="modern-table-header-cell" style="width:40px"><input type="checkbox" onclick="toggleSelectAll(this, \'selected_ids[]\')"></th>';
+    }
     foreach ($columns as $column) {
         echo '<th class="modern-table-header-cell">';
         if ($column["sortable"] ?? false) {
@@ -163,11 +167,15 @@ function render_table(array $data, array $columns, array $actions = [], array $o
     // --- Table Body ---
     echo '<tbody class="modern-table-body">';
     if (empty($pageData)) {
-        $colspan = count($columns) + (!empty($actions) ? 1 : 0);
+        $colspan = count($columns) + (!empty($actions) ? 1 : 0) + ($selectable ? 1 : 0);
         echo '<tr class="modern-table-empty-row"><td colspan="' . $colspan . '" class="w3-center">Nessun dato disponibile.</td></tr>';
     } else {
         foreach ($pageData as $row) {
             echo '<tr class="modern-table-row">';
+            if ($selectable) {
+                $pkValue = $row[$primaryKey] ?? '';
+                echo '<td class="modern-table-cell" style="width:40px"><input type="checkbox" name="selected_ids[]" value="' . htmlspecialchars($pkValue) . '"></td>';
+            }
             foreach ($columns as $column) {
                 $cellValue = $row[$column["key"]] ?? '';
                 if (isset($column["format_callback"]) && is_callable($column["format_callback"])) {
@@ -288,6 +296,14 @@ function render_table(array $data, array $columns, array $actions = [], array $o
 }
 
 ?>
+<script>
+function toggleSelectAll(source, name) {
+  var checkboxes = document.getElementsByName(name);
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+</script>
 <style>
     /* Optional: Basic styling for action icons if not using a framework like w3-button */
     .actions-cell a {

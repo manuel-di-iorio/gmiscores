@@ -32,6 +32,7 @@ $playerName = $_POST["player"];
 $data = isset($_POST["data"]) ? $_POST["data"] : NULL;
 $minScore = isset($_POST["minScore"]) ? (float)$_POST["minScore"] : NULL;
 $maxScore = isset($_POST["maxScore"]) ? (float)$_POST["maxScore"] : NULL;
+$env = isset($_POST["env"]) && $_POST["env"] === "test" ? "test" : "production";
 
 if (empty($sign)) $sign = NULL;
 if (empty($data)) $data = NULL;
@@ -80,7 +81,8 @@ $country = NULL;
   "tags" => $tags,
   "data" => $data,
   "minScore" => $minScore,
-  "maxScore" => $maxScore
+  "maxScore" => $maxScore,
+  "env" => $env
 ]);
 
 header("Location: game-scores.php?id=$gameId&leaderboard_id=$leaderboardId");

@@ -45,6 +45,7 @@ $filters = [
   'date_from' => isset($_GET['date_from']) ? $_GET['date_from'] : null,
   'date_to' => isset($_GET['date_to']) ? $_GET['date_to'] : null,
   'leaderboard_id' => $leaderboardId,
+  'env' => isset($_GET['env']) ? $_GET['env'] : null,
 ];
 
 $scoresCount = Score::countByGame($gameId, $filters)->fetch_assoc()["count"];

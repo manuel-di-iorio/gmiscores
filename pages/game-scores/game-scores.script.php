@@ -2,6 +2,63 @@
 /* MODALS */
 let modalSelectedScore;
 
+/* BATCH SELECTION */
+document.addEventListener('change', function(e) {
+  if (e.target.name === 'selected_ids[]') {
+    updateDeleteSelectedButton();
+  }
+});
+
+function updateDeleteSelectedButton() {
+  var checked = document.querySelectorAll('input[name="selected_ids[]"]:checked');
+  var btn = document.getElementById('btn-delete-selected-wrapper');
+  if (checked.length > 0) {
+    btn.style.display = 'inline';
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+function getSelectedScoreIds() {
+  var checked = document.querySelectorAll('input[name="selected_ids[]"]:checked');
+  var ids = [];
+  for (var i = 0; i < checked.length; i++) {
+    ids.push(parseInt(checked[i].value));
+  }
+  return ids;
+}
+
+function deleteSelectedScores() {
+  var ids = getSelectedScoreIds();
+  if (ids.length === 0) return;
+
+  fetch('game-scores-delete-batch.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      score_ids: ids,
+      game_id: <?= $game["game_id"]; ?>,
+      leaderboard_id: <?= $leaderboardId; ?>
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success) {
+      location.reload();
+    } else {
+      alert('Errore: ' + (data.error || 'Operazione fallita'));
+    }
+  })
+  .catch(function() {
+    alert('Errore di rete durante l\'eliminazione');
+  });
+}
+
+function onDeleteSelectedScoresModalOpen() {
+  var ids = getSelectedScoreIds();
+  document.getElementById('modal-delete-selected-scores__count').textContent = ids.length;
+}
+
 // MODAL: Delete score
 const modalDivScorePlayerName = document.getElementById('modal-delete-score__player-name');
 
