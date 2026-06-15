@@ -16,4 +16,11 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq lftp
-          lftp --env-password -u ${{ secrets.FTP_USER }} -e "set ftp:ssl-allow no; set ftp:passive-mode on; mirror -R --verbose --exclude .git/ --exclude .github/ --exclude .gitignore --exclude .env --exclude .vscode/ --exclude .ftpquota ./ ./; quit" ${{ secrets.FTP_HOST }}
+          lftp --env-password -u ${{ secrets.FTP_USER }} -e "
+            set ftp:ssl-allow no; set ftp:passive-mode on;
+            mkdir -p pages/achievements;
+            mkdir -p pages/add-leaderboard;
+            mkdir -p pages/cloud-saves;
+            mkdir -p pages/edit-leaderboard;
+            mirror -R --verbose --exclude .git/ --exclude .github/ --exclude .gitignore --exclude .env --exclude .vscode/ --exclude .ftpquota ./ ./
+          " ${{ secrets.FTP_HOST }}
