@@ -134,9 +134,12 @@
 
   /* Modern Landing */
   --gradient-start: #6366f1;
+  --gradient-mid: #a855f7;
   --gradient-end: #ec4899;
+  --gradient-cta: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-border-hover: rgba(99, 102, 241, 0.3);
   --glow-color: rgba(99, 102, 241, 0.3);
   --header-bg: rgba(255, 255, 255, 0.85);
   --header-border: rgba(0, 0, 0, 0.06);
@@ -148,4 +151,8 @@
   --scrollbar-thumb: #d1d5db;
   --scrollbar-thumb-hover: #9ca3af;
   --divider-fill: #f0f0f0;
+  --progress-bar-bg: #6366f1;
+  --mesh-dot: rgba(99, 102, 241, 0.07);
+  --section-alt-bg: #f8fafc;
+  --card-bg-hover: rgba(255, 255, 255, 0.95);
 }

@@ -35,6 +35,19 @@ function toggleAccordion(el) {
 }
 
 // ================================================================
+// SCROLL PROGRESS BAR
+// ================================================================
+(function initScrollProgress() {
+  const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const total = h.scrollHeight - h.clientHeight;
+    bar.style.width = (h.scrollTop / total * 100) + '%';
+  }, { passive: true });
+})();
+
+// ================================================================
 // INTERSECTION OBSERVER — Multi-animation scroll reveal
 // ================================================================
 (function initScrollAnimations() {
@@ -73,7 +86,7 @@ function toggleAccordion(el) {
   document.querySelectorAll('.stagger-grid').forEach(grid => {
     const items = grid.querySelectorAll('.stagger-item');
     items.forEach((item, i) => {
-      item.style.transitionDelay = (i * 0.1) + 's';
+      item.style.transitionDelay = (i * 0.08) + 's';
     });
 
     const gridObserver = new IntersectionObserver((entries) => {
@@ -90,7 +103,7 @@ function toggleAccordion(el) {
 })();
 
 // ================================================================
-// COUNTER ANIMATION — Numbers count up on scroll
+// COUNTER ANIMATION
 // ================================================================
 (function initCounters() {
   const counters = document.querySelectorAll('.stat-number');
@@ -117,7 +130,6 @@ function toggleAccordion(el) {
           }
         }
 
-        el.classList.add('counting');
         requestAnimationFrame(update);
         counterObserver.unobserve(el);
       }
@@ -150,6 +162,78 @@ function toggleAccordion(el) {
 })();
 
 // ================================================================
+// 3D TILT ON CARDS
+// ================================================================
+(function initTiltCards() {
+  const cards = document.querySelectorAll('.tilt-card');
+  if (cards.length === 0) return;
+
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = (y - centerY) / centerY * -6;
+      const rotateY = (x - centerX) / centerX * 6;
+
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+
+      const shine = card.querySelector('.tilt-card__shine');
+      if (shine) {
+        const pctX = (x / rect.width) * 100;
+        const pctY = (y / rect.height) * 100;
+        shine.style.setProperty('--mx', pctX + '%');
+        shine.style.setProperty('--my', pctY + '%');
+      }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+    });
+  });
+})();
+
+// ================================================================
+// BUTTON RIPPLE EFFECT
+// ================================================================
+(function initRippleButtons() {
+  document.querySelectorAll('.ripple-btn').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple-effect';
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      this.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
+    });
+  });
+})();
+
+// ================================================================
+// FAQ ACCORDION (modern)
+// ================================================================
+(function initFAQ() {
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', function () {
+      const item = this.parentElement;
+      const isOpen = item.classList.contains('is-open');
+      // Close all
+      item.parentElement.querySelectorAll('.faq-item.is-open').forEach(open => {
+        open.classList.remove('is-open');
+      });
+      if (!isOpen) {
+        item.classList.add('is-open');
+      }
+    });
+  });
+})();
+
+// ================================================================
 // SMOOTH SCROLL FOR ANCHOR LINKS
 // ================================================================
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -166,30 +250,30 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // ================================================================
-// HERO PARTICLES (lightweight canvas-free)
+// HERO PARTICLES
 // ================================================================
 (function initHeroParticles() {
   const container = document.getElementById('hero-particles');
   if (!container) return;
 
-  const count = Math.min(30, Math.floor(window.innerWidth / 30));
+  const count = Math.min(25, Math.floor(window.innerWidth / 35));
 
   for (let i = 0; i < count; i++) {
     const particle = document.createElement('div');
     particle.className = 'hero-particle';
-    const size = 2 + Math.random() * 4;
+    const size = 2 + Math.random() * 3;
     particle.style.width = size + 'px';
     particle.style.height = size + 'px';
     particle.style.left = Math.random() * 100 + '%';
-    particle.style.animationDuration = (8 + Math.random() * 12) + 's';
-    particle.style.animationDelay = (Math.random() * 10) + 's';
-    particle.style.opacity = 0.2 + Math.random() * 0.5;
+    particle.style.animationDuration = (10 + Math.random() * 15) + 's';
+    particle.style.animationDelay = (Math.random() * 12) + 's';
+    particle.style.opacity = 0.15 + Math.random() * 0.35;
     container.appendChild(particle);
   }
 })();
 
 // ================================================================
-// PARALLAX ENHANCEMENT FOR HERO
+// HERO PARALLAX ON SCROLL
 // ================================================================
 (function initHeroParallax() {
   const hero = document.querySelector('.HomeBanner');
@@ -199,8 +283,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     const scrolled = window.scrollY;
     const maxScroll = window.innerHeight;
     if (scrolled <= maxScroll) {
-      const progress = scrolled / maxScroll;
-      hero.style.backgroundPositionY = (progress * 30) + 'px';
+      hero.style.backgroundPositionY = (scrolled * 0.35) + 'px';
     }
   }, { passive: true });
 })();
