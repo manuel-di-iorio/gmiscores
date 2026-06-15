@@ -1,4 +1,4 @@
-name: Deploy via FTP
+name: Deploy to Altervista
 
 on:
   push:
@@ -9,11 +9,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Deploy to Altervista
+      - name: Deploy via git-ftp
         env:
-          LFTP_PASSWORD: ${{ secrets.FTP_PASS }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASS }}
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq lftp
-          lftp --env-password -u ${{ secrets.FTP_USER }} -e "set ftp:ssl-allow no; set ftp:passive-mode on; mkdir -p pages/achievements; mkdir -p pages/add-leaderboard; mkdir -p pages/cloud-saves; mkdir -p pages/edit-leaderboard; mirror -R --verbose --exclude .git/ --exclude .github/ --exclude .gitignore --exclude .env --exclude .vscode/ --exclude .ftpquota ./ ./; quit" ${{ secrets.FTP_HOST }}
+          # Download git-ftp
+          GIT_FTP_URL=https://raw.githubusercontent.com/git-ftp/git-ftp/1.6.0/git-ftp
+          curl --silent --show-error "$GIT_FTP_URL" > git-ftp.sh
+          chmod +x git-ftp.sh
+
+          # Exclude patterns
+          cat > .git-ftp-ignore << 'EOF'
+          .git*
+          .github/
+          .env
+          .gitignore
+          .vscode/
+          .ftpquota
+          EOF
+
+          FTP_URL="ftp://ftp.gmiscores.altervista.org/"
+
+          # Check if this is a fresh deploy or an update
+          LAST_COMMIT=$(curl --silent --user "${FTP_USER}:${FTP_PASS}" \
+            "${FTP_URL}.git-ftp.log" || true)
+
+          if [[ -z "$LAST_COMMIT" ]]; then
+            echo "Nuovo deploy completo"
+            ./git-ftp.sh init --user "$FTP_USER" --passwd "$FTP_PASS" "$FTP_URL"
+          else
+            echo "Deploy incrementale (ultimo commit: $LAST_COMMIT)"
+            ./git-ftp.sh push --user "$FTP_USER" --passwd "$FTP_PASS" "$FTP_URL"
+          fi
