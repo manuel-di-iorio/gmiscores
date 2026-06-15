@@ -1,5 +1,7 @@
 <!-- AUTOMATED SCORE TESTS -->
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 require_once("./db.php");
 require_once("../models/Game.php");
 require_once("../models/Score.php");
@@ -27,18 +29,15 @@ function request($action = "add", $data) {
     clearScores();
   }
 
-  $response = file_get_contents($config["host"] . "/api/v1/$action.php$params", false, stream_context_create([
+  $ctx = stream_context_create([
     'http' => [
       'method' => $action == "add" ? "POST" : "GET",
       'header'  => "Content-type: application/x-www-form-urlencoded",
-      'content' => $content
+      'content' => $content,
+      'ignore_errors' => true
     ]
-  ]));
-  
-  if ($response === FALSE) {
-    $error = error_get_last();
-  	die("Error in request $action: " . json_encode($data) . ". HTTP request failed. Error: " . $error['message']);
-  }
+  ]);
+  $response = file_get_contents($config["host"] . "/api/v1/$action.php$params", false, $ctx);
 
   $responseJson = json_decode($response, true);
 

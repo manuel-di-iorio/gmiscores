@@ -26,6 +26,13 @@ if (!$lb || $lb['game_id'] != $gameId) {
     exit;
 }
 
+// Prevent deletion of the last leaderboard
+$allLbs = Leaderboard::listByGame($gameId);
+if (count($allLbs) <= 1) {
+    header("Location: leaderboards.php?game_id=$gameId&error=" . urlencode("Non puoi eliminare l'unica classifica del gioco."));
+    exit;
+}
+
 Leaderboard::delete($leaderboardId);
 
 header("Location: leaderboards.php?game_id=$gameId");

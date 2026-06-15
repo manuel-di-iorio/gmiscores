@@ -275,7 +275,7 @@ class Score {
     $sql = "SELECT 1 + (
                 SELECT COUNT(*) FROM $dbTableScores AS T
                 WHERE T.game_id = S.game_id AND T.leaderboard_id = S.leaderboard_id AND T.score > S.score
-            ) AS rank
+            ) AS `rank`
             FROM $dbTableScores AS S
             WHERE S.score_id = ? AND S.game_id = ?
             LIMIT 1";

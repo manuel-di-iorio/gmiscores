@@ -46,10 +46,14 @@
             [
                 "label" => "Creata il",
                 "key" => "created_at",
-                "sortable" => true
+                "sortable" => true,
+                "format_callback" => function ($value, $row) {
+                    return $row["_created_at_pretty"] ?? $value;
+                }
             ]
         ];
 
+        $canDelete = count($leaderboards) > 1;
         $tableActions = [
             [
                 "label" => "Visualizza Punteggi",
@@ -66,8 +70,11 @@
                     return "edit-leaderboard.php?leaderboard_id=" . $row['leaderboard_id'];
                 },
                 "class" => "btn-link w3-margin-right"
-            ],
-            [
+            ]
+        ];
+
+        if ($canDelete) {
+            $tableActions[] = [
                 "label" => "Cancella",
                 "icon" => "fas fa-trash",
                 "url" => "javascript:;",
@@ -77,8 +84,8 @@
                     $leaderboard_name = escapeChars($row['name'] ?? '');
                     return "openModal('modal-delete-leaderboard', onDeleteLeaderboardModalOpen, { leaderboardId: " . $leaderboard_id . ", leaderboardName: '" . $leaderboard_name . "' })";
                 }
-            ]
-        ];
+            ];
+        }
 
         $tableOptions = [
             "table_id" => "leaderboardsTable",

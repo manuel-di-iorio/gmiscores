@@ -37,6 +37,12 @@ $filters = [
 ];
 $leaderboards = Leaderboard::listByGame($game_id, $filters);
 
+// Format date for display
+foreach ($leaderboards as &$row) {
+    $row["_created_at_pretty"] = date("H:i:s - d/m/Y", strtotime($row["created_at"]));
+}
+unset($row);
+
 $view = "leaderboards";
 $pageName = "Classifiche di " . htmlspecialchars($game['name']);
 require_once("includes/layout.php");

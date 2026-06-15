@@ -35,14 +35,25 @@ $maxScore = isset($_POST["maxScore"]) ? (float)$_POST["maxScore"] : NULL;
 
 if ($tags === "0") $tags = "default";
 
-// Retro-compat: if leaderboard_id not provided, use first leaderboard for this game
-if (isset($_POST["leaderboard_id"]) && is_numeric($_POST["leaderboard_id"])) {
-  $leaderboardId = (int)$_POST["leaderboard_id"];
-  $lb = Leaderboard::getById($leaderboardId);
-  if (!$lb || $lb['game_id'] != $gameId) {
-    api_reply_error("Invalid leaderboard_id", "ValidationError", 400);
+// leaderboard_id: INT (new client) or tag string (old client)
+$leaderboardId = NULL;
+
+if (isset($_POST["leaderboard_id"])) {
+  if (is_numeric($_POST["leaderboard_id"])) {
+    // New client: leaderboard_id as INT
+    $leaderboardId = (int)$_POST["leaderboard_id"];
+    $lb = Leaderboard::getById($leaderboardId);
+    if (!$lb || $lb['game_id'] != $gameId) {
+      api_reply_error("Invalid leaderboard_id", "ValidationError", 400);
+    }
+  } else {
+    // Old client: leaderboard_id as tag string
+    $tags = (string)$_POST["leaderboard_id"];
+    $lbFromTag = true;
   }
-} else {
+}
+
+if (!$leaderboardId) {
   $allLbs = Leaderboard::listByGame($gameId);
   if (empty($allLbs)) {
     api_reply_error("No leaderboard found for this game", "NotFoundError", 404);
@@ -67,7 +78,13 @@ $clientSecret = $result->fetch_assoc()["client_secret"];
 
 // Hash validation (retro-compat: leaderboard_id in hash only if sent by client)
 $salt = "game=$gameId";
-if (isset($_POST["leaderboard_id"])) $salt .= "&leaderboard_id=$leaderboardId";
+if (isset($_POST["leaderboard_id"])) {
+  if (is_numeric($_POST["leaderboard_id"])) {
+    $salt .= "&leaderboard_id=$leaderboardId";      // new client: INT
+  } else {
+    $salt .= "&leaderboard_id=" . $_POST["leaderboard_id"]; // old client: tag string
+  }
+}
 if (isset($_POST["tags"])) $salt .= "&tags=$tags";
 $salt .= "&score=$score&player=$playerNameEncoded&hash=$clientHash";
 $saltRaw = preg_replace("/&hash=([a-z0-9]+)+/i", "", $salt);

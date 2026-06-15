@@ -25,14 +25,24 @@ $includePlayer = isset($_GET["includePlayer"]) ? $_GET["includePlayer"] : NULL;
 
 if ($tags === "0") $tags = "default";
 
-// Retro-compat: if leaderboard_id not provided, use first leaderboard for this game
-if (isset($_GET["leaderboard_id"]) && is_numeric($_GET["leaderboard_id"])) {
-  $leaderboardId = (int)$_GET["leaderboard_id"];
-  $lb = Leaderboard::getById($leaderboardId);
-  if (!$lb || $lb['game_id'] != $gameId) {
-    api_reply_error("Invalid leaderboard_id", "ValidationError", 400);
+// leaderboard_id: INT (new client) or tag string (old client)
+$leaderboardId = NULL;
+
+if (isset($_GET["leaderboard_id"])) {
+  if (is_numeric($_GET["leaderboard_id"])) {
+    // New client: leaderboard_id as INT
+    $leaderboardId = (int)$_GET["leaderboard_id"];
+    $lb = Leaderboard::getById($leaderboardId);
+    if (!$lb || $lb['game_id'] != $gameId) {
+      api_reply_error("Invalid leaderboard_id", "ValidationError", 400);
+    }
+  } else {
+    // Old client: leaderboard_id as tag string
+    $tags = (string)$_GET["leaderboard_id"];
   }
-} else {
+}
+
+if (!$leaderboardId) {
   $allLbs = Leaderboard::listByGame($gameId);
   if (empty($allLbs)) {
     api_reply_error("No leaderboard found for this game", "NotFoundError", 404);
