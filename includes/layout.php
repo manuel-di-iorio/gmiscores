@@ -4,6 +4,7 @@ $isIndexPage = basename($pageURI) === 'index.php' || $pageURI === '/'; // Check 
 $gameNameShowBackIcon = strpos($pageURI, "/game-scores.php") === 0 || strpos($pageURI, "/game-bans.php") === 0 || 
   strpos($pageURI, "/game.php") === 0 || strpos($pageURI, "/leaderboards.php") === 0;
 $backUrl = $backUrl ?? "games.php";
+header("Cache-Control: private, must-revalidate");
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -36,10 +37,10 @@ $backUrl = $backUrl ?? "games.php";
 
     <!-- Style -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-    <link rel="stylesheet" href="assets/css/w3.css">
-    <link rel="stylesheet" href="assets/css/toggle.css">
-    <link rel="stylesheet" href="assets/css/variables-<?= $theme ?>.css?v=<?= $version ?>">
-    <link rel="stylesheet" href="assets/css/style.css?v=<?= $version ?>">
+    <link rel="stylesheet" href="assets/css/w3.css?v=<?= asset_version('assets/css/w3.css') ?>">
+    <link rel="stylesheet" href="assets/css/toggle.css?v=<?= asset_version('assets/css/toggle.css') ?>">
+    <link rel="stylesheet" href="assets/css/variables-<?= $theme ?>.css?v=<?= asset_version('assets/css/variables-' . $theme . '.css') ?>">
+    <link rel="stylesheet" href="assets/css/style.css?v=<?= asset_version('assets/css/style.css') ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   </head>
 
@@ -130,7 +131,7 @@ $backUrl = $backUrl ?? "games.php";
   <script src="https://unpkg.com/@popperjs/core@2"></script>
   <script src="https://unpkg.com/tippy.js@6"></script>
 
-  <script src="assets/js/main.js?v=<?= $version ?>" async></script>
+  <script src="assets/js/main.js?v=<?= asset_version('assets/js/main.js') ?>" async></script>
   <script>
     // Initialize the tooltips
     tippy('[data-tippy-content]', { delay: [300, 200] });

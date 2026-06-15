@@ -26,4 +26,7 @@ $config = [
   "maintenanceMessage" => $env['MAINTENANCE_MESSAGE'],
 ];
 
-$version = $env['VERSION'];
+function asset_version($path) {
+  $full = __DIR__ . '/../' . $path;
+  return file_exists($full) ? filemtime($full) : '1';
+}
