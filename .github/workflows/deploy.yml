@@ -16,13 +16,4 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq lftp
-          lftp --env-password -e "
-            mirror -R --delete \
-              --exclude .git/ \
-              --exclude .github/ \
-              --exclude .gitignore \
-              --exclude .env \
-              --exclude .vscode/ \
-              ./ ./
-            quit
-          " -u ${{ secrets.FTP_USER }} ${{ secrets.FTP_HOST }}
+          lftp --env-password -u ${{ secrets.FTP_USER }} -e "mirror -R --delete --exclude .git/ --exclude .github/ --exclude .gitignore --exclude .env --exclude .vscode/ ./ ./; quit" ${{ secrets.FTP_HOST }}
