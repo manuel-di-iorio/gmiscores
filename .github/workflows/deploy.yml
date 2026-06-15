@@ -11,11 +11,13 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Deploy to Altervista
+        env:
+          LFTP_PASSWORD: ${{ secrets.FTP_PASS }}
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq lftp
           lftp -c "
-            open -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }} ${{ secrets.FTP_HOST }}
+            open -u ${{ secrets.FTP_USER }},\$LFTP_PASSWORD ${{ secrets.FTP_HOST }}
             mirror -R --delete \
               --exclude .git/ \
               --exclude .github/ \
