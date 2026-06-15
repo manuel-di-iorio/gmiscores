@@ -131,4 +131,21 @@
   --footer-social-icon-color: #94a3b8;
   --footer-social-icon-hover-color: #818cf8;
   --shadow-footer: 0 -4px 15px rgba(0,0,0,0.3);
+
+  /* Modern Landing */
+  --gradient-start: #818cf8;
+  --gradient-end: #f472b6;
+  --glass-bg: rgba(26, 29, 40, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glow-color: rgba(129, 140, 248, 0.3);
+  --header-bg: rgba(15, 17, 23, 0.85);
+  --header-border: rgba(255, 255, 255, 0.06);
+  --nav-hover-bg: rgba(255, 255, 255, 0.08);
+  --primary-color-rgb: 129, 140, 248;
+  --overlay-color-1: 15, 17, 23;
+  --overlay-color-2: 30, 27, 75;
+  --overlay-color-3: 15, 17, 23;
+  --scrollbar-thumb: #2d3142;
+  --scrollbar-thumb-hover: #4a4d5e;
+  --divider-fill: #1e2130;
 }

@@ -1,12 +1,10 @@
 <style>
-  /* Hero Section */
   .HomeBanner {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url(assets/images/banner.webp);
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url(assets/images/banner.webp);
     background-size: cover;
     background-position: bottom center;
-    background-attachment: fixed; /* Effetto Parallax */
     width: 100%;
-    min-height: 100vh; /* Altezza aumentata */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -14,46 +12,38 @@
     text-align: center;
     color: white;
     padding: 30px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-    position: relative; /* Per pseudo-elementi se necessari */
+    position: relative;
+    overflow: hidden;
   }
 
   .HomeBanner h1 {
-    font-size: 3.5em; /* Titolo ancora più grande */
-    font-weight: 700; /* Bold */
-    margin-bottom: 0.4em;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Ombra testo */
-    animation: fadeInDown 1s ease-out; /* Animazione titolo */
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 0.5em;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    position: relative;
+    z-index: 2;
   }
 
-  .HomeBanner p {
-    font-size: 1.3em;
-    margin-bottom: 1.8em;
-    max-width: 650px;
-    line-height: 1.6;
-    animation: fadeInUp 1s ease-out 0.3s; /* Animazione paragrafo */
-    animation-fill-mode: backwards; /* Assicura che l'elemento sia invisibile prima dell'animazione */
+  .HomeBanner .hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    margin-bottom: 2em;
+    max-width: 600px;
+    line-height: 1.7;
+    position: relative;
+    z-index: 2;
+    opacity: 0.9;
   }
 
   .CtaButton {
-    font-size: 1.3em;
-    padding: 18px 35px;
-    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, background-color 0.25s ease-out;
-    border-radius: 8px;
-    animation: fadeInUp 1s ease-out 0.6s;
-    animation-fill-mode: backwards;
-  }
-  .HomeBanner .CtaButton {
-    background-color: var(--cta-button-bg, #ffffff);
-    color: var(--cta-button-text, #000000);
+    font-size: 1.15em;
+    padding: 16px 36px;
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
   }
 
-  .CtaButton:hover {
-    transform: translateY(-4px) scale(1.05); /* Effetto hover più marcato */
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-  }
-
-  /* Homepage theme toggle */
   .theme-toggle-home {
     position: absolute;
     top: 20px;
@@ -61,7 +51,7 @@
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.12);
     backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
@@ -70,539 +60,485 @@
     font-size: 1.3rem;
     color: white;
     transition: background 0.2s ease, transform 0.2s ease;
-    z-index: 10;
+    z-index: 10000;
   }
   .theme-toggle-home:hover {
-    background: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.25);
     transform: scale(1.1);
   }
 
-  /* Scroll Down Arrow for HomeBanner */
   .scroll-down-arrow {
     position: absolute;
-    bottom: 40px; /* Aumentato per più spazio dal fondo */
+    bottom: 36px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 2.5em; /* Leggermente più grande */
+    font-size: 2em;
     color: white;
-    animation: bounceUpDown 4s infinite ease-in-out; /* Animazione più fluida */
-    cursor: pointer; /* Indica che è cliccabile, anche se non fa nulla */
-    opacity: 0.8;
+    animation: bounceUpDown 3s ease-in-out infinite;
+    opacity: 0.7;
     transition: opacity 0.3s ease;
+    z-index: 10;
   }
-
-  .scroll-down-arrow:hover {
-    opacity: 1;
-  }
+  .scroll-down-arrow:hover { opacity: 1; }
 
   @keyframes bounceUpDown {
-    0%, 100% {
-      transform: translateX(-50%) translateY(0);
-    }
-    50% {
-      transform: translateX(-50%) translateY(-15px); /* Escursione ridotta per un effetto più soft */
-    }
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-12px); }
   }
 
-  /* Fixed Logo */
-  .fixed-logo {
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    width: 200px; /* Puoi aggiustare la dimensione come preferisci */
-    height: auto;
-    z-index: 1000; /* Assicura che sia sopra gli altri elementi */
-    pointer-events: none;
-  }
-
-  /* Responsive adjustments for Hero Section */
-  @media (max-width: 768px) {
-    .HomeBanner {
-      background-attachment: scroll; /* Rimuove effetto parallax su mobile */
-      padding: 80px 20px; /* Padding verticale maggiore, orizzontale ridotto */
-    }
-    .HomeBanner h1 {
-      font-size: 2.2em; /* Dimensione titolo ridotta per mobile */
-    }
-    .HomeBanner p {
-      font-size: 1.1em; /* Dimensione paragrafo ridotta per mobile */
-      max-width: 90%; /* Assicura che il testo non sia troppo largo */
-    }
-    .CtaButton {
-      font-size: 1.1em; /* Dimensione pulsante ridotta */
-      padding: 15px 25px; /* Padding pulsante ridotto */
-    }
-    .scroll-down-arrow {
-      bottom: 60px; /* Spostata significativamente più in basso per evitare sovrapposizioni su mobile */
-    }
-  }
-
-  /* Stats Section */
   .StatsSection {
-    padding: 60px 20px; /* Più padding */
-    background-color: var(--bg-color-offset, #f4f7f6); /* Sfondo leggermente diverso per la sezione */
+    padding: 80px 20px;
+    background-color: var(--bg-color-offset, #f4f7f6);
   }
-  
+
   .StatCardContainer {
-  	display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Card leggermente più grandi */
-    gap: 25px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
   }
-  
-  .StatCard {  
-    background: var(--bg-color-card, white);
-    border-radius: 10px;
-    padding: 25px;
+
+  .StatCard {
+    background: var(--glass-bg, rgba(255,255,255,0.08));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border, rgba(255,255,255,0.12));
+    border-radius: 16px;
+    padding: 28px 20px;
     text-align: center;
-    box-shadow: var(--shadow-1-subtle, 0 4px 10px rgba(0,0,0,0.08));
-    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, opacity 0.5s ease-out; /* Aggiunta transizione opacità */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1);
   }
 
   .StatCard:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-2-prominent, 0 8px 20px rgba(0,0,0,0.12));
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.1);
   }
 
   .StatCard__Icon {
-    font-size: 2.5em;
-    color: var(--primary-color, #007bff);
-    margin-bottom: 15px;
+    font-size: 2.2em;
+    color: var(--primary-color, #6366f1);
+    margin-bottom: 12px;
   }
 
   .StatCard__Count {
-    font-size: 2.6em;
-    font-weight: 700;
+    font-size: 2.4em;
+    font-weight: 800;
     color: var(--text-color-headings, #333);
-    margin-bottom: 0.2em;
+    margin-bottom: 0.15em;
+    font-variant-numeric: tabular-nums;
   }
 
   .StatCard__Label {
-    font-size: 1.1em;
+    font-size: 0.95em;
     color: var(--text-color-secondary, #555);
     line-height: 1.4;
   }
 
-  /* How It Works Section */
   .HowItWorksSection {
-    padding: 60px 20px;
+    padding: 80px 20px;
   }
 
   .HowItWorksContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
     margin-top: 40px;
   }
 
   .HowItWorksStep {
-    background: var(--bg-color-card, white);
-    border-radius: 10px;
-    padding: 30px;
+    background: var(--glass-bg, rgba(255,255,255,0.08));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border, rgba(255,255,255,0.12));
+    border-radius: 16px;
+    padding: 32px 24px;
     text-align: center;
-    box-shadow: var(--shadow-1-subtle, 0 4px 10px rgba(0,0,0,0.08));
-    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, opacity 0.5s ease-out; /* Aggiunta transizione opacità */
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1);
   }
-  
+
   .HowItWorksStep:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-2-prominent, 0 8px 20px rgba(0,0,0,0.12));
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.1);
   }
 
   .HowItWorksStep__Icon {
-    font-size: 3em;
-    color: var(--secondary-color, #6c757d); /* Un colore diverso per questa sezione */
-    margin-bottom: 20px;
+    font-size: 2.6em;
+    color: var(--gradient-end, #ec4899);
+    margin-bottom: 16px;
   }
 
   .HowItWorksStep h5 {
-    font-size: 1.5em;
-    font-weight: 600;
+    font-size: 1.3em;
+    font-weight: 700;
     color: var(--text-color-headings, #333);
     margin-bottom: 10px;
   }
 
   .HowItWorksStep p {
-    font-size: 1em;
+    font-size: 0.95em;
     color: var(--text-color-secondary, #555);
     line-height: 1.6;
   }
 
   .SectionTitle {
     text-align: center;
-    margin-bottom: 50px; /* Più spazio sotto il titolo */
-    font-size: 2.5em; /* Titolo sezione più grande */
-    font-weight: 700;
+    margin-bottom: 40px;
+    font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+    font-weight: 800;
     color: var(--text-color-headings, #333);
     position: relative;
-    padding-bottom: 15px; /* Spazio per la "sottolineatura" */
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Aggiunta transizione per animazione JS */
+    padding-bottom: 16px;
   }
 
-  .SectionTitle::after { /* Sottolineatura decorativa */
+  .SectionTitle::after {
     content: '';
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     bottom: 0;
-    width: 80px;
+    width: 60px;
     height: 4px;
-    background-color: var(--primary-color, #007bff);
+    background: linear-gradient(90deg, var(--gradient-start, #6366f1), var(--gradient-end, #ec4899));
     border-radius: 2px;
   }
-  
-  hr {
-    border-top: 1px solid var(--border-color-soft, #e0e0e0);
-  }
 
-  /* Animazioni base (da spostare in style.css se usate globalmente) */
-  @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  /* Features Section */
   .FeaturesSection {
-    padding: 60px 20px;
-    background-color: var(--bg-color, white); 
+    padding: 80px 20px;
+    background-color: var(--bg-color, white);
   }
 
   .FeaturesGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
     margin-top: 40px;
   }
 
   .FeatureCard {
-    background: var(--bg-color-card, #f8f9fa);
-    border-radius: 10px;
-    padding: 30px;
+    background: var(--glass-bg, rgba(255,255,255,0.08));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border, rgba(255,255,255,0.12));
+    border-radius: 16px;
+    padding: 28px 24px;
     text-align: center;
-    box-shadow: var(--shadow-1-subtle, 0 4px 10px rgba(0,0,0,0.07));
-    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, opacity 0.5s ease-out;
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1);
   }
 
   .FeatureCard:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-2-prominent, 0 8px 20px rgba(0,0,0,0.1));
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.1);
   }
 
   .FeatureCard__Icon {
-    font-size: 2.8em;
-    color: var(--primary-color, #007bff);
-    margin-bottom: 20px;
+    font-size: 2.4em;
+    color: var(--primary-color, #6366f1);
+    margin-bottom: 16px;
   }
 
   .FeatureCard h5 {
-    font-size: 1.4em;
-    font-weight: 600;
+    font-size: 1.2em;
+    font-weight: 700;
     color: var(--text-color-headings, #333);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .FeatureCard p {
-    font-size: 0.95em;
+    font-size: 0.9em;
     color: var(--text-color-secondary, #555);
     line-height: 1.6;
   }
 
-  /* Testimonials Section */
   .TestimonialsSection {
-    padding: 60px 20px;
-    background-color: var(--bg-color-offset, #f4f7f6); /* Sfondo diverso per alternanza */
+    padding: 80px 20px;
+    background-color: var(--bg-color-offset, #f4f7f6);
   }
 
   .TestimonialsGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
     margin-top: 40px;
   }
 
   .TestimonialCard {
-    background: var(--bg-color-card, white);
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: var(--shadow-1-subtle, 0 4px 10px rgba(0,0,0,0.08));
-    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, opacity 0.5s ease-out;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background: var(--glass-bg, rgba(255,255,255,0.08));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border, rgba(255,255,255,0.12));
+    border-radius: 16px;
+    padding: 28px 24px;
     text-align: center;
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1);
   }
 
   .TestimonialCard:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-2-prominent, 0 8px 20px rgba(0,0,0,0.12));
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.1);
   }
 
   .TestimonialCard__Avatar {
-    width: 80px;
-    height: 80px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
     object-fit: cover;
-    border: 3px solid var(--primary-color-light, #e0f0ff);
+    border: 3px solid var(--primary-color-light, rgba(99,102,241,0.3));
   }
 
   .TestimonialCard__Quote {
     font-style: italic;
     color: var(--text-color-secondary, #555);
-    margin-bottom: 15px;
-    font-size: 1em;
-    line-height: 1.5;
+    margin-bottom: 12px;
+    font-size: 0.95em;
+    line-height: 1.6;
   }
 
-  .TestimonialCard__Quote::before {
-    content: '\201C'; /* Virgoletta sinistra */
-    font-size: 1.5em;
-    color: var(--primary-color, #007bff);
-    margin-right: 5px;
-    line-height: 0;
-  }
-  .TestimonialCard__Quote::after {
-    content: '\201D'; /* Virgoletta destra */
-    font-size: 1.5em;
-    color: var(--primary-color, #007bff);
-    margin-left: 5px;
-    line-height: 0;
-  }
+  .TestimonialCard__Quote::before { content: '\201C'; font-size: 1.4em; color: var(--primary-color, #6366f1); margin-right: 4px; line-height: 0; }
+  .TestimonialCard__Quote::after { content: '\201D'; font-size: 1.4em; color: var(--primary-color, #6366f1); margin-left: 4px; line-height: 0; }
 
   .TestimonialCard__Author {
     font-weight: 600;
     color: var(--text-color-headings, #333);
-    font-size: 0.9em;
+    font-size: 0.85em;
   }
 
-  /* Final CTA Section */
   .FinalCtaSection {
-    background-color: var(--bg-color-offset, #f4f7f6); /* Sfondo coordinato */
-    padding: 80px 30px; /* Padding aumentato */
+    padding: 100px 30px;
     text-align: center;
-    border-top: 1px solid var(--border-color-soft, #e0e0e0); /* Separatore superiore */
-    border-bottom: 1px solid var(--border-color-soft, #e0e0e0); /* Separatore inferiore per simmetria */
+    position: relative;
+    overflow: hidden;
+  }
+
+  .FinalCtaSection::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--gradient-start, #6366f1), var(--gradient-end, #ec4899));
+    opacity: 0.05;
+    pointer-events: none;
   }
 
   .FinalCtaSection h4 {
-    font-size: 2.6em; /* Dimensione titolo ulteriormente aumentata */
-    font-weight: 700;
+    font-size: clamp(1.5rem, 3vw, 2.4rem);
+    font-weight: 800;
     color: var(--text-color-headings, #333);
-    margin-bottom: 25px; /* Margine inferiore aumentato */
+    margin-bottom: 20px;
+    position: relative;
   }
 
   .FinalCtaSection p {
-    font-size: 1.3em; /* Dimensione paragrafo aumentata */
+    font-size: 1.1em;
     color: var(--text-color-secondary, #555);
-    max-width: 800px; /* Larghezza massima aumentata */
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 40px; /* Spazio prima del pulsante aumentato */
+    max-width: 650px;
+    margin: 0 auto 36px;
     line-height: 1.7;
+    position: relative;
   }
 
   .FinalCtaSection .CtaButton {
-    background-color: var(--primary-color, #007bff); /* Colore primario per il pulsante */
-    color: white;
-    font-size: 1.35em; /* Dimensione font pulsante aumentata */
-    padding: 20px 45px; /* Padding pulsante aumentato */
-    border: none; /* Rimuove bordo se presente da w3-button */
-    border-radius: 8px; /* Coerenza con altri CtaButton */
-    letter-spacing: 0.5px; /* Spaziatura lettere per rifinitura */
-    /* Le transizioni e animazioni sono ereditate da .CtaButton, se necessario si possono specificare qui */
+    background: linear-gradient(135deg, var(--gradient-start, #6366f1), var(--gradient-end, #ec4899)) !important;
+    color: white !important;
+    border: none;
+    position: relative;
   }
 
   .FinalCtaSection .CtaButton:hover {
-    background-color: var(--primary-color-dark, #0056b3); /* Scurisce al hover */
-    transform: translateY(-5px) scale(1.05); /* Effetto hover più marcato */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3); /* Ombra hover più marcata */
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 28px rgba(var(--primary-color-rgb, 99,102,241), 0.35);
   }
 
-  /* Visual Showcase Section */
   .VisualShowcaseSection {
-    padding: 70px 30px;
-    background-color: var(--bg-color, white); /* O un colore leggermente diverso per staccare */
+    padding: 80px 20px;
+    background-color: var(--bg-color, white);
   }
 
   .VisualShowcaseContainer {
     display: flex;
     align-items: center;
-    gap: 40px;
-    max-width: 1200px;
+    gap: 50px;
+    max-width: 1100px;
     margin: 0 auto;
   }
 
-  .VisualShowcase__Text {
-    flex: 1;
-  }
+  .VisualShowcase__Text { flex: 1; }
 
   .VisualShowcase__Text h3 {
-    font-size: 2.2em;
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
     font-weight: 700;
     color: var(--text-color-headings, #333);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 
   .VisualShowcase__Text p {
-    font-size: 1.15em;
+    font-size: 1.05em;
     color: var(--text-color-secondary, #555);
     line-height: 1.7;
-    margin-bottom: 25px;
+    margin-bottom: 24px;
   }
 
-  .VisualShowcase__Image img {
+  .VisualShowcase__Image {
     flex: 1;
     text-align: center;
-    max-height: 600px; /* Limita l'altezza per evitare overflow */
   }
 
   .VisualShowcase__Image img {
     max-width: 100%;
     height: auto;
-    border-radius: 10px;
-    box-shadow: var(--shadow-2-prominent, 0 8px 25px rgba(0,0,0,0.15));
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   }
 
-  /* Responsive adjustments for VisualShowcaseSection */
   @media (max-width: 768px) {
-    .VisualShowcaseContainer {
-      flex-direction: column;
-      text-align: center;
-    }
-    .VisualShowcase__Text h3 {
-      font-size: 1.8em;
-    }
-    .VisualShowcase__Text p {
-      font-size: 1em;
-    }
-    .VisualShowcase__Image {
-      margin-top: 30px;
-    }
+    .HomeBanner { padding: 80px 20px; }
+    .scroll-down-arrow { bottom: 50px; }
+    .StatsSection, .HowItWorksSection, .FeaturesSection,
+    .TestimonialsSection, .VisualShowcaseSection { padding: 50px 16px; }
+    .FinalCtaSection { padding: 60px 20px; }
+    .VisualShowcaseContainer { flex-direction: column; text-align: center; }
+    .VisualShowcase__Image { margin-top: 30px; }
+    .StatCardContainer { gap: 16px; }
   }
 </style>
 
-<!-- <img src="assets/images/logo-transparent.webp" alt="Logo" class="fixed-logo"> -->
+<!-- ===== STICKY HEADER ===== -->
+<header class="landing-header" role="banner">
+  <a href="./index.php" class="header-logo">
+    <img src="assets/images/logoSmall.png" alt="Logo">
+    <span><?= htmlspecialchars($config["platformTitle"]) ?></span>
+  </a>
+  <nav class="header-nav">
+    <a href="#come-funziona">Come funziona</a>
+    <a href="#caratteristiche">Caratteristiche</a>
+    <a href="#numeri">Numeri</a>
+    <a href="#contatti">Contatti</a>
+    <a href="./add-game.php" class="header-cta">Inizia subito</a>
+  </nav>
+</header>
 
+<!-- ===== HERO SECTION ===== -->
 <div class="HomeBanner">
+  <div id="hero-particles"></div>
+
+  <div class="hero-floating-shape"></div>
+  <div class="hero-floating-shape"></div>
+  <div class="hero-floating-shape"></div>
+
   <div class="theme-toggle-home" onclick="switchThemeHome()" title="Cambia tema">
     <i class="fas <?= $theme === 'dark' ? 'fa-sun' : 'fa-moon' ?>"></i>
   </div>
-  <h1><?= htmlspecialchars($config["platformTitle"]) ?></h1>
-  <p>Integra classifiche online nei tuoi giochi GameMaker in modo semplice, veloce e gratuito. Dai una marcia in più alle tue creazioni!</p>
-  <a href="./add-game.php">
-    <button type="submit" class="w3-button w3-padding-large w3-margin-top w3-margin-bottom CtaButton">
+
+  <h1 class="anim-fade-up"><?= htmlspecialchars($config["platformTitle"]) ?></h1>
+  <p class="hero-subtitle anim-fade-up anim-delay-200">
+    Integra classifiche online nei tuoi giochi GameMaker in modo semplice, veloce e gratuito. Dai una marcia in più alle tue creazioni!
+  </p>
+  <a href="./add-game.php" class="anim-fade-up anim-delay-400">
+    <button type="submit" class="w3-button w3-padding-large CtaButton btn-glow" style="background:white;color:black;">
       <i class="fas fa-rocket w3-margin-right"></i> Inizia subito
     </button>
   </a>
-  <div class="scroll-down-arrow">
-    <a href="#how-it-works-section-anchor"><i class="fas fa-chevron-down"></i></a>
+
+  <div class="scroll-down-arrow anim-fade-up anim-delay-600">
+    <a href="#come-funziona"><i class="fas fa-chevron-down"></i></a>
   </div>
 </div>
 
-<div id="how-it-works-section-anchor"></div>
-<!-- How It Works Section -->
-<hr class="fade-in-up-on-scroll"/>
-<div class="w3-container HowItWorksSection">
-  <h2 class="SectionTitle fade-in-up-on-scroll">Come funziona? È semplice!</h2>
-  <divù class="HowItWorksContainer">
-    <div class="HowItWorksStep fade-in-up-on-scroll">
+<!-- ===== HOW IT WORKS ===== -->
+<div id="come-funziona" class="w3-container HowItWorksSection">
+  <h2 class="SectionTitle fade-in-up-on-scroll">Come funziona? <span class="gradient-text">È semplice!</span></h2>
+  <div class="HowItWorksContainer stagger-grid">
+    <div class="HowItWorksStep stagger-item">
       <div class="HowItWorksStep__Icon"><i class="fas fa-gamepad"></i></div>
-      <h5>1. Registra il Tuo Gioco</h5>
+      <h5>1. Registra il tuo gioco</h5>
       <p>Aggiungi il tuo gioco sulla nostra piattaforma. Riceverai un ID univoco e una chiave segreta.</p>
     </div>
-    <div class="HowItWorksStep fade-in-up-on-scroll">
+    <div class="HowItWorksStep stagger-item">
       <div class="HowItWorksStep__Icon"><i class="fas fa-code-branch"></i></div>
       <h5>2. Integra l'API</h5>
       <p>Utilizza le nostre semplici chiamate HTTP per inviare e recuperare i punteggi direttamente da GameMaker.</p>
     </div>
-    <div class="HowItWorksStep fade-in-up-on-scroll">
+    <div class="HowItWorksStep stagger-item">
       <div class="HowItWorksStep__Icon"><i class="fas fa-trophy"></i></div>
-      <h5>3. Classifiche Globali</h5>
+      <h5>3. Classifiche globali</h5>
       <p>I punteggi dei tuoi giocatori saranno visibili in classifiche globali, pronti per la competizione!</p>
     </div>
-     <div class="HowItWorksStep fade-in-up-on-scroll">
+    <div class="HowItWorksStep stagger-item">
       <div class="HowItWorksStep__Icon"><i class="fas fa-shield-alt"></i></div>
-      <h5>4. Sicurezza e Gestione</h5>
+      <h5>4. Sicurezza e gestione</h5>
       <p>Gestisci i tuoi giochi, visualizza statistiche e banna giocatori scorretti dalla tua dashboard.</p>
     </div>
   </div>
 </div>
 
-<!-- Visual Showcase Section -->
-<hr class="fade-in-up-on-scroll"/>
+<!-- ===== VISUAL SHOWCASE ===== -->
 <div class="w3-container VisualShowcaseSection">
   <div class="VisualShowcaseContainer">
-    <div class="VisualShowcase__Text fade-in-up-on-scroll">
-      <h2 class="SectionTitle" style="text-align: left; margin-bottom: 30px; padding-bottom: 10px;">Dai Vita alle Tue Sfide</h2>
-      <p>Immagina i tuoi giocatori scalare le vette delle classifiche, condividere i loro trionfi e sentirsi parte di una community globale. Con la nostra piattaforma, trasformi ogni partita in un'epica competizione. Offri un'esperienza che va oltre il gioco stesso, creando momenti indimenticabili e legami duraturi tra i tuoi utenti.</p>
-      <a href="./add-game.php" class="CtaButton w3-button w3-black" style="margin-top: 20px">Aggiungi il tuo gioco</a>
+    <div class="VisualShowcase__Text anim-fade-left">
+      <h2 class="SectionTitle" style="text-align:left;margin-bottom:24px;padding-bottom:12px;">
+        Dai vita alle <span class="gradient-text">tue sfide</span>
+      </h2>
+      <p>Immagina i tuoi giocatori scalare le vette delle classifiche, condividere i loro trionfi e sentirsi parte di una community globale. Con la nostra piattaforma, trasformi ogni partita in un'epica competizione.</p>
+      <a href="./add-game.php" class="CtaButton w3-button btn-glow" style="margin-top:12px;background:var(--primary-color);color:white">
+        Aggiungi il tuo gioco
+      </a>
     </div>
-    <div class="VisualShowcase__Image fade-in-up-on-scroll">
-      <img src="/assets/images/landing_leaderboard.avif" alt="Visualizzazione Classifiche">
+    <div class="VisualShowcase__Image anim-fade-right">
+      <img src="/assets/images/landing_leaderboard.avif" alt="Visualizzazione Classifiche" loading="lazy">
     </div>
   </div>
 </div>
 
-<!-- Why Choose Us Section -->
-<hr class="fade-in-up-on-scroll"/>
-<div class="w3-container FeaturesSection">
-  <h2 class="SectionTitle fade-in-up-on-scroll">Perché Sceglierci?</h2>
-  <div class="FeaturesGrid">
-    <div class="FeatureCard fade-in-up-on-scroll">
+<!-- ===== FEATURES ===== -->
+<div id="caratteristiche" class="w3-container FeaturesSection">
+  <h2 class="SectionTitle fade-in-up-on-scroll">Perché <span class="gradient-text">Sceglierci?</span></h2>
+  <div class="FeaturesGrid stagger-grid">
+    <div class="FeatureCard stagger-item">
       <div class="FeatureCard__Icon"><i class="fas fa-cogs"></i></div>
-      <h5>Integrazione Semplice</h5>
+      <h5>Integrazione semplice</h5>
       <p>API facili da usare per un'integrazione rapida nei tuoi giochi GameMaker.</p>
     </div>
-    <div class="FeatureCard fade-in-up-on-scroll">
+    <div class="FeatureCard stagger-item">
       <div class="FeatureCard__Icon"><i class="fas fa-gift"></i></div>
-      <h5>Gratuito per Sempre</h5>
+      <h5>Gratuito per sempre</h5>
       <p>Nessun costo nascosto. Offri classifiche online senza pensieri.</p>
     </div>
-    <div class="FeatureCard fade-in-up-on-scroll">
+    <div class="FeatureCard stagger-item">
       <div class="FeatureCard__Icon"><i class="fas fa-shield-alt"></i></div>
-      <h5>Sicuro e Affidabile</h5>
+      <h5>Sicuro e affidabile</h5>
       <p>Piattaforma stabile con protezione anti-cheat di base.</p>
     </div>
-    <div class="FeatureCard fade-in-up-on-scroll">
+    <div class="FeatureCard stagger-item">
       <div class="FeatureCard__Icon"><i class="fas fa-server"></i></div>
-      <h5>Nessun Server Richiesto</h5>
+      <h5>Nessun server richiesto</h5>
       <p>Gestiamo noi l'hosting delle classifiche, tu concentrati sul gioco.</p>
     </div>
-    <div class="FeatureCard fade-in-up-on-scroll">
+    <div class="FeatureCard stagger-item">
       <div class="FeatureCard__Icon"><i class="fas fa-users-cog"></i></div>
-      <h5>Gestione Facilitata</h5>
+      <h5>Gestione facilitata</h5>
       <p>Dashboard intuitiva per gestire giochi, punteggi e ban.</p>
     </div>
-    <div class="FeatureCard fade-in-up-on-scroll">
+    <div class="FeatureCard stagger-item">
       <div class="FeatureCard__Icon"><i class="fas fa-users"></i></div>
-      <h5>Supporto Comunitario</h5>
+      <h5>Supporto comunitario</h5>
       <p>Entra nella nostra community Discord per supporto, idee e collaborazione.</p>
     </div>
-    <div class="FeatureCard fade-in-up-on-scroll">
+    <div class="FeatureCard stagger-item">
       <div class="FeatureCard__Icon"><i class="fab fa-github"></i></div>
-      <h5>Open Source e Trasparente</h5>
+      <h5>Open source e trasparente</h5>
       <p>Il codice sorgente è disponibile su <a href="https://github.com/manuel-di-iorio/gmiscores">GitHub</a>. Contribuisci o adatta la piattaforma.</p>
     </div>
-    <div class="FeatureCard fade-in-up-on-scroll">
+    <div class="FeatureCard stagger-item">
       <div class="FeatureCard__Icon"><i class="fas fa-rocket"></i></div>
-      <h5>Evoluzione Continua</h5>
+      <h5>Evoluzione continua</h5>
       <p>Siamo costantemente al lavoro per aggiungere nuove funzionalità e migliorare la piattaforma.</p>
     </div>
   </div>
 </div>
 
-<!-- Stats -->
-<div class="w3-container StatsSection">
-  <h2 class="SectionTitle fade-in-up-on-scroll">La Nostra Community in Numeri</h2>
-  <div class="StatCardContainer">
-    <?php 
+<!-- ===== STATS ===== -->
+<div id="numeri" class="w3-container StatsSection">
+  <h2 class="SectionTitle fade-in-up-on-scroll">La Nostra Community in <span class="gradient-text">Numeri</span></h2>
+  <div class="StatCardContainer stagger-grid">
+    <?php
       $statIcons = [
         "scores" => "fas fa-star",
         "players" => "fas fa-users",
@@ -615,46 +551,49 @@
       ];
     ?>
     <?php foreach ($stats as $key => $stat) { ?>
-    <div class="StatCard fade-in-up-on-scroll">
+    <div class="StatCard stagger-item">
       <div class="StatCard__Icon"><i class="<?= $statIcons[$key] ?? 'fas fa-chart-bar' ?>"></i></div>
-      <div class="StatCard__Count"><?= htmlspecialchars($stat["count"]) ?></div>
+      <div class="StatCard__Count">
+        <span class="stat-number" data-target="<?= is_numeric($stat["count"]) ? intval($stat["count"]) : 0 ?>">
+          <?= is_numeric($stat["count"]) ? '0' : htmlspecialchars($stat["count"]) ?>
+        </span>
+        <?= !is_numeric($stat["count"]) ? htmlspecialchars($stat["count"]) : '' ?>
+      </div>
       <div class="StatCard__Label"><?= htmlspecialchars($stat["label"]) ?></div>
     </div>
     <?php } ?>
   </div>
 </div>
 
-<!-- Testimonials Section -->
-<!-- <hr class="fade-in-up-on-scroll"/>
-<div class="w3-container TestimonialsSection">
-  <h2 class="SectionTitle fade-in-up-on-scroll">Dicono di Noi</h2>
-  <div class="TestimonialsGrid">
-    <div class="TestimonialCard fade-in-up-on-scroll">
-      <img src="https://i.pravatar.cc/100?u=dev1" alt="Avatar sviluppatore" class="TestimonialCard__Avatar">
-      <p class="TestimonialCard__Quote">"Implementare le classifiche è stato un gioco da ragazzi! I miei giocatori adorano la competizione."</p>
-      <p class="TestimonialCard__Author">- Alex Rossi, Sviluppatore di 'Space Raiders'</p>
+<!-- ===== TESTIMONIALS ===== -->
+<!-- <div class="w3-container TestimonialsSection">
+  <h2 class="SectionTitle fade-in-up-on-scroll">Dicono di <span class="gradient-text">noi</span></h2>
+  <div class="TestimonialsGrid stagger-grid">
+    <div class="TestimonialCard stagger-item">
+      <img src="https://i.pravatar.cc/100?u=dev1" alt="Avatar sviluppatore" class="TestimonialCard__Avatar" loading="lazy">
+      <p class="TestimonialCard__Quote">Implementare le classifiche è stato un gioco da ragazzi! I miei giocatori adorano la competizione.</p>
+      <p class="TestimonialCard__Author">— Alex Rossi, Sviluppatore di 'Space Raiders'</p>
     </div>
-    <div class="TestimonialCard fade-in-up-on-scroll">
-      <img src="https://i.pravatar.cc/100?u=dev2" alt="Avatar sviluppatore" class="TestimonialCard__Avatar">
-      <p class="TestimonialCard__Quote">"Finalmente una soluzione semplice e gratuita per le leaderboard. Consigliatissimo!"</p>
-      <p class="TestimonialCard__Author">- Giulia Bianchi, Sviluppatrice di 'Pixel Jumper'</p>
+    <div class="TestimonialCard stagger-item">
+      <img src="https://i.pravatar.cc/100?u=dev2" alt="Avatar sviluppatore" class="TestimonialCard__Avatar" loading="lazy">
+      <p class="TestimonialCard__Quote">Finalmente una soluzione semplice e gratuita per le leaderboard. Consigliatissimo!</p>
+      <p class="TestimonialCard__Author">— Giulia Bianchi, Sviluppatrice di 'Pixel Jumper'</p>
     </div>
-    <div class="TestimonialCard fade-in-up-on-scroll">
-      <img src="https://i.pravatar.cc/100?u=dev3" alt="Avatar sviluppatore" class="TestimonialCard__Avatar">
-      <p class="TestimonialCard__Quote">"La dashboard è intuitiva e la gestione dei punteggi è ottima. Un servizio eccellente."</p>
-      <p class="TestimonialCard__Author">- Marco Verdi, Sviluppatore di 'Fantasy Quest RPG'</p>
+    <div class="TestimonialCard stagger-item">
+      <img src="https://i.pravatar.cc/100?u=dev3" alt="Avatar sviluppatore" class="TestimonialCard__Avatar" loading="lazy">
+      <p class="TestimonialCard__Quote">La dashboard è intuitiva e la gestione dei punteggi è ottima. Un servizio eccellente.</p>
+      <p class="TestimonialCard__Author">— Marco Verdi, Sviluppatore di 'Fantasy Quest RPG'</p>
     </div>
   </div>
-</div>
-  
-<hr class="fade-in-up-on-scroll"/> -->
+</div> -->
 
-<div class="w3-container w3-center fade-in-up-on-scroll FinalCtaSection">
-  <h4 class="fade-in-up-on-scroll"><strong>Pronto a portare i tuoi giochi al livello successivo?</strong></h4>
-  <p class="fade-in-up-on-scroll">Non aspettare! Unisciti alla nostra community di sviluppatori e offri ai tuoi giocatori un'esperienza competitiva e coinvolgente.</p>
-  <a href="./add-game.php" class="fade-in-up-on-scroll">
-    <button type="submit" class="w3-button w3-padding-large CtaButton w3-black">
-      Aggiungi il tuo gioco
+<!-- ===== FINAL CTA ===== -->
+<div id="contatti" class="w3-container w3-center FinalCtaSection">
+  <h4 class="fade-in-up-on-scroll"><strong>Pronto a portare i tuoi giochi <span class="gradient-text">al livello successivo?</span></strong></h4>
+  <p class="fade-in-up-on-scroll anim-delay-200">Non aspettare! Unisciti alla nostra community di sviluppatori e offri ai tuoi giocatori un'esperienza competitiva e coinvolgente.</p>
+  <a href="./add-game.php" class="fade-in-up-on-scroll anim-delay-400">
+    <button type="submit" class="w3-button w3-padding-large CtaButton btn-glow">
+      <i class="fas fa-rocket w3-margin-right"></i> Aggiungi il tuo gioco
     </button>
   </a>
 </div>

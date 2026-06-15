@@ -22,14 +22,11 @@ function closeModal(modalId, onClose, ctx) {
 
 // Accordions
 function toggleAccordion(el) {
-  // Change the arrow icon
   const elIcon = el.querySelector("i");
   direction = elIcon.className.includes("down") ? "up" : "down";
   elIcon.classList.remove("fa-arrow-circle-down");
   elIcon.classList.remove("fa-arrow-circle-up");
   elIcon.classList.add("fa-arrow-circle-" + direction);
-
-  // Toggle the accordion
   if (direction === "down") {
     el.nextElementSibling.classList.add("w3-hide");
   } else {
@@ -37,44 +34,184 @@ function toggleAccordion(el) {
   }
 }
 
-// Intersection Observer for fade-in animations on scroll
-const animatedElements = document.querySelectorAll('.fade-in-up-on-scroll');
+// ================================================================
+// INTERSECTION OBSERVER — Multi-animation scroll reveal
+// ================================================================
+(function initScrollAnimations() {
+  const animClasses = [
+    'fade-in-up-on-scroll',
+    'anim-fade-up',
+    'anim-fade-down',
+    'anim-fade-left',
+    'anim-fade-right',
+    'anim-zoom-in',
+    'anim-scale-up',
+    'section-hidden'
+  ];
 
-if (animatedElements.length > 0) {
+  const selector = animClasses.map(c => '.' + c).join(',');
+  const elements = document.querySelectorAll(selector);
+
+  if (elements.length === 0) return;
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
       }
     });
-  }, {
-    threshold: 0.1 // Trigger when 10% of the element is visible
-  });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
 
-  animatedElements.forEach(element => {
-    observer.observe(element);
-  });
-}
+  elements.forEach(el => observer.observe(el));
+})();
 
-// Smooth scroll for anchor links (optional, if you add them)
+// ================================================================
+// STAGGERED GRID ANIMATION
+// ================================================================
+(function initStaggeredGrids() {
+  document.querySelectorAll('.stagger-grid').forEach(grid => {
+    const items = grid.querySelectorAll('.stagger-item');
+    items.forEach((item, i) => {
+      item.style.transitionDelay = (i * 0.1) + 's';
+    });
+
+    const gridObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          gridObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    gridObserver.observe(grid);
+  });
+})();
+
+// ================================================================
+// COUNTER ANIMATION — Numbers count up on scroll
+// ================================================================
+(function initCounters() {
+  const counters = document.querySelectorAll('.stat-number');
+  if (counters.length === 0) return;
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.getAttribute('data-target'), 10) || 0;
+        const duration = Math.min(2000, Math.max(800, target * 3));
+        const startTime = performance.now();
+
+        function update(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.floor(eased * target);
+          el.textContent = current.toLocaleString();
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            el.textContent = target.toLocaleString();
+          }
+        }
+
+        el.classList.add('counting');
+        requestAnimationFrame(update);
+        counterObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  counters.forEach(c => counterObserver.observe(c));
+})();
+
+// ================================================================
+// STICKY LANDING HEADER
+// ================================================================
+(function initLandingHeader() {
+  const header = document.querySelector('.landing-header');
+  const hero = document.querySelector('.HomeBanner');
+  if (!header || !hero) return;
+
+  const heroThreshold = hero.offsetHeight * 0.7;
+
+  const scrollHandler = () => {
+    if (window.scrollY > heroThreshold) {
+      header.classList.add('is-visible');
+    } else {
+      header.classList.remove('is-visible');
+    }
+  };
+
+  window.addEventListener('scroll', scrollHandler, { passive: true });
+  scrollHandler();
+})();
+
+// ================================================================
+// SMOOTH SCROLL FOR ANCHOR LINKS
+// ================================================================
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
     const hrefAttribute = this.getAttribute('href');
-    // Ensure it's a valid selector and not just "#" or "#!"
     if (hrefAttribute && hrefAttribute.length > 1 && document.querySelector(hrefAttribute)) {
       e.preventDefault();
-      document.querySelector(hrefAttribute).scrollIntoView({
-        behavior: 'smooth'
-      });
+      const target = document.querySelector(hrefAttribute);
+      const offset = 80;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
     }
   });
 });
 
+// ================================================================
+// HERO PARTICLES (lightweight canvas-free)
+// ================================================================
+(function initHeroParticles() {
+  const container = document.getElementById('hero-particles');
+  if (!container) return;
+
+  const count = Math.min(30, Math.floor(window.innerWidth / 30));
+
+  for (let i = 0; i < count; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'hero-particle';
+    const size = 2 + Math.random() * 4;
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDuration = (8 + Math.random() * 12) + 's';
+    particle.style.animationDelay = (Math.random() * 10) + 's';
+    particle.style.opacity = 0.2 + Math.random() * 0.5;
+    container.appendChild(particle);
+  }
+})();
+
+// ================================================================
+// PARALLAX ENHANCEMENT FOR HERO
+// ================================================================
+(function initHeroParallax() {
+  const hero = document.querySelector('.HomeBanner');
+  if (!hero) return;
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const maxScroll = window.innerHeight;
+    if (scrolled <= maxScroll) {
+      const progress = scrolled / maxScroll;
+      hero.style.backgroundPositionY = (progress * 30) + 'px';
+    }
+  }, { passive: true });
+})();
+
+// ================================================================
+// COOKIE CONSENT
+// ================================================================
 window.addEventListener("load", () => {
   const cookieBanner = document.getElementById('cookie-banner');
   const acceptCookieBannerButton = document.getElementById('accept-cookie-banner');
 
-  // Controlla se l'utente ha già accettato i cookie
   if (localStorage.getItem('cookieConsentAccepted') === 'true') {
     cookieBanner.style.display = 'none';
   } else {
