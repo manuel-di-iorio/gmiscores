@@ -83,45 +83,22 @@ addRequest(["insertMode" => "higher"]);
 addRequest(["tags" => "secondary"]);
 
 // Tests: LIST
-request("list", [
-  "game" => $gameId,
-]);
+function listRequest($overrides = []) {
+  global $gameId, $testLbId;
+  $params = array_merge([
+    "game" => $gameId,
+    "leaderboard_id" => $testLbId,
+  ], $overrides);
+  return request("list", $params);
+}
 
-request("list", [
-  "game" => $gameId,
-  "leaderboard" => "secondary",
-]);
-
-request("list", [
-  "game" => $gameId,
-  "page" => 0,
-]);
-
-request("list", [
-  "game" => $gameId,
-  "page" => 0,
-  "limit" => 20,
-]);
-
-request("list", [
-  "game" => $gameId,
-  "order" => "ASC",
-]);
-
-request("list", [
-  "game" => $gameId,
-  "player" => $player,
-]);
-
-request("list", [
-  "game" => $gameId,
-  "includePlayer" => $player,
-]);
-
-request("list", [
-  "game" => $gameId,
-  "startTime" => "2020-05-04",
-  "endTime" => "2020-05-06",
-]);
+listRequest([]);
+listRequest(["tags" => "secondary"]);
+listRequest(["page" => 0]);
+listRequest(["page" => 0, "limit" => 20]);
+listRequest(["order" => "ASC"]);
+listRequest(["player" => base64_encode("test")]);
+listRequest(["includePlayer" => base64_encode("test")]);
+listRequest(["startTime" => "2020-05-04", "endTime" => "2020-05-06"]);
 
 echo "Tests OK";
