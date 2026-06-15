@@ -14,7 +14,16 @@
   --input-text: black;
   --input-text--disabled: #bbb;
 
-  /* Table line */
+  /* Table */
+  --table-border-color: #dddddd;
+  --table-header-bg: #f0f2f5;
+  --table-header-text-color: #333333;
+  --table-row-even-bg: #f9f9f9;
+  --table-row-hover-bg: #f1f1f1;
+  --table-cell-text-color: #555555;
+  --table-action-icon-color: #555555;
+  --table-action-icon-hover-color: #007bff;
+  --table-action-icon-hover-bg: #e9ecef;
   --table-line-color: #666;
   
   /* HR */
@@ -23,10 +32,20 @@
   /* Buttons */
   --button-bg: black;
   --button-bg--hover: rgb(41, 40, 40);
+  --button-text-color: #ffffff;
 
   /* Shadows */
   --shadow-1--right: 0 1px 10px rgba(0,0,0,.1);
   --shadow-2: 0 0 20px rgba(0,0,0,.1);
+  --shadow-1: 0 2px 10px rgba(0,0,0,0.07);
+
+  /* Pagination */
+  --pagination-hover-bg: #e9ecef;
+  --pagination-hover-text: #0056b3;
+  --pagination-active-bg: #007bff;
+  --pagination-active-text: #ffffff;
+  --pagination-disabled-bg: #f8f9fa;
+  --pagination-disabled-text: #6c757d;
 
   /* Navbar Light Theme */
   --navbar-bg: #ffffff;
@@ -37,39 +56,79 @@
   --navbar-link-hover-bg: #f3f4f6;
   --navbar-link-hover-border-color: #9ca3af;
   --navbar-link-hover-color: #1f2937;
-  --navbar-link-active-bg: #4690ff; /* Un blu molto chiaro per l'attivo */
-  --navbar-link-active-color: white; /* Blu scuro per testo attivo */
+  --navbar-link-active-bg: #4690ff;
+  --navbar-link-active-color: white;
   --navbar-button-bg: #e5e7eb;
   --navbar-button-text-color: #1f2937;
   --navbar-button-hover-bg: #d1d5db;
   --navbar-button-hover-text-color: #ffffff;
-  --shadow-navbar: 2px 0 10px rgba(0,0,0,0.05); /* Ombra più leggera per tema chiaro */
+  --shadow-navbar: 2px 0 10px rgba(0,0,0,0.05);
 
   /* Documentation Page */
-  --text-color-headings: #2c3e50; /* Blu scuro per i titoli */
-  --text-color-secondary: #555e68; /* Grigio scuro per testo secondario */
+  --text-color-headings: #2c3e50;
+  --text-color-secondary: #555e68;
   --bg-color-card: #ffffff;
-  --bg-color-offset: #f8f9fa; /* Sfondo leggermente grigio per sezioni o accordion header */
+  --bg-color-offset: #f8f9fa;
   --bg-color-offset-hover: #e9ecef;
-  --border-color: #e3e7ed; /* Colore bordi più morbido */
-  --primary-color: #007bff; /* Blu primario */
-  --primary-color-light: #e7f3ff; /* Blu molto chiaro per sfondi attivi/hover leggeri */
+  --border-color: #e3e7ed;
+  --primary-color: #007bff;
+  --primary-color-light: #e7f3ff;
   --primary-color-dark: #0056b3;
-  --bg-color-code: #f1f3f5; /* Sfondo chiaro per blocchi di codice */
-  --text-color-code: #212529; /* Testo scuro per codice su sfondo chiaro */
-  --info-panel-bg: #e0f2fe; /* Sfondo per pannelli informativi (azzurrino) */
-  --info-panel-text: #0c5460; /* Testo per pannelli informativi */
-  --info-panel-border: #0ea5e9; /* Bordo per pannelli informativi */
-  --shadow-1: 0 2px 10px rgba(0,0,0,0.07);
+  --primary-color-darker: #003d80;
+  --bg-color-code: #f1f3f5;
+  --text-color-code: #212529;
+  --info-panel-bg: #e0f2fe;
+  --info-panel-text: #0c5460;
+  --info-panel-border: #0ea5e9;
+
+  /* Sidebar */
+  --border-color-sidebar: rgba(0,0,0,0.05);
+  --bg-color-sidebar-footer: rgba(0,0,0,0.02);
+  --text-color-sidebar-link: #bdc3c7;
+  --text-color-sidebar-link-hover: #ffffff;
+
+  /* Miscellaneous */
+  --accent-color: #007bff;
+  --accent-color-hover: #0056b3;
+  --secondary-color: #007bff;
+  --text-color-primary: #111;
+  --shadow-2-prominent: 0 8px 25px rgba(0,0,0,0.15);
+  --shadow-1-subtle: 0 2px 8px rgba(0,0,0,0.06);
+  --border-color-soft: #e3e7ed;
+
+  /* Cookie Banner */
+  --cookie-banner-bg: #ffffff;
+  --cookie-banner-text-color: #333333;
+  --cookie-banner-link-color: #007bff;
+  --cookie-banner-link-hover-color: #0056b3;
+
+  /* Toggle */
+  --toggle-bg: #ccc;
+  --toggle-bg--checked: #2196F3;
+  --toggle-knob-bg: white;
+
+  /* Code syntax colors */
+  --code-syntax-default: #000000;
+  --code-syntax-keyword: #005cc5;
+  --code-syntax-string: #008000;
+  --code-syntax-number: #990000;
+  --code-syntax-property: #000000;
+  --code-syntax-comment: #708090;
+  --code-syntax-regexp: #ee9900;
+  --code-syntax-stringtemp: #ff5500;
+
+  /* CTA Button */
+  --cta-button-bg: #ffffff;
+  --cta-button-text: #000000;
 
   /* Modern Footer */
-  --footer-bg: #f8f9fa; /* Sfondo chiaro per il footer */
-  --footer-text-color: #5f6368; /* Grigio scuro per il testo */
-  --footer-border-color: #e0e0e0; /* Bordo leggero */
-  --footer-heading-color: #202124; /* Nero/grigio molto scuro per i titoli */
+  --footer-bg: #f8f9fa;
+  --footer-text-color: #5f6368;
+  --footer-border-color: #e0e0e0;
+  --footer-heading-color: #202124;
   --footer-link-color: #5f6368;
-  --footer-link-hover-color: #007bff; /* Blu primario per hover dei link */
+  --footer-link-hover-color: #007bff;
   --footer-social-icon-color: #5f6368;
   --footer-social-icon-hover-color: #007bff;
-  --shadow-footer: 0 -4px 12px rgba(0,0,0,0.08); /* Ombra verso l'alto per il footer */
+  --shadow-footer: 0 -4px 12px rgba(0,0,0,0.08);
 }

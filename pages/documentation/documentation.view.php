@@ -35,7 +35,6 @@
           &nbsp;&nbsp;score {float} = Punteggio da inviare<br/>
           &nbsp;&nbsp;player {string} = Nome del giocatore in base64<br/>
           &nbsp;&nbsp;hash {string} = sha1("game=" + game_id + "&leaderboard_id=" + leaderboard_id + "&score=" + score + "&player=" + player + secret)<br/>
-          &nbsp;&nbsp;sign {string} = Calcolato come gli hash ma con una propria chiave privata invece del secret (opzionale, max 32 caratteri)<br/>
           &nbsp;&nbsp;insertMode {string} = Modalità di inserimento punteggi ("higher" [default], "lower", "all"). Ad esempio, usando 'higher', il punteggio migliore del giocatore aggiornerà quello precedente, piuttosto che inserirlo in ogni caso.<br/>
           &nbsp;&nbsp;data {string} = Stringa opzionale. Per salvare dati custom associati al punteggio (max 64kb)<br/>
           &nbsp;&nbsp;env {string} = Ambiente ("production" [default] o "test"). I punteggi di test non compaiono nella classifica di produzione.<br/><br/>
@@ -84,7 +83,7 @@
           &nbsp;&nbsp;endTime {string} = Se specificato, filtra i punteggi fino a questa data.<br/>
           &nbsp;&nbsp;includePlayer {string} = Nome del giocatore (base64). Se specificato, include nella risposta il punteggio migliore del giocatore, in base ai filtri order/startTime/endTime. Questo è utile quando si vuole conoscere il punteggio del giocatore anche quando non rientra tra i primi classificati.<br/>
           &nbsp;&nbsp;env {string} = Ambiente ("production" [default], "test", "all"). Filtra i punteggi per ambiente.<br/>
-          &nbsp;&nbsp;hash {string} = Obbligatorio per classifiche private. sha1("game=" + game_id + "&leaderboard_id=" + leaderboard_id + secret).<br/><br/>
+          &nbsp;&nbsp;hash {string} = Obbligatorio per classifiche protette. sha1("game=" + game_id + "&leaderboard_id=" + leaderboard_id + secret).<br/><br/>
 
           Esempio di risposta:<br/>
           {<br/>
@@ -122,17 +121,17 @@
 
   <div class="documentation-section">
     <h5 class="documentation-subtitle"><strong>Sicurezza dei punteggi inviati</strong></h5>
-    <div class="accordion-container">
+    <!-- <div class="accordion-container">
       <button class="accordion-header w3-button w3-block w3-left-align">
         <span class="w3-margin-right">Secret e hash</span>
         <i class="fas fa-chevron-down accordion-icon"></i>
       </button>
-      <div class="accordion-content w3-hide">
-        <p class="documentation-text">Ogni gioco ha un proprio 'secret' che permette di firmare la richiesta di invio punti. Sul server viene verificato automaticamente che i dati trasmessi siano stati effettivamente generati con il proprio secret, rendendo vana la tecnica di sniffing del traffico HTTP del proprio gioco.</p>
-      </div>
+      <div class="accordion-content"> -->
+        <p class="documentation-text">Ogni gioco ha un proprio 'secret' che permette di firmare la richiesta di invio punti o visione classifica. <br/>Sul server viene verificato automaticamente che i dati trasmessi siano stati effettivamente generati con il proprio secret, rendendo vana la tecnica di sniffing del traffico HTTP del proprio gioco.</p>
+      <!-- </div> -->
     </div>
 
-    <div class="accordion-container">
+    <!-- <div class="accordion-container">
       <button class="accordion-header w3-button w3-block w3-left-align">
         <span class="w3-margin-right">Firma con chiave privata (opzionale)</span>
         <i class="fas fa-chevron-down accordion-icon"></i>
@@ -170,7 +169,7 @@
           }<br/>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <div class="documentation-section">

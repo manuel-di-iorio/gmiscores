@@ -94,8 +94,8 @@
     ];
     $scoreFilters = [
       [ 'name' => 'player', 'label' => 'Giocatore', 'type' => 'text', 'placeholder' => 'Nome giocatore' ],
-      [ 'name' => 'score_min', 'label' => 'Punteggio min', 'type' => 'number', 'placeholder' => 'Min' ],
-      [ 'name' => 'score_max', 'label' => 'Punteggio max', 'type' => 'number', 'placeholder' => 'Max' ],
+      [ 'name' => 'score_min', 'label' => 'Punti (a partire da)', 'type' => 'number', 'placeholder' => 'Min' ],
+      [ 'name' => 'score_max', 'label' => 'Punti (fino a)', 'type' => 'number', 'placeholder' => 'Max' ],
       [ 'name' => 'ip_country', 'label' => 'Nazione', 'type' => 'text', 'placeholder' => 'Nazione' ],
       [ 'name' => 'tags', 'label' => 'Tags', 'type' => 'text', 'placeholder' => 'Tags' ],
       [ 'name' => 'env', 'label' => 'Ambiente', 'type' => 'select', 'options' => $envOptions, 'default' => 'production' ],
@@ -280,10 +280,10 @@
           <label><b>Tags <a href="/documentation.php" target="_blank" data-tippy-content="Vedi documentazione"><i class="fas fa-question-circle"></i></a></b></label>
           <input id="input-insert-score__tags" name="tags" type="text" class="w3-input w3-border w3-round w3-margin-bottom" value="">
 
-          <label>
+          <!-- <label>
             <b>Firma con chiave privata <a href="/documentation.php" target="_blank" data-tippy-content="Vedi documentazione"><i class="fas fa-question-circle"></i></a></b>
           </label>
-          <input id="input-insert-score__sign" name="sign" type="text" class="w3-input w3-border w3-round w3-margin-bottom">
+          <input id="input-insert-score__sign" name="sign" type="text" class="w3-input w3-border w3-round w3-margin-bottom"> -->
 
           <label><b>Dati (una stringa associata al punteggio, max 64kb)</b></label>
           <textarea id="input-insert-score__data" name="data" class="w3-input w3-border w3-round w3-margin-bottom"></textarea>

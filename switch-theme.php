@@ -2,7 +2,8 @@
 require_once("lib/config.php");
 
 // Back URL validation
-if (!isset($_GET["theme"]) || !isset($_GET["go"]) || $_GET["go"][0] !== "/" || $_GET["go"][1] === "/") {
+$go = $_GET["go"] ?? "";
+if (!isset($_GET["theme"]) || strlen($go) < 1 || $go[0] !== "/" || (strlen($go) > 1 && $go[1] === "/")) {
   header("Location: /");
   exit;
 }

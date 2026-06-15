@@ -10,8 +10,8 @@
     <?php
     $lbFilters = [
         [ 'name' => 'name', 'label' => 'Nome classifica', 'type' => 'text', 'placeholder' => 'Cerca per nome...' ],
-        [ 'name' => 'score_min', 'label' => 'Punteggi min', 'type' => 'number', 'placeholder' => 'Min' ],
-        [ 'name' => 'score_max', 'label' => 'Punteggi max', 'type' => 'number', 'placeholder' => 'Max' ],
+        // [ 'name' => 'score_min', 'label' => 'Punteggi min', 'type' => 'number', 'placeholder' => 'Min' ],
+        // [ 'name' => 'score_max', 'label' => 'Punteggi max', 'type' => 'number', 'placeholder' => 'Max' ],
     ];
     render_table_filters($lbFilters, ['reset_preserve' => ['game_id', 'sort', 'dir']]);
 

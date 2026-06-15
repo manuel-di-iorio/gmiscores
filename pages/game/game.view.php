@@ -44,7 +44,11 @@
 }
 
 .w3-card-4 {
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15), 0 4px 10px rgba(0,0,0,0.12); /* Enhanced shadow */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15), 0 4px 10px rgba(0,0,0,0.12);
+}
+.w3-card-4.w3-padding-large {
+  background-color: var(--bg-color-card, #fff);
+  height: 100%;
 }
 .w3-round-large {
   border-radius: 8px;
@@ -77,7 +81,9 @@
   color: #444; /* Darker label color */
 }
 .w3-input.w3-border {
-    border-color: #ccc !important; /* Ensure border color is applied */
+    border-color: var(--border-color, #ccc) !important;
+    background-color: var(--input-bg, #fff);
+    color: var(--input-text, #000);
 }
 </style>
 

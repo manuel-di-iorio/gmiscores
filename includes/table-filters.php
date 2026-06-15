@@ -15,16 +15,16 @@ function render_table_filters(array $fields, array $options = []) {
     static $cssPrinted = false;
     if (!$cssPrinted) {
         echo '<style>
-.table-filters { background: #fff; border: 1px solid #e9e9e9; padding: 12px; border-radius: 8px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+.table-filters { background: var(--bg-color-card, #fff); border: 1px solid var(--border-color, #e9e9e9); padding: 12px; border-radius: 8px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
 .table-filters .w3-row { margin: 0 -8px; }
 .table-filters .w3-col { padding: 0 8px 12px 8px; box-sizing: border-box; }
-.table-filters label { font-weight: 600; color: #333; font-size: 0.95rem; display: block; margin-bottom: 6px; }
-.table-filters .w3-input, .table-filters .w3-select { padding: 10px 12px; border-radius: 4px; border: 1px solid #e0e0e0; background: #fff; height: 40px; box-sizing: border-box; }
-.table-filters .w3-input::placeholder { color: #bbb; }
+.table-filters label { font-weight: 600; color: var(--text-color, #333); font-size: 0.95rem; display: block; margin-bottom: 6px; }
+.table-filters .w3-input, .table-filters .w3-select { padding: 10px 12px; border-radius: 4px; border: 1px solid var(--border-color, #e0e0e0); background: var(--input-bg, #fff); height: 40px; box-sizing: border-box; color: var(--input-text, #333); }
+.table-filters .w3-input::placeholder { color: var(--text-color-secondary, #bbb); }
 .table-filters .w3-button.w3-black { border-radius: 20px; padding: 8px 18px; box-shadow: none; }
 .table-filters .filters-actions { display:flex; align-items:flex-end; gap: 10px; }
-.table-filters .filters-actions .btn-link { margin-left: auto; color: #333; text-decoration: none; align-self: center; }
-.table-filters .btn-link { color: #333; text-decoration: none; align-self: center; }
+.table-filters .filters-actions .btn-link { margin-left: auto; color: var(--text-color, #333); text-decoration: none; align-self: center; }
+.table-filters .btn-link { color: var(--text-color, #333); text-decoration: none; align-self: center; }
 @media (max-width: 600px) { .table-filters .filters-actions { flex-direction: row; } .table-filters .w3-col { padding-bottom: 6px; } }
 </style>';
         $cssPrinted = true;

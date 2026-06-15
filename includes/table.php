@@ -343,31 +343,31 @@ function toggleSelectAll(source, name) {
     }
 
     .modern-table-header {
-        background-color: #f1f1f1;
+        background-color: var(--table-header-bg, #f0f2f5);
     }
 
     .modern-table-header-cell {
         padding: 8px;
         text-align: left;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid var(--table-border-color, #ddd);
     }
 
     .modern-table-body {
-        background-color: #fff;
+        background-color: var(--bg-color-card, #fff);
     }
 
     .modern-table-row:nth-child(even) {
-        background-color: #f9f9f9;
+        background-color: var(--table-row-even-bg, #f9f9f9);
     }
 
     .modern-table-cell {
         padding: 8px;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid var(--table-border-color, #ddd);
     }
 
     .modern-table-empty-row {
         text-align: center;
-        color: #999;
+        color: var(--text-color-secondary, #777);
     }
 
     .modern-table-pagination {
@@ -383,8 +383,8 @@ function toggleSelectAll(source, name) {
     }
 
     .pagination-active {
-        background-color: #4CAF50;
-        color: white;
+        background-color: var(--pagination-active-bg, #4CAF50);
+        color: var(--pagination-active-text, white);
     }
 
     .pagination-ellipsis {
@@ -392,7 +392,7 @@ function toggleSelectAll(source, name) {
     }
 
     .table-action-icon {
-        color: #333;
+        color: var(--table-action-icon-color, #555);
         font-size: 14px;
         margin-right: 5px;
         text-decoration: none;

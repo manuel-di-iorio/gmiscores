@@ -76,7 +76,7 @@
 .modern-table .modern-table-empty-row td {
     text-align: center;
     padding: 20px;
-    color: #777777;
+    color: var(--text-color-secondary, #777);
     font-style: italic;
 }
 
@@ -121,43 +121,4 @@
     border: none;
 }
 
-/* Variabili CSS per personalizzazione temi (da definire in style.css o nei file variables-*.css) */
-/*
-:root {
-    --table-border-color: #dddddd;
-    --table-header-bg: #f0f2f5;
-    --table-header-text-color: #333333;
-    --table-row-even-bg: #f9f9f9;
-    --table-row-hover-bg: #f1f1f1;
-    --table-cell-text-color: #555555;
-    --table-action-icon-color: #555555;
-    --table-action-icon-hover-color: #007bff;
-    --table-action-icon-hover-bg: #e9ecef;
 
-    --pagination-hover-bg: #e9ecef;
-    --pagination-hover-text: #0056b3;
-    --pagination-active-bg: #007bff;
-    --pagination-active-text: #ffffff;
-    --pagination-disabled-bg: #f8f9fa;
-    --pagination-disabled-text: #6c757d;
-}
-
-[data-theme="dark"] {
-    --table-border-color: #444444;
-    --table-header-bg: #2c2c2c;
-    --table-header-text-color: #f1f1f1;
-    --table-row-even-bg: #252525;
-    --table-row-hover-bg: #383838;
-    --table-cell-text-color: #cccccc;
-    --table-action-icon-color: #cccccc;
-    --table-action-icon-hover-color: #80bfff;
-    --table-action-icon-hover-bg: #3a3a3a;
-
-    --pagination-hover-bg: #3a3a3a;
-    --pagination-hover-text: #80bfff;
-    --pagination-active-bg: #007bff;
-    --pagination-active-text: #ffffff;
-    --pagination-disabled-bg: #2c2c2c;
-    --pagination-disabled-text: #6a6a6a;
-}
-*/

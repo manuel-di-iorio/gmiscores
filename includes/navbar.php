@@ -1,6 +1,6 @@
 <?php 
 $navbarLogoColor = $theme === "dark" ? "White" : ""; 
-$navbarThemeReversed = $theme === "dark" ? "white" : "dark";
+$navbarThemeReversed = $theme === "dark" ? "light" : "dark";
 
 $navbarItems = [
   ["label" => "Home", "url" => "/", "icon" => "home", "showOnlyLogged" => false],
@@ -56,28 +56,26 @@ $navbarItems = [
   </div>
 
   <!-- Theme switcher -->
-  <?php /*
   <div class="navbar__theme-switcher w3-center" onclick="switchTheme()">
-    <span class="navbar__theme-switcher__label">Dark theme</span>
+    <span class="navbar__theme-switcher__label">Tema scuro</span>
     <label class="switch">
-      <input id="input-switch-theme" type="checkbox" <?php if ($theme === "dark") { echo "checked"; } ?> disabled>
+      <input id="input-switch-theme" type="checkbox" <?php if ($theme === "dark") { echo "checked"; } ?>>
       <span class="slider round"></span>
     </label>
   </div>
-  */ ?>
 </nav>
 
 <script>
-  // let switchingTheme = false;
+  let switchingTheme = false;
 
-  // /** Switch the website theme */
-  // function switchTheme() {
-  //   if (switchingTheme) return;
-  //   switchingTheme = true;
-  //   const switcher = document.getElementById("input-switch-theme");
-  //   switcher.checked = !switcher.checked;
-  //   setTimeout(() => {
-  //     location.href = "switch-theme.php?theme=<?= $navbarThemeReversed ?>&go=<?= $_SERVER["REQUEST_URI"] ?>";
-  //   }, 200);
-  // }
+  /** Switch the website theme */
+  function switchTheme() {
+    if (switchingTheme) return;
+    switchingTheme = true;
+    const switcher = document.getElementById("input-switch-theme");
+    switcher.checked = !switcher.checked;
+    setTimeout(() => {
+      location.href = "switch-theme.php?theme=<?= $navbarThemeReversed ?>&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>";
+    }, 200);
+  }
 </script>

@@ -13,6 +13,9 @@ Options -Indexes
   RewriteRule ^(includes|pages) - [F]
 </IfModule>
 
+# Custom error pages
+ErrorDocument 404 /404.php
+
 # Altervista
 
 # # av:php5-engine

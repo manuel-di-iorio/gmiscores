@@ -1595,3 +1595,234 @@ textarea {
 .modern-footer .footer-bottom p {
   margin: 0;
 }
+
+/* W3.CSS overrides for dark theme compatibility */
+.w3-light-grey, .w3-hover-light-grey:hover {
+  background-color: var(--bg-color-offset, #f1f1f1) !important;
+  color: var(--text-color, #000) !important;
+}
+.w3-modal-content {
+  background-color: var(--bg-color-card, #fff) !important;
+  color: var(--text-color, #000) !important;
+}
+.w3-pale-yellow {
+  background-color: var(--info-panel-bg, #ffffcc) !important;
+  color: var(--info-panel-text, #000) !important;
+  border-color: var(--info-panel-border, #f1c40f) !important;
+}
+.w3-pale-green {
+  background-color: var(--info-panel-bg, #ddffdd) !important;
+  color: var(--text-color, #000) !important;
+}
+.w3-code {
+  background-color: var(--bg-color-code, #f1f3f5) !important;
+  color: var(--text-color-code, #212529) !important;
+  border: 1px solid var(--border-color, #e0e0e0) !important;
+}
+.w3-table-all tr:nth-child(odd) {
+  background-color: transparent !important;
+}
+.w3-table-all tr:nth-child(even) {
+  background-color: var(--table-row-even-bg, #f1f1f1) !important;
+}
+.w3-table-all {
+  border: 1px solid var(--table-border-color, #ddd) !important;
+}
+.w3-table-all tbody tr {
+  border-bottom: 1px solid var(--table-border-color, #ddd) !important;
+}
+
+/* Theme-aware CTA button */
+.CtaButton {
+  background-color: var(--cta-button-bg, #ffffff) !important;
+  color: var(--cta-button-text, #000000) !important;
+}
+
+/* Game page inline style overrides for dark mode */
+.section-header {
+  border-bottom-color: var(--border-color, #e0e0e0) !important;
+  color: var(--text-color-headings, #222) !important;
+}
+.form-label {
+  color: var(--text-color, #444) !important;
+}
+.code-block-header {
+  background-color: var(--bg-color-offset, #333) !important;
+  color: var(--text-color-headings, #fff) !important;
+}
+.input-secret-eye-btn,
+.input-regenerate-secret-btn {
+  color: var(--text-color-secondary, #777) !important;
+}
+.input-secret-eye-btn:hover,
+.input-regenerate-secret-btn:hover {
+  color: var(--text-color, #000) !important;
+}
+.w3-input.w3-border {
+  border-color: var(--border-color, #ccc) !important;
+  background-color: var(--input-bg, #fff) !important;
+  color: var(--input-text, #000) !important;
+}
+.w3-code.jsHigh {
+  background-color: var(--bg-color-code, #f8f8f8) !important;
+  border-color: var(--border-color, #e0e0e0) !important;
+}
+
+/* Tippy tooltips in dark mode */
+.w3-text-grey {
+  color: var(--text-color-secondary, #777) !important;
+}
+.w3-text-dark-grey {
+  color: var(--text-color-secondary, #555) !important;
+}
+
+/* Accordion override for game-scores */
+.accordion.w3-button.w3-light-grey {
+  background-color: var(--bg-color-offset, #f1f1f1) !important;
+  color: var(--text-color-headings, #000) !important;
+}
+
+/* Notification panels (game-scores import info) */
+.w3-panel.w3-pale-yellow {
+  background-color: var(--info-panel-bg, #ffffcc) !important;
+  color: var(--info-panel-text, #000) !important;
+}
+
+/* W3.CSS striped/bordered table overrides for dark theme */
+.w3-striped tbody tr:nth-child(even) {
+  background-color: var(--table-row-even-bg, #f1f1f1) !important;
+}
+.w3-bordered tr {
+  border-bottom: 1px solid var(--table-border-color, #ddd) !important;
+}
+
+/* Hoverable table rows */
+.w3-hoverable tbody tr:hover,
+.w3-table-all tbody tr:hover {
+  background-color: var(--table-row-hover-bg, #f5f5f5) !important;
+}
+
+/* Table header cells for W3.CSS tables */
+.w3-table th,
+.w3-table-all th {
+  background-color: var(--table-header-bg, #f0f2f5) !important;
+  color: var(--table-header-text-color, #333) !important;
+}
+
+/* Documentation blue info panel */
+.w3-panel.w3-blue {
+  background-color: var(--info-panel-bg, #2196F3) !important;
+  color: var(--info-panel-text, #fff) !important;
+  border-color: var(--info-panel-border, #1976D2) !important;
+}
+
+/* W3.CSS button overrides for consistent border-radius */
+.w3-button.w3-black,
+.w3-button.w3-light-grey {
+  border-radius: 20px !important;
+}
+
+/* Migrate page tag badges */
+.w3-tag.w3-green,
+.w3-tag.w3-orange {
+  border-radius: 4px !important;
+}
+/* Modal inner elements for both themes */
+.w3-modal .w3-container label {
+  color: var(--text-color, #000);
+}
+.ModalFooterLink {
+  color: var(--primary-color, #007bff) !important;
+}
+
+/* Game scores page */
+.w3-text-gray {
+  color: var(--text-color-secondary, #777) !important;
+}
+
+/* ===== w3codecolor.js syntax highlight overrides ===== */
+/* All classes use !important to override the script's inline styles */
+
+/* Wrapper / default text */
+.jscolor,
+.phpcolor,
+.sqlcolor,
+.pythoncolor,
+.javacolor,
+.kotlincolor {
+  color: var(--code-syntax-default) !important;
+}
+
+/* Keywords */
+.jskeywordcolor,
+.phpkeywordcolor,
+.sqlkeywordcolor,
+.pythonkeywordcolor,
+.javakeywordcolor,
+.kotlinkeywordcolor,
+.angularstatementcolor {
+  color: var(--code-syntax-keyword) !important;
+}
+
+/* Strings */
+.jsstringcolor,
+.phpstringcolor,
+.sqlstringcolor,
+.pythonstringcolor,
+.javastringcolor,
+.kotlinstringcolor,
+.attributevaluecolor,
+.csspropertyvaluecolor {
+  color: var(--code-syntax-string) !important;
+}
+
+/* Template strings (template literals) */
+.jsstringtempcolor {
+  color: var(--code-syntax-stringtemp) !important;
+}
+
+/* Regex */
+.jsregexpcolor {
+  color: var(--code-syntax-regexp) !important;
+}
+
+/* Numbers */
+.jsnumbercolor,
+.phpnumbercolor,
+.sqlnumbercolor,
+.pythonnumbercolor,
+.javanumbercolor,
+.kotlinnumbercolor,
+.tagnamecolor {
+  color: var(--code-syntax-number) !important;
+}
+
+/* Properties / attributes */
+.jspropertycolor,
+.javapropertycolor,
+.kotlinpropertycolor,
+.csspropertycolor,
+.cssselectorcolor,
+.attributecolor,
+.phpglobalcolor {
+  color: var(--code-syntax-property) !important;
+}
+
+/* Comments, doctype, and low-importance markers */
+.commentcolor,
+.doctypecolor,
+.tagcolor,
+.cssdelimitercolor {
+  color: var(--code-syntax-comment) !important;
+}
+
+/* PHP open/close tags */
+.phptagcolor {
+  color: var(--code-syntax-regexp) !important;
+}
+
+/* CSS !important */
+.cssimportantcolor {
+  color: var(--code-syntax-keyword) !important;
+  font-weight: bold !important;
+}

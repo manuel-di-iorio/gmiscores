@@ -39,14 +39,42 @@
     font-size: 1.3em;
     padding: 18px 35px;
     transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, background-color 0.25s ease-out;
-    border-radius: 8px; /* Angoli più arrotondati */
-    animation: fadeInUp 1s ease-out 0.6s; /* Animazione pulsante */
+    border-radius: 8px;
+    animation: fadeInUp 1s ease-out 0.6s;
     animation-fill-mode: backwards;
+  }
+  .HomeBanner .CtaButton {
+    background-color: var(--cta-button-bg, #ffffff);
+    color: var(--cta-button-text, #000000);
   }
 
   .CtaButton:hover {
     transform: translateY(-4px) scale(1.05); /* Effetto hover più marcato */
     box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  }
+
+  /* Homepage theme toggle */
+  .theme-toggle-home {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.3rem;
+    color: white;
+    transition: background 0.2s ease, transform 0.2s ease;
+    z-index: 10;
+  }
+  .theme-toggle-home:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.1);
   }
 
   /* Scroll Down Arrow for HomeBanner */
@@ -463,10 +491,13 @@
 <!-- <img src="assets/images/logo-transparent.webp" alt="Logo" class="fixed-logo"> -->
 
 <div class="HomeBanner">
+  <div class="theme-toggle-home" onclick="switchThemeHome()" title="Cambia tema">
+    <i class="fas <?= $theme === 'dark' ? 'fa-sun' : 'fa-moon' ?>"></i>
+  </div>
   <h1><?= htmlspecialchars($config["platformTitle"]) ?></h1>
   <p>Integra classifiche online nei tuoi giochi GameMaker in modo semplice, veloce e gratuito. Dai una marcia in più alle tue creazioni!</p>
   <a href="./add-game.php">
-    <button type="submit" class="w3-button w3-white w3-padding-large w3-margin-top w3-margin-bottom CtaButton">
+    <button type="submit" class="w3-button w3-padding-large w3-margin-top w3-margin-bottom CtaButton">
       <i class="fas fa-rocket w3-margin-right"></i> Inizia subito
     </button>
   </a>
@@ -627,3 +658,10 @@
     </button>
   </a>
 </div>
+
+<script>
+function switchThemeHome() {
+  const theme = "<?= $theme === 'dark' ? 'light' : 'dark' ?>";
+  location.href = "switch-theme.php?theme=" + theme + "&go=" + encodeURIComponent("<?= $_SERVER["REQUEST_URI"] ?>");
+}
+</script>

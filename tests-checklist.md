@@ -28,7 +28,7 @@ TESTS CHECKLIST
   2) Pulsante "Aggiungi gioco" porta alla pagina corrispondente
   3) Se non ci sono giochi, la tabella non esce
   4) Tooltips sui pulsanti-icone della tabella si vedono
-  5) Paginazione funziona correttamente [@TODO]
+  5) Paginazione funziona correttamente
   6) Pulsante "Mostra giocatori bannati" nella tabella porta alla pagina corrispondente
   7) Pulsante "cancella gioco" mostra modal e la cancellazione funziona
 
@@ -44,16 +44,49 @@ TESTS CHECKLIST
   3) Il pulsante "Documentazione" porta alla pagina corrispondente
   4) Negli esempi di integrazione l'ID del gioco viene stampato correttamente
 
+- LEADERBOARD (ADD)
+  1) Non si vede da utente anonimo
+  2) La checkbox "Classifica privata" è spuntata di default (is_private = true)
+  3) Creazione leaderboard funziona
+
+- LEADERBOARD (EDIT)
+  1) Non si vede da utente anonimo
+  2) La checkbox "Classifica privata" è spuntata di default se nessun valore preesistente
+  3) Se la leaderboard era pubblica (is_private = 0), la checkbox NON è spuntata
+  4) Salvataggio modifiche funziona
+
 - SCORES
   1) Non si vede da utente anonimo
-  2) Esce un messaggio se non ci sono giochi
-  3) Pulsante "cancella punteggio" mostra modal e la cancellazione funziona
-  4) Pulsante "ban giocatore" mostra modal e il ban funziona
-  5) Tooltips sui pulsanti-icone della tabella si vedono
-  6) Pulsante Esporta scarica i dati completi della tabella
-  7) Pulsante Reimporta un file esportato
-  8) Pulsante Cancella tutti i punteggi funziona
-  9) Il pulsante "Back" vicino al nome del gioco porta alla pagina corrispondente
+  2) Esce un messaggio se non ci sono punteggi
+  3) Il filtro "Ambiente" è impostato su "Produzione" di default (non più "Tutti")
+  4) La chip dell'ambiente ha padding e bordi arrotondati
+  5) Checkbox e chip ambiente sono allineati verticalmente al centro
+  6) Il pulsante "Elimina selezionati" ha lo stesso stile degli altri pulsanti (bordi arrotondati)
+  7) Selezionando "Seleziona tutto" compare il pulsante "Elimina selezionati"
+  8) Elimina selezionati elimina solo i punteggi dei giochi di proprietà (INNER JOIN)
+  9) Pulsante "cancella punteggio" mostra modal e la cancellazione funziona
+  10) Pulsante "ban giocatore" mostra modal e il ban funziona
+  11) Tooltips sui pulsanti-icone della tabella si vedono
+  12) Pulsante Esporta scarica i dati completi della tabella
+  13) Pulsante Importa un file esportato funziona
+  14) Pulsante Cancella tutti i punteggi funziona
+  15) Il pulsante "Back" vicino al nome del gioco porta alla pagina corrispondente
+  16) Il pulsante "Azzera" filtri mantiene leaderboard_id (non rimanda alla lista classifiche)
+  17) Nella modale inserimento, il campo "Ambiente" ha margine superiore
+  18) Doppio click sul submit della modale non invia richieste duplicate
+
+- MIGRATION SYSTEM
+  1) `/migrate.php` è accessibile solo a utenti admin
+  2) La tabella `migrations` viene creata automaticamente
+  3) Le migrazioni pendenti vengono elencate con stato "In attesa"
+  4) Cliccando "Esegui" si applicano le migrazioni in ordine
+  5) Le migrazioni applicate mostrano stato "Applicata" e data
+  6) In caso di errore su una migration, le successive non vengono bloccate
+
+- 404 PAGE
+  1) Visitando una URL inesistente si vede la pagina 404 personalizzata
+  2) La pagina 404 mostra il codice e un link "Torna alla home"
+  3) Viene restituito HTTP 404
 
 - BANS
   1) Non si vede da utente anonimo

@@ -13,8 +13,8 @@
     </div>
   <?php } ?>
 
-  <div class="w3-card-4 w3-white w3-margin-bottom">
-    <header class="w3-container w3-light-grey w3-padding-16">
+  <div class="w3-card-4 w3-margin-bottom" style="background-color: var(--bg-color-card, #fff); color: var(--text-color, #000);">
+    <header class="w3-container w3-padding-16" style="background-color: var(--bg-color-offset, #f1f1f1); color: var(--text-color-headings, #000);">
       <h3><i class="fas fa-database w3-margin-right"></i> Migrazioni</h3>
     </header>
 
