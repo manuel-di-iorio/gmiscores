@@ -1,11 +1,11 @@
-<div class="w3-container w3-padding-large">
-  <div class="w3-panel w3-blue">
+<div class="internal-page">
+  <div class="info-panel" style="border-left-color:#3b82f6">
     <p><i class="fas fa-info-circle w3-margin-right"></i> Utente: <strong><?= htmlspecialchars($user['username']) ?></strong></p>
   </div>
 
   <?php if ($run && !empty($output)) { ?>
-    <div class="w3-panel w3-pale-green w3-border w3-leftbar w3-border-green">
-      <h4>Risultato</h4>
+    <div class="internal-card" style="border-left:4px solid #22c55e">
+      <div class="internal-card__title"><i class="fas fa-check-circle" style="color:#22c55e"></i> Risultato</div>
       <?php foreach ($output as $line) {
         $cls = strpos($line, 'ERROR') === 0 ? 'w3-text-red' : (strpos($line, 'FAIL') === 0 ? 'w3-text-red' : (strpos($line, 'SKIP') === 0 ? 'w3-text-gray' : 'w3-text-green'));
         echo '<div class="' . $cls . '">' . htmlspecialchars($line) . '</div>';
@@ -13,12 +13,8 @@
     </div>
   <?php } ?>
 
-  <div class="w3-card-4 w3-margin-bottom" style="background-color: var(--bg-color-card, #fff); color: var(--text-color, #000);">
-    <header class="w3-container w3-padding-16" style="background-color: var(--bg-color-offset, #f1f1f1); color: var(--text-color-headings, #000);">
-      <h3><i class="fas fa-database w3-margin-right"></i> Migrazioni</h3>
-    </header>
-
-    <div class="w3-container w3-padding">
+  <div class="internal-card">
+    <div class="internal-card__title"><i class="fas fa-database"></i> Migrazioni</div>
       <table class="w3-table w3-striped w3-bordered">
         <thead>
           <tr>
@@ -54,13 +50,12 @@
   ?>
   <?php if ($pendingCount > 0) { ?>
     <form method="POST" onsubmit="return confirm('Eseguire ' + <?= $pendingCount ?> + ' migrazioni pendenti?')">
-      <input type="hidden" name="run" value="1">
-      <button type="submit" class="w3-button w3-black w3-padding-large">
+      <button type="submit" class="w3-button w3-black w3-padding-large" style="margin-top:8px">
         <i class="fas fa-play w3-margin-right"></i> Esegui migrazioni pendenti (<?= $pendingCount ?>)
       </button>
     </form>
   <?php } else { ?>
-    <div class="w3-panel w3-pale-green w3-leftbar w3-border-green">
+    <div class="info-panel" style="border-left-color:#22c55e">
       <p><i class="fas fa-check-circle w3-margin-right"></i> Tutte le migrazioni sono state applicate.</p>
     </div>
   <?php } ?>

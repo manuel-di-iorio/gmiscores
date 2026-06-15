@@ -1,11 +1,7 @@
-<!-- Intestazione della pagina -->
-<div class="w3-container page-header">
-  <h1 class="w3-text-theme">Cloud Saves</h1>
-  <p><?= $pageDesc ?></p>
-</div>
-
-<!-- Contenuto principale della pagina -->
-<div class="w3-container page-content">
-  <p>Questa sezione è in costruzione. Torna presto per gestire i tuoi salvataggi cloud!</p>
-  <!-- Qui andrà il contenuto specifico per i cloud saves -->
+<div class="internal-page">
+  <div class="internal-empty" style="padding:80px 32px">
+    <i class="fas fa-cloud-upload-alt"></i>
+    <h4>Cloud Saves</h4>
+    <p><?= $pageDesc ?><br>Questa sezione è in costruzione. Torna presto per gestire i tuoi salvataggi cloud!</p>
+  </div>
 </div>

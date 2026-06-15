@@ -1,16 +1,12 @@
-<div class="w3-container w3-padding-large w3-margin-bottom">
-  <div class="w3-margin-bottom">
+<div class="internal-page">
+  <div class="internal-actions">
     <a href="add-game.php">
-      <button type="submit" class="w3-button w3-black w3-padding-large w3-margin-top">
+      <button type="submit" class="w3-button w3-black w3-padding-large">
         <i class="fas fa-plus-circle w3-margin-right"></i> Aggiungi un nuovo gioco
       </button>
     </a>
   </div>
 
-  <!-- Transparent separator -->
-  <div>&nbsp;</div>
-
-  <!-- Games list -->
   <?php
     // Filters for the games table (always shown)
     $filters = [
@@ -77,16 +73,25 @@
       // Se è stato applicato un filtro, mostra messaggio specifico
       $hasFilter = isset($_GET['name']) && trim($_GET['name']) !== '';
       if ($hasFilter) { ?>
-        <p>Nessun gioco trovato con i filtri selezionati. Prova ad azzerare i filtri.</p>
-        <a href="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" class="btn-link">Rimuovi filtri</a>
+        <div class="internal-empty">
+          <i class="fas fa-search"></i>
+          <h4>Nessun gioco trovato</h4>
+          <p>Prova ad azzerare i filtri.</p>
+          <a href="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" class="w3-button w3-black">Rimuovi filtri</a>
+        </div>
       <?php } else { ?>
-        <p>Non hai ancora aggiunto nessun gioco.</p>
+        <div class="internal-empty">
+          <i class="fas fa-gamepad"></i>
+          <h4>Non hai ancora aggiunto nessun gioco</h4>
+          <p>Crea il tuo primo gioco per iniziare a utilizzare la piattaforma.</p>
+          <a href="add-game.php" class="w3-button w3-black"><i class="fas fa-plus-circle w3-margin-right"></i>Aggiungi un gioco</a>
+        </div>
       <?php } }
   ?>
 </div>
 
 <!-- Delete game modal -->
-<div id="modal-delete-game" class="w3-modal">
+<div id="modal-delete-game" class="w3-modal internal-modal">
   <div class="w3-modal-content w3-animate-top">
     <!-- Modal content -->
     <div class="w3-container ModalContent">

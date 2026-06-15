@@ -1,5 +1,8 @@
-<div class="w3-container">
-    <p>Ultimo aggiornamento: 10 maggio 2024</p>
+<div class="internal-page">
+    <div class="internal-page__header">
+      <h2>Termini e Condizioni</h2>
+      <p>Ultimo aggiornamento: 10 maggio 2024</p>
+    </div>
 
     <h2>1. Accettazione dei Termini</h2>
     <p>Benvenuto su <?= $config["platformTitle"] ?> ("Sito", "Piattaforma"). Accedendo e utilizzando questo Sito, accetti di essere vincolato da questi Termini e Condizioni d'Uso ("Termini") e da tutte le leggi e i regolamenti applicabili. Se non sei d'accordo con uno qualsiasi di questi termini, ti è vietato utilizzare o accedere a questo Sito. I materiali contenuti in questo Sito sono protetti dalle leggi sul copyright e sui marchi applicabili.</p>

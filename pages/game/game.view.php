@@ -87,50 +87,49 @@
 }
 </style>
 
-<div class="w3-container w3-padding-large">
+<div class="internal-page">
 
-  <div class="w3-cell-row w3-margin-bottom">
-    <div class="w3-cell w3-right-align">
-      <a href="leaderboards.php?game_id=<?= $game['game_id'] ?>" class="w3-button w3-black w3-padding-large w3-round-large w3-margin-right">
-        <i class="fas fa-trophy w3-margin-right"></i>Vedi classifiche
-      </a>
-      <a href="game-bans.php?id=<?= $game['game_id'] ?>" class="w3-button w3-black w3-padding-large w3-round-large w3-margin-right">
-        <i class="fas fa-user-times w3-margin-right"></i>Giocatori bannati
-      </a>
-      <a href="javascript:;" onclick="openModal('modal-delete-game', onDeleteGameModalOpen, { gameId: <?= $game['game_id'] ?>, gameName: '<?= escapeChars($game['name']) ?>' })" class="w3-button w3-red w3-padding-large w3-round-large">
-        <i class="fas fa-trash w3-margin-right"></i>Elimina gioco
-      </a>
-    </div>
+  <div class="internal-actions internal-actions--right">
+    <a href="leaderboards.php?game_id=<?= $game['game_id'] ?>" class="w3-button w3-black w3-padding-large">
+      <i class="fas fa-trophy w3-margin-right"></i>Vedi classifiche
+    </a>
+    <a href="game-bans.php?id=<?= $game['game_id'] ?>" class="w3-button w3-black w3-padding-large">
+      <i class="fas fa-user-times w3-margin-right"></i>Giocatori bannati
+    </a>
+    <a href="javascript:;" onclick="openModal('modal-delete-game', onDeleteGameModalOpen, { gameId: <?= $game['game_id'] ?>, gameName: '<?= escapeChars($game['name']) ?>' })" class="w3-button w3-red w3-padding-large">
+      <i class="fas fa-trash w3-margin-right"></i>Elimina gioco
+    </a>
   </div>
 
   <h2 class="section-header"><i class="fas fa-gamepad w3-margin-right"></i>Configurazione</h2>
 
-  <div class="w3-row-padding">
-    <div class="w3-half w3-margin-bottom">
-      <div class="w3-card-4 w3-round-large w3-padding-large">
-        <label for="input-gameid" class="form-label">ID del Gioco</label>
+  <div class="w3-row-padding" style="display:flex;gap:20px;flex-wrap:wrap">
+    <div style="flex:1;min-width:300px">
+      <div class="internal-card">
+        <div class="internal-card__title"><i class="fas fa-cog"></i> Dettagli gioco</div>
+        <label class="form-label">ID del Gioco</label>
         <div class="input-group">
-          <input id="input-gameid" class="w3-input w3-border w3-round" value="<?= $game["game_id"] ?>" disabled>
+          <input id="input-gameid" class="w3-input internal-input" value="<?= $game["game_id"] ?>" disabled style="background:var(--bg-color-sidebar,#f0f0f0)!important">
         </div>
 
-        <label for="input-secret" class="form-label">Secret del Gioco</label>
+        <label class="form-label" style="margin-top:16px">Secret del Gioco</label>
         <div class="w3-text-grey w3-small w3-margin-bottom">Questo token viene usato per aumentare la sicurezza dell'invio dei punteggi.</div>
         <div class="input-group">
-          <input id="input-secret" type="password" class="w3-input w3-border w3-round" value="<?= $game["client_secret"] ?>" disabled>
+          <input id="input-secret" type="password" class="w3-input internal-input" value="<?= $game["client_secret"] ?>" disabled>
           <i class="input-regenerate-secret-btn fas fa-sync w3-hover-text-black" onclick="openModal('modal-regenerate-secret')" data-tippy-content="Ottieni un nuovo secret"></i>
           <i class="input-secret-eye-btn fas fa-eye w3-hover-text-black" onclick="toggleSecretVisibility(this)" data-tippy-content="Mostra o nasconde il secret del gioco"></i>
         </div>
       </div>
     </div>
 
-    <div class="w3-half w3-margin-bottom">
-      <div class="w3-card-4 w3-round-large w3-padding-large">
-        <label for="input-game-name" class="form-label">Modifica Nome Gioco</label>
+    <div style="flex:1;min-width:300px">
+      <div class="internal-card">
+        <div class="internal-card__title"><i class="fas fa-edit"></i> Modifica nome</div>
         <form method="POST" action="/game-rename.php?id=<?= $game["game_id"] ?>">
           <div class="input-group">
-            <input id="input-game-name" name="name" type="text" class="w3-input w3-border w3-round" value="<?= htmlspecialchars($game["name"]) ?>" required>
+            <input id="input-game-name" name="name" type="text" class="w3-input internal-input" value="<?= htmlspecialchars($game["name"]) ?>" required>
           </div>
-          <button type="submit" class="w3-button w3-black w3-round-large w3-hover-opacity">
+          <button type="submit" class="w3-button w3-black" style="margin-top:8px">
             <i class="fa fa-edit w3-margin-right"></i>Modifica Nome
           </button>
         </form>
@@ -142,7 +141,7 @@
 
   <h3 class="section-header"><i class="fab fa-steam-symbol w3-margin-right"></i>Integrazione con Game Maker</h3>
 
-  <div class="w3-card-4 w3-round-large w3-margin-bottom">
+  <div class="internal-card">
     <div class="code-block-header">Invio di un punteggio:</div>
     <div class="w3-code jsHigh">
   var points = 100; // Punti del giocatore<br/>
@@ -154,7 +153,7 @@
     </div>
   </div>
 
-  <div class="w3-card-4 w3-round-large w3-margin-bottom">
+  <div class="internal-card">
     <div class="code-block-header">Lista punteggi (Evento Create):</div>
     <div class="w3-code jsHigh">
   // Da mettere nell'evento 'Create' di un oggetto.<br/>
@@ -164,7 +163,7 @@
     </div>
   </div>
 
-  <div class="w3-card-4 w3-round-large w3-margin-bottom">
+  <div class="internal-card">
     <div class="code-block-header">Lista punteggi (Evento Async - HTTP):</div>
     <div class="w3-code jsHigh">
   // Da mettere nell'evento 'Async - HTTP' dello stesso oggetto.<br/>
@@ -175,7 +174,7 @@
     </div>
   </div>
 
-  <div class="w3-card-4 w3-round-large w3-margin-bottom">
+  <div class="internal-card">
     <div class="code-block-header">Esempio di disegno della classifica:</div>
     <div class="w3-code jsHigh">
   draw_text(20, 20, "Classifica:");<br/><br/>
@@ -192,17 +191,17 @@
 
   <h3 class="section-header"><i class="fas fa-book w3-margin-right"></i>Documentazione API</h3>
   <p class="w3-margin-bottom">Consulta la documentazione completa per scoprire tutte le funzionalità dell'API.</p>
-  <a href="documentation.php" class="w3-button w3-black w3-round-large w3-hover-opacity w3-padding-large">
+  <a href="documentation.php" class="w3-button w3-black w3-padding-large">
     <i class="fa fa-arrow-circle-right w3-margin-right"></i>Vai alla Documentazione
   </a>
 </div>
 
 <!-- Modal regenerate secret -->
-<div id="modal-regenerate-secret" class="w3-modal">
-  <div class="w3-modal-content w3-animate-top w3-card-4 w3-round-large">
+<div id="modal-regenerate-secret" class="w3-modal internal-modal">
+  <div class="w3-modal-content w3-card-4">
     <header class="w3-container w3-black w3-round-top-large">
       <span onclick="closeModal('modal-regenerate-secret')" class="w3-button w3-display-topright w3-hover-red w3-round-top-right">&times;</span>
-      <h4>Conferma Rigenerazione Secret</h4>
+      <h4>Conferma rigenerazione secret</h4>
     </header>
     <div class="w3-container w3-padding-large">
       <p class="w3-large">Sei sicuro di voler ottenere un nuovo secret del gioco?</p>
@@ -221,7 +220,7 @@
 </div>
 
 <!-- Delete game modal -->
-<div id="modal-delete-game" class="w3-modal">
+<div id="modal-delete-game" class="w3-modal internal-modal">
   <div class="w3-modal-content w3-animate-top">
     <div class="w3-container ModalContent">
       <h4>Sei sicuro di voler cancellare il gioco <strong><span id="modal-game-name"></span></strong> ?</h4>

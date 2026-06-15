@@ -4,8 +4,7 @@
 }
 </style>
 
-<div class="w3-container w3-padding-large">
-  <!-- Records list -->
+<div class="internal-page">
   <?php
     // Filters for banned players (always shown)
     $filters = [
@@ -46,16 +45,24 @@
     <?php } else {
       $hasFilter = isset($_GET['player']) && trim($_GET['player']) !== '';
       if ($hasFilter) { ?>
-        <h4>Nessun ban trovato con i filtri selezionati. Prova ad azzerare i filtri.</h4>
-        <a href="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>?id=<?= $game["game_id"] ?>" class="btn-link">Rimuovi filtri</a>
+        <div class="internal-empty">
+          <i class="fas fa-search"></i>
+          <h4>Nessun ban trovato</h4>
+          <p>Prova ad azzerare i filtri.</p>
+          <a href="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>?id=<?= $game["game_id"] ?>" class="w3-button w3-black">Rimuovi filtri</a>
+        </div>
       <?php } else { ?>
-        <h4>Non ci sono ban attivi.</h4>
+        <div class="internal-empty">
+          <i class="fas fa-user-check"></i>
+          <h4>Non ci sono ban attivi</h4>
+          <p>Nessun giocatore è stato bannato per questo gioco.</p>
+        </div>
       <?php } } ?>
   </div>
 </div>
 
 <!-- Delete ban modal -->
-<div id="modal-delete-ban" class="w3-modal">
+<div id="modal-delete-ban" class="w3-modal internal-modal">
   <div class="w3-modal-content w3-animate-top">
     <!-- Modal content -->
     <div class="w3-container ModalContent">

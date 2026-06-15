@@ -1,88 +1,45 @@
-<style>
-.d-inline {
-  display: inline;
-}
-
-.ModalBanUserImage {
-  width: 91px;
-}
-
-.env-tag {
-  padding: 4px 12px !important;
-  border-radius: 12px !important;
-  font-size: 0.8rem !important;
-  line-height: 1.4 !important;
-}
-
-.modern-table-cell {
-  vertical-align: middle !important;
-}
-
-.modern-table-header-cell {
-  vertical-align: middle !important;
-}
-</style>
-
-<div class="w3-container w3-padding-large">
+<div class="internal-page">
   <?php if (!empty($lb['is_private'])) { ?>
-    <div class="w3-panel w3-leftbar w3-border-gray w3-pale-yellow w3-margin-bottom">
-      <i class="fas fa-lock"></i> Questa classifica è <strong>privata</strong>. La lettura via API richiede un hash di autenticazione.
-    </div>
+    <div class="private-badge"><i class="fas fa-lock"></i> Classifica privata — la lettura via API richiede un hash di autenticazione.</div>
   <?php } ?>
-  <div class="w3-cell-row">
-    <!-- <div class="w3-cell">
-      <button class="w3-button w3-small w3-black w3-margin-top w3-margin-bottom w3-margin-right">
-        <i class="fa fa-search w3-margin-right"></i> Filtra per leaderboard
-      </button>
-    </div> -->
+  <div class="internal-actions internal-actions--right">
+    <!-- Manually add score btn -->
+    <button class="w3-button w3-black" onclick="openModal('modal-insert-score')">
+      <i class="fa fa-plus-circle w3-margin-right"></i> Inserisci punteggio
+    </button>
 
-    <div class="w3-cell w3-right-align">
-      <!-- Manually add score btn -->
-      <a href="javascript:;" class="btn-link">
-        <button class="w3-button w3-small w3-black w3-margin-top w3-margin-bottom w3-margin-right"      
-                onclick="openModal('modal-insert-score')">
-          <i class="fa fa-plus-circle w3-margin-right"></i> Inserisci punteggio
+    <!-- Export scores -->
+    <?php if (!empty($scores)) { ?>
+      <a href="game-scores-export.php?id=<?= $game["game_id"] ?>&leaderboard_id=<?= $leaderboardId ?>" download>
+        <button class="w3-button w3-black">
+          <i class="fa fa-cloud-download-alt w3-margin-right"></i> Esporta
         </button>
       </a>
+    <?php } ?>
 
-      <!-- Export scores -->
-      <?php if (!empty($scores)) { ?>
-        <a href="game-scores-export.php?id=<?= $game["game_id"] ?>&leaderboard_id=<?= $leaderboardId ?>" class="btn-link" download>
-          <button class="w3-button w3-small w3-black w3-margin-top w3-margin-bottom w3-margin-right"   >
-            <i class="fa fa-cloud-download-alt w3-margin-right"></i> Esporta
-          </button>
-        </a>
-      <?php } ?>
+    <!-- Import scores -->
+    <button class="w3-button w3-black" onclick="importPickFile()">
+      <i class="fa fa-cloud-upload-alt w3-margin-right"></i> Importa
+    </button>
+    <form id="form-import" action="game-scores-import.php?id=<?= $game["game_id"] ?>&leaderboard_id=<?= $leaderboardId ?>" method="post" enctype="multipart/form-data" onsubmit="return false;" style="display:none">
+      <input type='file' name="file" id="btn-import-pick-file" hidden onchange="importUploadOnChange(this)" />
+    </form>
 
-      <!-- Import scores -->
-      <form id="form-import" class="d-inline" action="game-scores-import.php?id=<?= $game["game_id"] ?>&leaderboard_id=<?= $leaderboardId ?>" method="post" enctype="multipart/form-data" onsubmit="return false;">
-        <input type='file' name="file" id="btn-import-pick-file" hidden onchange="importUploadOnChange(this)" />
-
-        <button class="w3-button w3-small w3-black w3-margin-top w3-margin-bottom w3-margin-right" onclick="importPickFile()">
-          <i class="fa fa-cloud-upload-alt w3-margin-right"></i> Importa
+    <!-- Delete selected button (hidden by default) -->
+    <?php if (!empty($scores)) { ?>
+      <a href="javascript:;" id="btn-delete-selected-wrapper" style="display:none">
+        <button class="w3-button w3-black" onclick="openModal('modal-delete-selected-scores', onDeleteSelectedScoresModalOpen)">
+          <i class="fa fa-trash w3-margin-right"></i> Elimina selezionati
         </button>
-      </form>
+      </a>
+    <?php } ?>
 
-      <!-- Delete selected button (hidden by default) -->
-      <?php if (!empty($scores)) { ?>
-        <a href="javascript:;" class="btn-link" id="btn-delete-selected-wrapper" style="display:none">
-          <button class="w3-button w3-small w3-black w3-margin-top w3-margin-bottom w3-margin-right"      
-                  onclick="openModal('modal-delete-selected-scores', onDeleteSelectedScoresModalOpen)">
-            <i class="fa fa-trash w3-margin-right"></i> Elimina selezionati
-          </button>
-        </a>
-      <?php } ?>
-
-      <!-- Clear scores button -->
-      <?php if (!empty($scores)) { ?>
-        <a href="javascript:;" class="btn-link">
-          <button class="w3-button w3-small w3-black w3-margin-top w3-margin-bottom"      
-                  onclick="openModal('modal-clear-scores')">
-            <i class="fa fa-trash w3-margin-right"></i> Cancella tutti
-          </button>
-        </a>
-      <?php } ?>
-    </div>
+    <!-- Clear scores button -->
+    <?php if (!empty($scores)) { ?>
+      <button class="w3-button w3-black" onclick="openModal('modal-clear-scores')">
+        <i class="fa fa-trash w3-margin-right"></i> Cancella tutti
+      </button>
+    <?php } ?>
   </div>
 
   <!-- Scores list -->
@@ -212,22 +169,25 @@
     }
 
     if ($filtersApplied) { ?>
-      <h4>Nessun punteggio trovato con i filtri selezionati. Prova ad allargare i criteri o azzerare i filtri.</h4>
-      <a href="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>?id=<?= $game["game_id"] ?>&leaderboard_id=<?= $leaderboardId ?>" class="btn-link">Rimuovi filtri</a>
+      <div class="internal-empty">
+        <i class="fas fa-search"></i>
+        <h4>Nessun punteggio trovato</h4>
+        <p>Prova ad allargare i criteri o azzerare i filtri.</p>
+        <a href="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>?id=<?= $game["game_id"] ?>&leaderboard_id=<?= $leaderboardId ?>" class="w3-button w3-black">Rimuovi filtri</a>
+      </div>
     <?php } else { ?>
-      <h4>Non ci sono ancora punteggi per questo gioco.</h4>
-
-      <a href="documentation.php">
-        <button type="submit" class="w3-button w3-black w3-padding-large w3-margin-top w3-margin-bottom">
-          <i class="fa fa-arrow-circle-right w3-margin-right"></i> Documentazione
-        </button>
-      </a>
+      <div class="internal-empty">
+        <i class="fas fa-trophy"></i>
+        <h4>Non ci sono ancora punteggi</h4>
+        <p>I punteggi inviati dagli utenti tramite API appariranno qui. Consulta la documentazione per iniziare.</p>
+        <a href="documentation.php" class="w3-button w3-black"><i class="fa fa-arrow-circle-right w3-margin-right"></i> Documentazione</a>
+      </div>
     <?php } } ?>
   </div>
 </div>
 
 <!-- Delete score modal -->
-<div id="modal-delete-score" class="w3-modal">
+<div id="modal-delete-score" class="w3-modal internal-modal">
   <div class="w3-modal-content w3-animate-top">
     <!-- Modal content -->
     <div class="w3-container ModalContent">
@@ -253,7 +213,7 @@
 
 
 <!-- Modal insert score -->
-<div id="modal-insert-score" class="w3-modal">
+<div id="modal-insert-score" class="w3-modal internal-modal">
   <div class="w3-modal-content w3-animate-top">
     <!-- Modal content -->
     <div class="w3-container ModalContent">
@@ -317,7 +277,7 @@
 </div>
 
 <!-- Modal delete selected scores -->
-<div id="modal-delete-selected-scores" class="w3-modal">
+<div id="modal-delete-selected-scores" class="w3-modal internal-modal">
   <div class="w3-modal-content w3-animate-top">
     <div class="w3-container ModalContent">
       <h4>Sei sicuro di voler cancellare i <strong><span id="modal-delete-selected-scores__count"></span></strong> punteggi selezionati?</h4>
@@ -337,7 +297,7 @@
 </div>
 
 <!-- Modal clear scores -->
-<div id="modal-clear-scores" class="w3-modal">
+<div id="modal-clear-scores" class="w3-modal internal-modal">
   <div class="w3-modal-content w3-animate-top">
     <!-- Modal content -->
     <div class="w3-container ModalContent">
@@ -358,7 +318,7 @@
 </div>
 
 <!-- Modal ban player -->
-<div id="modal-ban-player" class="w3-modal">
+<div id="modal-ban-player" class="w3-modal internal-modal">
   <div class="w3-modal-content w3-animate-top">
     <!-- Modal content -->
     <div class="w3-container ModalContent">
@@ -372,26 +332,20 @@
     </div>
 
     <!-- Modal footer -->
-    <footer class="w3-container w3-light-grey w3-padding-16">
-      <div class="w3-left">
-        <img src="assets/images/thor-hammer.gif" class="ModalBanUserImage" data-tippy-content="Thor's Ban Hammer">
-      </div>
+    <footer class="w3-container w3-light-grey w3-padding-16 w3-right-align">
+      <a href="javascript:;" onclick="banPlayer()" class="btn-link ModalFooterLink w3-text-red">
+        <i class="fas fa-user-times"></i>
+        Banna il giocatore
+      </a>
 
-      <div class="w3-right">
-        <a href="javascript:;" onclick="banPlayer()" class="btn-link ModalFooterLink w3-text-red">
-          <i class="fas fa-user-times"></i>
-          Banna il giocatore
-        </a>
-
-        <button onclick="closeModal('modal-ban-player', onBanPlayerModalClose)" type="button"
-                class="w3-button w3-black">Annulla</button>
-      </div>
+      <button onclick="closeModal('modal-ban-player', onBanPlayerModalClose)" type="button"
+              class="w3-button w3-black">Annulla</button>
     </footer>
   </div>
 </div>
 
 <!-- Modal view score data -->
-<div id="modal-view-score-data" class="w3-modal">
+<div id="modal-view-score-data" class="w3-modal internal-modal">
   <div class="w3-modal-content w3-animate-top">
     <!-- Modal content -->
     <div class="w3-container ModalContent">

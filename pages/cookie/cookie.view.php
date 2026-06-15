@@ -1,5 +1,8 @@
-<div class="w3-container">
-  <p>Ultimo aggiornamento: 10 maggio 2024</p>
+<div class="internal-page">
+  <div class="internal-page__header">
+    <h2>Cookie Policy</h2>
+    <p>Ultimo aggiornamento: 10 maggio 2024</p>
+  </div>
 
   <h2>Cosa sono i cookie?</h2>
   <p>I cookie sono piccoli file di testo che i siti visitati dagli utenti inviano ai loro terminali, dove vengono

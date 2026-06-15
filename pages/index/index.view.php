@@ -17,7 +17,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(0, 0, 0, 0.7);
     z-index: 1;
     pointer-events: none;
   }
@@ -575,7 +575,7 @@
 
 <!-- ===== FEATURES ===== -->
 <div id="caratteristiche" class="w3-container FeaturesSection">
-  <h2 class="SectionTitle fade-in-up-on-scroll">Perché <span class="gradient-text">Sceglierci?</span></h2>
+  <h2 class="SectionTitle fade-in-up-on-scroll">Perchè <span class="gradient-text">sceglierci?</span></h2>
   <div class="FeaturesGrid">
     <div class="FeatureCard fade-in-up-on-scroll tilt-card">
       <div class="tilt-card__shine"></div>

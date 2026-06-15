@@ -65,7 +65,7 @@ function render_table_filters(array $fields, array $options = []) {
         echo '<label>' . htmlspecialchars($label) . '</label>';
 
         if ($type === 'select' && isset($field['options']) && is_array($field['options'])) {
-            echo '<select name="' . htmlspecialchars($name) . '" class="w3-select w3-border">';
+            echo '<select name="' . htmlspecialchars($name) . '" class="w3-select">';
             echo '<option value="">(Tutti)</option>';
             foreach ($field['options'] as $optValue => $optLabel) {
                 $sel = ((string)$optValue === (string)$value) ? ' selected' : '';
@@ -78,7 +78,7 @@ function render_table_filters(array $fields, array $options = []) {
             if ($type === 'number') $htmlType = 'number';
             if ($type === 'date') $htmlType = 'date';
 
-            echo '<input type="' . $htmlType . '" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" placeholder="' . htmlspecialchars($placeholder) . '" class="w3-input w3-border">';
+            echo '<input type="' . $htmlType . '" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" placeholder="' . htmlspecialchars($placeholder) . '" class="w3-input">';
         }
 
         echo '</div>';

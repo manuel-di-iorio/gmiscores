@@ -8,7 +8,7 @@
 }
 </style>
 
-<div class="w3-container w3-padding-large documentation-page">
+<div class="internal-page documentation-page">
 
   <div class="documentation-section">
     <p class="documentation-text">Base URL: <code class="w3-codespan inline-code"><?= $config["host"] ?>/api/v1</code></p>
@@ -170,7 +170,6 @@
         </div>
       </div>
     </div> -->
-  </div>
 
   <div class="documentation-section">
     <h5 class="documentation-subtitle"><strong>Gestione degli errori</strong></h5>
@@ -185,19 +184,27 @@
   </div>
 
   <div class="documentation-section">
-    <h5 class="documentation-subtitle"><strong>Scarica la libreria per Game Maker</strong></h5>
-    <p class="documentation-text">Include gli scripts pronti per inviare e leggere i punteggi. Per importarla, basta trascinare il file sull'editor</p>
-    <a href="/files/gms2_3-gmi_cloud-v0_9_3.yymps" download class="documentation-button-link">
-      <button type="submit" class="w3-button w3-black w3-padding-large w3-margin-top w3-margin-bottom documentation-button">
-        <i class="fa fa-download w3-margin-right"></i> Scarica v0.9.3
+    <h5 class="documentation-subtitle"><strong>Risorse</strong></h5>
+    <div class="accordion-container">
+      <button class="accordion-header w3-button w3-block w3-left-align">
+        <span class="w3-margin-right"><i class="fas fa-download w3-margin-right"></i>Scarica la libreria per Game Maker</span>
+        <i class="fas fa-chevron-down accordion-icon"></i>
       </button>
-    </a>
-    <p class="documentation-text">Anteprima:</p>
-    <div class="code-block w3-code jsHigh">
-    gmi_scores_send({ player: "Harry", score: 5000 }); // Invia il punteggio 5000 del player Harry
-    </div>
-    <div class="code-block w3-code jsHigh">
-    gmi_scores_get_list(); // Ottiene la lista dei punteggi
+      <div class="accordion-content w3-hide">
+        <p class="documentation-text">Include gli scripts pronti per inviare e leggere i punteggi. Per importarla, basta trascinare il file sull'editor</p>
+        <a href="/files/gms2_3-gmi_cloud-v0_9_3.yymps" download class="documentation-button-link">
+          <button type="submit" class="w3-button w3-black w3-padding-large w3-margin-bottom documentation-button">
+            <i class="fa fa-download w3-margin-right"></i> Scarica v0.9.3
+          </button>
+        </a>
+        <p class="documentation-text"><strong>Anteprima:</strong></p>
+        <div class="code-block w3-code jsHigh">
+        gmi_scores_send({ player: "Harry", score: 5000 }); // Invia il punteggio 5000 del player Harry
+        </div>
+        <div class="code-block w3-code jsHigh">
+        gmi_scores_get_list(); // Ottiene la lista dei punteggi
+        </div>
+      </div>
     </div>
   </div>
 </div>

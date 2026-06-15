@@ -64,23 +64,24 @@ $backUrl = $backUrl ?? "games.php";
     <div class="w3-main PageContent" <?php if ($isIndexPage) { echo 'style="margin-left: 0 !important;"'; } ?>>
       <!-- Header -->
       <?php if (!$isIndexPage) { ?>
-        <header id="portfolio">
+        <header id="portfolio" style="padding-bottom:0">
         <!-- Small logo shown on small screens -->
         <a href="./index.php"><img src="assets/images/logoSmall.png" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity LogoSmall"></a>
 
         <!-- Close sidebar button -->
-        
         <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fas fa-bars"></i></span>
 
         <!-- Page title -->
-        <div class="w3-container">
+        <div class="w3-container" style="padding-bottom:0">
         <h1>
-          <?php if ($gameNameShowBackIcon && $pageName !== $config["platformTitle"]) { // Non mostrare back icon e titolo se siamo sulla homepage ?>
-            <a href="<?= $backUrl ?>" data-tippy-content="Torna indietro"><i class="fas fa-arrow-circle-left GameNameBackIcon"></i></a>
-            <strong><?= htmlspecialchars($pageName) ?></strong>
-          <?php } elseif ($pageName !== $config["platformTitle"] && !$isIndexPage) { // Mostra solo il titolo se non è la homepage e non siamo su index ?>
-            <div class="page-title"><?= htmlspecialchars($pageName) ?></div>
-          <?php } // Altrimenti (sulla homepage o se $isIndexPage è true) non mostrare nulla qui, sarà gestito da index.view.php ?>
+          <?php if ($pageName !== $config["platformTitle"] && !$isIndexPage) { ?>
+            <div class="page-title">
+              <?php if ($gameNameShowBackIcon) { ?>
+                <a href="<?= $backUrl ?>" data-tippy-content="Torna indietro"><i class="fas fa-arrow-circle-left GameNameBackIcon"></i></a>
+              <?php } ?>
+              <?= htmlspecialchars($pageName) ?>
+            </div>
+          <?php } ?>
         </h1>
         </div>
       </header>

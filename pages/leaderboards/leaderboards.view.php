@@ -1,10 +1,8 @@
-<div class="w3-container w3-padding-large">
-    <div class="w3-cell-row w3-margin-bottom">
-        <div class="w3-cell w3-right-align">
-            <a href="add-leaderboard.php?game_id=<?= $game['game_id'] ?>" class="w3-button w3-black">
-                <i class="fas fa-plus-circle w3-margin-right"></i>Crea classifica
-            </a>
-        </div>
+<div class="internal-page">
+    <div class="internal-actions internal-actions--right">
+        <a href="add-leaderboard.php?game_id=<?= $game['game_id'] ?>" class="w3-button w3-black">
+            <i class="fas fa-plus-circle w3-margin-right"></i>Crea classifica
+        </a>
     </div>
 
     <?php
@@ -90,6 +88,7 @@
 
         $tableOptions = [
             "table_id" => "leaderboardsTable",
+            "table_class" => "w3-table w3-striped w3-bordered w3-hoverable",
             "primary_key" => "leaderboard_id",
             "base_url" => "leaderboards.php?game_id=" . $game["game_id"],
             "default_sort_column" => "name",
@@ -97,14 +96,18 @@
         ];
 
         render_table($leaderboards, $tableColumns, $tableActions, $tableOptions);
-    } else {
-        echo "<h4>Non ci sono ancora classifiche per questo gioco.</h4>";
-    }
-    ?>
+    } else { ?>
+        <div class="internal-empty">
+            <i class="fas fa-trophy"></i>
+            <h4>Non ci sono ancora classifiche per questo gioco</h4>
+            <p>Crea la prima classifica per iniziare a raccogliere punteggi.</p>
+            <a href="add-leaderboard.php?game_id=<?= $game['game_id'] ?>" class="w3-button w3-black"><i class="fas fa-plus-circle w3-margin-right"></i>Crea classifica</a>
+        </div>
+    <?php } ?>
 </div>
 
 <!-- Delete leaderboard modal -->
-<div id="modal-delete-leaderboard" class="w3-modal">
+<div id="modal-delete-leaderboard" class="w3-modal internal-modal">
     <div class="w3-modal-content w3-animate-top">
         <div class="w3-container ModalContent">
             <h4>Sei sicuro di voler cancellare la leaderboard <strong id="modal-delete-leaderboard__name"></strong>?</h4>

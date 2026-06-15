@@ -1,5 +1,8 @@
-<div class="w3-container">
-    <p>Ultimo aggiornamento: 10 maggio 2024</p>
+<div class="internal-page">
+    <div class="internal-page__header">
+      <h2>Privacy Policy</h2>
+      <p>Ultimo aggiornamento: 10 maggio 2024</p>
+    </div>
 
     <h2>Introduzione</h2>
     <p>Benvenuto su <?= $config["platformTitle"] ?>. La tua privacy è molto importante per noi. Questa Privacy Policy descrive come raccogliamo, utilizziamo, divulghiamo e proteggiamo le tue informazioni personali quando visiti il nostro sito web.</p>
