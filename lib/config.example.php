@@ -22,5 +22,7 @@ $config = [
   "cookieDomain" => "",
   "recaptchaKey" => "<recaptchaKey>",
   "recaptchaSecret" => "<recaptchaSecret>",
-  "httpsRedirect" => "false"
+  "httpsRedirect" => "false",
+  "maintenance" => false,
+  "maintenanceMessage" => "Il portale è in manutenzione. Alcune funzionalità potrebbero non essere disponibili."
 ];

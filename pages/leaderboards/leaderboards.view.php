@@ -2,16 +2,28 @@
     <div class="w3-cell-row w3-margin-bottom">
         <div class="w3-cell w3-right-align">
             <a href="add-leaderboard.php?game_id=<?= $game['game_id'] ?>" class="w3-button w3-black">
-                <i class="fas fa-plus-circle w3-margin-right"></i>Crea Leaderboard
+                <i class="fas fa-plus-circle w3-margin-right"></i>Crea classifica
             </a>
         </div>
     </div>
 
     <?php
+    $lbFilters = [
+        [ 'name' => 'name', 'label' => 'Nome classifica', 'type' => 'text', 'placeholder' => 'Cerca per nome...' ],
+        [ 'name' => 'score_min', 'label' => 'Punteggi min', 'type' => 'number', 'placeholder' => 'Min' ],
+        [ 'name' => 'score_max', 'label' => 'Punteggi max', 'type' => 'number', 'placeholder' => 'Max' ],
+    ];
+    render_table_filters($lbFilters, ['reset_preserve' => ['game_id', 'sort', 'dir']]);
+
     if (!empty($leaderboards)) {
         $tableColumns = [
             [
-                "label" => "Nome Leaderboard",
+                "label" => "ID",
+                "key" => "leaderboard_id",
+                "sortable" => true
+            ],
+            [
+                "label" => "Classifica",
                 "key" => "name",
                 "sortable" => true,
                 "format_callback" => function ($value, $row) {
@@ -92,7 +104,7 @@
         </div>
         <footer class="w3-container w3-light-grey w3-padding-16 w3-right-align">
             <a href="javascript:;" onclick="deleteLeaderboard()" class="btn-link ModalFooterLink w3-text-red">
-                <i class="fas fa-trash"></i> Cancella Leaderboard
+                <i class="fas fa-trash"></i> Cancella classifica
             </a>
             <button onclick="closeModal('modal-delete-leaderboard')" type="button" class="w3-button w3-black">Annulla</button>
         </footer>

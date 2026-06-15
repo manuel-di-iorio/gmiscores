@@ -3,10 +3,13 @@
 require_once("./db.php");
 require_once("../models/Game.php");
 require_once("../models/Score.php");
+require_once("../models/Leaderboard.php");
 
 $gameId = 36;
 $userId = 19;
-$testLbId = 1; // Replace with an actual leaderboard_id from your DB
+// Prendi la prima classifica del gioco
+$lbs = Leaderboard::listByGame($gameId);
+$testLbId = !empty($lbs) ? $lbs[0]['leaderboard_id'] : 1;
 
 function clearScores() {
   global $gameId;

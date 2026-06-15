@@ -12,7 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] !== "POST") {
   api_reply_error("Request method not allowed", "MethodNotAllowed", 405);
 }
 
-if (!isset($_POST["game"]) || !isset($_POST["score"]) || !isset($_POST["player"]) || !isset($_POST["hash"]) || !isset($_POST["leaderboard_id"])) {
+// Maintenance mode: block score submissions
+if (!empty($config["maintenance"])) {
+  api_reply_error("Service unavailable: maintenance in progress", "MaintenanceMode", 503);
+}
+
+if (!isset($_POST["game"]) || !isset($_POST["score"]) || !isset($_POST["player"]) || !isset($_POST["hash"])) {
   api_reply_error("Missing parameters", "ValidationError", 400);
 }
 
@@ -22,7 +27,6 @@ $playerNameEncoded = $_POST["player"];
 $playerName = base64_decode($playerNameEncoded);
 $clientHash = $_POST["hash"];
 $sign = isset($_POST["sign"]) ? $_POST["sign"] : NULL;
-$leaderboardId = (int)$_POST["leaderboard_id"];
 $tags = isset($_POST["tags"]) ? (string)$_POST["tags"] : "default";
 $insertMode = isset($_POST["insertMode"]) ? $_POST["insertMode"] : "higher";
 $data = isset($_POST["data"]) ? (string)$_POST["data"] : NULL;
@@ -30,6 +34,21 @@ $minScore = isset($_POST["minScore"]) ? (float)$_POST["minScore"] : NULL;
 $maxScore = isset($_POST["maxScore"]) ? (float)$_POST["maxScore"] : NULL;
 
 if ($tags === "0") $tags = "default";
+
+// Retro-compat: if leaderboard_id not provided, use first leaderboard for this game
+if (isset($_POST["leaderboard_id"]) && is_numeric($_POST["leaderboard_id"])) {
+  $leaderboardId = (int)$_POST["leaderboard_id"];
+  $lb = Leaderboard::getById($leaderboardId);
+  if (!$lb || $lb['game_id'] != $gameId) {
+    api_reply_error("Invalid leaderboard_id", "ValidationError", 400);
+  }
+} else {
+  $allLbs = Leaderboard::listByGame($gameId);
+  if (empty($allLbs)) {
+    api_reply_error("No leaderboard found for this game", "NotFoundError", 404);
+  }
+  $leaderboardId = $allLbs[0]['leaderboard_id'];
+}
 
 if (!is_null($insertMode) && $insertMode !== "all" && $insertMode !== "higher" && $insertMode !== "lower" 
  && $insertMode !== "sum" && $insertMode !== "multiply" && $insertMode !== "divide" && $insertMode !== "replace") {
@@ -40,21 +59,15 @@ if (!is_numeric($score)) {
   api_reply_error("Invalid parameter 'score'", "ValidationError", 400);
 }
 
-// Verify leaderboard exists and belongs to this game
-$lb = Leaderboard::getById($leaderboardId);
-if (!$lb || $lb['game_id'] != $gameId) {
-  api_reply_error("Invalid leaderboard_id", "ValidationError", 400);
-}
-
 $result = Game::getClientSecretById($gameId);
 if (!$result->num_rows) {
   api_reply_error("Game #$gameId does not exists", "NotFoundError", 404);
 }
 $clientSecret = $result->fetch_assoc()["client_secret"];
 
-// Hash validation
+// Hash validation (retro-compat: leaderboard_id in hash only if sent by client)
 $salt = "game=$gameId";
-$salt .= "&leaderboard_id=$leaderboardId";
+if (isset($_POST["leaderboard_id"])) $salt .= "&leaderboard_id=$leaderboardId";
 if (isset($_POST["tags"])) $salt .= "&tags=$tags";
 $salt .= "&score=$score&player=$playerNameEncoded&hash=$clientHash";
 $saltRaw = preg_replace("/&hash=([a-z0-9]+)+/i", "", $salt);

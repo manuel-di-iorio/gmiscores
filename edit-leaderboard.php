@@ -1,0 +1,45 @@
+<?php
+require_once("lib/db.php");
+require_once("lib/checkSession.php");
+require_once("lib/maintenance.php"); check_maintenance();
+require_once("models/Game.php");
+require_once("models/Leaderboard.php");
+
+if (!isset($_GET['leaderboard_id']) || !is_numeric($_GET['leaderboard_id'])) {
+    header("Location: games.php?error=" . urlencode("ID classifica non valido."));
+    exit;
+}
+
+$lb_id = (int)$_GET['leaderboard_id'];
+$lb = Leaderboard::getById($lb_id);
+if (!$lb) {
+    header("Location: games.php?error=" . urlencode("Classifica non trovata."));
+    exit;
+}
+
+// Verify ownership through the game
+$game = Game::getByIdAndUser($lb['game_id'], $user['id']);
+if (!$game) {
+    header("Location: games.php?error=" . urlencode("Non autorizzato."));
+    exit;
+}
+$game = $game->fetch_assoc();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = isset($_POST['name']) ? trim($_POST['name']) : '';
+    $description = isset($_POST['description']) ? trim($_POST['description']) : '';
+
+    if (empty($name)) {
+        $error = "Il nome è obbligatorio.";
+    } else {
+        Leaderboard::update($lb_id, $name, $description ?: null);
+        header("Location: leaderboards.php?game_id=" . $lb['game_id']);
+        exit;
+    }
+}
+
+$view = "edit-leaderboard";
+$pageName = "Modifica classifica - " . htmlspecialchars($game['name']);
+$backUrl = "leaderboards.php?game_id=" . $lb['game_id'];
+require_once("includes/layout.php");
+?>

@@ -9,12 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] !== "GET") {
   api_reply_error("Request method not allowed", "MethodNotAllowed", 405);
 }
 
-if (!isset($_GET["game"]) || !isset($_GET["leaderboard_id"])) {
+if (!isset($_GET["game"])) {
   api_reply_error("Missing parameters", "ValidationError", 400);
 }
 
 $gameId = (int)$_GET["game"];
-$leaderboardId = (int)$_GET["leaderboard_id"];
 $tags = isset($_GET["tags"]) ? (string)$_GET["tags"] : "default";
 $page = isset($_GET["page"]) ? max(0, (int)$_GET["page"]) : 0;
 $limit = isset($_GET["limit"]) ? max(0, min(1000, (int)$_GET["limit"])) : 10;
@@ -25,6 +24,21 @@ $playerIdOrName = isset($_GET["player"]) ? $_GET["player"] : NULL;
 $includePlayer = isset($_GET["includePlayer"]) ? $_GET["includePlayer"] : NULL;
 
 if ($tags === "0") $tags = "default";
+
+// Retro-compat: if leaderboard_id not provided, use first leaderboard for this game
+if (isset($_GET["leaderboard_id"]) && is_numeric($_GET["leaderboard_id"])) {
+  $leaderboardId = (int)$_GET["leaderboard_id"];
+  $lb = Leaderboard::getById($leaderboardId);
+  if (!$lb || $lb['game_id'] != $gameId) {
+    api_reply_error("Invalid leaderboard_id", "ValidationError", 400);
+  }
+} else {
+  $allLbs = Leaderboard::listByGame($gameId);
+  if (empty($allLbs)) {
+    api_reply_error("No leaderboard found for this game", "NotFoundError", 404);
+  }
+  $leaderboardId = $allLbs[0]['leaderboard_id'];
+}
 
 if (!is_null($startTime)) {
   try {
@@ -41,12 +55,6 @@ if (!is_null($endTime)) {
     print_r($e->getMessage());
     api_reply_error("Parameter 'endTime' is not a valid date", "ValidationError", 400);
   }
-}
-
-// Verify leaderboard exists
-$lb = Leaderboard::getById($leaderboardId);
-if (!$lb || $lb['game_id'] != $gameId) {
-  api_reply_error("Invalid leaderboard_id", "ValidationError", 400);
 }
 
 $result = Game::getById($gameId);

@@ -83,6 +83,20 @@
 
 <div class="w3-container w3-padding-large">
 
+  <div class="w3-cell-row w3-margin-bottom">
+    <div class="w3-cell w3-right-align">
+      <a href="leaderboards.php?game_id=<?= $game['game_id'] ?>" class="w3-button w3-black w3-padding-large w3-round-large w3-margin-right">
+        <i class="fas fa-trophy w3-margin-right"></i>Vedi classifiche
+      </a>
+      <a href="game-bans.php?id=<?= $game['game_id'] ?>" class="w3-button w3-black w3-padding-large w3-round-large w3-margin-right">
+        <i class="fas fa-user-times w3-margin-right"></i>Giocatori bannati
+      </a>
+      <a href="javascript:;" onclick="openModal('modal-delete-game', onDeleteGameModalOpen, { gameId: <?= $game['game_id'] ?>, gameName: '<?= escapeChars($game['name']) ?>' })" class="w3-button w3-red w3-padding-large w3-round-large">
+        <i class="fas fa-trash w3-margin-right"></i>Elimina gioco
+      </a>
+    </div>
+  </div>
+
   <h2 class="section-header"><i class="fas fa-gamepad w3-margin-right"></i>Configurazione</h2>
 
   <div class="w3-row-padding">
@@ -127,7 +141,7 @@
     <div class="w3-code jsHigh">
   var points = 100; // Punti del giocatore<br/>
   var player = "Harry"; // Nome del giocatore<br/>
-  var data = "game=<?= $game["game_id"] ?>&score=" + string(points) + "&player=" + base64_encode(player);<br/>
+  var data = "game=<?= $game["game_id"] ?>&leaderboard_id=ID_CLASSIFICA&score=" + string(points) + "&player=" + base64_encode(player);<br/>
   var secret = "SECRET_DEL_GIOCO"; // Mettere il secret del gioco qui<br/>
   var hash = "&hash=" + sha1_string_utf8(data + secret);<br/>
   http_post_string("<?= $baseApiPath ?>/add.php", data + hash);
@@ -140,7 +154,7 @@
   // Da mettere nell'evento 'Create' di un oggetto.<br/>
   // Questo effettua la richiesta per prendere i punteggi<br/>
   scores = noone;<br/>
-  getScores = http_get("<?= $baseApiPath ?>/list.php?game=<?= $game["game_id"] ?>");
+  getScores = http_get("<?= $baseApiPath ?>/list.php?game=<?= $game["game_id"] ?>&leaderboard_id=ID_CLASSIFICA");
     </div>
   </div>
 
@@ -199,5 +213,45 @@
     </footer>
   </div>
 </div>
+
+<!-- Delete game modal -->
+<div id="modal-delete-game" class="w3-modal">
+  <div class="w3-modal-content w3-animate-top">
+    <div class="w3-container ModalContent">
+      <h4>Sei sicuro di voler cancellare il gioco <strong><span id="modal-game-name"></span></strong> ?</h4>
+      <div>L'operazione non è reversibile</div>
+    </div>
+    <footer class="w3-container w3-light-grey w3-padding-16 w3-right-align">
+      <a href="javascript:;" onclick="deleteGame()" class="btn-link ModalFooterLink w3-text-red">
+        <i class="fas fa-trash"></i> Elimina gioco
+      </a>
+      <button onclick="closeModal('modal-delete-game', onDeleteGameModalClose)" type="button"
+        class="w3-button w3-black">Annulla</button>
+    </footer>
+  </div>
+</div>
+
+<script>
+const modalGameDiv = document.getElementById('modal-game-name');
+let modalSelectedGameId;
+
+function onDeleteGameModalOpen({ gameId, gameName }) {
+  modalSelectedGameId = gameId;
+  modalGameDiv.innerHTML = gameName;
+}
+
+function onDeleteGameModalClose() {
+  modalGameDiv.innerHTML = "";
+}
+
+function deleteGame() {
+  location.href = "delete-game.php?id=" + modalSelectedGameId;
+}
+
+const modalGameDivOuter = document.getElementById('modal-delete-game');
+window.addEventListener('click', function (event) {
+  if (event.target == modalGameDivOuter) closeModal('modal-delete-game', onDeleteGameModalClose);
+});
+</script>
 
 <?php require_once("game.view.script.php"); ?>

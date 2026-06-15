@@ -52,6 +52,11 @@ $backUrl = $backUrl ?? "games.php";
         </div>
         <button id="accept-cookie-banner" class="w3-button w3-black">Ok</button>
     </div>
+    <?php if ($config["maintenance"]) { ?>
+      <div class="w3-panel w3-yellow w3-center w3-padding w3-margin-0" style="border-radius:0;">
+        <i class="fas fa-tools w3-margin-right"></i><?= htmlspecialchars($config["maintenanceMessage"]) ?>
+      </div>
+    <?php } ?>
     <?php if (!$isIndexPage) { // Conditionally include navbar
       require_once("includes/navbar.php"); 
     } ?>
