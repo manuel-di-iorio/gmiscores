@@ -16,4 +16,4 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq lftp
-          lftp --env-password -u ${{ secrets.FTP_USER }} -e "mirror -R --delete --exclude .git/ --exclude .github/ --exclude .gitignore --exclude .env --exclude .vscode/ ./ ./; quit" ${{ secrets.FTP_HOST }}
+          lftp --env-password -u ${{ secrets.FTP_USER }} -e "set ftp:ssl-allow no; set ftp:passive-mode on; mirror -R --delete --exclude .git/ --exclude .github/ --exclude .gitignore --exclude .env --exclude .vscode/ ./ ./; quit" ${{ secrets.FTP_HOST }}
