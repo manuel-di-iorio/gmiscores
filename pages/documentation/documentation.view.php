@@ -1,9 +1,9 @@
 <style>
-.w3-code {
+.code-block {
   font-size: 13px;
 }
 
-.w3-codespan {
+.inline-code {
   font-size: 14px;
 }
 </style>
@@ -11,21 +11,21 @@
 <div class="internal-page documentation-page">
 
   <div class="documentation-section">
-    <p class="documentation-text">Base URL: <code class="w3-codespan inline-code"><?= $config["host"] ?>/api/v1</code></p>
-    <p class="documentation-text">Request content-type: <code class="w3-codespan inline-code">application/x-www-form-urlencoded</code></p>
-    <p class="documentation-text">Response content-type: <code class="w3-codespan inline-code">application/json</code></p>
+    <p class="documentation-text">Base URL: <code class="inline-code"><?= $config["host"] ?>/api/v1</code></p>
+    <p class="documentation-text">Request content-type: <code class="inline-code">application/x-www-form-urlencoded</code></p>
+    <p class="documentation-text">Response content-type: <code class="inline-code">application/json</code></p>
   </div>
 
   <div class="documentation-section">
     <h5 class="documentation-subtitle"><strong>Lista API</strong></h5>
 
     <div class="accordion-container">
-      <button class="accordion-header w3-button w3-block w3-left-align">
-        <span class="w3-margin-right">Invio di un punteggio</span>
+      <button class="accordion-header" style="display:block;width:100%;text-align:left;background:var(--bg-color-offset,#f1f1f1);border:none;padding:8px 16px;cursor:pointer">
+        <span style="margin-right:16px">Invio di un punteggio</span>
         <i class="fas fa-chevron-down accordion-icon"></i>
       </button>
-      <div class="accordion-content w3-hide">
-        <div class="code-block w3-code jsHigh">
+      <div class="accordion-content" style="display:none">
+        <div class="code-block jsHigh">
           POST /add.php<br/><br/>
 
           Parametri (x-www-form-urlencoded):<br/>
@@ -47,7 +47,7 @@
         </div>
 
         <h6 class="documentation-example-title">Esempio con Game Maker Studio</h6>
-        <div class="code-block w3-code jsHigh">
+        <div class="code-block jsHigh">
           var points = 100; // Punti del giocatore<br/>
           var player = "Harry"; // Nome del giocatore<br/>
           var data = "game=ID&leaderboard_id=ID_LEADERBOARD&score=" + string(points) + "&player=" + base64_encode(player);<br/>
@@ -56,19 +56,19 @@
           http_post_string("<?= $baseApiPath ?>/add.php", data + hash);
         </div>
 
-        <div class="w3-panel w3-blue modern-panel">
-          <p><i class="fas fa-info-circle w3-margin-right"></i>Nota: se si vuole aggiornare la classifica subito dopo aver inviato il punteggio, è necessario farlo solo dopo che la richiesta è stata processata, perchè altrimenti il nuovo punteggio non sarà immediatamente visibile.</p>
+        <div class="panel-info">
+          <p><i class="fas fa-info-circle" style="margin-right:8px"></i>Nota: se si vuole aggiornare la classifica subito dopo aver inviato il punteggio, è necessario farlo solo dopo che la richiesta è stata processata, perchè altrimenti il nuovo punteggio non sarà immediatamente visibile.</p>
         </div>
       </div>
     </div>
 
     <div class="accordion-container">
-      <button class="accordion-header w3-button w3-block w3-left-align">
-        <span class="w3-margin-right">Lista punteggi</span>
+      <button class="accordion-header" style="display:block;width:100%;text-align:left;background:var(--bg-color-offset,#f1f1f1);border:none;padding:8px 16px;cursor:pointer">
+        <span style="margin-right:16px">Lista punteggi</span>
         <i class="fas fa-chevron-down accordion-icon"></i>
       </button>
-      <div class="accordion-content w3-hide">
-        <div class="code-block w3-code jsHigh">
+      <div class="accordion-content" style="display:none">
+        <div class="code-block jsHigh">
           GET /list.php<br/><br/>
 
           Parametri (query):<br/>
@@ -102,13 +102,13 @@
         </div>
 
         <h6 class="documentation-example-title">Esempio con Game Maker Studio</h6>
-        <div class="code-block w3-code jsHigh">
+        <div class="code-block jsHigh">
           // Da mettere nell'evento 'Create' di un oggetto.<br/>
           // Questo effettua la richiesta per prendere i punteggi<br/>
           scores = noone;<br/>
           getScores = http_get("<?= $baseApiPath ?>/list.php?game=ID");
         </div>
-        <div class="code-block w3-code jsHigh">
+        <div class="code-block jsHigh">
           // Da mettere nell'evento 'Async HTTP' dello stesso oggetto.<br/>
           if (async_load[? "id"] == getScores && async_load[? "status"] == 0) {<br/>
           &nbsp;&nbsp;var result = json_decode(async_load[? "result"]);<br/>
@@ -122,8 +122,8 @@
   <div class="documentation-section">
     <h5 class="documentation-subtitle"><strong>Sicurezza dei punteggi inviati</strong></h5>
     <!-- <div class="accordion-container">
-      <button class="accordion-header w3-button w3-block w3-left-align">
-        <span class="w3-margin-right">Secret e hash</span>
+      <button class="accordion-header" style="display:block;width:100%;text-align:left;background:var(--bg-color-offset,#f1f1f1);border:none;padding:8px 16px;cursor:pointer">
+        <span style="margin-right:16px">Secret e hash</span>
         <i class="fas fa-chevron-down accordion-icon"></i>
       </button>
       <div class="accordion-content"> -->
@@ -132,16 +132,16 @@
     </div>
 
     <!-- <div class="accordion-container">
-      <button class="accordion-header w3-button w3-block w3-left-align">
-        <span class="w3-margin-right">Firma con chiave privata (opzionale)</span>
+      <button class="accordion-header" style="display:block;width:100%;text-align:left;background:var(--bg-color-offset,#f1f1f1);border:none;padding:8px 16px;cursor:pointer">
+        <span style="margin-right:16px">Firma con chiave privata (opzionale)</span>
         <i class="fas fa-chevron-down accordion-icon"></i>
       </button>
-      <div class="accordion-content w3-hide">
+      <div class="accordion-content" style="display:none">
         <p class="documentation-text">La firma con chiave privata è un meccanismo di sicurezza aggiuntiva che permette di verificare automaticamente che non sia stata effettuata una manipolazione dei punteggi, ad esempio se modificati a mano nel database. Il sistema di firma è lo stesso del secret con l'unica differenza che la chiave la conosce solo lo sviluppatore e non è mai trasmessa online.<br/>
         Come funziona la verifica? Si confronta la firma associata al punteggio (salvata sul db) con la firma calcolata in locale. Se sono diverse, il punteggio è stato modificato a mano.</p>
         <hr class="documentation-divider">
         <h6 class="documentation-example-title">Esempio con Game Maker Studio</h6>
-        <div class="code-block w3-code jsHigh">
+        <div class="code-block jsHigh">
           /* Invio di un punteggio */<br/>
           var points = 100; // Punti del giocatore<br/>
           var player = "Harry"; // Nome del giocatore<br/>
@@ -152,7 +152,7 @@
           var signature = "&sign=" + sha1_string_utf8(data + private_key);<br/>
           http_post_string("<?= $baseApiPath ?>/add.php", data + hash + signature);
         </div>
-        <div class="code-block w3-code jsHigh">
+        <div class="code-block jsHigh">
           /* Verifica della lista punteggi (evento Async HTTP) */<br/>
           var private_key = "CHIAVE_PRIVATA";<br/>
           var result = json_decode(async_load[? "result"]);<br/>
@@ -174,7 +174,7 @@
   <div class="documentation-section">
     <h5 class="documentation-subtitle"><strong>Gestione degli errori</strong></h5>
     <p class="documentation-text">Se una richiesta fallisce, la risposta sarà di questo tipo:</p>
-    <div class="code-block w3-code jsHigh">
+    <div class="code-block jsHigh">
     {<br/>
     &nbsp;&nbsp;"message": "&lt;messaggio&gt;",<br/>
     &nbsp;&nbsp;"code": "&lt;ID errore&gt;",<br/>
@@ -186,18 +186,18 @@
   <div class="documentation-section">
     <h5 class="documentation-subtitle"><strong>Risorse</strong></h5>
     <div class="accordion-container">
-      <button class="accordion-header w3-button w3-block w3-left-align">
-        <span class="w3-margin-right"><i class="fas fa-download w3-margin-right"></i>Scarica la libreria per Game Maker</span>
+      <button class="accordion-header" style="display:block;width:100%;text-align:left;background:var(--bg-color-offset,#f1f1f1);border:none;padding:8px 16px;cursor:pointer">
+        <span style="margin-right:16px"><i class="fas fa-download" style="margin-right:8px"></i>Scarica la libreria per Game Maker</span>
         <i class="fas fa-chevron-down accordion-icon"></i>
       </button>
-      <div class="accordion-content w3-hide">
+      <div class="accordion-content">
         <p class="documentation-text">Include gli scripts pronti per inviare e leggere i punteggi. Per importarla, basta trascinare il file sull'editor</p>
         <?= ui_button('Scarica v0.9.3', 'primary', 'md', ['icon' => 'fa fa-download', 'href' => '/files/gms2_3-gmi_cloud-v0_9_3.yymps', 'attrs' => ['download' => ''], 'class' => 'mb-4']) ?>
         <p class="documentation-text"><strong>Anteprima:</strong></p>
-        <div class="code-block w3-code jsHigh">
+        <div class="code-block jsHigh">
         gmi_scores_send({ player: "Harry", score: 5000 }); // Invia il punteggio 5000 del player Harry
         </div>
-        <div class="code-block w3-code jsHigh">
+        <div class="code-block jsHigh">
         gmi_scores_get_list(); // Ottiene la lista dei punteggi
         </div>
       </div>
@@ -217,26 +217,14 @@
       var content = this.nextElementSibling;
       var icon = this.querySelector('.accordion-icon');
       
-      if (content.classList.contains("w3-show")) {
-        // First remove max-height to allow animation
+      if (content.style.display !== "none") {
         content.style.maxHeight = null;
-        
-        // Then change classes after a small delay
-        setTimeout(function() {
-          content.classList.add("w3-hide");
-          content.classList.remove("w3-show");
-        }, 10);
-        
+        content.style.display = "none";
         icon.classList.remove("fa-chevron-up");
         icon.classList.add("fa-chevron-down");
       } else {
-        // First change classes
-        content.classList.add("w3-show");
-        content.classList.remove("w3-hide");
-        
-        // Then set max-height for animation
+        content.style.display = "block";
         content.style.maxHeight = content.scrollHeight + "px";
-        
         icon.classList.remove("fa-chevron-down");
         icon.classList.add("fa-chevron-up");
       }

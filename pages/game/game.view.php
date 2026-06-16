@@ -1,8 +1,8 @@
 <style>
 .code-block {
   font-size: 14px;
-  background-color: #f8f8f8;
-  border: 1px solid #e0e0e0;
+  background-color: var(--bg-color-code, #f8f8f8);
+  border: 1px solid var(--border-color, #e0e0e0);
   padding: .7rem 1rem;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
@@ -13,52 +13,52 @@
 
 .input-group {
   position: relative;
-  margin-bottom: 1.2rem; /* Increased margin */
+  margin-bottom: 1.2rem;
 }
 
 .input-secret-eye-btn {
   position: absolute;
-  right: 1rem; /* Adjusted for padding */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Center vertically */
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   transition: color .2s;
   cursor: pointer;
-  padding: 0.5rem; /* Added padding for better click area */
-  color: #777; /* Slightly lighter icon color */
+  padding: 0.5rem;
+  color: var(--text-color-secondary, #777);
 }
 
 .input-regenerate-secret-btn {
   position: absolute;
-  right: 4rem; /* Adjusted for padding and spacing from eye icon */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Center vertically */
+  right: 4rem;
+  top: 50%;
+  transform: translateY(-50%);
   transition: color .2s;
   cursor: pointer;
-  padding: 0.5rem; /* Added padding for better click area */
-  color: #777; /* Slightly lighter icon color */
+  padding: 0.5rem;
+  color: var(--text-color-secondary, #777);
 }
 
 .input-secret-eye-btn:hover,
 .input-regenerate-secret-btn:hover {
-  color: #000; /* Black on hover */
+  color: var(--text-color, #000);
 }
 
 
 .section-header {
-  border-bottom: 2px solid #e0e0e0; /* Lighter border */
-  padding-bottom: 0.8rem; /* Increased padding */
-  margin-top: 2rem; /* Added top margin for better separation */
-  margin-bottom: 1.8rem; /* Increased margin */
-  font-size: 1.6rem; /* Slightly larger */
-  color: #222; /* Darker text */
-  font-weight: 500; /* Medium weight */
+  border-bottom: 2px solid var(--border-color, #e0e0e0);
+  padding-bottom: 0.8rem;
+  margin-top: 2rem;
+  margin-bottom: 1.8rem;
+  font-size: 1.6rem;
+  color: var(--text-color-headings, #222);
+  font-weight: 500;
 }
 .section-header:first-of-type {
     margin-top: 0.5rem;
 }
 .code-block-header {
-  background-color: #333; /* Darker header for code blocks */
-  color: #fff; /* White text for dark header */
+  background: var(--navbar-bg, #333);
+  color: var(--navbar-text-color, #fff);
   padding: 0.6rem 1.2rem;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
@@ -66,10 +66,10 @@
   margin-top: 1.5rem;
 }
 .form-label {
-  font-weight: 600; /* Bolder label */
+  font-weight: 600;
   margin-bottom: 0.6rem;
   display: block;
-  color: #444; /* Darker label color */
+  color: var(--text-color-headings, #444);
 }
 </style>
 

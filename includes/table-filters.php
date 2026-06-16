@@ -24,7 +24,8 @@ function render_table_filters(array $fields, array $options = []) {
 .table-filters .ui-input::placeholder, .table-filters select::placeholder { color: var(--text-color-secondary, #bbb); }
 .table-filters .filters-actions { display:flex; align-items:flex-end; gap: 20px; }
 .table-filters .filters-actions .btn-link { color: var(--text-color, #333); text-decoration: none; align-self: center; }
-.table-filters .btn-link { color: var(--text-color, #333); text-decoration: none; align-self: center; }
+.table-filters .btn-link { color: var(--text-color, #333); text-decoration: none; align-self: center; transition: color .15s; }
+.table-filters .btn-link:hover { color: var(--primary-color, #6366f1); }
 @media (max-width: 992px) { .table-filters .filters-col { width: 50%; } }
 @media (max-width: 600px) { .table-filters .filters-col { width: 100%; } .table-filters .filters-actions { flex-direction: row; } }
 </style>';

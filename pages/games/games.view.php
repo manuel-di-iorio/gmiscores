@@ -17,7 +17,7 @@
         "key" => "name",
         "sortable" => true,
         "format_callback" => function ($value, $row) {
-          return '<a href="game.php?id=' . $row["game_id"] . '" data-tippy-content="Visualizza gioco">' . htmlspecialchars($value) . '</a>';
+          return '<a href="game.php?id=' . $row["game_id"] . '" class="link" data-tippy-content="Visualizza gioco">' . htmlspecialchars($value) . '</a>';
         }
       ],
       ["label" => "Punteggi inviati", "key" => "_scoresCount", "sortable" => true],
@@ -31,7 +31,7 @@
         "url" => function ($data) {
           return "leaderboards.php?game_id={$data['game_id']}";
         },
-        "class" => "btn-link w3-margin-right"
+        "class" => "btn-link"
       ],
       [
         "label" => "Mostra giocatori bannati",
@@ -39,7 +39,7 @@
         "url" => function ($data) {
           return "game-bans.php?id={$data['game_id']}";
         },
-        "class" => "btn-link w3-margin-right"
+        "class" => "btn-link"
       ],
       [
         "label" => "Cancella gioco",
@@ -53,7 +53,7 @@
     ];
 
     $tableOptions = [
-      "table_class" => "w3-table w3-striped w3-bordered w3-hoverable",
+      "table_class" => "ui-table",
       "pagination" => [
         "current_page" => $_GET['page'] ?? 1,
         "items_per_page" => 25,

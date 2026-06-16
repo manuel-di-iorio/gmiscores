@@ -22,7 +22,7 @@
  *                                               and returns true if the action should be displayed for that row.
  * @param array $options An associative array for table options:
  *                       - "table_id": (Optional) The ID attribute for the table element.
- *                       - "table_class": (Optional) CSS classes for the table element. Defaults to "w3-table-all w3-hoverable".
+ *                       - "table_class": (Optional) CSS classes for the table element. Defaults to "ui-table".
  *                       - "default_sort_column": (Optional) The key of the column to sort by default.
  *                       - "default_sort_direction": (Optional) "asc" or "desc". Defaults to "asc".
  *                       - "pagination": (Optional) An associative array for pagination settings:
@@ -36,9 +36,31 @@
  */
 function render_table(array $data, array $columns, array $actions = [], array $options = []): void
 {
+    static $actionIconCssOutput = false;
+    if (!$actionIconCssOutput) {
+        $actionIconCssOutput = true;
+        echo '<style>
+    .actions-cell .btn-link {
+        color: var(--table-action-icon-color, #555);
+        font-size: 14px;
+        margin-right: 5px;
+        text-decoration: none;
+        transition: color 0.15s, transform 0.15s;
+        display: inline-block;
+        padding: 4px 6px;
+        border-radius: 4px;
+    }
+    .actions-cell .btn-link:hover {
+        color: var(--primary-color, #6366f1);
+        transform: scale(1.15);
+        background: var(--table-action-icon-hover-bg, transparent);
+    }
+</style>';
+    }
+
     // Default options
     $tableId = $options["table_id"] ?? 'genericTable' . rand(1000, 9999);
-    $tableClass = $options["table_class"] ?? 'modern-table w3-table w3-border w3-card-4';
+     $tableClass = $options["table_class"] ?? 'ui-table';
     $defaultSortColumn = $options["default_sort_column"] ?? null;
     $defaultSortDirection = $options["default_sort_direction"] ?? 'asc';
     $paginationSettings = $options["pagination"] ?? null;
@@ -116,16 +138,16 @@ function render_table(array $data, array $columns, array $actions = [], array $o
     }
 
     // --- Start Table Output ---
-    echo '<div class="modern-table-container w3-responsive">';
+    echo '<div class="ui-table-container">';
     echo '<table id="' . $tableId . '" class="' . $tableClass . '">';
 
     // --- Table Header ---
-    echo '<thead class="modern-table-header"><tr>';
+    echo '<thead class="ui-table-header"><tr>';
     if ($selectable) {
-        echo '<th class="modern-table-header-cell" style="width:40px;vertical-align:middle"><input type="checkbox" onclick="toggleSelectAll(this, \'selected_ids[]\')" style="vertical-align:middle"></th>';
+        echo '<th class="ui-table-header-cell" style="width:40px;vertical-align:middle"><input type="checkbox" onclick="toggleSelectAll(this, \'selected_ids[]\')" style="vertical-align:middle"></th>';
     }
     foreach ($columns as $column) {
-        echo '<th class="modern-table-header-cell">';
+        echo '<th class="ui-table-header-cell">';
         if ($column["sortable"] ?? false) {
             $newDirection = ($sortColumn === $column["key"] && $sortDirection === 'asc') ? 'desc' : 'asc';
             
@@ -160,33 +182,33 @@ function render_table(array $data, array $columns, array $actions = [], array $o
         echo '</th>';
     }
     if (!empty($actions)) {
-        echo '<th class="modern-table-header-cell actions-header-cell">Azioni</th>';
+        echo '<th class="ui-table-header-cell actions-header-cell">Azioni</th>';
     }
     echo '</tr></thead>';
 
     // --- Table Body ---
-    echo '<tbody class="modern-table-body">';
+    echo '<tbody class="ui-table-body">';
     if (empty($pageData)) {
         $colspan = count($columns) + (!empty($actions) ? 1 : 0) + ($selectable ? 1 : 0);
-        echo '<tr class="modern-table-empty-row"><td colspan="' . $colspan . '" class="w3-center">Nessun dato disponibile.</td></tr>';
+        echo '<tr class="ui-table-empty-row"><td colspan="' . $colspan . '" style="text-align:center">Nessun dato disponibile.</td></tr>';
     } else {
         foreach ($pageData as $row) {
-            echo '<tr class="modern-table-row">';
+            echo '<tr class="ui-table-row">';
             if ($selectable) {
                 $pkValue = $row[$primaryKey] ?? '';
-                echo '<td class="modern-table-cell" style="width:40px;vertical-align:middle"><input type="checkbox" name="selected_ids[]" value="' . htmlspecialchars($pkValue) . '" style="vertical-align:middle"></td>';
+                echo '<td class="ui-table-cell" style="width:40px;vertical-align:middle"><input type="checkbox" name="selected_ids[]" value="' . htmlspecialchars($pkValue) . '" style="vertical-align:middle"></td>';
             }
             foreach ($columns as $column) {
                 $cellValue = $row[$column["key"]] ?? '';
                 if (isset($column["format_callback"]) && is_callable($column["format_callback"])) {
                     $cellValue = call_user_func($column["format_callback"], $cellValue, $row);
                 }
-                echo '<td class="modern-table-cell">' . $cellValue . '</td>';
+                echo '<td class="ui-table-cell">' . $cellValue . '</td>';
             }
 
             // Actions column
             if (!empty($actions)) {
-                echo '<td class="modern-table-cell actions-cell">';
+                echo '<td class="ui-table-cell actions-cell">';
                 foreach ($actions as $action) {
                     $showAction = true;
                     if (isset($action["condition_callback"]) && is_callable($action["condition_callback"])) {
@@ -223,17 +245,18 @@ function render_table(array $data, array $columns, array $actions = [], array $o
     }
     echo '</tbody>';
     echo '</table>';
-    echo '</div>'; // End modern-table-container
+    echo '</div>'; // End ui-table-container
 
     // --- Pagination Controls ---
     // Show pagination controls only if there is more than one page (totalPages > 0 for 0-indexed)
     if ($paginationSettings && $totalPages > 0) { 
-        echo '<div class="modern-table-pagination w3-bar w3-center w3-margin-top">';
+        echo '<div class="ui-table-pagination" style="text-align:center;margin-top:16px">';
+        echo '<div class="pagination-bar">';
 
         // Previous button (for 0-indexed)
         if ($currentPage > 0) {
             $prevPageParams = http_build_query(array_merge($_GET, ['page' => $currentPage - 1]));
-            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $prevPageParams) . '" class="w3-button">&laquo; Precedente</a>';
+            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $prevPageParams) . '" class="pagination-btn">&laquo; Precedente</a>';
         }
 
         // Page numbers (for 0-indexed)
@@ -260,39 +283,40 @@ function render_table(array $data, array $columns, array $actions = [], array $o
         // Ellipsis for first page if needed (for 0-indexed)
         if ($startPage > 0) {
             $firstPageParams = http_build_query(array_merge($_GET, ['page' => 0]));
-            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $firstPageParams) . '" class="w3-button">0</a>';
+            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $firstPageParams) . '" class="pagination-btn">0</a>';
             if ($startPage > 1) { 
-                 echo '<span class="w3-button w3-disabled">...</span>';
+                 echo '<span class="pagination-btn pagination-disabled">...</span>';
             }
         }
 
         for ($i = $startPage; $i <= $endPage; $i++) {
             $pageParams = http_build_query(array_merge($_GET, ['page' => $i]));
             if ($i == $currentPage) {
-                echo '<button class="w3-button w3-black"> ' . $i . '</button>';
+                echo '<button class="pagination-btn pagination-active"> ' . $i . '</button>';
             } else {
-                echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $pageParams) . '" class="w3-button">' . $i . '</a>';
+                echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $pageParams) . '" class="pagination-btn">' . $i . '</a>';
             }
         }
         
         // Ellipsis for last page if needed (for 0-indexed)
         if ($endPage < $totalPages) {
             if ($endPage < $totalPages - 1 ) { 
-                echo '<span class="w3-button w3-disabled">...</span>';
+                echo '<span class="pagination-btn pagination-disabled">...</span>';
             }
             $lastPageParams = http_build_query(array_merge($_GET, ['page' => $totalPages]));
-            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $lastPageParams) . '" class="w3-button">' . $totalPages . '</a>';
+            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $lastPageParams) . '" class="pagination-btn">' . $totalPages . '</a>';
         }
 
         // Next button (for 0-indexed)
         if ($currentPage < $totalPages) {
             $nextPageParams = http_build_query(array_merge($_GET, ['page' => $currentPage + 1]));
-            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $nextPageParams) . '" class="w3-button">Successivo &raquo;</a>';
+            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $nextPageParams) . '" class="pagination-btn">Successivo &raquo;</a>';
         }
 
         echo '</div>';
+        echo '</div>';
     }
-    echo '</div>'; // Close modern-table-container
+    echo '</div>'; // Close ui-table-container
 }
 
 ?>
@@ -308,7 +332,6 @@ function toggleSelectAll(source, name) {
 }
 </script>
 <style>
-    /* Optional: Basic styling for action icons if not using a framework like w3-button */
     .actions-cell a {
         margin-right: 5px;
         text-decoration: none;
@@ -318,59 +341,44 @@ function toggleSelectAll(source, name) {
         margin-right: 0;
     }
 
-    .generic-table-container {
-        overflow-x: auto;
-        /* Ensure table is responsive on small screens */
-    }
-
-    .generic-table-pagination .w3-bar .w3-button {
-        min-width: 30px;
-        /* Ensure page numbers are not too squeezed */
-    }
-
-    .generic-table-pagination .w3-disabled {
-        cursor: not-allowed;
-        opacity: 0.6;
-    }
-
-    .modern-table-container {
+    .ui-table-container {
         overflow-x: auto;
     }
 
-    .modern-table {
+    .ui-table {
         width: 100%;
         border-collapse: collapse;
     }
 
-    .modern-table-header {
+    .ui-table-header {
         background-color: var(--table-header-bg, #f0f2f5);
     }
 
-    .modern-table-header-cell {
+    .ui-table-header-cell {
         padding: 8px;
         text-align: left;
         border-bottom: 1px solid var(--table-border-color, #ddd);
     }
 
-    .modern-table-body {
+    .ui-table-body {
         background-color: var(--bg-color-card, #fff);
     }
 
-    .modern-table-row:nth-child(even) {
+    .ui-table-row:nth-child(even) {
         background-color: var(--table-row-even-bg, #f9f9f9);
     }
 
-    .modern-table-cell {
+    .ui-table-cell {
         padding: 8px;
         border-bottom: 1px solid var(--table-border-color, #ddd);
     }
 
-    .modern-table-empty-row {
+    .ui-table-empty-row {
         text-align: center;
         color: var(--text-color-secondary, #777);
     }
 
-    .modern-table-pagination {
+    .ui-table-pagination {
         margin-top: 16px;
     }
 
@@ -389,12 +397,5 @@ function toggleSelectAll(source, name) {
 
     .pagination-ellipsis {
         padding: 8px 16px;
-    }
-
-    .table-action-icon {
-        color: var(--table-action-icon-color, #555);
-        font-size: 14px;
-        margin-right: 5px;
-        text-decoration: none;
     }
 </style>

@@ -50,7 +50,7 @@
 .ui-input:disabled,
 .ui-input[readonly] {
   background: var(--input-bg--disabled, #eee);
-  color: var(--input-text--disabled, #bbb);
+  color: var(--input-text--disabled, #666);
   cursor: not-allowed;
 }
 

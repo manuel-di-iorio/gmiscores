@@ -10,9 +10,9 @@
 
   /* Input */
   --input-bg: #1a1d28;
-  --input-bg--disabled: #1a1d28;
+  --input-bg--disabled: #141724;
   --input-text: #e2e8f0;
-  --input-text--disabled: #666;
+  --input-text--disabled: #94a3b8;
 
   /* Table */
   --table-border-color: #2d3142;
@@ -62,6 +62,7 @@
   --navbar-button-text-color: #e2e8f0;
   --navbar-button-hover-bg: #2d3142;
   --navbar-button-hover-text-color: #ffffff;
+  --navbar-divider-color: rgba(255,255,255,0.08);
   --shadow-navbar: 2px 0 12px rgba(0,0,0,0.3);
 
   /* Documentation Page */
@@ -108,7 +109,7 @@
   --toggle-knob-bg: #e2e8f0;
 
   /* Code syntax colors */
-  --code-syntax-default: #e2e8f0;
+  --code-syntax-default: #cbd5e1;
   --code-syntax-keyword: #93c5fd;
   --code-syntax-string: #86efac;
   --code-syntax-number: #fca5a5;

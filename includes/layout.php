@@ -38,7 +38,6 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
 
     <!-- Style -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-    <link rel="stylesheet" href="assets/css/w3.css?v=<?= asset_version('assets/css/w3.css') ?>">
     <link rel="stylesheet" href="assets/css/toggle.css?v=<?= asset_version('assets/css/toggle.css') ?>">
     <link rel="stylesheet" href="assets/css/variables-<?= $theme ?>.css?v=<?= asset_version('assets/css/variables-' . $theme . '.css') ?>">
     <link rel="stylesheet" href="assets/css/style.css?v=<?= asset_version('assets/css/style.css') ?>">
@@ -47,6 +46,8 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     <link rel="stylesheet" href="assets/ui-kit/Card/card.css?v=<?= asset_version('assets/ui-kit/Card/card.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Input/input.css?v=<?= asset_version('assets/ui-kit/Input/input.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Modal/modal.css?v=<?= asset_version('assets/ui-kit/Modal/modal.css') ?>">
+    <link rel="stylesheet" href="assets/ui-kit/Table/table.css?v=<?= asset_version('assets/ui-kit/Table/table.css') ?>">
+    <link rel="stylesheet" href="assets/ui-kit/Icon/icon.css?v=<?= asset_version('assets/ui-kit/Icon/icon.css') ?>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -66,7 +67,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     </script>
   </head>
 
-  <body class="w3-content">
+  <body>
     <div id="cookie-banner" style="display: none;">
         <div class="cookie-banner-content">
           <div>
@@ -76,26 +77,26 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
         <?= ui_button('Ok', 'primary', 'sm', ['attrs' => ['id' => 'accept-cookie-banner']]) ?>
     </div>
     <?php if ($config["maintenance"]) { ?>
-      <div class="w3-panel w3-yellow w3-center w3-padding w3-margin-0" style="border-radius:0;">
-        <i class="fas fa-tools w3-margin-right"></i><?= htmlspecialchars($config["maintenanceMessage"]) ?>
+      <div style="background:#f59e0b;color:#000;text-align:center;padding:8px 16px;margin:0;border-radius:0;">
+        <i class="fas fa-tools" style="margin-right:8px"></i><?= htmlspecialchars($config["maintenanceMessage"]) ?>
       </div>
     <?php } ?>
     <?php if (!$isIndexPage) { // Conditionally include navbar
       require_once("includes/navbar.php"); 
     } ?>
 
-    <div class="w3-main PageContent" <?php if ($isIndexPage) { echo 'style="margin-left: 0 !important;"'; } ?>>
+    <div class="PageContent" <?php if ($isIndexPage) { echo 'style="margin-left: 0 !important; padding: 0 !important;"'; } ?>>
       <!-- Header -->
       <?php if (!$isIndexPage) { ?>
         <header id="portfolio" style="padding-bottom:0">
         <!-- Small logo shown on small screens -->
-        <a href="./index.php"><img src="assets/images/logoSmall.png" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity LogoSmall"></a>
+        <a href="./index.php"><img src="assets/images/logoSmall.png" class="shape-circle LogoSmall" style="float:right;margin:16px;display:none" id="logo-small"></a>
 
         <!-- Close sidebar button -->
-        <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fas fa-bars"></i></span>
+        <span id="btn-sidebar-open" style="display:none;font-size:32px;cursor:pointer;padding:8px 16px" onclick="w3_open()"><i class="fas fa-bars"></i></span>
 
         <!-- Page title -->
-        <div class="w3-container" style="padding-bottom:0">
+        <div style="padding:0.01em 0;padding-bottom:0">
         <h1>
           <?php if ($pageName !== $config["platformTitle"] && !$isIndexPage) { ?>
             <div class="page-title">
@@ -120,7 +121,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
 
     <!-- Footer -->
     <footer class="modern-footer PageContentFooter" <?php if ($isIndexPage) { echo 'style="margin-left: 0 !important;"'; } ?>>
-      <div class="footer-content w3-container">
+      <div class="footer-content">
         <div class="footer-section about">
           <h5 class="footer-heading">Classifica Online</h5>
           <p>Una piattaforma per leaderboard di giochi creata dalla community di GameMaker Italia.</p>

@@ -10,26 +10,26 @@ $navbarItems = [
 ?>
 
 <!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large w3-animate-opacity NavbarOverlay" onclick="w3_close()" id="overlay"></div>
+<div class="NavbarOverlay" id="overlay" onclick="w3_close()"></div>
 
-<nav class="w3-sidebar w3-collapse" id="navbar">
-  <div class="w3-container w3-margin-bottom LogoContainer">
+<nav id="navbar">
+  <div class="LogoContainer">
     <!-- Logo -->
     <a href="./index.php" class="navbar-logo-link">
-      <img src="assets/images/logo<?= $navbarLogoColor ?>.png" class="w3-round Logo" alt="Logo Piattaforma">
+      <img src="assets/images/logo<?= $navbarLogoColor ?>.png" class="round Logo" alt="Logo Piattaforma">
     </a>
     <!-- Brand title -->
     <h4 class="BrandTitle">Classifica online</h4>
   </div>
   
   <!-- Menu items -->
-  <div class="w3-bar-block">
+  <div class="navbar-menu">
     <?php foreach ($navbarItems as $navbarItem) {
 
       if (!$navbarItem["showOnlyLogged"] || isset($user)) { ?>
         <a href="<?= $navbarItem["url"] ?>"
-        class="w3-bar-item w3-button w3-padding navbar-item <?php if ($navbarItem["url"] === $pageURI) { echo "active-link"; } ?>">
-          <i class="fas fa-<?= $navbarItem["icon"] ?> fa-fw w3-margin-right"></i>
+        class="navbar-item <?php if ($navbarItem["url"] === $pageURI) { echo "active-link"; } ?>">
+          <i class="fas fa-<?= $navbarItem["icon"] ?> fa-fw" style="margin-right:16px"></i>
           <span class="navbar-item-label"><?= $navbarItem["label"] ?></span>
         </a>
       <?php } ?>
@@ -38,25 +38,25 @@ $navbarItems = [
     
     <!-- User box -->
     <hr class="navbar-divider"/>
-    <div class="w3-bar-item UserBox">
+    <div class="UserBox">
     
     <?php if (isset($user)) { ?>      
       <div class="user-info">
         <!-- <?php if (isset($user["_avatarUrl"])) { ?>
-        <img src="<?= $user["_avatarUrl"] ?>" class="w3-circle NavbarUserAvatar" alt="User avatar">
+        <img src="<?= $user["_avatarUrl"] ?>" class="shape-circle NavbarUserAvatar" alt="User avatar">
         <?php } ?> -->
         Ciao&nbsp;<span class="username"><?= $user["username"] ?></span>
       </div>
-      <?= ui_button('Esci', 'ghost', 'sm', ['icon' => 'fas fa-sign-out-alt fa-fw', 'href' => 'logout.php', 'class' => 'w3-block logout-button']) ?>
+      <?= ui_button('Esci', 'ghost', 'sm', ['icon' => 'fas fa-sign-out-alt fa-fw', 'href' => 'logout.php', 'class' => 'full-width logout-button']) ?>
     <?php } else { ?>
-      <?= ui_button('Accedi', 'primary', 'sm', ['icon' => 'fas fa-sign-in-alt fa-fw', 'href' => 'login.php', 'class' => 'w3-block login-button']) ?>
+      <?= ui_button('Accedi', 'primary', 'sm', ['icon' => 'fas fa-sign-in-alt fa-fw', 'href' => 'login.php', 'class' => 'full-width login-button']) ?>
     <?php } ?>
 
     </div>
   </div>
 
   <!-- Theme switcher -->
-  <div class="navbar__theme-switcher w3-center" onclick="switchTheme()">
+  <div class="navbar__theme-switcher" style="text-align:center" onclick="switchTheme()">
     <span class="navbar__theme-switcher__label">Tema scuro</span>
     <label class="switch">
       <input id="input-switch-theme" type="checkbox" <?php if ($theme === "dark") { echo "checked"; } ?>>

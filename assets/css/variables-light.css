@@ -12,7 +12,7 @@
   --input-bg: white;
   --input-bg--disabled: #eee;
   --input-text: black;
-  --input-text--disabled: #bbb;
+  --input-text--disabled: #999;
 
   /* Table */
   --table-border-color: #dddddd;
@@ -62,6 +62,7 @@
   --navbar-button-text-color: #1f2937;
   --navbar-button-hover-bg: #d1d5db;
   --navbar-button-hover-text-color: #ffffff;
+  --navbar-divider-color: rgba(0,0,0,0.1);
   --shadow-navbar: 2px 0 10px rgba(0,0,0,0.05);
 
   /* Documentation Page */

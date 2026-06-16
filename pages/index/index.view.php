@@ -4,13 +4,14 @@
     background-size: cover;
     background-position: bottom center;
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     color: white;
     padding: 40px;
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
   }
 
   .HomeBanner::before {
@@ -111,7 +112,7 @@
   }
 
   .theme-toggle-home {
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
     width: 44px;
@@ -125,8 +126,13 @@
     cursor: pointer;
     font-size: 1.3rem;
     color: white;
-    transition: background 0.2s, transform 0.2s;
+    transition: background 0.2s, transform 0.2s, opacity 0.3s;
     z-index: 10000;
+  }
+
+  .theme-toggle-home.theme-toggle-hidden {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .theme-toggle-home:hover {
@@ -328,11 +334,11 @@
     border-radius: 16px;
     padding: 28px 20px;
     text-align: center;
-    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s, border-color 0.3s;
+    position: relative;
+    transition: box-shadow 0.3s, border-color 0.3s;
   }
 
   .StatCard:hover {
-    transform: translateY(-4px);
     border-color: var(--glass-border-hover, rgba(99,102,241,0.3));
     box-shadow: 0 12px 32px rgba(0,0,0,0.06);
   }
@@ -406,7 +412,7 @@
   }
 
   @media (max-width: 900px) {
-    .HomeBanner { padding: 100px 24px 60px; }
+    .HomeBanner { padding: 60px 24px 60px; }
     .hero-inner { flex-direction: column; gap: 40px; text-align: center; }
     .hero-subtitle { margin-left: auto; margin-right: auto; }
     .hero-actions { justify-content: center; }
@@ -451,10 +457,6 @@
   <div class="hero-floating-shape"></div>
   <div class="hero-floating-shape"></div>
 
-  <div class="theme-toggle-home" onclick="switchThemeHome()" title="Cambia tema">
-    <i class="fas <?= $theme === 'dark' ? 'fa-sun' : 'fa-moon' ?>"></i>
-  </div>
-
   <div class="hero-inner">
     <div class="hero-content">
       <h1 class="anim-fade-up">
@@ -480,7 +482,7 @@
       <div class="hero-mockup">
         <div class="hero-mockup__frame">
           <div class="hero-mockup__header">
-            <span class="hero-mockup__title">CLASSIFICA GLOBALE</span>
+            <span class="hero-mockup__title">CLASSIFICA</span>
             <div class="hero-mockup__dots">
               <span class="hero-mockup__dot"></span>
               <span class="hero-mockup__dot"></span>
@@ -490,28 +492,28 @@
           <div class="hero-mockup__row">
             <span class="hero-mockup__rank">#1</span>
             <span class="hero-mockup__avatar"></span>
-            <span class="hero-mockup__name">PlayerOne</span>
+            <span class="hero-mockup__name">Scario</span>
             <span class="hero-mockup__score">12,450</span>
             <div class="hero-mockup__bar"><div class="hero-mockup__bar-fill" style="width:85%"></div></div>
           </div>
           <div class="hero-mockup__row">
             <span class="hero-mockup__rank">#2</span>
             <span class="hero-mockup__avatar"></span>
-            <span class="hero-mockup__name">GameMaster</span>
+            <span class="hero-mockup__name">Xeryan</span>
             <span class="hero-mockup__score">10,230</span>
             <div class="hero-mockup__bar"><div class="hero-mockup__bar-fill" style="width:72%"></div></div>
           </div>
           <div class="hero-mockup__row">
             <span class="hero-mockup__rank">#3</span>
             <span class="hero-mockup__avatar"></span>
-            <span class="hero-mockup__name">PixelWarrior</span>
+            <span class="hero-mockup__name">Tiz</span>
             <span class="hero-mockup__score">8,915</span>
             <div class="hero-mockup__bar"><div class="hero-mockup__bar-fill" style="width:64%"></div></div>
           </div>
           <div class="hero-mockup__row">
             <span class="hero-mockup__rank">#4</span>
             <span class="hero-mockup__avatar"></span>
-            <span class="hero-mockup__name">SpeedRunner</span>
+            <span class="hero-mockup__name">Goldensun</span>
             <span class="hero-mockup__score">6,700</span>
             <div class="hero-mockup__bar"><div class="hero-mockup__bar-fill" style="width:55%"></div></div>
           </div>
@@ -526,8 +528,12 @@
   </div>
 </div>
 
+<div class="theme-toggle-home" onclick="switchThemeHome()" title="Cambia tema">
+  <i class="fas <?= $theme === 'dark' ? 'fa-sun' : 'fa-moon' ?>"></i>
+</div>
+
 <!-- ===== HOW IT WORKS ===== -->
-<div id="come-funziona" class="w3-container HowItWorksSection">
+<div id="come-funziona" class="section-container HowItWorksSection">
   <h2 class="SectionTitle fade-in-up-on-scroll">Come funziona?</h2>
   <div class="process-line" style="max-width:700px;margin:0 auto;">
     <div class="process-step fade-in-up-on-scroll">
@@ -554,7 +560,7 @@
 </div>
 
 <!-- ===== VISUAL SHOWCASE ===== -->
-<div class="w3-container VisualShowcaseSection">
+<div class="section-container VisualShowcaseSection">
   <div class="VisualShowcaseContainer">
     <div class="VisualShowcase__Text anim-fade-left">
       <h2 class="SectionTitle SectionTitle--left" style="margin-bottom:20px;">
@@ -574,7 +580,7 @@
 </div>
 
 <!-- ===== FEATURES ===== -->
-<div id="caratteristiche" class="w3-container FeaturesSection">
+<div id="caratteristiche" class="section-container FeaturesSection">
   <h2 class="SectionTitle fade-in-up-on-scroll">Perchè <span class="gradient-text">sceglierci?</span></h2>
   <div class="FeaturesGrid">
     <div class="FeatureCard fade-in-up-on-scroll tilt-card">
@@ -637,7 +643,7 @@
 </div>
 
 <!-- ===== STATS ===== -->
-<div id="numeri" class="w3-container StatsSection stats-gradient-section">
+<div id="numeri" class="section-container StatsSection stats-gradient-section">
   <h2 class="SectionTitle fade-in-up-on-scroll">La community in <span class="gradient-text">numeri</span></h2>
   <div class="StatCardContainer stagger-grid">
     <?php
@@ -653,7 +659,8 @@
       ];
     ?>
     <?php foreach ($stats as $key => $stat) { ?>
-    <div class="StatCard stagger-item">
+    <div class="StatCard stagger-item tilt-card">
+      <div class="tilt-card__shine"></div>
       <div class="StatCard__Icon"><i class="<?= $statIcons[$key] ?? 'fas fa-chart-bar' ?>"></i></div>
       <div class="StatCard__Count">
         <?php if (is_numeric($stat["count"])) { ?>
@@ -669,7 +676,7 @@
 </div>
 
 <!-- ===== FAQ ===== -->
-<div id="faq" class="w3-container FAQsSection">
+<div id="faq" class="section-container FAQsSection">
   <h2 class="SectionTitle fade-in-up-on-scroll">Domande <span class="gradient-text">frequenti</span></h2>
   <div class="FAQsContainer">
     <div class="faq-item fade-in-up-on-scroll">
@@ -704,7 +711,7 @@
 </div>
 
 <!-- ===== FINAL CTA ===== -->
-<div id="contatti" class="w3-container w3-center FinalCtaSection">
+<div id="contatti" class="section-container FinalCtaSection" style="text-align:center">
   <h4 class="fade-in-up-on-scroll">
     <strong>Pronto a portare i tuoi giochi <span class="gradient-text">al livello successivo?</span></strong>
   </h4>

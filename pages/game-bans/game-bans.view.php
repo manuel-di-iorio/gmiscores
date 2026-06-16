@@ -13,8 +13,8 @@
     render_table_filters($filters);
 
     if (!empty($records)) { ?>
-  <div class="w3-responsive">
-    <table class="w3-table w3-margin-bottom">
+  <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;margin-bottom:16px">
       <tr>
         <th>Giocatore</th>
         <th>Bannato il</th>

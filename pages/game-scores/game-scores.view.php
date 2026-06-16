@@ -78,9 +78,9 @@
         "sortable" => true,
         "format_callback" => function ($value, $row) {
           $env = $value ?? 'production';
-          $badgeClass = $env === 'test' ? 'w3-yellow' : 'w3-green';
+          $badgeClass = $env === 'test' ? 'tag-yellow' : 'tag-green';
           $label = $env === 'test' ? 'Test' : 'Produzione';
-          return '<span class="w3-tag ' . $badgeClass . ' env-tag">' . $label . '</span>';
+          return '<span class="tag ' . $badgeClass . ' env-tag">' . $label . '</span>';
         }
       ],
       [
@@ -98,7 +98,7 @@
         "label" => "Mostra dati",
         "icon" => "fas fa-file-alt",
         "url" => "javascript:;",
-        "class" => "btn-link w3-margin-right",
+        "class" => "btn-link",
         "condition_callback" => function ($data) {
           return isset($data['data']) && $data['data'] !== null && $data['data'] !== '';
         },
@@ -110,7 +110,7 @@
         "label" => "Banna giocatore",
         "icon" => "fas fa-user-times",
         "url" => "javascript:;",
-        "class" => "btn-link w3-margin-right",
+        "class" => "btn-link",
         "onclick" => function ($data) {
           return "openModal('modal-ban-player', onBanPlayerModalOpen, { scoreId: {$data['score_id']}, playerName: '" . escapeChars($data['username']) . "' })";
         }
@@ -127,7 +127,7 @@
     ];
 
     $tableOptions = [
-      "table_class" => "w3-table w3-striped w3-bordered w3-hoverable",
+      "table_class" => "ui-table",
       "pagination" => [
         "current_page" => $page,
         "items_per_page" => 100,
@@ -138,9 +138,7 @@
       "selectable" => true
     ];
 
-    echo '<div class="w3-responsive">';
     render_table($scores, $tableColumns, $tableActions, $tableOptions);
-    echo '</div>';
 
   } else {
     // Controlla se sono stati applicati filtri
@@ -181,7 +179,7 @@
 
 <?= ui_modal('modal-insert-score', [
   'title' => 'Inserisci manualmente un punteggio',
-  'content' => '<form id="form-add-score" method="POST" action="/game-scores-add.php?id=' . $game["game_id"] . '&leaderboard_id=' . $leaderboardId . '">
+  'content' => '<form id="form-add-score" style="margin-bottom:0" method="POST" action="/game-scores-add.php?id=' . $game["game_id"] . '&leaderboard_id=' . $leaderboardId . '">
     <input type="hidden" name="leaderboard_id" value="' . $leaderboardId . '">
     <div class="ui-input-group">
       <label class="ui-label">Nome del giocatore</label>
@@ -191,11 +189,11 @@
       <label class="ui-label">Punteggio</label>
       <input id="input-insert-score__score" name="score" type="number" step="any" class="ui-input" required>
     </div>
-    <h5 class="accordion w3-button w3-light-grey w3-block w3-left-align w3-margin-bottom" onclick="toggleAccordion(this)">
-      <span class="w3-margin-right">Campi opzionali</span>
+    <h5 class="accordion" onclick="toggleAccordion(this)" style="display:block;width:100%;text-align:left;background:var(--bg-color-offset,#f1f1f1);border:none;padding:8px 16px;cursor:pointer">
+      <span style="margin-right:16px">Campi opzionali</span>
       <small><i class="fas fa-arrow-circle-down"></i></small>
     </h5>
-    <div class="w3-hide w3-margin-bottom">
+    <div class="accordion-content" style="display:none">
       <div class="ui-input-group">
         <label class="ui-label">Tags <a href="/documentation.php" target="_blank" data-tippy-content="Vedi documentazione"><i class="fas fa-question-circle"></i></a></label>
         <input id="input-insert-score__tags" name="tags" type="text" class="ui-input">
@@ -220,7 +218,7 @@
         </select>
       </div>
     </div>
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px" class="ui-modal__footer">
+    <div style="display:flex;justify-content:flex-end;gap:8px;padding-top:16px">
       ' . ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-insert-score', resetInsertScoreForm)"]]) . '
       ' . ui_button('Inserisci', 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'type' => 'submit']) . '
     </div>

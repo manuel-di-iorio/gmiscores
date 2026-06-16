@@ -23,7 +23,7 @@
                 "key" => "name",
                 "sortable" => true,
                 "format_callback" => function ($value, $row) {
-                    $icon = !empty($row['is_private']) ? ' <i class="fas fa-lock w3-text-gray" title="Classifica privata"></i>' : '';
+                    $icon = !empty($row['is_private']) ? ' <i class="fas fa-lock text-gray" title="Classifica privata"></i>' : '';
                     return htmlspecialchars($value) . $icon;
                 }
             ],
@@ -58,7 +58,7 @@
                 "url" => function($row) use ($game) {
                     return "game-scores.php?id=" . $game['game_id'] . "&leaderboard_id=" . $row['leaderboard_id'];
                 },
-                "class" => "btn-link w3-margin-right"
+                "class" => "btn-link"
             ],
             [
                 "label" => "Modifica",
@@ -66,7 +66,7 @@
                  "url" => function($row) {
                     return "edit-leaderboard.php?leaderboard_id=" . $row['leaderboard_id'];
                 },
-                "class" => "btn-link w3-margin-right"
+                "class" => "btn-link"
             ]
         ];
 
@@ -86,7 +86,7 @@
 
         $tableOptions = [
             "table_id" => "leaderboardsTable",
-            "table_class" => "w3-table w3-striped w3-bordered w3-hoverable",
+            "table_class" => "ui-table",
             "primary_key" => "leaderboard_id",
             "base_url" => "leaderboards.php?game_id=" . $game["game_id"],
             "default_sort_column" => "name",

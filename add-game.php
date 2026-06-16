@@ -25,19 +25,19 @@
      ]
    ]));
    if ($response === FALSE) {
-     $formError = '<div class="w3-panel w3-red"><h4>È avvenuto un errore del server durante l\'esecuzione della richiesta, riprovare nuovamente</h4></div>';
+     $formError = '<div style="background:#f44336;color:#fff;padding:8px 16px;border-radius:4px;margin-bottom:16px"><h4>È avvenuto un errore del server durante l\'esecuzione della richiesta, riprovare nuovamente</h4></div>';
    }
    */
    if (!$formError) {
      /*$responseJson = json_decode($response, true);
      if (!$responseJson["success"]) {
-       $formError = '<div class="w3-panel w3-red"><h4>Errore: non hai superato il controllo antispam</h4></div>';
+       $formError = '<div style="background:#f44336;color:#fff;padding:8px 16px;border-radius:4px;margin-bottom:16px"><h4>Errore: non hai superato il controllo antispam</h4></div>';
      }*/
      // Validate the name
      if (!$formError) {
        $gameName = isset($_POST["name"]) ? trim($_POST["name"]) : "";
        if (empty($gameName)) {
-         $formError = '<div class="w3-panel w3-red"><h4>Errore: nome del gioco richiesto</h4></div>';
+         $formError = '<div style="background:#f44336;color:#fff;padding:8px 16px;border-radius:4px;margin-bottom:16px"><h4>Errore: nome del gioco richiesto</h4></div>';
        }
        if (!$formError) {
        $clientSecret = bin2hex(random_bytes(16));

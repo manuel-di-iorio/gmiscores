@@ -1,11 +1,11 @@
 // Script to open and close the navbar
 function w3_open() {
-  document.getElementById("navbar").style.display = "block";
+  document.getElementById("navbar").classList.add("navbar-visible");
   document.getElementById("overlay").style.display = "block";
 }
 
 function w3_close() {
-  document.getElementById("navbar").style.display = "none";
+  document.getElementById("navbar").classList.remove("navbar-visible");
   document.getElementById("overlay").style.display = "none";
 }
 
@@ -66,9 +66,9 @@ function toggleAccordion(el) {
   elIcon.classList.remove("fa-arrow-circle-up");
   elIcon.classList.add("fa-arrow-circle-" + direction);
   if (direction === "down") {
-    el.nextElementSibling.classList.add("w3-hide");
+    el.nextElementSibling.style.display = "none";
   } else {
-    el.nextElementSibling.classList.remove("w3-hide");
+    el.nextElementSibling.style.display = "block";
   }
 }
 
@@ -183,6 +183,7 @@ function toggleAccordion(el) {
 (function initLandingHeader() {
   const header = document.querySelector('.landing-header');
   const hero = document.querySelector('.HomeBanner');
+  const themeToggle = document.querySelector('.theme-toggle-home');
   if (!header || !hero) return;
 
   const heroThreshold = hero.offsetHeight * 0.7;
@@ -190,8 +191,10 @@ function toggleAccordion(el) {
   const scrollHandler = () => {
     if (window.scrollY > heroThreshold) {
       header.classList.add('is-visible');
+      if (themeToggle) themeToggle.classList.add('theme-toggle-hidden');
     } else {
       header.classList.remove('is-visible');
+      if (themeToggle) themeToggle.classList.remove('theme-toggle-hidden');
     }
   };
 
@@ -213,10 +216,11 @@ function toggleAccordion(el) {
       const y = e.clientY - rect.top;
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      const rotateX = (y - centerY) / centerY * -6;
-      const rotateY = (x - centerX) / centerX * 6;
+      const rotateX = (y - centerY) / centerY * -10;
+      const rotateY = (x - centerX) / centerX * 10;
 
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+      card.style.transition = 'none';
+      card.style.transform = `perspective(800px) translateY(-8px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
 
       const shine = card.querySelector('.tilt-card__shine');
       if (shine) {
@@ -228,7 +232,8 @@ function toggleAccordion(el) {
     });
 
     card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+      card.style.transition = 'transform 0.4s cubic-bezier(0.16,1,0.3,1)';
+      card.style.transform = 'perspective(800px) translateY(0) rotateX(0deg) rotateY(0deg) scale(1)';
     });
   });
 })();

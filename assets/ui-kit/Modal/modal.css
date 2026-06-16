@@ -73,8 +73,20 @@
 .ui-modal__body {
   padding: 24px;
   overflow-y: auto;
+  overflow-x: hidden;
   flex: 1;
   color: var(--text-color, #333);
+}
+
+.ui-modal__body .accordion-content {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.ui-modal__body .accordion-content .ui-input,
+.ui-modal__body .accordion-content .ui-select {
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .ui-modal__footer {
