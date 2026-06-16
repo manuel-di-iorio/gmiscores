@@ -11,7 +11,14 @@ function w3_close() {
 
 // Modals
 function openModal(modalId, onOpen, ctx) {
-  document.getElementById(modalId).style.display = "block";
+  var el = document.getElementById(modalId);
+  el.style.display = "block";
+  el.removeAttribute('data-armed');
+  var btn = el.querySelector('.ui-destructive');
+  if (btn) {
+    btn.innerHTML = btn.getAttribute('data-original-html') || btn.innerHTML;
+    btn.classList.remove('is-armed');
+  }
   if (onOpen) onOpen(ctx);
 }
 
@@ -19,6 +26,37 @@ function closeModal(modalId, onClose, ctx) {
   document.getElementById(modalId).style.display = 'none';
   if (onClose) onClose(ctx);
 }
+
+// Two-click destructive confirmation (capture phase to intercept before onclick)
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.ui-destructive');
+  if (!btn) return;
+
+  var overlay = btn.closest('.ui-modal-overlay');
+  if (!overlay) return;
+
+  if (overlay.getAttribute('data-armed') === '1') {
+    overlay.removeAttribute('data-armed');
+    btn.classList.remove('is-armed');
+    return;
+  }
+
+  e.stopPropagation();
+  e.preventDefault();
+
+  overlay.setAttribute('data-armed', '1');
+  if (!btn.getAttribute('data-original-html')) {
+    btn.setAttribute('data-original-html', btn.innerHTML);
+  }
+  btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Conferma?';
+  btn.classList.add('is-armed');
+
+  setTimeout(function() {
+    overlay.removeAttribute('data-armed');
+    btn.innerHTML = btn.getAttribute('data-original-html') || btn.innerHTML;
+    btn.classList.remove('is-armed');
+  }, 5000);
+}, true);
 
 // Accordions
 function toggleAccordion(el) {

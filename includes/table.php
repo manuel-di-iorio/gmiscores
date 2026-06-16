@@ -122,7 +122,7 @@ function render_table(array $data, array $columns, array $actions = [], array $o
     // --- Table Header ---
     echo '<thead class="modern-table-header"><tr>';
     if ($selectable) {
-        echo '<th class="modern-table-header-cell" style="width:40px"><input type="checkbox" onclick="toggleSelectAll(this, \'selected_ids[]\')"></th>';
+        echo '<th class="modern-table-header-cell" style="width:40px;vertical-align:middle"><input type="checkbox" onclick="toggleSelectAll(this, \'selected_ids[]\')" style="vertical-align:middle"></th>';
     }
     foreach ($columns as $column) {
         echo '<th class="modern-table-header-cell">';
@@ -174,7 +174,7 @@ function render_table(array $data, array $columns, array $actions = [], array $o
             echo '<tr class="modern-table-row">';
             if ($selectable) {
                 $pkValue = $row[$primaryKey] ?? '';
-                echo '<td class="modern-table-cell" style="width:40px"><input type="checkbox" name="selected_ids[]" value="' . htmlspecialchars($pkValue) . '"></td>';
+                echo '<td class="modern-table-cell" style="width:40px;vertical-align:middle"><input type="checkbox" name="selected_ids[]" value="' . htmlspecialchars($pkValue) . '" style="vertical-align:middle"></td>';
             }
             foreach ($columns as $column) {
                 $cellValue = $row[$column["key"]] ?? '';

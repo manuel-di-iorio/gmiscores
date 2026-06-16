@@ -109,24 +109,6 @@ function onViewScoreDataModalOpen({ scoreId, playerName, data }) {
 }
 
 
-// --------------
-
-// When the user clicks anywhere outside of the modal, close it
-const modalDeleteScoreDiv = document.getElementById('modal-delete-score');
-const modalClearScoresDiv = document.getElementById('modal-clear-scores');
-const modalBanPlayerDiv = document.getElementById('modal-ban-player');
-const modalViewScoreData = document.getElementById('modal-view-score-data');
-
-window.onclick = (event) => {
-  switch (event.target) {
-    case modalDeleteScoreDiv: closeModal('modal-delete-score', onDeleteScoreModalClose); break;
-    case modalClearScoresDiv: closeModal('modal-clear-scores'); break;
-    case modalBanPlayerDiv: closeModal('modal-ban-player', onBanPlayerModalClose); break;
-    case modalViewScoreData: closeModal('modal-view-score-data'); break;
-  }
-}
-
-
 /* IMPORT FILE UPLOAD */
 function importPickFile() {
   document.getElementById("btn-import-pick-file").click();

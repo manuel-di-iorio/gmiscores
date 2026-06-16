@@ -2987,3 +2987,94 @@ textarea.internal-input {
     gap: 8px;
   }
 }
+
+/* ================================================================
+   UI KIT — ui_button()
+   ================================================================ */
+
+/* Base: reset native button styles */
+.ui-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 600 !important;
+  border: none !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  text-decoration: none !important;
+  line-height: 1.4 !important;
+  transition: background .2s, color .2s, box-shadow .2s, opacity .2s !important;
+  border-radius: 8px !important;
+  gap: 6px !important;
+}
+.ui-btn:focus-visible {
+  outline: 2px solid var(--primary-color, #6366f1) !important;
+  outline-offset: 2px !important;
+}
+.ui-btn:disabled {
+  opacity: .5 !important;
+  cursor: not-allowed !important;
+}
+
+/* Sizes */
+.ui-btn.text-sm { font-size: .875rem !important; padding: 6px 12px !important; }
+.ui-btn.text-base { font-size: 1rem !important; padding: 8px 16px !important; }
+.ui-btn.text-lg { font-size: 1.125rem !important; padding: 12px 24px !important; }
+
+/* Primary variant */
+.ui-btn.bg-blue-600 {
+  background: var(--button-bg, #000) !important;
+  color: var(--button-text-color, #fff) !important;
+}
+.ui-btn.bg-blue-600:hover:not(:disabled) {
+  background: var(--button-bg--hover, #333) !important;
+}
+.ui-btn.bg-blue-600:active:not(:disabled) {
+  background: var(--button-bg--hover, #333) !important;
+}
+
+/* Secondary / ghost / danger — map to matching colors */
+.ui-btn.bg-gray-200 {
+  background: var(--bg-color-offset, #f0f0f0) !important;
+  color: var(--text-color, #333) !important;
+}
+.ui-btn.bg-gray-200:hover:not(:disabled) {
+  background: var(--bg-color-offset-hover, #e0e0e0) !important;
+}
+
+.ui-btn.bg-red-600 {
+  background: #dc2626 !important;
+  color: #fff !important;
+}
+.ui-btn.bg-red-600:hover:not(:disabled) {
+  background: #b91c1c !important;
+}
+
+.ui-btn.bg-green-600 {
+  background: #16a34a !important;
+  color: #fff !important;
+}
+.ui-btn.bg-green-600:hover:not(:disabled) {
+  background: #15803d !important;
+}
+
+.ui-btn.bg-amber-500 {
+  background: #f59e0b !important;
+  color: #fff !important;
+}
+.ui-btn.bg-amber-500:hover:not(:disabled) {
+  background: #d97706 !important;
+}
+
+.ui-btn.bg-transparent {
+  background: transparent !important;
+  color: var(--text-color, #333) !important;
+}
+.ui-btn.bg-transparent:hover:not(:disabled) {
+  background: var(--bg-color-offset, #f0f0f0) !important;
+}
+
+/* Full width */
+.ui-btn.w-full {
+  width: 100% !important;
+}

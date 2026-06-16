@@ -49,7 +49,7 @@
           <i class="fas fa-search"></i>
           <h4>Nessun ban trovato</h4>
           <p>Prova ad azzerare i filtri.</p>
-          <a href="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>?id=<?= $game["game_id"] ?>" class="w3-button w3-black">Rimuovi filtri</a>
+          <?= ui_button('Rimuovi filtri', 'primary', 'md', ['href' => htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $game['game_id']]) ?>
         </div>
       <?php } else { ?>
         <div class="internal-empty">
@@ -61,29 +61,14 @@
   </div>
 </div>
 
-<!-- Delete ban modal -->
-<div id="modal-delete-ban" class="w3-modal internal-modal">
-  <div class="w3-modal-content w3-animate-top">
-    <!-- Modal content -->
-    <div class="w3-container ModalContent">
-      <h4>
-        Sei sicuro di voler revocare il ban di 
-        <strong><span id="modal-delete-ban__player-name"></span></strong> ?
-      </h4>
-    </div>
-
-    <!-- Modal footer -->
-    <footer class="w3-container w3-light-grey w3-padding-16 w3-right-align">
-      <a href="javascript:;" onclick="deleteBan()" class="btn-link ModalFooterLink w3-text-red">
-        <i class="fas fa-user-check"></i>
-        Revoca ban
-      </a>
-
-      <button onclick="closeModal('modal-delete-ban', onDeleteBanModalClose)" type="button" 
-              class="w3-button w3-black">Annulla</button>
-    </footer>
-  </div>
-</div>
+<?= ui_modal('modal-delete-ban', [
+  'title' => 'Conferma revoca ban',
+  'content' => '<p>Sei sicuro di voler revocare il ban di <strong><span id="modal-delete-ban__player-name"></span></strong> ?</p>',
+  'footer' =>
+    ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-ban', onDeleteBanModalClose)"]]) .
+    ui_button('Revoca ban', 'danger', 'md', ['icon' => 'fas fa-user-check', 'attrs' => ['onclick' => 'deleteBan()'], 'class' => 'ui-destructive']),
+  'footer_right' => true,
+]) ?>
 
 <script>
 /* MODALS */
@@ -105,12 +90,4 @@ function deleteBan() {
   location.href = "game-bans-remove.php?id=" + modalSelectedBan + "&game=<?= $game["game_id"]; ?>";
 }
 
-// When the user clicks anywhere outside of the modal, close it
-const modalDeleteBanDiv = document.getElementById('modal-delete-ban');
-
-window.onclick = (event) => {
-  switch (event.target) {
-    case modalDeleteBanDiv: closeModal('modal-delete-ban', onDeleteBanModalClose); break;
-  }
-}
 </script>

@@ -3,42 +3,25 @@
     <div class="private-badge"><i class="fas fa-lock"></i> Classifica privata — la lettura via API richiede un hash di autenticazione.</div>
   <?php } ?>
   <div class="internal-actions internal-actions--right">
-    <!-- Manually add score btn -->
-    <button class="w3-button w3-black" onclick="openModal('modal-insert-score')">
-      <i class="fa fa-plus-circle w3-margin-right"></i> Inserisci punteggio
-    </button>
+    <?= ui_button('Inserisci punteggio', 'primary', 'md', ['icon' => 'fa fa-plus-circle', 'attrs' => ['onclick' => "openModal('modal-insert-score')"]]) ?>
 
-    <!-- Export scores -->
     <?php if (!empty($scores)) { ?>
-      <a href="game-scores-export.php?id=<?= $game["game_id"] ?>&leaderboard_id=<?= $leaderboardId ?>" download>
-        <button class="w3-button w3-black">
-          <i class="fa fa-cloud-download-alt w3-margin-right"></i> Esporta
-        </button>
-      </a>
+      <?= ui_button('Esporta', 'primary', 'md', ['icon' => 'fa fa-cloud-download-alt', 'href' => 'game-scores-export.php?id=' . $game['game_id'] . '&leaderboard_id=' . $leaderboardId, 'attrs' => ['download' => '']]) ?>
     <?php } ?>
 
-    <!-- Import scores -->
-    <button class="w3-button w3-black" onclick="importPickFile()">
-      <i class="fa fa-cloud-upload-alt w3-margin-right"></i> Importa
-    </button>
+    <?= ui_button('Importa', 'primary', 'md', ['icon' => 'fa fa-cloud-upload-alt', 'attrs' => ['onclick' => 'importPickFile()']]) ?>
     <form id="form-import" action="game-scores-import.php?id=<?= $game["game_id"] ?>&leaderboard_id=<?= $leaderboardId ?>" method="post" enctype="multipart/form-data" onsubmit="return false;" style="display:none">
       <input type='file' name="file" id="btn-import-pick-file" hidden onchange="importUploadOnChange(this)" />
     </form>
 
-    <!-- Delete selected button (hidden by default) -->
     <?php if (!empty($scores)) { ?>
       <a href="javascript:;" id="btn-delete-selected-wrapper" style="display:none">
-        <button class="w3-button w3-black" onclick="openModal('modal-delete-selected-scores', onDeleteSelectedScoresModalOpen)">
-          <i class="fa fa-trash w3-margin-right"></i> Elimina selezionati
-        </button>
+        <?= ui_button('Elimina selezionati', 'primary', 'md', ['icon' => 'fa fa-trash', 'attrs' => ['onclick' => "openModal('modal-delete-selected-scores', onDeleteSelectedScoresModalOpen)"]]) ?>
       </a>
     <?php } ?>
 
-    <!-- Clear scores button -->
     <?php if (!empty($scores)) { ?>
-      <button class="w3-button w3-black" onclick="openModal('modal-clear-scores')">
-        <i class="fa fa-trash w3-margin-right"></i> Cancella tutti
-      </button>
+      <?= ui_button('Cancella tutti', 'primary', 'md', ['icon' => 'fa fa-trash', 'attrs' => ['onclick' => "openModal('modal-clear-scores')"]]) ?>
     <?php } ?>
   </div>
 
@@ -173,192 +156,113 @@
         <i class="fas fa-search"></i>
         <h4>Nessun punteggio trovato</h4>
         <p>Prova ad allargare i criteri o azzerare i filtri.</p>
-        <a href="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>?id=<?= $game["game_id"] ?>&leaderboard_id=<?= $leaderboardId ?>" class="w3-button w3-black">Rimuovi filtri</a>
+        <?= ui_button('Rimuovi filtri', 'primary', 'md', ['href' => htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $game['game_id'] . '&leaderboard_id=' . $leaderboardId]) ?>
       </div>
     <?php } else { ?>
       <div class="internal-empty">
         <i class="fas fa-trophy"></i>
         <h4>Non ci sono ancora punteggi</h4>
         <p>I punteggi inviati dagli utenti tramite API appariranno qui. Consulta la documentazione per iniziare.</p>
-        <a href="documentation.php" class="w3-button w3-black"><i class="fa fa-arrow-circle-right w3-margin-right"></i> Documentazione</a>
+        <?= ui_button('Documentazione', 'primary', 'md', ['icon' => 'fa fa-arrow-circle-right', 'href' => 'documentation.php']) ?>
       </div>
     <?php } } ?>
   </div>
 </div>
 
-<!-- Delete score modal -->
-<div id="modal-delete-score" class="w3-modal internal-modal">
-  <div class="w3-modal-content w3-animate-top">
-    <!-- Modal content -->
-    <div class="w3-container ModalContent">
-      <h4>
-        Sei sicuro di voler cancellare il punteggio di 
-        <strong><span id="modal-delete-score__player-name"></span></strong> ?
-      </h4>
-      <div>L'operazione non è reversibile</div>
+<?= ui_modal('modal-delete-score', [
+  'title' => 'Conferma eliminazione',
+  'content' => '<p>Sei sicuro di voler cancellare il punteggio di <strong><span id="modal-delete-score__player-name"></span></strong> ?</p><p>L\'operazione non è reversibile.</p>',
+  'footer' =>
+    ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-score', onDeleteScoreModalClose)"]]) .
+    ui_button('Elimina punteggio', 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'deleteScore()'], 'class' => 'ui-destructive']),
+  'footer_right' => true,
+]) ?>
+
+
+<?= ui_modal('modal-insert-score', [
+  'title' => 'Inserisci manualmente un punteggio',
+  'content' => '<form id="form-add-score" method="POST" action="/game-scores-add.php?id=' . $game["game_id"] . '&leaderboard_id=' . $leaderboardId . '">
+    <input type="hidden" name="leaderboard_id" value="' . $leaderboardId . '">
+    <div class="ui-input-group">
+      <label class="ui-label">Nome del giocatore</label>
+      <input id="input-insert-score__player" name="player" type="text" class="ui-input" required>
     </div>
-
-    <!-- Modal footer -->
-    <footer class="w3-container w3-light-grey w3-padding-16 w3-right-align">
-      <a href="javascript:;" onclick="deleteScore()" class="btn-link ModalFooterLink w3-text-red">
-        <i class="fas fa-trash"></i>
-        Elimina punteggio
-      </a>
-
-      <button onclick="closeModal('modal-delete-score', onDeleteScoreModalClose)" type="button" 
-              class="w3-button w3-black">Annulla</button>
-    </footer>
-  </div>
-</div>
-
-
-<!-- Modal insert score -->
-<div id="modal-insert-score" class="w3-modal internal-modal">
-  <div class="w3-modal-content w3-animate-top">
-    <!-- Modal content -->
-    <div class="w3-container ModalContent">
-      <h4>Inserisci manualmente un punteggio</h4>
+    <div class="ui-input-group">
+      <label class="ui-label">Punteggio</label>
+      <input id="input-insert-score__score" name="score" type="number" step="any" class="ui-input" required>
     </div>
-
-    <form id="form-add-score" class="w3-container" method="POST" action="/game-scores-add.php?id=<?= $game["game_id"] ?>&leaderboard_id=<?= $leaderboardId ?>">
-      <input type="hidden" name="leaderboard_id" value="<?= $leaderboardId ?>">
-      <div class="w3-section">
-        <label><b>Nome del giocatore</b></label>
-        <input id="input-insert-score__player" name="player" type="text" class="w3-input w3-border w3-round w3-margin-bottom" required>
-
-        <label><b>Punteggio</b></label>
-        <input id="input-insert-score__score" name="score" type="number" step="any" class="w3-input w3-border w3-round w3-margin-bottom" required>        
-
-        <br />
-
-        <h5 class="accordion w3-button w3-light-grey w3-block w3-left-align w3-margin-bottom" onclick="toggleAccordion(this)">
-          <span class="w3-margin-right">Campi opzionali</span>
-          <small><i class="fas fa-arrow-circle-down"></i></small>
-        </h5>
-
-        <div class="w3-hide w3-margin-bottom">
-          <label><b>Tags <a href="/documentation.php" target="_blank" data-tippy-content="Vedi documentazione"><i class="fas fa-question-circle"></i></a></b></label>
-          <input id="input-insert-score__tags" name="tags" type="text" class="w3-input w3-border w3-round w3-margin-bottom" value="">
-
-          <!-- <label>
-            <b>Firma con chiave privata <a href="/documentation.php" target="_blank" data-tippy-content="Vedi documentazione"><i class="fas fa-question-circle"></i></a></b>
-          </label>
-          <input id="input-insert-score__sign" name="sign" type="text" class="w3-input w3-border w3-round w3-margin-bottom"> -->
-
-          <label><b>Dati (una stringa associata al punteggio, max 64kb)</b></label>
-          <textarea id="input-insert-score__data" name="data" class="w3-input w3-border w3-round w3-margin-bottom"></textarea>
-
-          <label><b>Modalità di inserimento del punteggio <a href="/documentation.php" target="_blank" data-tippy-content="Vedi documentazione"><i class="fas fa-question-circle"></i></a></b></label>
-          <select class="w3-select" name="insertMode" required>
-            <option value="higher" selected>Solo se maggiore del precedente (higher)</option>
-            <option value="lower">Solo se minore del precedente (lower)</option>
-            <option value="all">In ogni caso (all)</option>
-          </select>
-
-          <label class="w3-margin-top" style="display:block"><b>Ambiente</b></label>
-          <select class="w3-select" name="env">
-            <option value="production">Produzione</option>
-            <option value="test">Test</option>
-          </select>
-        </div> <!-- /w3-hide -->
-      </div> <!-- /.w3-section -->
-
-      <!-- Modal footer -->
-      <footer class="w3-container w3-light-grey w3-padding-16 w3-right-align">
-        <button type="submit" class="w3-button ModalFooterLink"><i class="fas fa-plus-circle"></i>
-          Inserisci
-        </button>
-
-        <button onclick="closeModal('modal-insert-score', resetInsertScoreForm)" type="button" class="w3-button w3-black">Annulla</button>
-      </footer>
-     
-    </form>
-  </div>
-</div>
-
-<!-- Modal delete selected scores -->
-<div id="modal-delete-selected-scores" class="w3-modal internal-modal">
-  <div class="w3-modal-content w3-animate-top">
-    <div class="w3-container ModalContent">
-      <h4>Sei sicuro di voler cancellare i <strong><span id="modal-delete-selected-scores__count"></span></strong> punteggi selezionati?</h4>
-      <div>L'operazione non è reversibile</div>
-    </div>
-
-    <footer class="w3-container w3-light-grey w3-padding-16 w3-right-align">
-      <a href="javascript:;" onclick="deleteSelectedScores()" class="btn-link ModalFooterLink w3-text-red">
-        <i class="fas fa-trash"></i>
-        Elimina selezionati
-      </a>
-
-      <button onclick="closeModal('modal-delete-selected-scores')" type="button"
-              class="w3-button w3-black">Annulla</button>
-    </footer>
-  </div>
-</div>
-
-<!-- Modal clear scores -->
-<div id="modal-clear-scores" class="w3-modal internal-modal">
-  <div class="w3-modal-content w3-animate-top">
-    <!-- Modal content -->
-    <div class="w3-container ModalContent">
-      <h4>Sei sicuro di voler cancellare <strong>tutti</strong> i punteggi ?</h4>
-      <div>L'operazione non è reversibile</div>
-    </div>
-
-    <!-- Modal footer -->
-    <footer class="w3-container w3-light-grey w3-padding-16 w3-right-align">
-      <a href="javascript:;" onclick="clearScores()" class="btn-link ModalFooterLink w3-text-red">
-        <i class="fas fa-trash"></i>
-        Elimina tutti i punteggi
-      </a>
-
-      <button onclick="closeModal('modal-clear-scores')" type="button" class="w3-button w3-black">Annulla</button>
-    </footer>
-  </div>
-</div>
-
-<!-- Modal ban player -->
-<div id="modal-ban-player" class="w3-modal internal-modal">
-  <div class="w3-modal-content w3-animate-top">
-    <!-- Modal content -->
-    <div class="w3-container ModalContent">
-      <h4 class="w3-margin-bottom">Vuoi bannare <strong><span id="modal-ban-player__player-name"></span></strong> ?</h4>
-
-      <div class="w3-opacity">
-        <div>Tutti i suoi punteggi inviati su questo gioco verranno rimossi e non potrà inviarne di nuovi.</div>
-        <div>Potrai rimuovere il ban in seguito ma i punteggi rimossi non potranno essere recuperati.</div>
-        <div>I ban non influiscono su altri tuoi giochi.</div>
+    <h5 class="accordion w3-button w3-light-grey w3-block w3-left-align w3-margin-bottom" onclick="toggleAccordion(this)">
+      <span class="w3-margin-right">Campi opzionali</span>
+      <small><i class="fas fa-arrow-circle-down"></i></small>
+    </h5>
+    <div class="w3-hide w3-margin-bottom">
+      <div class="ui-input-group">
+        <label class="ui-label">Tags <a href="/documentation.php" target="_blank" data-tippy-content="Vedi documentazione"><i class="fas fa-question-circle"></i></a></label>
+        <input id="input-insert-score__tags" name="tags" type="text" class="ui-input">
+      </div>
+      <div class="ui-input-group">
+        <label class="ui-label">Dati (una stringa associata al punteggio, max 64kb)</label>
+        <textarea id="input-insert-score__data" name="data" class="ui-input"></textarea>
+      </div>
+      <div class="ui-input-group">
+        <label class="ui-label">Modalit&agrave; di inserimento del punteggio <a href="/documentation.php" target="_blank" data-tippy-content="Vedi documentazione"><i class="fas fa-question-circle"></i></a></label>
+        <select class="ui-select" name="insertMode" required>
+          <option value="higher" selected>Solo se maggiore del precedente (higher)</option>
+          <option value="lower">Solo se minore del precedente (lower)</option>
+          <option value="all">In ogni caso (all)</option>
+        </select>
+      </div>
+      <div class="ui-input-group">
+        <label class="ui-label">Ambiente</label>
+        <select class="ui-select" name="env">
+          <option value="production">Produzione</option>
+          <option value="test">Test</option>
+        </select>
       </div>
     </div>
-
-    <!-- Modal footer -->
-    <footer class="w3-container w3-light-grey w3-padding-16 w3-right-align">
-      <a href="javascript:;" onclick="banPlayer()" class="btn-link ModalFooterLink w3-text-red">
-        <i class="fas fa-user-times"></i>
-        Banna il giocatore
-      </a>
-
-      <button onclick="closeModal('modal-ban-player', onBanPlayerModalClose)" type="button"
-              class="w3-button w3-black">Annulla</button>
-    </footer>
-  </div>
-</div>
-
-<!-- Modal view score data -->
-<div id="modal-view-score-data" class="w3-modal internal-modal">
-  <div class="w3-modal-content w3-animate-top">
-    <!-- Modal content -->
-    <div class="w3-container ModalContent">
-      <h4>Dati associati al punteggio #<span id="modal-view-score-data__score-id"></span> di <strong><span id="modal-view-score-data__player-name"></span></strong></h4>
-      
-      <textarea id="modal-view-score-data__data" class="w3-input w3-border w3-round w3-margin-bottom"></textarea>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px" class="ui-modal__footer">
+      ' . ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-insert-score', resetInsertScoreForm)"]]) . '
+      ' . ui_button('Inserisci', 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'type' => 'submit']) . '
     </div>
+  </form>',
+]) ?>
 
-    <!-- Modal footer -->
-    <footer class="w3-container w3-light-grey w3-padding-16 w3-right-align">
-      <button onclick="closeModal('modal-view-score-data')" type="button" class="w3-button w3-black">Chiudi</button>
-    </footer>
-  </div>
-</div>
+<?= ui_modal('modal-delete-selected-scores', [
+  'title' => 'Conferma eliminazione',
+  'content' => '<p>Sei sicuro di voler cancellare i <strong><span id="modal-delete-selected-scores__count"></span></strong> punteggi selezionati?</p><p>L\'operazione non è reversibile.</p>',
+  'footer' =>
+    ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-selected-scores')"]]) .
+    ui_button('Elimina selezionati', 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'deleteSelectedScores()'], 'class' => 'ui-destructive']),
+  'footer_right' => true,
+]) ?>
+
+<?= ui_modal('modal-clear-scores', [
+  'title' => 'Conferma cancellazione',
+  'content' => '<p>Sei sicuro di voler cancellare <strong>tutti</strong> i punteggi ?</p><p>L\'operazione non è reversibile.</p>',
+  'footer' =>
+    ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-clear-scores')"]]) .
+    ui_button('Elimina tutti', 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'clearScores()'], 'class' => 'ui-destructive']),
+  'footer_right' => true,
+]) ?>
+
+<?= ui_modal('modal-ban-player', [
+  'title' => 'Conferma ban',
+  'content' => '<p>Vuoi bannare <strong><span id="modal-ban-player__player-name"></span></strong> ?</p>
+    <p>Tutti i suoi punteggi inviati su questo gioco verranno rimossi e non potr&agrave; inviarne di nuovi.</p>
+    <p>Potrai rimuovere il ban in seguito ma i punteggi rimossi non potranno essere recuperati.</p>
+    <p>I ban non influiscono su altri tuoi giochi.</p>',
+  'footer' =>
+    ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-ban-player', onBanPlayerModalClose)"]]) .
+    ui_button('Banna giocatore', 'danger', 'md', ['icon' => 'fas fa-user-times', 'attrs' => ['onclick' => 'banPlayer()'], 'class' => 'ui-destructive']),
+  'footer_right' => true,
+]) ?>
+
+<?= ui_modal('modal-view-score-data', [
+  'title' => 'Dati associati al punteggio',
+  'content' => '<p>Dati associati al punteggio #<span id="modal-view-score-data__score-id"></span> di <strong><span id="modal-view-score-data__player-name"></span></strong></p>
+    <textarea id="modal-view-score-data__data" class="ui-input" style="min-height:120px"></textarea>',
+  'footer' => ui_button('Chiudi', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-view-score-data')"]]),
+  'footer_right' => true,
+]) ?>
 
 <?php require_once("game-scores.script.php"); ?>

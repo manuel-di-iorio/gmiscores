@@ -50,9 +50,7 @@
   ?>
   <?php if ($pendingCount > 0) { ?>
     <form method="POST" onsubmit="return confirm('Eseguire ' + <?= $pendingCount ?> + ' migrazioni pendenti?')">
-      <button type="submit" class="w3-button w3-black w3-padding-large" style="margin-top:8px">
-        <i class="fas fa-play w3-margin-right"></i> Esegui migrazioni pendenti (<?= $pendingCount ?>)
-      </button>
+      <?= ui_button('Esegui migrazioni pendenti (' . $pendingCount . ')', 'primary', 'md', ['icon' => 'fas fa-play', 'type' => 'submit', 'class' => 'mt-2']) ?>
     </form>
   <?php } else { ?>
     <div class="info-panel" style="border-left-color:#22c55e">

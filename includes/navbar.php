@@ -47,9 +47,9 @@ $navbarItems = [
         <?php } ?> -->
         Ciao&nbsp;<span class="username"><?= $user["username"] ?></span>
       </div>
-      <a href="logout.php" class="w3-button w3-block logout-button"><i class="fas fa-sign-out-alt fa-fw w3-margin-right"></i>Esci</a>
+      <?= ui_button('Esci', 'ghost', 'sm', ['icon' => 'fas fa-sign-out-alt fa-fw', 'href' => 'logout.php', 'class' => 'w3-block logout-button']) ?>
     <?php } else { ?>
-      <a href="login.php" class="w3-button w3-block login-button"><i class="fas fa-sign-in-alt fa-fw w3-margin-right"></i> Accedi</a>
+      <?= ui_button('Accedi', 'primary', 'sm', ['icon' => 'fas fa-sign-in-alt fa-fw', 'href' => 'login.php', 'class' => 'w3-block login-button']) ?>
     <?php } ?>
 
     </div>

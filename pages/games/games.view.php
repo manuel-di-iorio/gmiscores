@@ -1,10 +1,6 @@
 <div class="internal-page">
   <div class="internal-actions">
-    <a href="add-game.php">
-      <button type="submit" class="w3-button w3-black w3-padding-large">
-        <i class="fas fa-plus-circle w3-margin-right"></i> Aggiungi un nuovo gioco
-      </button>
-    </a>
+    <?= ui_button('Aggiungi un nuovo gioco', 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-game.php']) ?>
   </div>
 
   <?php
@@ -77,40 +73,27 @@
           <i class="fas fa-search"></i>
           <h4>Nessun gioco trovato</h4>
           <p>Prova ad azzerare i filtri.</p>
-          <a href="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" class="w3-button w3-black">Rimuovi filtri</a>
+          <?= ui_button('Rimuovi filtri', 'primary', 'md', ['href' => htmlspecialchars($_SERVER['PHP_SELF'])]) ?>
         </div>
       <?php } else { ?>
         <div class="internal-empty">
           <i class="fas fa-gamepad"></i>
           <h4>Non hai ancora aggiunto nessun gioco</h4>
           <p>Crea il tuo primo gioco per iniziare a utilizzare la piattaforma.</p>
-          <a href="add-game.php" class="w3-button w3-black"><i class="fas fa-plus-circle w3-margin-right"></i>Aggiungi un gioco</a>
+          <?= ui_button('Aggiungi un gioco', 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-game.php']) ?>
         </div>
       <?php } }
   ?>
 </div>
 
-<!-- Delete game modal -->
-<div id="modal-delete-game" class="w3-modal internal-modal">
-  <div class="w3-modal-content w3-animate-top">
-    <!-- Modal content -->
-    <div class="w3-container ModalContent">
-      <h4>Sei sicuro di voler cancellare il gioco <strong><span id="modal-game-name"></span></strong> ?</h4>
-      <div>L'operazione non è reversibile</div>
-    </div>
-
-    <!-- Modal footer -->
-    <footer class="w3-container w3-light-grey w3-padding-16 w3-right-align">
-      <a href="javascript:;" onclick="deleteGame()" class="btn-link ModalFooterLink w3-text-red">
-        <i class="fas fa-trash"></i>
-        Elimina gioco
-      </a>
-
-      <button onclick="closeModal('modal-delete-game', onDeleteGameModalClose)" type="button"
-        class="w3-button w3-black">Annulla</button>
-    </footer>
-  </div>
-</div>
+<?= ui_modal('modal-delete-game', [
+  'title' => 'Conferma eliminazione',
+  'content' => '<p>Sei sicuro di voler cancellare il gioco <strong><span id="modal-game-name"></span></strong> ?</p><p>L\'operazione non è reversibile.</p>',
+  'footer' =>
+    ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-game', onDeleteGameModalClose)"]]) .
+    ui_button('Elimina gioco', 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'deleteGame()'], 'class' => 'ui-destructive']),
+  'footer_right' => true,
+]) ?>
 
 <script>
   const modalDivGameName = document.getElementById('modal-game-name');
@@ -129,9 +112,4 @@
     location.href = "delete-game.php?id=" + modalSelectedGame;
   }
 
-  // When the user clicks anywhere outside of the modal, close it
-  const modalDiv = document.getElementById('modal-delete-game');
-  window.onclick = function (event) {
-    if (event.target == modalDiv) closeModal('modal-delete-game', onDeleteGameModalClose);
-  }
 </script>

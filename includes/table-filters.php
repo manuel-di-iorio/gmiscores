@@ -16,16 +16,17 @@ function render_table_filters(array $fields, array $options = []) {
     if (!$cssPrinted) {
         echo '<style>
 .table-filters { background: var(--bg-color-card, #fff); border: 1px solid var(--border-color, #e9e9e9); padding: 12px; border-radius: 8px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-.table-filters .w3-row { margin: 0 -8px; }
-.table-filters .w3-col { padding: 0 8px 12px 8px; box-sizing: border-box; }
+.table-filters .filters-row { margin: 0 -8px; display: flex; flex-wrap: wrap; }
+.table-filters .filters-col { padding: 0 8px 12px 8px; box-sizing: border-box; width: 25%; }
 .table-filters label { font-weight: 600; color: var(--text-color, #333); font-size: 0.95rem; display: block; margin-bottom: 6px; }
-.table-filters .w3-input, .table-filters .w3-select { padding: 10px 12px; border-radius: 4px; border: 1px solid var(--border-color, #e0e0e0); background: var(--input-bg, #fff); height: 40px; box-sizing: border-box; color: var(--input-text, #333); }
-.table-filters .w3-input::placeholder { color: var(--text-color-secondary, #bbb); }
-.table-filters .w3-button.w3-black { border-radius: 20px; padding: 8px 18px; box-shadow: none; }
-.table-filters .filters-actions { display:flex; align-items:flex-end; gap: 10px; }
-.table-filters .filters-actions .btn-link { margin-left: auto; color: var(--text-color, #333); text-decoration: none; align-self: center; }
+.table-filters .ui-input, .table-filters select { padding: 10px 12px; border-radius: 4px; border: 1px solid var(--border-color, #e0e0e0); background: var(--input-bg, #fff); height: 40px; box-sizing: border-box; color: var(--input-text, #333); width: 100%; }
+.table-filters .ui-input:focus, .table-filters select:focus { border-color: var(--primary-color, #6366f1); box-shadow: 0 0 0 3px rgba(99,102,241,0.12); outline: none; }
+.table-filters .ui-input::placeholder, .table-filters select::placeholder { color: var(--text-color-secondary, #bbb); }
+.table-filters .filters-actions { display:flex; align-items:flex-end; gap: 20px; }
+.table-filters .filters-actions .btn-link { color: var(--text-color, #333); text-decoration: none; align-self: center; }
 .table-filters .btn-link { color: var(--text-color, #333); text-decoration: none; align-self: center; }
-@media (max-width: 600px) { .table-filters .filters-actions { flex-direction: row; } .table-filters .w3-col { padding-bottom: 6px; } }
+@media (max-width: 992px) { .table-filters .filters-col { width: 50%; } }
+@media (max-width: 600px) { .table-filters .filters-col { width: 100%; } .table-filters .filters-actions { flex-direction: row; } }
 </style>';
         $cssPrinted = true;
     }
@@ -39,7 +40,7 @@ function render_table_filters(array $fields, array $options = []) {
     $resetPreserve = $options['reset_preserve'] ?? ['id', 'sort', 'dir'];
 
     echo '<form method="GET" class="table-filters">';
-    echo '<div class="w3-row">';
+    echo '<div class="filters-row">';
 
     // Preserve existing GET parameters (hidden inputs) except filter fields and page
     foreach ($_GET as $k => $v) {
@@ -61,11 +62,11 @@ function render_table_filters(array $fields, array $options = []) {
         $placeholder = $field['placeholder'] ?? '';
         $value = isset($_GET[$name]) ? $_GET[$name] : ($field['default'] ?? '');
 
-        echo '<div class="w3-col s12 m6 l3">';
+        echo '<div class="filters-col">';
         echo '<label>' . htmlspecialchars($label) . '</label>';
 
         if ($type === 'select' && isset($field['options']) && is_array($field['options'])) {
-            echo '<select name="' . htmlspecialchars($name) . '" class="w3-select">';
+            echo '<select name="' . htmlspecialchars($name) . '">';
             echo '<option value="">(Tutti)</option>';
             foreach ($field['options'] as $optValue => $optLabel) {
                 $sel = ((string)$optValue === (string)$value) ? ' selected' : '';
@@ -78,17 +79,17 @@ function render_table_filters(array $fields, array $options = []) {
             if ($type === 'number') $htmlType = 'number';
             if ($type === 'date') $htmlType = 'date';
 
-            echo '<input type="' . $htmlType . '" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" placeholder="' . htmlspecialchars($placeholder) . '" class="w3-input">';
+            echo '<input type="' . $htmlType . '" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" placeholder="' . htmlspecialchars($placeholder) . '" class="ui-input">';
         }
 
         echo '</div>';
     }
 
     // Action buttons
-        echo '<div class="w3-col s12 m6 l3">';
+        echo '<div class="filters-col">';
     echo '<label>&nbsp;</label>';
     echo '<div class="filters-actions">';
-    echo '<button type="submit" class="w3-button w3-black">Applica filtri</button> ';
+    echo ui_button('Applica filtri', 'primary', 'md', ['type' => 'submit']);
 
     // Build reset URL preserving only selected keys
     $resetParams = [];
@@ -98,11 +99,11 @@ function render_table_filters(array $fields, array $options = []) {
         }
     }
     $resetUrl = $_SERVER['PHP_SELF'] . (count($resetParams) ? ('?' . http_build_query($resetParams)) : '');
-    echo '<a href="' . htmlspecialchars($resetUrl) . '" class="btn-link w3-margin-left">Azzera</a>';
+    echo '<a href="' . htmlspecialchars($resetUrl) . '" class="btn-link">Azzera</a>';
 
     echo '</div>'; // close filters-actions
     echo '</div>'; // close action col
-    echo '</div>'; // close w3-row
+    echo '</div>'; // close filters-row
     echo '</form>';
 }
 

@@ -1,8 +1,6 @@
 <div class="internal-page">
     <div class="internal-actions internal-actions--right">
-        <a href="add-leaderboard.php?game_id=<?= $game['game_id'] ?>" class="w3-button w3-black">
-            <i class="fas fa-plus-circle w3-margin-right"></i>Crea classifica
-        </a>
+        <?= ui_button('Crea classifica', 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-leaderboard.php?game_id=' . $game['game_id']]) ?>
     </div>
 
     <?php
@@ -101,26 +99,19 @@
             <i class="fas fa-trophy"></i>
             <h4>Non ci sono ancora classifiche per questo gioco</h4>
             <p>Crea la prima classifica per iniziare a raccogliere punteggi.</p>
-            <a href="add-leaderboard.php?game_id=<?= $game['game_id'] ?>" class="w3-button w3-black"><i class="fas fa-plus-circle w3-margin-right"></i>Crea classifica</a>
+            <?= ui_button('Crea classifica', 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-leaderboard.php?game_id=' . $game['game_id']]) ?>
         </div>
     <?php } ?>
 </div>
 
-<!-- Delete leaderboard modal -->
-<div id="modal-delete-leaderboard" class="w3-modal internal-modal">
-    <div class="w3-modal-content w3-animate-top">
-        <div class="w3-container ModalContent">
-            <h4>Sei sicuro di voler cancellare la leaderboard <strong id="modal-delete-leaderboard__name"></strong>?</h4>
-            <p class="w3-text-red"><i class="fas fa-exclamation-triangle"></i> Attenzione: tutti i punteggi associati a questa leaderboard verranno cancellati definitivamente.</p>
-        </div>
-        <footer class="w3-container w3-light-grey w3-padding-16 w3-right-align">
-            <a href="javascript:;" onclick="deleteLeaderboard()" class="btn-link ModalFooterLink w3-text-red">
-                <i class="fas fa-trash"></i> Cancella classifica
-            </a>
-            <button onclick="closeModal('modal-delete-leaderboard')" type="button" class="w3-button w3-black">Annulla</button>
-        </footer>
-    </div>
-</div>
+<?= ui_modal('modal-delete-leaderboard', [
+  'title' => 'Conferma eliminazione',
+  'content' => '<p>Sei sicuro di voler cancellare la leaderboard <strong id="modal-delete-leaderboard__name"></strong>?</p><p><i class="fas fa-exclamation-triangle"></i> Attenzione: tutti i punteggi associati a questa leaderboard verranno cancellati definitivamente.</p>',
+  'footer' =>
+    ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-leaderboard')"]]) .
+    ui_button('Cancella classifica', 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'deleteLeaderboard()'], 'class' => 'ui-destructive']),
+  'footer_right' => true,
+]) ?>
 
 <script>
 let deleteLeaderboardUrl = '';

@@ -1,0 +1,110 @@
+.ui-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* openModal() uses style.display="block"; override with flex for centering */
+.ui-modal-overlay[style*="display: block"] {
+  display: flex !important;
+}
+
+.ui-modal {
+  background: var(--bg-color-card, #fff);
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: uiModalIn .3s cubic-bezier(.16,1,.3,1);
+  overflow: hidden;
+}
+
+.ui-modal--sm { max-width: 400px; }
+.ui-modal--lg { max-width: 700px; }
+.ui-modal--xl { max-width: 900px; }
+
+.ui-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-color, #e5e7eb);
+  flex-shrink: 0;
+}
+
+.ui-modal__title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-color-headings, #333);
+  margin: 0;
+}
+
+.ui-modal__close {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  font-size: 1.6rem;
+  color: var(--text-color-secondary, #666);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background .15s, color .15s;
+  padding: 0;
+  line-height: 1;
+}
+
+.ui-modal__close:hover {
+  background: var(--bg-color-offset, #f0f0f0);
+  color: var(--text-color, #333);
+}
+
+.ui-modal__body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+  color: var(--text-color, #333);
+}
+
+.ui-modal__footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-color, #e5e7eb);
+  flex-shrink: 0;
+}
+
+.ui-modal__footer > * {
+  margin: 0;
+}
+
+.ui-modal__footer--right {
+  justify-content: flex-end;
+}
+
+@keyframes uiModalIn {
+  from { opacity: 0; transform: translateY(24px) scale(.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Destructive confirm two-click */
+.ui-destructive.is-armed {
+  animation: uiConfirmPulse 1s ease-in-out infinite;
+}
+
+@keyframes uiConfirmPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}

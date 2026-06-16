@@ -192,11 +192,7 @@
       </button>
       <div class="accordion-content w3-hide">
         <p class="documentation-text">Include gli scripts pronti per inviare e leggere i punteggi. Per importarla, basta trascinare il file sull'editor</p>
-        <a href="/files/gms2_3-gmi_cloud-v0_9_3.yymps" download class="documentation-button-link">
-          <button type="submit" class="w3-button w3-black w3-padding-large w3-margin-bottom documentation-button">
-            <i class="fa fa-download w3-margin-right"></i> Scarica v0.9.3
-          </button>
-        </a>
+        <?= ui_button('Scarica v0.9.3', 'primary', 'md', ['icon' => 'fa fa-download', 'href' => '/files/gms2_3-gmi_cloud-v0_9_3.yymps', 'attrs' => ['download' => ''], 'class' => 'mb-4']) ?>
         <p class="documentation-text"><strong>Anteprima:</strong></p>
         <div class="code-block w3-code jsHigh">
         gmi_scores_send({ player: "Harry", score: 5000 }); // Invia il punteggio 5000 del player Harry

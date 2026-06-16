@@ -1,25 +1,25 @@
 <div class="internal-page">
     <form method="POST" class="internal-card internal-card--form">
         <?php if (isset($error)) { ?>
-            <div class="w3-panel w3-red"><?= htmlspecialchars($error) ?></div>
+            <div style="background:#f44336;color:#fff;padding:8px 16px;border-radius:4px;margin-bottom:16px"><?= htmlspecialchars($error) ?></div>
         <?php } ?>
 
         <div class="internal-card__title"><i class="fas fa-trophy"></i> Nuova classifica</div>
 
-        <div class="w3-section">
-            <label style="font-weight:600;display:block;margin-bottom:6px;font-size:0.95em"><b>Nome classifica</b></label>
-            <input type="text" name="name" class="w3-input internal-input" required
+        <div class="ui-input-group">
+            <label class="ui-label" for="name">Nome classifica</label>
+            <input type="text" name="name" class="ui-input" required
                    value="<?= htmlspecialchars($_POST['name'] ?? '') ?>">
         </div>
 
-        <div class="w3-section">
-            <label style="font-weight:600;display:block;margin-bottom:6px;font-size:0.95em"><b>Descrizione (opzionale)</b></label>
-            <textarea name="description" class="w3-input internal-input"><?= htmlspecialchars($_POST['description'] ?? '') ?></textarea>
+        <div class="ui-input-group">
+            <label class="ui-label" for="description">Descrizione (opzionale)</label>
+            <textarea name="description" class="ui-input"><?= htmlspecialchars($_POST['description'] ?? '') ?></textarea>
         </div>
 
-        <div class="w3-section">
-            <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer">
-                <input type="checkbox" name="is_private" value="1" class="w3-check" style="margin-top:3px"
+        <div class="ui-input-group">
+            <label class="ui-checkbox" style="display:flex;align-items:flex-start;gap:8px;cursor:pointer">
+                <input type="checkbox" name="is_private" value="1" style="margin-top:3px"
                     <?= (!isset($_POST['is_private']) || $_POST['is_private'] === '1') ? 'checked' : '' ?>>
                 <div>
                     <b>Classifica protetta</b>
@@ -29,10 +29,8 @@
         </div>
 
         <div style="display:flex;gap:10px;margin-top:20px">
-            <button type="submit" class="w3-button w3-black">
-                <i class="fas fa-plus-circle w3-margin-right"></i>Crea classifica
-            </button>
-            <a href="leaderboards.php?game_id=<?= $game_id ?>" class="w3-button w3-light-grey">Annulla</a>
+            <?= ui_button('Crea classifica', 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'type' => 'submit']) ?>
+            <?= ui_button('Annulla', 'secondary', 'md', ['href' => 'leaderboards.php?game_id=' . $game_id]) ?>
         </div>
     </form>
 </div>

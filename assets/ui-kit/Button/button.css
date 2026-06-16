@@ -1,0 +1,29 @@
+/* Button component custom styles */
+.ui-btn {
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.ui-btn:active {
+  transform: scale(0.97);
+}
+
+/* Ripple effect */
+.ui-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 10%);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  opacity: 0;
+  transition: opacity 0.3s, background-size 0.5s;
+}
+
+.ui-btn:active::after {
+  opacity: 1;
+  background-size: 1000%;
+  transition: opacity 0s, background-size 0s;
+}

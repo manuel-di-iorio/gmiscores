@@ -6,8 +6,6 @@
       Prima di continuare, chiedi l'abilitazione all'uso del servizio 
       <strong>Classifica online</strong> sul server Discord di Game Maker Italia.
     </p>
-    <a href="https://discord.gg/XfMfpNA" class="w3-button w3-black w3-padding-large" style="background:#5865F2!important">
-      <i class="fab fa-discord w3-margin-right"></i> Apri Discord
-    </a>
+    <?= ui_button('Apri Discord', 'primary', 'md', ['icon' => 'fab fa-discord', 'href' => 'https://discord.gg/XfMfpNA', 'attrs' => ['style' => 'background:#5865F2!important']]) ?>
   </div>
 </div>

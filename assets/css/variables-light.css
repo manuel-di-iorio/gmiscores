@@ -30,8 +30,8 @@
   --hr-color: #f6f6f6;
 
   /* Buttons */
-  --button-bg: black;
-  --button-bg--hover: rgb(41, 40, 40);
+  --button-bg: #007bff;
+  --button-bg--hover: #0056b3;
   --button-text-color: #ffffff;
 
   /* Shadows */

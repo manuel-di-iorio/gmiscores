@@ -5,6 +5,7 @@ $gameNameShowBackIcon = strpos($pageURI, "/game-scores.php") === 0 || strpos($pa
   strpos($pageURI, "/game.php") === 0 || strpos($pageURI, "/leaderboards.php") === 0;
 $backUrl = $backUrl ?? "games.php";
 header("Cache-Control: private, must-revalidate");
+require_once __DIR__ . '/../assets/ui-kit/kit.php';
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -42,6 +43,27 @@ header("Cache-Control: private, must-revalidate");
     <link rel="stylesheet" href="assets/css/variables-<?= $theme ?>.css?v=<?= asset_version('assets/css/variables-' . $theme . '.css') ?>">
     <link rel="stylesheet" href="assets/css/style.css?v=<?= asset_version('assets/css/style.css') ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/ui-kit/Button/button.css?v=<?= asset_version('assets/ui-kit/Button/button.css') ?>">
+    <link rel="stylesheet" href="assets/ui-kit/Card/card.css?v=<?= asset_version('assets/ui-kit/Card/card.css') ?>">
+    <link rel="stylesheet" href="assets/ui-kit/Input/input.css?v=<?= asset_version('assets/ui-kit/Input/input.css') ?>">
+    <link rel="stylesheet" href="assets/ui-kit/Modal/modal.css?v=<?= asset_version('assets/ui-kit/Modal/modal.css') ?>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        corePlugins: { preflight: false },
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd',
+                400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8',
+                800: '#1e40af', 900: '#1e3a8a',
+              }
+            }
+          }
+        }
+      }
+    </script>
   </head>
 
   <body class="w3-content">
@@ -51,7 +73,7 @@ header("Cache-Control: private, must-revalidate");
             <p>Questo sito utilizza solo cookie tecnici per garantirti la migliore esperienza. Non usiamo cookie di terze parti. <a href="cookie.php">Maggiori informazioni</a></p>
           </div>
         </div>
-        <button id="accept-cookie-banner" class="w3-button w3-black">Ok</button>
+        <?= ui_button('Ok', 'primary', 'sm', ['attrs' => ['id' => 'accept-cookie-banner']]) ?>
     </div>
     <?php if ($config["maintenance"]) { ?>
       <div class="w3-panel w3-yellow w3-center w3-padding w3-margin-0" style="border-radius:0;">

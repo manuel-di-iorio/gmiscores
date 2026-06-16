@@ -10,10 +10,6 @@
       <a href="cookie.php" target="_blank">Cookie Policy</a>.
     </p>
 
-    <a href="<?= $loginRedirectUrl ?>" class="discord-login-button">
-      <button type="submit" class="w3-button w3-padding-large w3-margin-top w3-margin-bottom">
-        <i class="fab fa-discord w3-margin-right"></i> Accedi con Discord
-      </button>
-    </a>
+    <?= ui_button('Accedi con Discord', 'primary', 'lg', ['icon' => 'fab fa-discord', 'href' => $loginRedirectUrl]) ?>
   </div>
 </div>
