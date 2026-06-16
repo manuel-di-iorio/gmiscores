@@ -18,4 +18,4 @@ Nega l'accesso diretto da browser ad alcune sottocartelle e setta il php engine 
 
 ## Env
 
-Il file env `lib/config.php` non è convidiso sulla repository GitHub, ma puoi trovare l'esempio default sul file `lib/config.example.php
+Il file `.env` non è convidiso sulla repository GitHub, ma puoi trovare l'esempio default sul file `.emv.example`.
