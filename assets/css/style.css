@@ -113,9 +113,13 @@ img {
 
 #navbar .LogoContainer {
   text-align: center;
-  padding: 32px 15px 20px;
+  padding: 25px 15px;
   border-bottom: 1px solid var(--navbar-border-color, #334155);
   margin-bottom: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--navbar-bg, #1e293b);
 }
 
 #navbar .navbar-logo-link {
@@ -123,9 +127,8 @@ img {
 }
 
 #navbar .Logo {
-  max-width: 100px; /* Logo leggermente più grande */
+  max-width: 150px; /* Logo leggermente più grande */
   height: auto;
-  margin-bottom: 8px; /* Spazio ridotto sotto il logo */
 }
 
 #navbar .BrandTitle {
@@ -1098,9 +1101,8 @@ textarea {
 }
 
 .landing-header .header-logo img {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  width: 150px;
+  height: auto;
 }
 
 .landing-header .header-nav {

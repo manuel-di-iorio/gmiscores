@@ -53,6 +53,15 @@
     min-width: 0;
   }
 
+  .hero-logo {
+    position: absolute;
+    top: 28px;
+    left: 40px;
+    height: 36px;
+    width: auto;
+    z-index: 3;
+  }
+
   .HomeBanner h1 {
     font-size: clamp(2rem, 4.5vw, 3.6rem);
     font-weight: 800;
@@ -430,6 +439,7 @@
     .StatsSection { padding: 50px 16px; }
     .hero-actions { flex-direction: column; width: 100%; }
     .hero-actions .CtaButton { width: 100%; text-align: center; justify-content: center; }
+    .hero-logo { display: none; }
   }
 </style>
 
@@ -438,8 +448,8 @@
 <!-- ===== STICKY HEADER ===== -->
 <header class="landing-header" role="banner">
   <a href="./index.php" class="header-logo">
-    <img src="assets/images/logoSmall.png" alt="Logo">
-    <span><?= __("site_name") ?></span>
+    <img src="assets/images/logo<?= $theme === 'dark' ? 'White' : '' ?>.svg" alt="Logo">
+    <!-- <span><?= __("site_name") ?></span> -->
   </a>
   <nav class="header-nav">
     <a href="#come-funziona" class="nav-link-underline"><?= __('index_nav_how') ?></a>
@@ -452,6 +462,7 @@
 
 <!-- ===== HERO ===== -->
 <div class="HomeBanner dot-pattern">
+  <img src="assets/images/logo<?= $theme === 'dark' ? 'White' : '' ?>.svg" class="hero-logo" alt="Logo">
   <div id="hero-particles"></div>
   <div class="hero-floating-shape"></div>
   <div class="hero-floating-shape"></div>
@@ -574,7 +585,7 @@
       </div>
     </div>
     <div class="VisualShowcase__Image anim-fade-right">
-      <img src="/assets/images/landing_leaderboard.avif" alt="<?= __('index_showcase_img_alt') ?>" loading="lazy">
+      <img src="/assets/images/landing_leaderboard.jpg" alt="<?= __('index_showcase_img_alt') ?>" loading="lazy">
     </div>
   </div>
 </div>

@@ -128,7 +128,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     <footer class="modern-footer PageContentFooter" <?php if ($isIndexPage) { echo 'style="margin-left: 0 !important;"'; } ?>>
       <div class="footer-content">
         <div class="footer-section about">
-          <h5 class="footer-heading"><?= __("site_name") ?></h5>
+          <img src="assets/images/logo<?= $theme === 'dark' ? 'White' : '' ?>.svg" class="footer-logo" alt="Logo">
           <p><?= __("footer_about") ?></p>
           <p>&copy; <?= date("Y") ?> GameMaker Italia. <?= __("footer_copyright") ?></p>
         </div>
@@ -166,6 +166,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
   </body>
 
   <style>
+    .footer-logo { max-width: 120px; height: auto; margin-bottom: 12px; }
     .footer-bottom { display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; }
     .footer-bottom p { margin: 0; }
     .footer-lang { display: flex; align-items: center; gap: 8px; }

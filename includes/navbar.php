@@ -26,10 +26,8 @@ if ($isAdminUser) {
   <div class="LogoContainer">
     <!-- Logo -->
     <a href="./index.php" class="navbar-logo-link">
-      <img src="assets/images/logo<?= $navbarLogoColor ?>.png" class="round Logo" alt="Logo Piattaforma">
+      <img src="assets/images/logo<?= $navbarLogoColor ?>.svg" class="round Logo" alt="Logo Piattaforma">
     </a>
-    <!-- Brand title -->
-    <h4 class="BrandTitle"><?= __("site_name") ?></h4>
   </div>
   
   <!-- Menu items -->

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   height="109.04528"
+   width="451.26105"
+   version="1.1"
+   id="_x32_"
+   viewBox="0 0 288.80708 69.78898"
+   xml:space="preserve"
+   sodipodi:docname="logoWhite.svg"
+   inkscape:export-filename="D:\xampp\htdocs\assets\images\logo.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs2"><linearGradient
+     id="linearGradient23"
+     inkscape:collect="always"><stop
+       style="stop-color:#7a7a7a;stop-opacity:1;"
+       offset="0"
+       id="stop22" /><stop
+       style="stop-color:#515151;stop-opacity:1;"
+       offset="1"
+       id="stop23" /></linearGradient><linearGradient
+     id="linearGradient18"
+     inkscape:collect="always"><stop
+       style="stop-color:#747474;stop-opacity:1;"
+       offset="0"
+       id="stop18" /><stop
+       style="stop-color:#eaeaea;stop-opacity:1;"
+       offset="1"
+       id="stop19" /></linearGradient><linearGradient
+     id="linearGradient11"
+     inkscape:collect="always"><stop
+       style="stop-color:#eaeaea;stop-opacity:1;"
+       offset="0"
+       id="stop11" /><stop
+       style="stop-color:#c0c0c0;stop-opacity:1;"
+       offset="1"
+       id="stop12" /></linearGradient><linearGradient
+     inkscape:collect="always"
+     xlink:href="#linearGradient11"
+     id="linearGradient12"
+     x1="243.76294"
+     y1="283.617"
+     x2="342.32639"
+     y2="283.617"
+     gradientUnits="userSpaceOnUse"
+     gradientTransform="matrix(1.2457751,0,0,1.2457751,-217.61405,-318.87761)" /><linearGradient
+     inkscape:collect="always"
+     xlink:href="#linearGradient23"
+     id="linearGradient19"
+     x1="0"
+     y1="256"
+     x2="512.00098"
+     y2="256"
+     gradientUnits="userSpaceOnUse" /><linearGradient
+     inkscape:collect="always"
+     xlink:href="#linearGradient18"
+     id="linearGradient27"
+     gradientUnits="userSpaceOnUse"
+     x1="0"
+     y1="256"
+     x2="512.00098"
+     y2="256" /></defs><sodipodi:namedview
+   id="namedview2"
+   pagecolor="#7f9b70"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="true"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:zoom="1.4407301"
+   inkscape:cx="189.83431"
+   inkscape:cy="17.005267"
+   inkscape:window-width="1920"
+   inkscape:window-height="1017"
+   inkscape:window-x="-8"
+   inkscape:window-y="-8"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="_x32_" />
+<style
+   type="text/css"
+   id="style1">
+	.st0{fill:#000000;}
+</style>
+<g
+   id="g2"
+   style="fill:url(#linearGradient19);fill-rule:nonzero"
+   transform="scale(0.1363066)"
+   inkscape:export-filename="D:\xampp\htdocs\assets\images\favicon.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+	<path
+   id="path1"
+   style="fill:url(#linearGradient27);fill-opacity:1;fill-rule:nonzero"
+   class="st0"
+   d="M 238.4239 0 C 231.6689 0 225.7993 4.6455246 224.2463 11.215525 L 211.55432 65.000522 C 190.29132 69.930522 170.35807 78.294276 152.37707 89.513276 L 105.37825 60.451953 C 99.633245 56.907953 92.185401 57.779828 87.422401 62.542828 L 62.551998 87.41323 C 57.770998 92.19323 56.908123 99.624075 60.461123 105.36907 L 89.513276 152.3679 C 78.293276 170.3599 69.929522 190.29132 65.000522 211.55432 L 11.224695 224.23713 C 4.6536951 225.79913 1.3900872e-15 231.67873 0 238.41473 L 0 273.57443 C 0 280.33743 4.6456951 286.20003 11.224695 287.75203 L 65.000522 300.44401 C 69.930522 321.70801 78.303446 341.63943 89.522446 359.63043 L 60.461123 406.62008 C 56.917123 412.36608 57.778828 419.8221 62.542828 424.5851 L 87.41323 449.44633 C 92.19423 454.23533 99.623245 455.09021 105.37825 451.53721 L 152.37707 422.49422 C 170.35907 433.71422 190.29132 442.06881 211.55432 446.99781 L 224.2463 500.7828 C 225.7993 507.3628 231.6689 511.99833 238.4239 511.99833 L 273.5836 511.99833 C 280.3296 511.99833 286.2092 507.3628 287.7612 500.7828 L 300.45318 446.99781 C 321.70718 442.06781 341.64643 433.71422 359.63043 422.49422 L 406.62925 451.54638 C 412.38325 455.09838 419.8131 454.22633 424.5851 449.44633 L 449.4555 424.5851 C 454.2275 419.8131 455.09838 412.37525 451.54638 406.62925 L 422.49422 359.63043 C 433.71422 341.64743 442.06781 321.70818 446.99781 300.45318 L 500.7828 287.7612 C 507.3708 286.2002 511.99833 280.32943 511.99833 273.57443 L 511.99833 238.4239 C 511.99733 231.6699 507.3618 225.7993 500.7828 224.2463 L 446.99781 211.56349 C 442.06781 190.30049 433.71422 170.3589 422.49422 152.3679 L 451.54638 105.37825 C 455.09838 99.615245 454.22833 92.19423 449.44633 87.41323 L 424.5851 62.551998 C 419.8131 57.779998 412.38325 56.909123 406.62925 60.461123 L 359.6396 89.513276 C 341.6476 78.294276 321.71618 69.929522 300.45318 65.000522 L 287.7612 11.215525 C 286.2092 4.6445246 280.3296 0 273.5836 0 L 238.4239 0 z M 256.00375 121.38077 C 330.36275 121.38077 390.62673 181.66075 390.62673 256.00375 C 390.62673 330.34575 330.36275 390.61756 256.00375 390.61756 C 181.66975 390.61756 121.38994 330.34575 121.38994 256.00375 C 121.38994 181.66175 181.66975 121.38077 256.00375 121.38077 z M 256.00375 170.68139 C 208.88975 170.68139 170.68139 208.88175 170.68139 256.00375 C 170.68139 303.12575 208.88975 341.31694 256.00375 341.31694 C 303.12675 341.31694 341.31694 303.12675 341.31694 256.00375 C 341.31694 208.88075 303.12675 170.68139 256.00375 170.68139 z M 256.00375 214.14041 C 279.11775 214.14041 297.85792 232.88975 297.85792 256.00375 C 297.85792 279.11775 279.11775 297.85792 256.00375 297.85792 C 232.88975 297.85792 214.14041 279.11675 214.14041 256.00375 C 214.14041 232.88975 232.88975 214.14041 256.00375 214.14041 z " />
+	
+</g>
+<text
+   xml:space="preserve"
+   style="font-size:34.018px;font-family:'Noto Kufi Arabic';-inkscape-font-specification:'Noto Kufi Arabic';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:url(#linearGradient12);stroke:none;stroke-width:0.797296"
+   x="84.086723"
+   y="46.606838"
+   id="text2"><tspan
+     sodipodi:role="line"
+     id="tspan2"
+     style="font-size:34.018px;fill:url(#linearGradient12);stroke:none;stroke-width:0.797296"
+     x="84.086723"
+     y="46.606838"><tspan
+   style="font-weight:bold;fill:url(#linearGradient12);stroke-width:0.797296"
+   id="tspan3">GMI</tspan> <tspan
+   style="fill:url(#linearGradient12);fill-opacity:1;stroke-width:0.797296"
+   id="tspan4">SCORES</tspan></tspan></text></svg>

@@ -108,7 +108,6 @@ switch ($activeTab) {
       $html .= '<div class="ui-table-container"><table class="ui-table"><thead class="ui-table-header"><tr>
         <th class="ui-table-header-cell">ID</th>
         <th class="ui-table-header-cell">' . __('admin_col_username') . '</th>
-        <th class="ui-table-header-cell">' . __('admin_col_scores_count') . '</th>
         <th class="ui-table-header-cell">' . __('admin_col_top_score') . '</th>
         <th class="ui-table-header-cell">' . __('admin_col_game') . '</th>
         <th class="ui-table-header-cell">' . __('admin_col_banned') . '</th>
@@ -126,7 +125,6 @@ switch ($activeTab) {
         $html .= '<tr class="ui-table-row">
           <td class="ui-table-cell">' . (int)$p["player_id"] . '</td>
           <td class="ui-table-cell">' . htmlspecialchars($p["username"]) . '</td>
-          <td class="ui-table-cell">' . number_format((int)$p["total_scores"]) . '</td>
           <td class="ui-table-cell">' . (isset($p["top_score"]) ? number_format((float)$p["top_score"], 2) : '<span style="color:var(--text-color-secondary,#6b7280)">-</span>') . '</td>
           <td class="ui-table-cell">' . ($p["top_game"] ? htmlspecialchars($p["top_game"]) : '<span style="color:var(--text-color-secondary,#6b7280)">-</span>') . '</td>
           <td class="ui-table-cell">' . ($isBanned

@@ -10,145 +10,73 @@
   padding: 8px 0;
 }
 
-.ui-skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--skeleton-base, #e5e7eb) 25%,
-    var(--skeleton-shine, #f3f4f6) 50%,
-    var(--skeleton-base, #e5e7eb) 75%
-  );
+/* --- base --- */
+.ui-skeleton,
+.ui-skeleton--table-cell,
+.ui-skeleton--stat-icon {
+  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
   background-size: 200% 100%;
   animation: ui-skeleton-shimmer 1.8s ease-in-out infinite;
   border-radius: 6px;
 }
 
-.dark-theme .ui-skeleton {
-  --skeleton-base: #2d3142;
-  --skeleton-shine: #3d4155;
-}
+/* --- text --- */
+.ui-skeleton--text { height: 14px; width: 100%; }
 
-.ui-skeleton--text {
-  height: 14px;
-  width: 100%;
-}
+/* --- title --- */
+.ui-skeleton--title { height: 20px; width: 60%; }
 
-.ui-skeleton--title {
-  height: 20px;
-  width: 60%;
-  border-radius: 4px;
-}
+/* --- avatar --- */
+.ui-skeleton--avatar { width: 44px; height: 44px; border-radius: 50%; }
 
-.ui-skeleton--avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-}
-
+/* --- stat card --- */
 .ui-skeleton--stat {
   display: flex;
   align-items: center;
   gap: 16px;
   padding: 20px;
-  background: var(--bg-color-card, #fff);
-  border: 1px solid var(--border-color, #e5e7eb);
+  background: #fff;
+  border: 1px solid #e5e7eb;
   border-radius: 12px;
-}
-
-.dark-theme .ui-skeleton--stat {
-  background: var(--bg-color-card, #1e1e2e);
-  border-color: var(--border-color, #2d3142);
-}
-
-.ui-skeleton--stat .ui-skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--skeleton-base, #e5e7eb) 25%,
-    var(--skeleton-shine, #f3f4f6) 50%,
-    var(--skeleton-base, #e5e7eb) 75%
-  );
-  background-size: 200% 100%;
-  animation: ui-skeleton-shimmer 1.8s ease-in-out infinite;
-}
-
-.dark-theme .ui-skeleton--stat .ui-skeleton {
-  --skeleton-base: #2d3142;
-  --skeleton-shine: #3d4155;
 }
 
 .ui-skeleton--stat-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  flex-shrink: 0;
-  background: linear-gradient(
-    90deg,
-    var(--skeleton-base, #e5e7eb) 25%,
-    var(--skeleton-shine, #f3f4f6) 50%,
-    var(--skeleton-base, #e5e7eb) 75%
-  );
-  background-size: 200% 100%;
-  animation: ui-skeleton-shimmer 1.8s ease-in-out infinite;
-}
-
-.dark-theme .ui-skeleton--stat-icon {
-  --skeleton-base: #2d3142;
-  --skeleton-shine: #3d4155;
+  width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
 }
 
 .ui-skeleton--stat-lines {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
+  display: flex; flex-direction: column; gap: 8px; flex: 1;
 }
 
-.ui-skeleton--chart {
-  height: 260px;
-  width: 100%;
-  border-radius: 8px;
-  background: linear-gradient(
-    90deg,
-    var(--skeleton-base, #e5e7eb) 25%,
-    var(--skeleton-shine, #f3f4f6) 50%,
-    var(--skeleton-base, #e5e7eb) 75%
-  );
-  background-size: 200% 100%;
-  animation: ui-skeleton-shimmer 1.8s ease-in-out infinite;
-}
+/* --- chart --- */
+.ui-skeleton--chart { height: 260px; width: 100%; border-radius: 8px; }
 
-.dark-theme .ui-skeleton--chart {
-  --skeleton-base: #2d3142;
-  --skeleton-shine: #3d4155;
-  border: 1px solid var(--border-color, #2d3142);
-}
-
+/* --- table row / cell --- */
 .ui-skeleton--table-row {
   display: flex;
   gap: 16px;
   padding: 12px 16px;
   align-items: center;
-  border-bottom: 1px solid var(--border-color, #e5e7eb);
+  border-bottom: 1px solid #e5e7eb;
   background: transparent;
 }
 
-.dark-theme .ui-skeleton--table-row {
-  border-color: var(--border-color, #2d3142);
-}
+.ui-skeleton--table-cell { height: 12px; border-radius: 4px; }
 
-.ui-skeleton--table-cell {
-  height: 12px;
-  border-radius: 4px;
-  background: linear-gradient(
-    90deg,
-    var(--skeleton-base, #e5e7eb) 25%,
-    var(--skeleton-shine, #f3f4f6) 50%,
-    var(--skeleton-base, #e5e7eb) 75%
-  );
+/* ==============================
+   Dark theme
+   ============================== */
+.dark-theme .ui-skeleton,
+.dark-theme .ui-skeleton--table-cell,
+.dark-theme .ui-skeleton--stat-icon,
+.dark-theme .ui-skeleton--chart {
+  background: linear-gradient(90deg, #252838 25%, #4f5577 50%, #252838 75%);
   background-size: 200% 100%;
   animation: ui-skeleton-shimmer 1.8s ease-in-out infinite;
 }
 
-.dark-theme .ui-skeleton--table-cell {
-  --skeleton-base: #2d3142;
-  --skeleton-shine: #3d4155;
-}
+.dark-theme .ui-skeleton--stat { background: #1e1e2e; border-color: #2d3142; }
+
+.dark-theme .ui-skeleton--chart { border: 1px solid #2d3142; }
+
+.dark-theme .ui-skeleton--table-row { border-color: #2d3142; }

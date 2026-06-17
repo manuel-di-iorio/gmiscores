@@ -22,7 +22,7 @@ switch ($activeTab) {
     $search = $_GET["search"] ?? null;
     $pendingOnly = isset($_GET["pending"]) && $_GET["pending"] === "1";
     $page = (int)($_GET["page"] ?? 0);
-    $perPage = 50;
+    $perPage = 20;
     $users = [];
     $result = User::listAll($search, $pendingOnly, $page, $perPage);
     while ($row = $result->fetch_assoc()) {
@@ -35,7 +35,7 @@ switch ($activeTab) {
   case 'players':
     $playersSearch = $_GET["players_search"] ?? null;
     $playersPage = (int)($_GET["players_page"] ?? 0);
-    $playersPerPage = 50;
+    $playersPerPage = 20;
     $players = [];
     $playersResult = Player::listAllWithScores($playersSearch, $playersPage, $playersPerPage);
     while ($row = $playersResult->fetch_assoc()) {
