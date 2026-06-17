@@ -1,6 +1,7 @@
 <?php
 require_once("../../lib/db.php");
 require_once("../../lib/insertScore.php");
+require_once("../../lib/rateLimit.php");
 require_once("../../models/Game.php");
 require_once("../../models/Player.php");
 require_once("../../models/Score.php");
@@ -20,6 +21,8 @@ if (!empty($config["maintenance"])) {
 if (!isset($_POST["game"]) || !isset($_POST["score"]) || !isset($_POST["player"]) || !isset($_POST["hash"])) {
   api_reply_error("Missing parameters", "ValidationError", 400);
 }
+
+check_rate_limit('add_score', 10, 60);
 
 $gameId = (int)$_POST["game"];
 $score = (string)$_POST["score"];

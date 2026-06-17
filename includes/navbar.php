@@ -43,47 +43,22 @@ if ($isAdminUser) {
       <?php } ?>
 
     <?php } ?>
-    
-    <!-- User box -->
-    <hr class="navbar-divider"/>
-    <div class="UserBox">
-    
-    <?php if (isset($user)) { ?>      
-      <div class="user-info">
-        <!-- <?php if (isset($user["_avatarUrl"])) { ?>
-        <img src="<?= $user["_avatarUrl"] ?>" class="shape-circle NavbarUserAvatar" alt="User avatar">
-        <?php } ?> -->
-        <?= __("nav_greeting") ?>&nbsp;<span class="username"><?= $user["username"] ?></span>
-      </div>
-      <?= ui_button( __('nav_logout'), 'ghost', 'sm', ['icon' => 'fas fa-sign-out-alt fa-fw', 'href' => 'logout.php', 'class' => 'full-width logout-button']) ?>
-    <?php } else { ?>
-      <?= ui_button( __('nav_login'), 'primary', 'sm', ['icon' => 'fas fa-sign-in-alt fa-fw', 'href' => 'login.php', 'class' => 'full-width login-button']) ?>
-    <?php } ?>
-
-    </div>
   </div>
 
-  <!-- Theme switcher -->
-  <div class="navbar__theme-switcher" style="text-align:center" onclick="switchTheme()">
-    <span class="navbar__theme-switcher__label"><?= __("nav_dark_theme") ?></span>
-    <label class="switch">
-      <input id="input-switch-theme" type="checkbox" <?php if ($theme === "dark") { echo "checked"; } ?>>
-      <span class="slider round"></span>
-    </label>
+  <!-- User box -->
+  <hr class="navbar-divider"/>
+  <div class="UserBox">
+  
+  <?php if (isset($user)) { ?>      
+    <div class="user-info">
+      <span class="username"><?= $user["username"] ?></span>
+    </div>
+    <a href="logout.php" class="navbar-logout-icon" title="<?= __('nav_logout') ?>"><i class="fas fa-sign-out-alt"></i></a>
+  <?php } else { ?>
+    <a href="login.php" class="navbar-login-btn"><?= __('nav_login') ?></a>
+  <?php } ?>
+
   </div>
 </nav>
 
-<script>
-  let switchingTheme = false;
 
-  /** Switch the website theme */
-  function switchTheme() {
-    if (switchingTheme) return;
-    switchingTheme = true;
-    const switcher = document.getElementById("input-switch-theme");
-    switcher.checked = !switcher.checked;
-    setTimeout(() => {
-      location.href = "switch-theme.php?theme=<?= $navbarThemeReversed ?>&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>";
-    }, 200);
-  }
-</script>

@@ -149,7 +149,9 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
         </div>
       </div>
       <div class="footer-bottom">
-        <p><?= __("footer_made_with") ?> <i class="fas fa-heart" style="color: red;"></i> <?= __("footer_by") ?></p>
+        <a href="switch-theme.php?theme=<?= $theme === 'dark' ? 'light' : 'dark' ?>&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-theme-link">
+          <i class="fas <?= $theme === 'dark' ? 'fa-sun' : 'fa-moon' ?>"></i> <?= __('index_theme_toggle') ?>
+        </a>
         <div class="footer-lang">
           <a href="/switch-lang.php?lang=en&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-lang-link<?php if ($currentLang === 'en') { echo ' footer-lang-link--active'; } ?>"><?= __("lang_en") ?></a>
           <span class="footer-lang-sep">|</span>
@@ -167,8 +169,10 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
 
   <style>
     .footer-logo { max-width: 120px; height: auto; margin-bottom: 12px; }
-    .footer-bottom { display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; }
+    .footer-bottom { display: flex; align-items: center; justify-content: center; gap: 50px; flex-wrap: wrap; }
     .footer-bottom p { margin: 0; }
+    .footer-theme-link { color: var(--text-color-secondary, #9ca3af); text-decoration: none; font-size: 0.82em; transition: color 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+    .footer-theme-link:hover { color: var(--text-color, #e5e7eb); }
     .footer-lang { display: flex; align-items: center; gap: 8px; }
     .footer-lang-link { color: var(--text-color-secondary, #9ca3af); text-decoration: none; font-size: 0.82em; transition: color 0.2s; }
     .footer-lang-link:hover { color: var(--text-color, #e5e7eb); }

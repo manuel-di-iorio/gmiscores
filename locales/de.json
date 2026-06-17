@@ -13,17 +13,14 @@
   "footer_privacy": "Datenschutz",
   "footer_cookie": "Cookie-Richtlinie",
   "footer_follow_title": "Folge uns",
-  "footer_made_with": "Erstellt mit",
-  "footer_by": "von GMI",
+
   "nav_dashboard": "Dashboard",
   "nav_your_games": "Deine Spiele",
   "nav_documentation": "Dokumentation",
   "nav_admin": "Administration",
 
-  "nav_greeting": "Hallo",
   "nav_logout": "Ausloggen",
   "nav_login": "Anmelden",
-  "nav_dark_theme": "Dunkles Design",
   "table_actions": "Aktionen",
   "table_empty": "Keine Daten verf\u00fcgbar.",
   "table_prev": "Vorherige",

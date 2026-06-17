@@ -13,16 +13,13 @@
   "footer_privacy": "Privacy Policy",
   "footer_cookie": "Cookie Policy",
   "footer_follow_title": "Seguici",
-  "footer_made_with": "Realizzato con",
-  "footer_by": "da GMI",
+
   "nav_dashboard": "Dashboard",
   "nav_your_games": "I tuoi giochi",
   "nav_documentation": "Documentazione",
 
-  "nav_greeting": "Ciao",
   "nav_logout": "Esci",
   "nav_login": "Accedi",
-  "nav_dark_theme": "Tema scuro",
   "table_actions": "Azioni",
   "table_empty": "Nessun dato disponibile.",
   "table_prev": "Precedente",

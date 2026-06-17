@@ -1,5 +1,6 @@
 <?php
 require_once("../../lib/db.php");
+require_once("../../lib/rateLimit.php");
 require_once("../../models/Score.php");
 require_once("../../models/Game.php");
 require_once("../../models/Leaderboard.php");
@@ -12,6 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] !== "GET") {
 if (!isset($_GET["game"])) {
   api_reply_error("Missing parameters", "ValidationError", 400);
 }
+
+check_rate_limit('get_scores', 60, 60);
 
 $gameId = (int)$_GET["game"];
 $tags = isset($_GET["tags"]) ? (string)$_GET["tags"] : "default";
