@@ -167,6 +167,7 @@
   white-space: pre-wrap;
   word-break: break-all;
   margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 .migrate-output .ok { color: #a6e3a1; }

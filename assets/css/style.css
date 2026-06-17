@@ -600,6 +600,7 @@ textarea {
 }
 
 .modern-footer .footer-heading {
+  margin-top: 0;
   font-size: 1.2em;
   font-weight: 600;
   color: var(--footer-heading-color, #e5e7eb); /* Colore più chiaro per i titoli */
@@ -652,7 +653,6 @@ textarea {
 .modern-footer .footer-bottom {
   text-align: center;
   padding-top: 20px;
-  margin-top: 20px;
   border-top: 1px solid var(--footer-border-color, #374151);
   font-size: 0.85em;
   color: var(--footer-text-color, #9ca3af);
