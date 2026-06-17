@@ -434,13 +434,6 @@ textarea {
   padding-bottom: 50px;
 }
 
-.documentation-subtitle {
-  font-size: 1.5em;
-  font-weight: 500;
-  color: var(--text-color-headings, #333);
-  margin-bottom: 20px;
-}
-
 .documentation-section {
   margin-bottom: 30px;
   padding: 20px;
@@ -846,13 +839,6 @@ textarea {
 .documentation-page {
   padding-top: 30px;
   padding-bottom: 50px;
-}
-
-.documentation-subtitle {
-  font-size: 1.5em;
-  font-weight: 500;
-  color: var(--text-color-headings, #333);
-  margin-bottom: 20px;
 }
 
 .documentation-section {
@@ -1263,6 +1249,7 @@ textarea {
 }
 
 .documentation-subtitle {
+  margin-top: 0;
   font-size: 1.5em;
   font-weight: 500;
   color: var(--text-color-headings, #333);
