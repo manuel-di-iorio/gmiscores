@@ -207,7 +207,6 @@
         <select class="ui-select" name="insertMode" required>
           <option value="higher" selected>' . __('scores_modal_add_mode_higher') . '</option>
           <option value="lower">' . __('scores_modal_add_mode_lower') . '</option>
-          <option value="all">' . __('scores_modal_add_mode_all') . '</option>
         </select>
       </div>
       <div class="ui-input-group">

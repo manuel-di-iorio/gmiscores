@@ -32,19 +32,16 @@ if (!isset($user) && isset($_COOKIE["user"])) {
             exit;
         }
 
-        if (isset($user["avatar"])) {
-            $user["_avatarUrl"] = "https://cdn.discordapp.com/avatars/" . $user["discord_user_id"] . "/" . $user["avatar"] . ".png";
-        }
-
         // Approval check
         $uri = $_SERVER["REQUEST_URI"];
+        $uriPath = parse_url($uri, PHP_URL_PATH);
         if (!$user["approved"]) {
-            if ($uri !== "/approval.php" && $uri !== "/" && $uri !== "/documentation.php") {
+            if ($uriPath !== "/approval.php" && $uriPath !== "/" && $uriPath !== "/documentation.php" && $uriPath !== "/admin.php") {
                 header("Location: approval.php");
                 exit;
             }
         } else {
-            if ($uri === "/approval.php") {
+            if ($uriPath === "/approval.php") {
                 header("Location: /home.php");
                 exit;
             }

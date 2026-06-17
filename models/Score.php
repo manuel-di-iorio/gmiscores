@@ -459,4 +459,30 @@ class Score {
     $result = exec_query($sql, ["i", $gameId]);
     return $result->fetch_assoc()["count"] ?? 0;
   }
+
+  public static function getScoresOverTime(int $days = 30) {
+    global $dbTableScores;
+    $sql = "SELECT DATE(COALESCE(updated_at, created_at)) AS day, COUNT(*) AS count FROM $dbTableScores
+            WHERE env = 'production' AND COALESCE(updated_at, created_at) >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+            GROUP BY DATE(COALESCE(updated_at, created_at)) ORDER BY day ASC";
+    return exec_query($sql, ["i", $days]);
+  }
+
+  public static function getScoresByGame() {
+    global $dbTableScores;
+    global $dbTableGames;
+    $sql = "SELECT G.name, G.game_id, COUNT(S.score_id) AS count FROM $dbTableScores S
+            INNER JOIN $dbTableGames G ON S.game_id = G.game_id
+            WHERE S.env = 'production'
+            GROUP BY G.game_id ORDER BY count DESC";
+    return exec_query($sql);
+  }
+
+  public static function getCountries() {
+    global $dbTableScores;
+    $sql = "SELECT ip_country, COUNT(*) AS count FROM $dbTableScores
+            WHERE env = 'production' AND ip_country IS NOT NULL AND ip_country != ''
+            GROUP BY ip_country ORDER BY count DESC";
+    return exec_query($sql);
+  }
 }

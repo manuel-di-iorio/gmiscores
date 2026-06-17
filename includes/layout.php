@@ -49,6 +49,8 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     <link rel="stylesheet" href="assets/ui-kit/Table/table.css?v=<?= asset_version('assets/ui-kit/Table/table.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Icon/icon.css?v=<?= asset_version('assets/ui-kit/Icon/icon.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Tabs/tabs.css?v=<?= asset_version('assets/ui-kit/Tabs/tabs.css') ?>">
+    <link rel="stylesheet" href="assets/ui-kit/Badge/badge.css?v=<?= asset_version('assets/ui-kit/Badge/badge.css') ?>">
+    <link rel="stylesheet" href="assets/ui-kit/Toggle/toggle.css?v=<?= asset_version('assets/ui-kit/Toggle/toggle.css') ?>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <script>
@@ -155,6 +157,8 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
           <a href="/switch-lang.php?lang=es&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-lang-link<?php if ($currentLang === 'es') { echo ' footer-lang-link--active'; } ?>"><?= __("lang_es") ?></a>
           <span class="footer-lang-sep">|</span>
           <a href="/switch-lang.php?lang=fr&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-lang-link<?php if ($currentLang === 'fr') { echo ' footer-lang-link--active'; } ?>"><?= __("lang_fr") ?></a>
+          <span class="footer-lang-sep">|</span>
+          <a href="/switch-lang.php?lang=de&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-lang-link<?php if ($currentLang === 'de') { echo ' footer-lang-link--active'; } ?>"><?= __("lang_de") ?></a>
         </div>
       </div>
     </footer>
@@ -168,6 +172,22 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     .footer-lang-link:hover { color: var(--text-color, #e5e7eb); }
     .footer-lang-link--active { color: var(--primary-color, #6366f1); font-weight: 600; }
     .footer-lang-sep { color: var(--text-color-secondary, #9ca3af); font-size: 0.82em; opacity: 0.4; }
+    .nav-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: 999px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 0.7em;
+      font-weight: 700;
+      margin-left: 6px;
+      vertical-align: middle;
+      line-height: 1;
+    }
   </style>
 
   <!-- JS -->

@@ -1,0 +1,38 @@
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.82em;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.ui-badge--pill {
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.ui-badge--default {
+  background: var(--badge-default-bg, rgba(107,114,128,0.1));
+  color: var(--badge-default-color, #6b7280);
+}
+
+.ui-badge--success {
+  background: var(--badge-success-bg, rgba(16,185,129,0.1));
+  color: var(--badge-success-color, #10b981);
+}
+
+.ui-badge--danger {
+  background: var(--badge-danger-bg, rgba(239,68,68,0.1));
+  color: var(--badge-danger-color, #ef4444);
+}
+
+.ui-badge--warning {
+  background: var(--badge-warning-bg, rgba(245,158,11,0.1));
+  color: var(--badge-warning-color, #f59e0b);
+}
+
+.ui-badge--info {
+  background: var(--badge-info-bg, rgba(59,130,246,0.1));
+  color: var(--badge-info-color, #3b82f6);
+}

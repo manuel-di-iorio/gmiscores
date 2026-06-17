@@ -7,6 +7,16 @@ $navbarItems = [
   ["label" => __("nav_your_games"), "url" => "/games.php", "icon" => "gamepad", "showOnlyLogged" => true],
   ["label" => __("nav_documentation"), "url" => "/documentation.php", "icon" => "book", "showOnlyLogged" => false]
 ];
+
+$isAdminUser = isset($user) && isset($user["admin"]) && (int)$user["admin"] === 1;
+if ($isAdminUser) {
+  $adminLabel = __("nav_admin");
+  $pendingCount = User::countUnapproved();
+  if ($pendingCount > 0) {
+    $adminLabel .= ' <span class="nav-badge">' . $pendingCount . '</span>';
+  }
+  $navbarItems[] = ["label" => $adminLabel, "url" => "/admin.php", "icon" => "cogs", "showOnlyLogged" => true, "allowHtml" => true];
+}
 ?>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -30,7 +40,7 @@ $navbarItems = [
         <a href="<?= $navbarItem["url"] ?>"
         class="navbar-item <?php if ($navbarItem["url"] === $pageURI) { echo "active-link"; } ?>">
           <i class="fas fa-<?= $navbarItem["icon"] ?> fa-fw" style="margin-right:16px"></i>
-          <span class="navbar-item-label"><?= $navbarItem["label"] ?></span>
+          <span class="navbar-item-label"><?= isset($navbarItem["allowHtml"]) && $navbarItem["allowHtml"] ? $navbarItem["label"] : htmlspecialchars($navbarItem["label"]) ?></span>
         </a>
       <?php } ?>
 

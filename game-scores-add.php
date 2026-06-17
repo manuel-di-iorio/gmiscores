@@ -54,7 +54,7 @@ if (!is_numeric($score)) {
   api_reply_error("Invalid parameter 'score'", "ValidationError", 400);
 }
 
-if (!is_null($insertMode) && $insertMode !== "all" && $insertMode !== "higher" && $insertMode !== "lower") {
+if (!is_null($insertMode) && $insertMode !== "higher" && $insertMode !== "lower" && $insertMode !== "all") {
   api_reply_error("Invalid parameter 'insertMode'", "ValidationError", 400);
 }
 

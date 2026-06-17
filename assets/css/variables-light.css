@@ -51,7 +51,7 @@
   --navbar-bg: #ffffff;
   --navbar-border-color: #e5e7eb;
   --navbar-text-color: #374151;
-  --navbar-logo-border-color: #d1d5db;
+  --navbar-logo-border-color: #e5e7eb;
   --navbar-link-color: #4b5563;
   --navbar-link-hover-bg: #f3f4f6;
   --navbar-link-hover-border-color: #9ca3af;
@@ -62,7 +62,6 @@
   --navbar-button-text-color: #1f2937;
   --navbar-button-hover-bg: #d1d5db;
   --navbar-button-hover-text-color: #ffffff;
-  --navbar-divider-color: rgba(0,0,0,0.1);
   --shadow-navbar: 2px 0 10px rgba(0,0,0,0.05);
 
   /* Documentation Page */

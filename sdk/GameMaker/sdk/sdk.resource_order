@@ -1,0 +1,17 @@
+{
+  "FolderOrderSettings":[
+    {"name":"Objects","order":1,"path":"folders/Objects.yy",},
+    {"name":"Scripts","order":2,"path":"folders/Scripts.yy",},
+    {"name":"GMI Cloud Services","order":1,"path":"folders/Scripts/GMI Cloud Services.yy",},
+    {"name":"Scores","order":1,"path":"folders/Scripts/GMI Cloud Services/Scores.yy",},
+    {"name":"__Internals","order":2,"path":"folders/Scripts/GMI Cloud Services/__Internals.yy",},
+  ],
+  "ResourceOrderSettings":[
+    {"name":"gmi_get_player_uuid","order":3,"path":"scripts/gmi_get_player_uuid/gmi_get_player_uuid.yy",},
+    {"name":"gmi_init","order":4,"path":"scripts/gmi_init/gmi_init.yy",},
+    {"name":"gmi_scores_get_list","order":1,"path":"scripts/gmi_scores_get_list/gmi_scores_get_list.yy",},
+    {"name":"gmi_scores_on_request","order":2,"path":"scripts/gmi_scores_on_request/gmi_scores_on_request.yy",},
+    {"name":"gmi_scores_send","order":3,"path":"scripts/gmi_scores_send/gmi_scores_send.yy",},
+    {"name":"uuid_generate","order":1,"path":"scripts/uuid_generate/uuid_generate.yy",},
+  ],
+}

@@ -6,7 +6,6 @@ class Ban {
    */
   public static function add(int $playerId, string $playerName, ?string $ip, int $gameId) {
     global $dbTableBans;
-    print_r([$playerId, $playerName, $ip, $gameId]);
     $sql = "INSERT INTO $dbTableBans (player_id, player_name, ip, game_id) VALUES (?, ?, ?, ?)";
     exec_query($sql, [ "issi", $playerId, $playerName, $ip, $gameId ]);
   }
@@ -71,5 +70,17 @@ class Ban {
             LIMIT 1";
 
     return exec_query($sql, [ "iss", $gameId, $playerName, $ip ]);
+  }
+
+  public static function getByPlayerAndGame(int $playerId, int $gameId) {
+    global $dbTableBans;
+    $sql = "SELECT ban_id FROM $dbTableBans WHERE player_id=? AND game_id=? LIMIT 1";
+    return exec_query($sql, ["ii", $playerId, $gameId]);
+  }
+
+  public static function removeByPlayerAndGame(int $playerId, int $gameId) {
+    global $dbTableBans;
+    $sql = "DELETE FROM $dbTableBans WHERE player_id=? AND game_id=?";
+    exec_query($sql, ["ii", $playerId, $gameId]);
   }
 }

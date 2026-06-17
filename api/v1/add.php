@@ -62,8 +62,7 @@ if (!$leaderboardId) {
   $leaderboardId = $allLbs[0]['leaderboard_id'];
 }
 
-if (!is_null($insertMode) && $insertMode !== "all" && $insertMode !== "higher" && $insertMode !== "lower" 
- && $insertMode !== "sum" && $insertMode !== "multiply" && $insertMode !== "divide" && $insertMode !== "replace") {
+if (!is_null($insertMode) && $insertMode !== "higher" && $insertMode !== "lower" && $insertMode !== "all") {
   api_reply_error("Invalid parameter 'insertMode'", "ValidationError", 400);
 }
 

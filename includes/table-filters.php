@@ -92,15 +92,26 @@ function render_table_filters(array $fields, array $options = []) {
     echo '<div class="filters-actions">';
     echo ui_button( __('filter_apply'), 'primary', 'md', ['type' => 'submit']);
 
-    // Build reset URL preserving only selected keys
-    $resetParams = [];
-    foreach ($resetPreserve as $k) {
-        if (isset($_GET[$k]) && $_GET[$k] !== '') {
-            $resetParams[$k] = $_GET[$k];
+    // Only show reset if any filter has a value
+    $hasFilter = false;
+    foreach ($fields as $field) {
+        $name = $field['name'];
+        if (isset($_GET[$name]) && $_GET[$name] !== '' && $_GET[$name] !== null) {
+            $hasFilter = true;
+            break;
         }
     }
-    $resetUrl = $_SERVER['PHP_SELF'] . (count($resetParams) ? ('?' . http_build_query($resetParams)) : '');
-    echo '<a href="' . htmlspecialchars($resetUrl) . '" class="btn-link">' . __('filter_reset') . '</a>';
+
+    if ($hasFilter) {
+        $resetParams = [];
+        foreach ($resetPreserve as $k) {
+            if (isset($_GET[$k]) && $_GET[$k] !== '') {
+                $resetParams[$k] = $_GET[$k];
+            }
+        }
+        $resetUrl = $_SERVER['PHP_SELF'] . (count($resetParams) ? ('?' . http_build_query($resetParams)) : '');
+        echo '<a href="' . htmlspecialchars($resetUrl) . '" class="btn-link">' . __('filter_reset') . '</a>';
+    }
 
     echo '</div>'; // close filters-actions
     echo '</div>'; // close action col

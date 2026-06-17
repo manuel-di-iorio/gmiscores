@@ -1,6 +1,6 @@
 <?php
 
-$availableLangs = ['en', 'it', 'es', 'fr'];
+$availableLangs = ['en', 'it', 'es', 'fr', 'de'];
 $defaultLang = 'en';
 
 if (isset($_COOKIE["lang"]) && in_array($_COOKIE["lang"], $availableLangs)) {

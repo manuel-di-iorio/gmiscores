@@ -79,7 +79,6 @@ function addRequest($overrides = []) {
 addRequest([]);
 addRequest(["sign" => "sign"]);
 addRequest(["data" => "data"]);
-addRequest(["insertMode" => "all"]);
 addRequest(["insertMode" => "lower"]);
 addRequest(["insertMode" => "higher"]);
 addRequest(["tags" => "secondary"]);

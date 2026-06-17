@@ -1,0 +1,48 @@
+{
+  "$GMProject":"v1",
+  "%Name":"sdk",
+  "AudioGroups":[
+    {"$GMAudioGroup":"v1","%Name":"audiogroup_default","exportDir":"","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
+  ],
+  "configs":{
+    "children":[],
+    "name":"Default",
+  },
+  "defaultScriptType":1,
+  "Folders":[
+    {"$GMFolder":"","%Name":"Objects","folderPath":"folders/Objects.yy","name":"Objects","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Scripts","folderPath":"folders/Scripts.yy","name":"Scripts","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"GMI Cloud Services","folderPath":"folders/Scripts/GMI Cloud Services.yy","name":"GMI Cloud Services","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Scores","folderPath":"folders/Scripts/GMI Cloud Services/Scores.yy","name":"Scores","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"__Internals","folderPath":"folders/Scripts/GMI Cloud Services/__Internals.yy","name":"__Internals","resourceType":"GMFolder","resourceVersion":"2.0",},
+  ],
+  "ForcedPrefabProjectReferences":[],
+  "IncludedFiles":[],
+  "isEcma":false,
+  "LibraryEmitters":[],
+  "MetaData":{
+    "IDEVersion":"2026.0.0.16",
+  },
+  "name":"sdk",
+  "resources":[
+    {"id":{"name":"LeaderboardTest","path":"objects/LeaderboardTest/LeaderboardTest.yy",},},
+    {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"id":{"name":"dec_to_hex","path":"scripts/dec_to_hex/dec_to_hex.yy",},},
+    {"id":{"name":"gmi_get_player_uuid","path":"scripts/gmi_get_player_uuid/gmi_get_player_uuid.yy",},},
+    {"id":{"name":"gmi_init","path":"scripts/gmi_init/gmi_init.yy",},},
+    {"id":{"name":"gmi_scores_draw_debug","path":"scripts/gmi_scores_draw_debug/gmi_scores_draw_debug.yy",},},
+    {"id":{"name":"gmi_scores_get_list","path":"scripts/gmi_scores_get_list/gmi_scores_get_list.yy",},},
+    {"id":{"name":"gmi_scores_on_request","path":"scripts/gmi_scores_on_request/gmi_scores_on_request.yy",},},
+    {"id":{"name":"gmi_scores_send","path":"scripts/gmi_scores_send/gmi_scores_send.yy",},},
+    {"id":{"name":"uuid_generate","path":"scripts/uuid_generate/uuid_generate.yy",},},
+  ],
+  "resourceType":"GMProject",
+  "resourceVersion":"2.0",
+  "RoomOrderNodes":[
+    {"roomId":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+  ],
+  "templateType":"game",
+  "TextureGroups":[
+    {"$GMTextureGroup":"","%Name":"Default","autocrop":true,"border":2,"compressFormat":"bz2","customOptions":"","directory":"","groupParent":null,"isScaled":true,"loadType":"default","mipsToGenerate":0,"name":"Default","resourceType":"GMTextureGroup","resourceVersion":"2.0","targets":-1,},
+  ],
+}
