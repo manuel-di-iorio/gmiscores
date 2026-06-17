@@ -46,7 +46,6 @@ if ($isAdminUser) {
   </div>
 
   <!-- User box -->
-  <hr class="navbar-divider"/>
   <div class="UserBox">
   
   <?php if (isset($user)) { ?>      

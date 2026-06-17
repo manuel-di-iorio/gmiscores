@@ -140,7 +140,6 @@ img {
 
 #navbar .navbar-menu {
   display: block;
-  padding-bottom: 80px;
 }
 
 #navbar .navbar-menu .navbar-item {
@@ -172,14 +171,6 @@ img {
   width: 18px;
   text-align: center;
   font-size: 1.1em;
-}
-
-#navbar .navbar-divider {
-  border: none;
-  border-top: 1px solid var(--navbar-border-color, #334155);
-  height: 0;
-  margin-top: 15px;
-  margin-bottom: 15px;
 }
 
 #navbar .UserBox {

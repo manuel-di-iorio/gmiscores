@@ -1,7 +1,7 @@
 /// @func gmi_scores_get_list(leaderboard_id, page, limit, order, start_time, end_time, player, includePlayer)
 /// @desc Get the leaderboard scores
 /// @arg {struct} opts
-	// @arg {string} opts.leaderboard A game may have multiple leaderboards (optional).
+	// @arg {real} opts.leaderboard Leaderboard ID
 	// @arg {real} opts.page Current page. Use in combination with 'limit' if you need to get all the scores.
 	// @arg {real} opts.limit Number of results to get (by default 10, max 1000 per page).
 	// @arg {string} opts.order Results sorting. Can be DESC (default) or ASC.
@@ -10,7 +10,7 @@
 	// @arg {string|real} opts.player Player ID or name (base64). If specified, filter the scores by this player.
 	// @arg {string} opts.includePlayer Player name (base64). If specified, include in the response, the best score of this player.
 function gmi_scores_get_list(opts = {}) {
-	var leaderboard_id = variable_struct_exists(opts, "leaderboard") ? opts.leaderboard : "default";
+	var leaderboard_id = opts.leaderboard_id;
 	var page = variable_struct_exists(opts, "page") ? opts.page : 0;
 	var limit = variable_struct_exists(opts, "limit") ? opts.limit : 10;
 	var order = variable_struct_exists(opts, "order") ? opts.order : "DESC";
@@ -22,7 +22,7 @@ function gmi_scores_get_list(opts = {}) {
 	var url = global.GMI_ENDPOINT_HOST + "/list.php?game=" + string(global.GMI_GAME_CLIENT_ID);
 
 	// Leaderboard
-	if (!is_undefined(leaderboard_id)) url += "&leaderboard=" + leaderboard_id;
+	url += "&leaderboard_id=" + string(leaderboard_id);
 
 	// Page
 	if (!is_undefined(page)) url += "&page=" + string(page);
@@ -47,6 +47,12 @@ function gmi_scores_get_list(opts = {}) {
 
 	// Include player best score
 	if (!is_undefined(includePlayer)) url += "&includePlayer=" + base64_encode(includePlayer);
+
+	// Hash (always computed and sent for authentication)
+	var dataForHash = "game=" + string(global.GMI_GAME_CLIENT_ID);
+	if (!is_undefined(leaderboard_id)) dataForHash += "&leaderboard_id=" + string(leaderboard_id);
+	url += "&hash=" + sha1_string_utf8(dataForHash + global.GMI_GAME_CLIENT_SECRET);
+    show_debug_message("[GMI Scores] Scores.GetList: " + url);
 
 	gmi_scores_list = noone;
 	gmi_scores_list_req = http_get(url);

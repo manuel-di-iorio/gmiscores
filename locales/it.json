@@ -212,6 +212,7 @@
   "scores_col_tags": "Tags",
   "scores_col_env": "Ambiente",
   "scores_col_date": "Data",
+  "docs_page_title": "Documentazione",
   "scores_page_title": "Punteggi - {leaderboard} ({game})",
   "scores_action_data": "Mostra dati",
   "scores_action_ban": "Banna giocatore",

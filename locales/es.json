@@ -212,6 +212,7 @@
   "scores_col_tags": "Etiquetas",
   "scores_col_env": "Entorno",
   "scores_col_date": "Fecha",
+  "docs_page_title": "Documentación",
   "scores_page_title": "Puntuaciones - {leaderboard} ({game})",
   "scores_action_data": "Mostrar datos",
   "scores_action_ban": "Expulsar jugador",

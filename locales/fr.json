@@ -212,6 +212,7 @@
   "scores_col_tags": "Étiquettes",
   "scores_col_env": "Environnement",
   "scores_col_date": "Date",
+  "docs_page_title": "Documentation",
   "scores_page_title": "Scores - {leaderboard} ({game})",
   "scores_action_data": "Afficher les données",
   "scores_action_ban": "Bannir le joueur",

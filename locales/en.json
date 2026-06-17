@@ -212,6 +212,7 @@
   "scores_col_tags": "Tags",
   "scores_col_env": "Environment",
   "scores_col_date": "Date",
+  "docs_page_title": "Documentation",
   "scores_page_title": "Scores - {leaderboard} ({game})",
   "scores_action_data": "Show data",
   "scores_action_ban": "Ban player",

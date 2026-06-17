@@ -268,6 +268,7 @@
   "scores_col_tags": "Tags",
   "scores_col_env": "Umgebung",
   "scores_col_date": "Datum",
+  "docs_page_title": "Dokumentation",
   "scores_page_title": "Punktzahlen - {leaderboard} ({game})",
   "scores_action_data": "Daten anzeigen",
   "scores_action_ban": "Spieler bannen",
