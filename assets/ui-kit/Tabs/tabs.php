@@ -27,7 +27,12 @@ function ui_tabs($tabs, $options = []) {
     $isActive = $tabId === $activeTab;
 
     $html .= '<div class="ui-tabs__panel' . ($isActive ? ' is-active' : '') . '"';
-    $html .= ' role="tabpanel" id="panel-' . htmlspecialchars($tabId) . '">';
+    $html .= ' role="tabpanel" id="panel-' . htmlspecialchars($tabId) . '"';
+    if (isset($tab['url'])) {
+      $html .= ' data-url="' . htmlspecialchars($tab['url']) . '"';
+      $html .= ' data-loaded="false"';
+    }
+    $html .= '>';
     $html .= $tab['content'] ?? '';
     $html .= '</div>';
   }

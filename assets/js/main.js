@@ -375,5 +375,25 @@ document.addEventListener('click', function (e) {
   if (panel) {
     panel.classList.add('is-active');
     panel.dispatchEvent(new CustomEvent('tabshown', { bubbles: true }));
+
+    var url = panel.getAttribute('data-url');
+    if (url && panel.getAttribute('data-loaded') === 'false') {
+      panel.setAttribute('data-loaded', 'loading');
+      fetch(url)
+        .then(function (r) { return r.text(); })
+        .then(function (html) {
+          panel.innerHTML = html;
+          panel.setAttribute('data-loaded', 'true');
+          panel.querySelectorAll('script').forEach(function (s) {
+            var ns = document.createElement('script');
+            if (s.src) { ns.src = s.src; } else { ns.textContent = s.textContent; }
+            s.parentNode.replaceChild(ns, s);
+          });
+          panel.dispatchEvent(new CustomEvent('tabloaded', { bubbles: true }));
+        })
+        .catch(function () {
+          panel.setAttribute('data-loaded', 'false');
+        });
+    }
   }
 });
