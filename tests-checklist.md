@@ -2,10 +2,22 @@
 TESTS CHECKLIST
 ===============
 
-- HOME
+- HOME (Landing)
   1) Si vede sia da utente anonimo che da loggato
   2) Il link "Documentazione" porta alla pagina corrispondente
   3) Il pulsante "Aggiungi il tuo gioco" porta alla pagina corrispondente
+  4) Se loggato, "Inizia subito" porta a /home.php (dashboard)
+  5) Se anonimo, "Inizia subito" porta a /add-game.php
+
+- DASHBOARD (/home.php)
+  1) Non si vede da utente anonimo (redirect a index)
+  2) Mostra 4 stat card: Punteggi, Players, Giochi, Paesi
+  3) Mostra grafico linee punteggi ultimi 30gg
+  4) Mostra grafico barre punteggi per gioco
+  5) Mostra grafico doughnut paesi
+  6) Le stat card si aggiornano se ci sono nuovi punteggi
+  7) I grafici hanno altezza uniforme (360px)
+  8) Il redirect post-login arriva a /home.php
 
 - DOCUMENTAZIONE
   1) Si vede sia da utente anonimo che da loggato
@@ -43,6 +55,9 @@ TESTS CHECKLIST
   2) Il secret si può vedere e il tooltip sull'icona è presente
   3) Il pulsante "Documentazione" porta alla pagina corrispondente
   4) Negli esempi di integrazione l'ID del gioco viene stampato correttamente
+  5) I tab "Configurazione" e "Analytics" sono presenti
+  6) Il tab "Analytics" mostra stat card, line chart (30gg), bar chart, doughnut
+  7) Cambiando tab, il bordo colorato si sposta sul tab attivo
 
 - LEADERBOARD (ADD)
   1) Non si vede da utente anonimo

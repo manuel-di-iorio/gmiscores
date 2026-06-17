@@ -16,7 +16,10 @@
             [
                 "label" => "ID",
                 "key" => "leaderboard_id",
-                "sortable" => true
+                "sortable" => true,
+                "format_callback" => function ($value, $row) use ($game) {
+                    return '<a href="game-scores.php?id=' . $game['game_id'] . '&leaderboard_id=' . $row['leaderboard_id'] . '" class="link" data-tippy-content="Visualizza punteggi">' . htmlspecialchars($value) . '</a>';
+                }
             ],
             [
                 "label" => "Classifica",

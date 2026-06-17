@@ -3,7 +3,7 @@ $navbarLogoColor = $theme === "dark" ? "White" : "";
 $navbarThemeReversed = $theme === "dark" ? "light" : "dark";
 
 $navbarItems = [
-  ["label" => "Home", "url" => "/", "icon" => "home", "showOnlyLogged" => false],
+  ["label" => "Dashboard", "url" => isset($user) ? "/home.php" : "/", "icon" => "home", "showOnlyLogged" => false],
   ["label" => "I tuoi giochi", "url" => "/games.php", "icon" => "gamepad", "showOnlyLogged" => true],
   ["label" => "Documentazione", "url" => "/documentation.php", "icon" => "book", "showOnlyLogged" => false]
 ];

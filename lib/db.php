@@ -44,7 +44,7 @@ if (!isset($user) && isset($_COOKIE["user"])) {
             }
         } else {
             if ($uri === "/approval.php") {
-                header("Location: /games.php");
+                header("Location: /home.php");
                 exit;
             }
         }

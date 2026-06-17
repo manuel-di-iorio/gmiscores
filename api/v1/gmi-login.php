@@ -7,7 +7,7 @@ if (!isset($_GET["code"])) {
 }
 $code = $_GET["code"];
 
-$redirectUri = isset($_SESSION["loginGo"]) ? $_SESSION["loginGo"] : "/";
+$redirectUri = isset($_SESSION["loginGo"]) ? $_SESSION["loginGo"] : "/home.php";
 
 // Get the tokens
 $response = file_get_contents('https://discordapp.com/api/v6/oauth2/token', false, stream_context_create([

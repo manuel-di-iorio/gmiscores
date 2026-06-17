@@ -96,5 +96,19 @@ class Game {
     $sql = "SELECT COUNT(game_id) AS count FROM $dbTableGames";
     $result = exec_query($sql);
     return $result->num_rows ? $result->fetch_assoc()["count"] : 0;
+  }
+
+  public static function countByUser(int $userId) {
+    global $dbTableGames;
+    $sql = "SELECT COUNT(game_id) AS count FROM $dbTableGames WHERE user_id = ?";
+    $result = exec_query($sql, ["i", $userId]);
+    return $result->fetch_assoc()["count"] ?? 0;
+  }
+
+  public static function getLeaderboardCountByGame(int $gameId) {
+    global $dbTableLeaderboards;
+    $sql = "SELECT COUNT(leaderboard_id) AS count FROM $dbTableLeaderboards WHERE game_id = ?";
+    $result = exec_query($sql, ["i", $gameId]);
+    return $result->fetch_assoc()["count"] ?? 0;
   } 
 }

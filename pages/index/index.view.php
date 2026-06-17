@@ -446,7 +446,7 @@
     <a href="#caratteristiche" class="nav-link-underline">Caratteristiche</a>
     <a href="#numeri" class="nav-link-underline">Numeri</a>
     <a href="#faq" class="nav-link-underline">FAQ</a>
-    <a href="./add-game.php" class="header-cta">Inizia subito</a>
+    <a href="<?= isset($user) ? './home.php' : './add-game.php' ?>" class="header-cta">Inizia subito</a>
   </nav>
 </header>
 
@@ -469,7 +469,7 @@
       </p>
 
       <div class="hero-actions anim-fade-up anim-delay-300">
-        <a href="./add-game.php" class="CtaButton CtaButton--primary ripple-btn" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;">
+        <a href="<?= isset($user) ? './home.php' : './add-game.php' ?>" class="CtaButton CtaButton--primary ripple-btn" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;">
           <i class="fas fa-rocket"></i> Inizia subito
         </a>
         <a href="./documentation.php" class="CtaButton CtaButton--secondary ripple-btn" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;">

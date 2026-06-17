@@ -349,3 +349,31 @@ window.addEventListener("load", () => {
     localStorage.setItem('cookieConsentAccepted', 'true');
   });
 });
+
+// Tabs
+document.addEventListener('click', function (e) {
+  var btn = e.target.closest('.ui-tabs__btn');
+  if (!btn) return;
+
+  var tabsEl = btn.closest('.ui-tabs');
+  if (!tabsEl) return;
+
+  var tabId = btn.getAttribute('data-tab');
+  if (!tabId) return;
+
+  tabsEl.querySelectorAll('.ui-tabs__btn').forEach(function (b) {
+    b.classList.remove('is-active');
+    b.setAttribute('aria-selected', 'false');
+  });
+  btn.classList.add('is-active');
+  btn.setAttribute('aria-selected', 'true');
+
+  tabsEl.querySelectorAll('.ui-tabs__panel').forEach(function (p) {
+    p.classList.remove('is-active');
+  });
+  var panel = tabsEl.querySelector('#panel-' + tabId);
+  if (panel) {
+    panel.classList.add('is-active');
+    panel.dispatchEvent(new CustomEvent('tabshown', { bubbles: true }));
+  }
+});

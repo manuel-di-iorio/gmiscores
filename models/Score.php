@@ -6,9 +6,11 @@ class Score {
   string $env = 'production') {
     global $dbTableScores;
     global $db;
-    $sql = "INSERT INTO $dbTableScores (game_id, leaderboard_id, player_id, score, ip, ip_country, created_at, sign, tags, data, env) 
-      VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    exec_query($sql, [ "iiidsssssss", $gameId, $leaderboardId, $playerId, $score, $ip, $country, $createdAt, $sign, $tags, $data, $env ]);
+    $now = date('Y-m-d H:i:s');
+    if ($createdAt === NULL) $createdAt = $now;
+    $sql = "INSERT INTO $dbTableScores (game_id, leaderboard_id, player_id, score, ip, ip_country, created_at, updated_at, sign, tags, data, env) 
+      VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    exec_query($sql, [ "iiidssssssss", $gameId, $leaderboardId, $playerId, $score, $ip, $country, $createdAt, $now, $sign, $tags, $data, $env ]);
 
     return $db->insert_id;
   }
@@ -354,5 +356,107 @@ class Score {
     $sql = "SELECT DISTINCT ip_country FROM $dbTableScores";
     $result = exec_query($sql);    
     return $result->num_rows;
+  }
+
+  public static function countByUser(int $userId) {
+    global $dbTableScores;
+    global $dbTableGames;
+    $sql = "SELECT COUNT(S.score_id) AS count FROM $dbTableScores S
+            INNER JOIN $dbTableGames G ON S.game_id = G.game_id
+            WHERE G.user_id = ? AND S.env = 'production'";
+    $result = exec_query($sql, ["i", $userId]);
+    return $result->fetch_assoc()["count"] ?? 0;
+  }
+
+  public static function countByUserToday(int $userId) {
+    global $dbTableScores;
+    global $dbTableGames;
+    $sql = "SELECT COUNT(S.score_id) AS count FROM $dbTableScores S
+            INNER JOIN $dbTableGames G ON S.game_id = G.game_id
+            WHERE G.user_id = ? AND S.env = 'production' AND DATE(COALESCE(S.updated_at, S.created_at)) = CURDATE()";
+    $result = exec_query($sql, ["i", $userId]);
+    return $result->fetch_assoc()["count"] ?? 0;
+  }
+
+  public static function getUniquePlayersByUser(int $userId) {
+    global $dbTableScores;
+    global $dbTableGames;
+    $sql = "SELECT COUNT(DISTINCT S.player_id) AS count FROM $dbTableScores S
+            INNER JOIN $dbTableGames G ON S.game_id = G.game_id
+            WHERE G.user_id = ? AND S.env = 'production'";
+    $result = exec_query($sql, ["i", $userId]);
+    return $result->fetch_assoc()["count"] ?? 0;
+  }
+
+  public static function getCountriesByUser(int $userId) {
+    global $dbTableScores;
+    global $dbTableGames;
+    $sql = "SELECT S.ip_country, COUNT(*) AS count FROM $dbTableScores S
+            INNER JOIN $dbTableGames G ON S.game_id = G.game_id
+            WHERE G.user_id = ? AND S.env = 'production' AND S.ip_country IS NOT NULL AND S.ip_country != ''
+            GROUP BY S.ip_country ORDER BY count DESC";
+    return exec_query($sql, ["i", $userId]);
+  }
+
+  public static function getScoresPerDayByUser(int $userId, int $days = 30) {
+    global $dbTableScores;
+    global $dbTableGames;
+    $sql = "SELECT DATE(COALESCE(S.updated_at, S.created_at)) AS day, COUNT(*) AS count FROM $dbTableScores S
+            INNER JOIN $dbTableGames G ON S.game_id = G.game_id
+            WHERE G.user_id = ? AND S.env = 'production' AND COALESCE(S.updated_at, S.created_at) >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+            GROUP BY DATE(COALESCE(S.updated_at, S.created_at)) ORDER BY day ASC";
+    return exec_query($sql, ["ii", $userId, $days]);
+  }
+
+  public static function getScoresByGameByUser(int $userId) {
+    global $dbTableScores;
+    global $dbTableGames;
+    $sql = "SELECT G.name, G.game_id, COUNT(S.score_id) AS count FROM $dbTableScores S
+            INNER JOIN $dbTableGames G ON S.game_id = G.game_id
+            WHERE G.user_id = ? AND S.env = 'production'
+            GROUP BY G.game_id ORDER BY count DESC";
+    return exec_query($sql, ["i", $userId]);
+  }
+
+  public static function getCountriesByGame(int $gameId) {
+    global $dbTableScores;
+    $sql = "SELECT S.ip_country, COUNT(*) AS count FROM $dbTableScores S
+            WHERE S.game_id = ? AND S.env = 'production' AND S.ip_country IS NOT NULL AND S.ip_country != ''
+            GROUP BY S.ip_country ORDER BY count DESC";
+    return exec_query($sql, ["i", $gameId]);
+  }
+
+  public static function getScoresOverTimeByGame(int $gameId, int $days = 30) {
+    global $dbTableScores;
+    $sql = "SELECT DATE(COALESCE(S.updated_at, S.created_at)) AS day, COUNT(*) AS count FROM $dbTableScores S
+            WHERE S.game_id = ? AND S.env = 'production' AND COALESCE(S.updated_at, S.created_at) >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+            GROUP BY DATE(COALESCE(S.updated_at, S.created_at)) ORDER BY day ASC";
+    return exec_query($sql, ["ii", $gameId, $days]);
+  }
+
+  public static function getScoresByLeaderboardByGame(int $gameId) {
+    global $dbTableScores;
+    global $dbTableLeaderboards;
+    $sql = "SELECT L.name, L.leaderboard_id, COUNT(S.score_id) AS count FROM $dbTableScores S
+            INNER JOIN $dbTableLeaderboards L ON S.leaderboard_id = L.leaderboard_id
+            WHERE S.game_id = ? AND S.env = 'production'
+            GROUP BY S.leaderboard_id ORDER BY count DESC";
+    return exec_query($sql, ["i", $gameId]);
+  }
+
+  public static function getDistinctEnvsByUser(int $userId) {
+    global $dbTableScores;
+    global $dbTableGames;
+    $sql = "SELECT DISTINCT S.env FROM $dbTableScores S
+            INNER JOIN $dbTableGames G ON S.game_id = G.game_id
+            WHERE G.user_id = ? AND S.env IS NOT NULL";
+    return exec_query($sql, ["i", $userId]);
+  }
+
+  public static function getUniquePlayersByGame(int $gameId) {
+    global $dbTableScores;
+    $sql = "SELECT COUNT(DISTINCT player_id) AS count FROM $dbTableScores WHERE game_id = ? AND env = 'production'";
+    $result = exec_query($sql, ["i", $gameId]);
+    return $result->fetch_assoc()["count"] ?? 0;
   }
 }
