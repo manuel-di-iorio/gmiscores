@@ -8,7 +8,7 @@ header("Cache-Control: private, must-revalidate");
 require_once __DIR__ . '/../assets/ui-kit/kit.php';
 ?>
 <!DOCTYPE html>
-<html lang="it">
+<html lang="<?= __("html_lang") ?>">
   <head>
     <!-- Google Analytics -->
     <?php if ($config["analytics"]) { ?>
@@ -34,7 +34,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     <meta property="og:image" content="<?= $config["logo"] ?>">
     <meta property="og:image:width" content="<?= $config["logoWidth"] ?>">
     <meta property="og:image:height" content="<?= $config["logoHeight"] ?>">
-    <meta property="og:site_name" content="GameMaker Italia">
+    <meta property="og:site_name" content="<?= __("site_name") ?>">
 
     <!-- Style -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
@@ -73,10 +73,10 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     <div id="cookie-banner" style="display: none;">
         <div class="cookie-banner-content">
           <div>
-            <p>Questo sito utilizza solo cookie tecnici per garantirti la migliore esperienza. Non usiamo cookie di terze parti. <a href="cookie.php">Maggiori informazioni</a></p>
+            <p><?= __("cookie_banner_text") ?> <a href="cookie.php"><?= __("cookie_banner_link") ?></a></p>
           </div>
         </div>
-        <?= ui_button('Ok', 'primary', 'sm', ['attrs' => ['id' => 'accept-cookie-banner']]) ?>
+        <?= ui_button( __('cookie_banner_accept'), 'primary', 'sm', ['attrs' => ['id' => 'accept-cookie-banner']]) ?>
     </div>
     <?php if ($config["maintenance"]) { ?>
       <div style="background:#f59e0b;color:#000;text-align:center;padding:8px 16px;margin:0;border-radius:0;">
@@ -103,7 +103,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
           <?php if ($pageName !== $config["platformTitle"] && !$isIndexPage) { ?>
             <div class="page-title">
               <?php if ($gameNameShowBackIcon) { ?>
-                <a href="<?= $backUrl ?>" data-tippy-content="Torna indietro"><i class="fas fa-arrow-circle-left GameNameBackIcon"></i></a>
+                <a href="<?= $backUrl ?>" data-tippy-content="<?= __("back_tooltip") ?>"><i class="fas fa-arrow-circle-left GameNameBackIcon"></i></a>
               <?php } ?>
               <?= htmlspecialchars($pageName) ?>
             </div>
@@ -125,32 +125,50 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     <footer class="modern-footer PageContentFooter" <?php if ($isIndexPage) { echo 'style="margin-left: 0 !important;"'; } ?>>
       <div class="footer-content">
         <div class="footer-section about">
-          <h5 class="footer-heading">Classifica Online</h5>
-          <p>Una piattaforma per leaderboard di giochi creata dalla community di GameMaker Italia.</p>
-          <p>&copy; <?= date("Y") ?> GameMaker Italia. Tutti i diritti riservati.</p>
+          <h5 class="footer-heading"><?= __("site_name") ?></h5>
+          <p><?= __("footer_about") ?></p>
+          <p>&copy; <?= date("Y") ?> GameMaker Italia. <?= __("footer_copyright") ?></p>
         </div>
         <div class="footer-section links">
-          <h5 class="footer-heading">Link Utili</h5>
+          <h5 class="footer-heading"><?= __("footer_links_title") ?></h5>
           <ul>
-            <li><a href="/documentation.php" class="footer-link">Documentazione</a></li>
-            <li><a href="/terms.php" class="footer-link">Termini e Condizioni</a></li>
-            <li><a href="/privacy.php" class="footer-link">Privacy Policy</a></li>
-            <li><a href="/cookie.php" class="footer-link">Cookie Policy</a></li>
-            <!-- Aggiungi altri link se necessario -->
+            <li><a href="/documentation.php" class="footer-link"><?= __("footer_documentation") ?></a></li>
+            <li><a href="/terms.php" class="footer-link"><?= __("footer_terms") ?></a></li>
+            <li><a href="/privacy.php" class="footer-link"><?= __("footer_privacy") ?></a></li>
+            <li><a href="/cookie.php" class="footer-link"><?= __("footer_cookie") ?></a></li>
           </ul>
         </div>
         <div class="footer-section social">
-          <h5 class="footer-heading">Seguici</h5>
+          <h5 class="footer-heading"><?= __("footer_follow_title") ?></h5>
           <a href="https://discord.gg/85RCMD9VQD" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="fab fa-discord"></i></a>
           <a href="https://www.facebook.com/gmitalia" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
           <a href="https://twitter.com/gamemakerita" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>Realizzato con <i class="fas fa-heart" style="color: red;"></i> da GMI</p>
+        <p><?= __("footer_made_with") ?> <i class="fas fa-heart" style="color: red;"></i> <?= __("footer_by") ?></p>
+        <div class="footer-lang">
+          <a href="/switch-lang.php?lang=en&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-lang-link<?php if ($currentLang === 'en') { echo ' footer-lang-link--active'; } ?>"><?= __("lang_en") ?></a>
+          <span class="footer-lang-sep">|</span>
+          <a href="/switch-lang.php?lang=it&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-lang-link<?php if ($currentLang === 'it') { echo ' footer-lang-link--active'; } ?>"><?= __("lang_it") ?></a>
+          <span class="footer-lang-sep">|</span>
+          <a href="/switch-lang.php?lang=es&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-lang-link<?php if ($currentLang === 'es') { echo ' footer-lang-link--active'; } ?>"><?= __("lang_es") ?></a>
+          <span class="footer-lang-sep">|</span>
+          <a href="/switch-lang.php?lang=fr&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-lang-link<?php if ($currentLang === 'fr') { echo ' footer-lang-link--active'; } ?>"><?= __("lang_fr") ?></a>
+        </div>
       </div>
     </footer>
   </body>
+
+  <style>
+    .footer-bottom { display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; }
+    .footer-bottom p { margin: 0; }
+    .footer-lang { display: flex; align-items: center; gap: 8px; }
+    .footer-lang-link { color: var(--text-color-secondary, #9ca3af); text-decoration: none; font-size: 0.82em; transition: color 0.2s; }
+    .footer-lang-link:hover { color: var(--text-color, #e5e7eb); }
+    .footer-lang-link--active { color: var(--primary-color, #6366f1); font-weight: 600; }
+    .footer-lang-sep { color: var(--text-color-secondary, #9ca3af); font-size: 0.82em; opacity: 0.4; }
+  </style>
 
   <!-- JS -->
   <script src="https://unpkg.com/@popperjs/core@2"></script>

@@ -4,10 +4,10 @@
   
   <!-- Add game form -->
   <form class="internal-card internal-card--form" id="form-add-game" method="POST" onsubmit="return onSubmit()">
-    <div class="internal-card__title"><i class="fas fa-gamepad"></i> Nuovo gioco</div>
+    <div class="internal-card__title"><i class="fas fa-gamepad"></i> <?= __('add_game_title') ?></div>
     <div class="ui-input-group">
-      <label class="ui-label" for="name">Nome</label>
-      <input class="ui-input" name="name" id="name" type="text" maxlength="64" required placeholder="Inserisci il nome del gioco">
+      <label class="ui-label" for="name"><?= __('add_game_name_label') ?></label>
+      <input class="ui-input" name="name" id="name" type="text" maxlength="64" required placeholder="<?= __('add_game_name_placeholder') ?>">
     </div>
 
     <!-- ReCaptcha div -->
@@ -18,7 +18,7 @@
          data-size="invisible"></div>
 
     <!-- Submit button -->
-    <?= ui_button('Aggiungi', 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'type' => 'submit', 'attrs' => ['id' => 'form-add-game__submit-btn']]) ?>
+    <?= ui_button(__('add_game_submit'), 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'type' => 'submit', 'attrs' => ['id' => 'form-add-game__submit-btn']]) ?>
   </form>
 
   <!-- Validate the form submit -->
@@ -40,7 +40,7 @@
 <div class="internal-page">
   <div class="internal-card">
     <?= $formError ?>
-    <?= ui_button('Torna alla pagina precedente', 'primary', 'md', ['href' => '']) ?>
+    <?= ui_button(__('add_game_back'), 'primary', 'md', ['href' => '']) ?>
   </div>
 </div>
 

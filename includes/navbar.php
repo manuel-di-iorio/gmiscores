@@ -3,9 +3,9 @@ $navbarLogoColor = $theme === "dark" ? "White" : "";
 $navbarThemeReversed = $theme === "dark" ? "light" : "dark";
 
 $navbarItems = [
-  ["label" => "Dashboard", "url" => isset($user) ? "/home.php" : "/", "icon" => "home", "showOnlyLogged" => false],
-  ["label" => "I tuoi giochi", "url" => "/games.php", "icon" => "gamepad", "showOnlyLogged" => true],
-  ["label" => "Documentazione", "url" => "/documentation.php", "icon" => "book", "showOnlyLogged" => false]
+  ["label" => __("nav_dashboard"), "url" => isset($user) ? "/home.php" : "/", "icon" => "home", "showOnlyLogged" => false],
+  ["label" => __("nav_your_games"), "url" => "/games.php", "icon" => "gamepad", "showOnlyLogged" => true],
+  ["label" => __("nav_documentation"), "url" => "/documentation.php", "icon" => "book", "showOnlyLogged" => false]
 ];
 ?>
 
@@ -19,7 +19,7 @@ $navbarItems = [
       <img src="assets/images/logo<?= $navbarLogoColor ?>.png" class="round Logo" alt="Logo Piattaforma">
     </a>
     <!-- Brand title -->
-    <h4 class="BrandTitle">Classifica online</h4>
+    <h4 class="BrandTitle"><?= __("site_name") ?></h4>
   </div>
   
   <!-- Menu items -->
@@ -45,11 +45,11 @@ $navbarItems = [
         <!-- <?php if (isset($user["_avatarUrl"])) { ?>
         <img src="<?= $user["_avatarUrl"] ?>" class="shape-circle NavbarUserAvatar" alt="User avatar">
         <?php } ?> -->
-        Ciao&nbsp;<span class="username"><?= $user["username"] ?></span>
+        <?= __("nav_greeting") ?>&nbsp;<span class="username"><?= $user["username"] ?></span>
       </div>
-      <?= ui_button('Esci', 'ghost', 'sm', ['icon' => 'fas fa-sign-out-alt fa-fw', 'href' => 'logout.php', 'class' => 'full-width logout-button']) ?>
+      <?= ui_button( __('nav_logout'), 'ghost', 'sm', ['icon' => 'fas fa-sign-out-alt fa-fw', 'href' => 'logout.php', 'class' => 'full-width logout-button']) ?>
     <?php } else { ?>
-      <?= ui_button('Accedi', 'primary', 'sm', ['icon' => 'fas fa-sign-in-alt fa-fw', 'href' => 'login.php', 'class' => 'full-width login-button']) ?>
+      <?= ui_button( __('nav_login'), 'primary', 'sm', ['icon' => 'fas fa-sign-in-alt fa-fw', 'href' => 'login.php', 'class' => 'full-width login-button']) ?>
     <?php } ?>
 
     </div>
@@ -57,7 +57,7 @@ $navbarItems = [
 
   <!-- Theme switcher -->
   <div class="navbar__theme-switcher" style="text-align:center" onclick="switchTheme()">
-    <span class="navbar__theme-switcher__label">Tema scuro</span>
+    <span class="navbar__theme-switcher__label"><?= __("nav_dark_theme") ?></span>
     <label class="switch">
       <input id="input-switch-theme" type="checkbox" <?php if ($theme === "dark") { echo "checked"; } ?>>
       <span class="slider round"></span>

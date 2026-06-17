@@ -1,32 +1,32 @@
 <div class="internal-page">
   <div class="internal-actions">
-    <?= ui_button('Aggiungi un nuovo gioco', 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-game.php']) ?>
+    <?= ui_button(__('games_add_button'), 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-game.php']) ?>
   </div>
 
   <?php
     // Filters for the games table (always shown)
     $filters = [
-      [ 'name' => 'name', 'label' => 'Nome gioco', 'type' => 'text', 'placeholder' => 'Cerca per nome...' ]
+      [ 'name' => 'name', 'label' => __('games_filter_name'), 'type' => 'text', 'placeholder' => __('games_filter_placeholder') ]
     ];
     render_table_filters($filters);
 
     if (!empty($games)) {
     $tableColumns = [
       [
-        "label" => "Nome",
+        "label" => __('games_col_name'),
         "key" => "name",
         "sortable" => true,
         "format_callback" => function ($value, $row) {
-          return '<a href="game.php?id=' . $row["game_id"] . '" class="link" data-tippy-content="Visualizza gioco">' . htmlspecialchars($value) . '</a>';
+          return '<a href="game.php?id=' . $row["game_id"] . '" class="link" data-tippy-content="' . __('games_row_tooltip') . '">' . htmlspecialchars($value) . '</a>';
         }
       ],
-      ["label" => "Punteggi inviati", "key" => "_scoresCount", "sortable" => true],
-      ["label" => "Giocatori", "key" => "_playersCount", "sortable" => true],
+      ["label" => __('games_col_scores'), "key" => "_scoresCount", "sortable" => true],
+      ["label" => __('games_col_players'), "key" => "_playersCount", "sortable" => true],
     ];
 
     $tableActions = [
       [
-        "label" => "Classifiche",
+        "label" => __('games_action_leaderboards'),
         "icon" => "fas fa-trophy",
         "url" => function ($data) {
           return "leaderboards.php?game_id={$data['game_id']}";
@@ -34,7 +34,7 @@
         "class" => "btn-link"
       ],
       [
-        "label" => "Mostra giocatori bannati",
+        "label" => __('games_action_bans'),
         "icon" => "fas fa-user-times",
         "url" => function ($data) {
           return "game-bans.php?id={$data['game_id']}";
@@ -42,7 +42,7 @@
         "class" => "btn-link"
       ],
       [
-        "label" => "Cancella gioco",
+        "label" => __('games_action_delete'),
         "icon" => "fas fa-trash",
         "class" => "btn-link",
         "url" => "javascript:;",
@@ -71,27 +71,27 @@
       if ($hasFilter) { ?>
         <div class="internal-empty">
           <i class="fas fa-search"></i>
-          <h4>Nessun gioco trovato</h4>
-          <p>Prova ad azzerare i filtri.</p>
-          <?= ui_button('Rimuovi filtri', 'primary', 'md', ['href' => htmlspecialchars($_SERVER['PHP_SELF'])]) ?>
+          <h4><?= __('games_empty_filter_title') ?></h4>
+          <p><?= __('games_empty_filter_desc') ?></p>
+          <?= ui_button(__('games_empty_filter_btn'), 'primary', 'md', ['href' => htmlspecialchars($_SERVER['PHP_SELF'])]) ?>
         </div>
       <?php } else { ?>
         <div class="internal-empty">
           <i class="fas fa-gamepad"></i>
-          <h4>Non hai ancora aggiunto nessun gioco</h4>
-          <p>Crea il tuo primo gioco per iniziare a utilizzare la piattaforma.</p>
-          <?= ui_button('Aggiungi un gioco', 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-game.php']) ?>
+          <h4><?= __('games_empty_title') ?></h4>
+          <p><?= __('games_empty_desc') ?></p>
+          <?= ui_button(__('games_empty_btn'), 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-game.php']) ?>
         </div>
       <?php } }
   ?>
 </div>
 
 <?= ui_modal('modal-delete-game', [
-  'title' => 'Conferma eliminazione',
-  'content' => '<p>Sei sicuro di voler cancellare il gioco <strong><span id="modal-game-name"></span></strong> ?</p><p>L\'operazione non è reversibile.</p>',
+  'title' => __('games_modal_delete_title'),
+  'content' => '<p>' . __('games_modal_delete_body') . ' <strong><span id="modal-game-name"></span></strong> ?</p><p>' . __('games_modal_delete_warning') . '</p>',
   'footer' =>
-    ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-game', onDeleteGameModalClose)"]]) .
-    ui_button('Elimina gioco', 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'deleteGame()'], 'class' => 'ui-destructive']),
+    ui_button(__('games_modal_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-game', onDeleteGameModalClose)"]]) .
+    ui_button(__('games_modal_confirm_delete'), 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'deleteGame()'], 'class' => 'ui-destructive']),
   'footer_right' => true,
 ]) ?>
 

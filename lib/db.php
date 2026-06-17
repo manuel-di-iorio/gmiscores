@@ -3,6 +3,7 @@ require_once("config.php");
 require_once("https.php");
 require_once("crypt.php");
 require_once("getTheme.php");
+require_once("getLang.php");
 require_once("apiReplyError.php");
 require_once("tables.php");
 require_once(__DIR__ . "/../models/User.php");

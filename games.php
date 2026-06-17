@@ -15,5 +15,5 @@ while ($row = $result->fetch_assoc()) {
 
 // Render the layout
 $view = "games";
-$pageName = "I tuoi giochi";
+$pageName = __('games_title');
 require_once("includes/layout.php");

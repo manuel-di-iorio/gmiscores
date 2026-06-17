@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $view = "add-leaderboard";
-$pageName = "Nuova classifica - " . htmlspecialchars($game['name']);
+$pageName = __('add_lb_page_title', ['game' => htmlspecialchars($game['name'])]);
 $backUrl = "leaderboards.php?game_id=$game_id";
 require_once("includes/layout.php");
 ?>

@@ -3001,10 +3001,21 @@ textarea.internal-input {
 
 /* === Panel helpers === */
 .panel-info {
-  background: var(--panel-info-bg, #e0f2fe);
-  border-left: 4px solid #0ea5e9;
+  background: var(--info-panel-bg, #e0f2fe);
+  border-left: 4px solid var(--info-panel-border, #0ea5e9);
+  color: var(--info-panel-text, #0c5460);
   padding: 12px 16px;
   border-radius: 4px;
   margin-top: 16px;
   margin-bottom: 16px;
+}
+
+.login-box a {
+  color: var(--cookie-banner-link-color, #3498db);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.login-box a:hover {
+  color: var(--cookie-banner-link-hover-color, #5dade2);
 }

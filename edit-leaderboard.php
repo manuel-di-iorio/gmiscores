@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $view = "edit-leaderboard";
-$pageName = "Modifica classifica - " . htmlspecialchars($game['name']);
+$pageName = __('edit_lb_page_title', ['game' => htmlspecialchars($game['name'])]);
 $backUrl = "leaderboards.php?game_id=" . $lb['game_id'];
 require_once("includes/layout.php");
 ?>

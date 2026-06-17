@@ -1,11 +1,11 @@
 <div class="internal-page">
     <div class="internal-actions internal-actions--right">
-        <?= ui_button('Crea classifica', 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-leaderboard.php?game_id=' . $game['game_id']]) ?>
+        <?= ui_button(__('leaderboards_create_btn'), 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-leaderboard.php?game_id=' . $game['game_id']]) ?>
     </div>
 
     <?php
     $lbFilters = [
-        [ 'name' => 'name', 'label' => 'Nome classifica', 'type' => 'text', 'placeholder' => 'Cerca per nome...' ],
+        [ 'name' => 'name', 'label' => __('leaderboards_filter_name'), 'type' => 'text', 'placeholder' => __('leaderboards_filter_placeholder') ],
         // [ 'name' => 'score_min', 'label' => 'Punteggi min', 'type' => 'number', 'placeholder' => 'Min' ],
         // [ 'name' => 'score_max', 'label' => 'Punteggi max', 'type' => 'number', 'placeholder' => 'Max' ],
     ];
@@ -14,37 +14,37 @@
     if (!empty($leaderboards)) {
         $tableColumns = [
             [
-                "label" => "ID",
+                "label" => __('leaderboards_col_id'),
                 "key" => "leaderboard_id",
                 "sortable" => true,
                 "format_callback" => function ($value, $row) use ($game) {
-                    return '<a href="game-scores.php?id=' . $game['game_id'] . '&leaderboard_id=' . $row['leaderboard_id'] . '" class="link" data-tippy-content="Visualizza punteggi">' . htmlspecialchars($value) . '</a>';
+                    return '<a href="game-scores.php?id=' . $game['game_id'] . '&leaderboard_id=' . $row['leaderboard_id'] . '" class="link" data-tippy-content="' . __('leaderboards_row_tooltip') . '">' . htmlspecialchars($value) . '</a>';
                 }
             ],
             [
-                "label" => "Classifica",
+                "label" => __('leaderboards_col_name'),
                 "key" => "name",
                 "sortable" => true,
                 "format_callback" => function ($value, $row) {
-                    $icon = !empty($row['is_private']) ? ' <i class="fas fa-lock text-gray" title="Classifica privata"></i>' : '';
+                    $icon = !empty($row['is_private']) ? ' <i class="fas fa-lock text-gray" title="' . __('leaderboards_col_private') . '"></i>' : '';
                     return htmlspecialchars($value) . $icon;
                 }
             ],
             [
-                "label" => "Descrizione",
+                "label" => __('leaderboards_col_description'),
                 "key" => "description",
                 "sortable" => false,
                  "format_callback" => function ($value, $row) {
-                    return htmlspecialchars($value ?? 'N/A');
+                    return htmlspecialchars($value ?? __('leaderboards_col_description_na'));
                 }
             ],
             [
-                "label" => "Punteggi",
+                "label" => __('leaderboards_col_scores'),
                 "key" => "score_count",
                 "sortable" => true
             ],
             [
-                "label" => "Creata il",
+                "label" => __('leaderboards_col_created'),
                 "key" => "created_at",
                 "sortable" => true,
                 "format_callback" => function ($value, $row) {
@@ -56,7 +56,7 @@
         $canDelete = count($leaderboards) > 1;
         $tableActions = [
             [
-                "label" => "Visualizza Punteggi",
+                "label" => __('leaderboards_action_view'),
                 "icon" => "fas fa-list-ol",
                 "url" => function($row) use ($game) {
                     return "game-scores.php?id=" . $game['game_id'] . "&leaderboard_id=" . $row['leaderboard_id'];
@@ -64,7 +64,7 @@
                 "class" => "btn-link"
             ],
             [
-                "label" => "Modifica",
+                "label" => __('leaderboards_action_edit'),
                 "icon" => "fas fa-edit",
                  "url" => function($row) {
                     return "edit-leaderboard.php?leaderboard_id=" . $row['leaderboard_id'];
@@ -75,7 +75,7 @@
 
         if ($canDelete) {
             $tableActions[] = [
-                "label" => "Cancella",
+                "label" => __('leaderboards_action_delete'),
                 "icon" => "fas fa-trash",
                 "url" => "javascript:;",
                 "class" => "btn-link",
@@ -100,19 +100,19 @@
     } else { ?>
         <div class="internal-empty">
             <i class="fas fa-trophy"></i>
-            <h4>Non ci sono ancora classifiche per questo gioco</h4>
-            <p>Crea la prima classifica per iniziare a raccogliere punteggi.</p>
-            <?= ui_button('Crea classifica', 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-leaderboard.php?game_id=' . $game['game_id']]) ?>
+            <h4><?= __('leaderboards_empty_title') ?></h4>
+            <p><?= __('leaderboards_empty_desc') ?></p>
+            <?= ui_button(__('leaderboards_empty_btn'), 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-leaderboard.php?game_id=' . $game['game_id']]) ?>
         </div>
     <?php } ?>
 </div>
 
 <?= ui_modal('modal-delete-leaderboard', [
-  'title' => 'Conferma eliminazione',
-  'content' => '<p>Sei sicuro di voler cancellare la leaderboard <strong id="modal-delete-leaderboard__name"></strong>?</p><p><i class="fas fa-exclamation-triangle"></i> Attenzione: tutti i punteggi associati a questa leaderboard verranno cancellati definitivamente.</p>',
+  'title' => __('leaderboards_modal_delete_title'),
+  'content' => '<p>' . __('leaderboards_modal_delete_body') . ' <strong id="modal-delete-leaderboard__name"></strong>?</p><p><i class="fas fa-exclamation-triangle"></i> ' . __('leaderboards_modal_delete_warning') . '</p>',
   'footer' =>
-    ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-leaderboard')"]]) .
-    ui_button('Cancella classifica', 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'deleteLeaderboard()'], 'class' => 'ui-destructive']),
+    ui_button(__('leaderboards_modal_delete_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-leaderboard')"]]) .
+    ui_button(__('leaderboards_modal_delete_confirm'), 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'deleteLeaderboard()'], 'class' => 'ui-destructive']),
   'footer_right' => true,
 ]) ?>
 

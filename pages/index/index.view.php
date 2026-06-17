@@ -439,14 +439,14 @@
 <header class="landing-header" role="banner">
   <a href="./index.php" class="header-logo">
     <img src="assets/images/logoSmall.png" alt="Logo">
-    <span><?= htmlspecialchars($config["platformTitle"]) ?></span>
+    <span><?= __("site_name") ?></span>
   </a>
   <nav class="header-nav">
-    <a href="#come-funziona" class="nav-link-underline">Come funziona</a>
-    <a href="#caratteristiche" class="nav-link-underline">Caratteristiche</a>
-    <a href="#numeri" class="nav-link-underline">Numeri</a>
-    <a href="#faq" class="nav-link-underline">FAQ</a>
-    <a href="<?= isset($user) ? './home.php' : './add-game.php' ?>" class="header-cta">Inizia subito</a>
+    <a href="#come-funziona" class="nav-link-underline"><?= __('index_nav_how') ?></a>
+    <a href="#caratteristiche" class="nav-link-underline"><?= __('index_nav_features') ?></a>
+    <a href="#numeri" class="nav-link-underline"><?= __('index_nav_numbers') ?></a>
+    <a href="#faq" class="nav-link-underline"><?= __('index_nav_faq') ?></a>
+    <a href="<?= isset($user) ? './home.php' : './add-game.php' ?>" class="header-cta"><?= __('index_nav_start') ?></a>
   </nav>
 </header>
 
@@ -460,20 +460,20 @@
   <div class="hero-inner">
     <div class="hero-content">
       <h1 class="anim-fade-up">
-        Porta le tue classifiche<br>
-        <span style="background:linear-gradient(135deg,#a78bfa,#f9a8d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(167,139,250,0.3);">al prossimo livello</span>
+        <?= __('index_hero_title1') ?><br>
+        <span style="background:linear-gradient(135deg,#a78bfa,#f9a8d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(167,139,250,0.3);"><?= __('index_hero_title2') ?></span>
       </h1>
 
       <p class="hero-subtitle anim-fade-up anim-delay-200">
-        Integra leaderboard online nei tuoi giochi GameMaker in pochi minuti. Gratuito, sicuro e senza server.
+        <?= __('index_hero_subtitle') ?>
       </p>
 
       <div class="hero-actions anim-fade-up anim-delay-300">
         <a href="<?= isset($user) ? './home.php' : './add-game.php' ?>" class="CtaButton CtaButton--primary ripple-btn" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;">
-          <i class="fas fa-rocket"></i> Inizia subito
+          <i class="fas fa-rocket"></i> <?= __('index_hero_cta') ?>
         </a>
         <a href="./documentation.php" class="CtaButton CtaButton--secondary ripple-btn" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;">
-          <i class="fas fa-book"></i> Documentazione
+          <i class="fas fa-book"></i> <?= __('index_hero_docs') ?>
         </a>
       </div>
     </div>
@@ -482,7 +482,7 @@
       <div class="hero-mockup">
         <div class="hero-mockup__frame">
           <div class="hero-mockup__header">
-            <span class="hero-mockup__title">CLASSIFICA</span>
+            <span class="hero-mockup__title"><?= __('index_mockup_title') ?></span>
             <div class="hero-mockup__dots">
               <span class="hero-mockup__dot"></span>
               <span class="hero-mockup__dot"></span>
@@ -492,28 +492,28 @@
           <div class="hero-mockup__row">
             <span class="hero-mockup__rank">#1</span>
             <span class="hero-mockup__avatar"></span>
-            <span class="hero-mockup__name">Scario</span>
+            <span class="hero-mockup__name"><?= __('index_mockup_player1') ?></span>
             <span class="hero-mockup__score">12,450</span>
             <div class="hero-mockup__bar"><div class="hero-mockup__bar-fill" style="width:85%"></div></div>
           </div>
           <div class="hero-mockup__row">
             <span class="hero-mockup__rank">#2</span>
             <span class="hero-mockup__avatar"></span>
-            <span class="hero-mockup__name">Xeryan</span>
+            <span class="hero-mockup__name"><?= __('index_mockup_player2') ?></span>
             <span class="hero-mockup__score">10,230</span>
             <div class="hero-mockup__bar"><div class="hero-mockup__bar-fill" style="width:72%"></div></div>
           </div>
           <div class="hero-mockup__row">
             <span class="hero-mockup__rank">#3</span>
             <span class="hero-mockup__avatar"></span>
-            <span class="hero-mockup__name">Tiz</span>
+            <span class="hero-mockup__name"><?= __('index_mockup_player3') ?></span>
             <span class="hero-mockup__score">8,915</span>
             <div class="hero-mockup__bar"><div class="hero-mockup__bar-fill" style="width:64%"></div></div>
           </div>
           <div class="hero-mockup__row">
             <span class="hero-mockup__rank">#4</span>
             <span class="hero-mockup__avatar"></span>
-            <span class="hero-mockup__name">Goldensun</span>
+            <span class="hero-mockup__name"><?= __('index_mockup_player4') ?></span>
             <span class="hero-mockup__score">6,700</span>
             <div class="hero-mockup__bar"><div class="hero-mockup__bar-fill" style="width:55%"></div></div>
           </div>
@@ -523,38 +523,38 @@
   </div>
 
   <div class="scroll-indicator">
-    <span>Scopri</span>
+    <span><?= __('index_scroll') ?></span>
     <div class="scroll-line"></div>
   </div>
 </div>
 
-<div class="theme-toggle-home" onclick="switchThemeHome()" title="Cambia tema">
+<div class="theme-toggle-home" onclick="switchThemeHome()" title="<?= __('index_theme_toggle') ?>">
   <i class="fas <?= $theme === 'dark' ? 'fa-sun' : 'fa-moon' ?>"></i>
 </div>
 
 <!-- ===== HOW IT WORKS ===== -->
 <div id="come-funziona" class="section-container HowItWorksSection">
-  <h2 class="SectionTitle fade-in-up-on-scroll">Come funziona?</h2>
+  <h2 class="SectionTitle fade-in-up-on-scroll"><?= __('index_how_title') ?></h2>
   <div class="process-line" style="max-width:700px;margin:0 auto;">
     <div class="process-step fade-in-up-on-scroll">
       <div class="process-step__number">1</div>
-      <h5 style="font-size:1.15em;font-weight:700;margin-bottom:6px;color:var(--text-color-headings);">Registra il tuo gioco</h5>
-      <p style="color:var(--text-color-secondary);line-height:1.6;font-size:0.95em;">Aggiungi il tuo gioco sulla piattaforma e ricevi ID univoco e chiave segreta in pochi secondi.</p>
+      <h5 style="font-size:1.15em;font-weight:700;margin-bottom:6px;color:var(--text-color-headings);"><?= __('index_step1_title') ?></h5>
+      <p style="color:var(--text-color-secondary);line-height:1.6;font-size:0.95em;"><?= __('index_step1_desc') ?></p>
     </div>
     <div class="process-step fade-in-up-on-scroll">
       <div class="process-step__number">2</div>
-      <h5 style="font-size:1.15em;font-weight:700;margin-bottom:6px;color:var(--text-color-headings);">Integra l'API</h5>
-      <p style="color:var(--text-color-secondary);line-height:1.6;font-size:0.95em;">Usa le nostre semplici chiamate HTTP per inviare e recuperare punteggi direttamente da GameMaker.</p>
+      <h5 style="font-size:1.15em;font-weight:700;margin-bottom:6px;color:var(--text-color-headings);"><?= __('index_step2_title') ?></h5>
+      <p style="color:var(--text-color-secondary);line-height:1.6;font-size:0.95em;"><?= __('index_step2_desc') ?></p>
     </div>
     <div class="process-step fade-in-up-on-scroll">
       <div class="process-step__number">3</div>
-      <h5 style="font-size:1.15em;font-weight:700;margin-bottom:6px;color:var(--text-color-headings);">Classifiche globali</h5>
-      <p style="color:var(--text-color-secondary);line-height:1.6;font-size:0.95em;">I punteggi dei tuoi giocatori saranno visibili in classifiche globali, pronti per la competizione.</p>
+      <h5 style="font-size:1.15em;font-weight:700;margin-bottom:6px;color:var(--text-color-headings);"><?= __('index_step3_title') ?></h5>
+      <p style="color:var(--text-color-secondary);line-height:1.6;font-size:0.95em;"><?= __('index_step3_desc') ?></p>
     </div>
     <div class="process-step fade-in-up-on-scroll">
       <div class="process-step__number">4</div>
-      <h5 style="font-size:1.15em;font-weight:700;margin-bottom:6px;color:var(--text-color-headings);">Sicurezza e gestione</h5>
-      <p style="color:var(--text-color-secondary);line-height:1.6;font-size:0.95em;">Gestisci giochi, monitora statistiche e banna giocatori scorretti dalla tua dashboard.</p>
+      <h5 style="font-size:1.15em;font-weight:700;margin-bottom:6px;color:var(--text-color-headings);"><?= __('index_step4_title') ?></h5>
+      <p style="color:var(--text-color-secondary);line-height:1.6;font-size:0.95em;"><?= __('index_step4_desc') ?></p>
     </div>
   </div>
 </div>
@@ -564,87 +564,87 @@
   <div class="VisualShowcaseContainer">
     <div class="VisualShowcase__Text anim-fade-left">
       <h2 class="SectionTitle SectionTitle--left" style="margin-bottom:20px;">
-        Dai vita alle <span class="gradient-text">tue sfide</span>
+        <?= __('index_showcase_title1') ?> <span class="gradient-text"><?= __('index_showcase_title2') ?></span>
       </h2>
-      <p>Trasforma ogni partita in una competizione epica. I tuoi giocatori scaleranno le classifiche, condivideranno i loro risultati e si sentiranno parte di una community globale.</p>
+      <p><?= __('index_showcase_desc') ?></p>
       <div class="ripple-btn" style="display:inline-block;margin-top:8px;">
         <a href="./add-game.php" class="CtaButton CtaButton--primary" style="display:inline-flex;align-items:center;gap:8px;padding:14px 32px;font-size:0.95em;text-decoration:none;">
-          <i class="fas fa-arrow-right"></i> Aggiungi il tuo gioco
+          <i class="fas fa-arrow-right"></i> <?= __('index_showcase_cta') ?>
         </a>
       </div>
     </div>
     <div class="VisualShowcase__Image anim-fade-right">
-      <img src="/assets/images/landing_leaderboard.avif" alt="Visualizzazione Classifiche" loading="lazy">
+      <img src="/assets/images/landing_leaderboard.avif" alt="<?= __('index_showcase_img_alt') ?>" loading="lazy">
     </div>
   </div>
 </div>
 
 <!-- ===== FEATURES ===== -->
 <div id="caratteristiche" class="section-container FeaturesSection">
-  <h2 class="SectionTitle fade-in-up-on-scroll">Perchè <span class="gradient-text">sceglierci?</span></h2>
+  <h2 class="SectionTitle fade-in-up-on-scroll"><?= __('index_features_title1') ?> <span class="gradient-text"><?= __('index_features_title2') ?></span></h2>
   <div class="FeaturesGrid">
     <div class="FeatureCard fade-in-up-on-scroll tilt-card">
       <div class="tilt-card__shine"></div>
       <div class="FeatureCard__Icon"><i class="fas fa-cogs"></i></div>
-      <h5>Integrazione semplice</h5>
-      <p>API facili da usare per un'integrazione rapida nei tuoi giochi GameMaker.</p>
-      <a href="./documentation.php" class="card-arrow" style="text-decoration:none;">Scopri di più <i class="fas fa-arrow-right"></i></a>
+      <h5><?= __('index_feature1_title') ?></h5>
+      <p><?= __('index_feature1_desc') ?></p>
+      <a href="./documentation.php" class="card-arrow" style="text-decoration:none;"><?= __('index_feature_link') ?> <i class="fas fa-arrow-right"></i></a>
     </div>
     <div class="FeatureCard fade-in-up-on-scroll tilt-card">
       <div class="tilt-card__shine"></div>
       <div class="FeatureCard__Icon"><i class="fas fa-gift"></i></div>
-      <h5>Gratuito per sempre</h5>
-      <p>Nessun costo nascosto. Offri classifiche online senza pensieri, sempre.</p>
-      <a href="./add-game.php" class="card-arrow" style="text-decoration:none;">Scopri di più <i class="fas fa-arrow-right"></i></a>
+      <h5><?= __('index_feature2_title') ?></h5>
+      <p><?= __('index_feature2_desc') ?></p>
+      <a href="./add-game.php" class="card-arrow" style="text-decoration:none;"><?= __('index_feature_link') ?> <i class="fas fa-arrow-right"></i></a>
     </div>
     <div class="FeatureCard fade-in-up-on-scroll tilt-card">
       <div class="tilt-card__shine"></div>
       <div class="FeatureCard__Icon"><i class="fas fa-shield-alt"></i></div>
-      <h5>Sicuro e affidabile</h5>
-      <p>Piattaforma stabile con protezione anti-cheat di base e backup regolari.</p>
-      <a href="./game.php" class="card-arrow" style="text-decoration:none;">Scopri di più <i class="fas fa-arrow-right"></i></a>
+      <h5><?= __('index_feature3_title') ?></h5>
+      <p><?= __('index_feature3_desc') ?></p>
+      <a href="./game.php" class="card-arrow" style="text-decoration:none;"><?= __('index_feature_link') ?> <i class="fas fa-arrow-right"></i></a>
     </div>
     <div class="FeatureCard fade-in-up-on-scroll tilt-card">
       <div class="tilt-card__shine"></div>
       <div class="FeatureCard__Icon"><i class="fas fa-server"></i></div>
-      <h5>Nessun server richiesto</h5>
-      <p>Gestiamo noi l'hosting. Tu scrivi il gioco, noi gestiamo le classifiche.</p>
-      <a href="./documentation.php" class="card-arrow" style="text-decoration:none;">Scopri di più <i class="fas fa-arrow-right"></i></a>
+      <h5><?= __('index_feature4_title') ?></h5>
+      <p><?= __('index_feature4_desc') ?></p>
+      <a href="./documentation.php" class="card-arrow" style="text-decoration:none;"><?= __('index_feature_link') ?> <i class="fas fa-arrow-right"></i></a>
     </div>
     <div class="FeatureCard fade-in-up-on-scroll tilt-card">
       <div class="tilt-card__shine"></div>
       <div class="FeatureCard__Icon"><i class="fas fa-users-cog"></i></div>
-      <h5>Dashboard completa</h5>
-      <p>Interfaccia intuitiva per gestire giochi, punteggi, ban e statistiche.</p>
-      <a href="./games.php" class="card-arrow" style="text-decoration:none;">Scopri di più <i class="fas fa-arrow-right"></i></a>
+      <h5><?= __('index_feature5_title') ?></h5>
+      <p><?= __('index_feature5_desc') ?></p>
+      <a href="./games.php" class="card-arrow" style="text-decoration:none;"><?= __('index_feature_link') ?> <i class="fas fa-arrow-right"></i></a>
     </div>
     <div class="FeatureCard fade-in-up-on-scroll tilt-card">
       <div class="tilt-card__shine"></div>
       <div class="FeatureCard__Icon"><i class="fas fa-users"></i></div>
-      <h5>Community attiva</h5>
-      <p>Entra nel nostro Discord per supporto, idee e collaborazione con altri dev.</p>
-      <a href="https://discord.gg/85RCMD9VQD" class="card-arrow" style="text-decoration:none;" target="_blank">Scopri di più <i class="fas fa-arrow-right"></i></a>
+      <h5><?= __('index_feature6_title') ?></h5>
+      <p><?= __('index_feature6_desc') ?></p>
+      <a href="https://discord.gg/85RCMD9VQD" class="card-arrow" style="text-decoration:none;" target="_blank"><?= __('index_feature_link') ?> <i class="fas fa-arrow-right"></i></a>
     </div>
     <div class="FeatureCard fade-in-up-on-scroll tilt-card">
       <div class="tilt-card__shine"></div>
       <div class="FeatureCard__Icon"><i class="fab fa-github"></i></div>
-      <h5>Open source</h5>
-      <p>Codice su <a href="https://github.com/manuel-di-iorio/gmiscores" style="color:var(--primary-color);">GitHub</a>. Contribuisci o personalizza.</p>
-      <a href="https://github.com/manuel-di-iorio/gmiscores" class="card-arrow" style="text-decoration:none;" target="_blank">Scopri di più <i class="fas fa-arrow-right"></i></a>
+      <h5><?= __('index_feature7_title') ?></h5>
+      <p><?= __('index_feature7_desc1') ?> <a href="https://github.com/manuel-di-iorio/gmiscores" style="color:var(--primary-color);"><?= __('index_feature7_github') ?></a>. <?= __('index_feature7_desc2') ?></p>
+      <a href="https://github.com/manuel-di-iorio/gmiscores" class="card-arrow" style="text-decoration:none;" target="_blank"><?= __('index_feature_link') ?> <i class="fas fa-arrow-right"></i></a>
     </div>
     <div class="FeatureCard fade-in-up-on-scroll tilt-card">
       <div class="tilt-card__shine"></div>
       <div class="FeatureCard__Icon"><i class="fas fa-rocket"></i></div>
-      <h5>Evoluzione continua</h5>
-      <p>Nuove funzionalità e miglioramenti costanti per la piattaforma.</p>
-      <a href="./documentation.php" class="card-arrow" style="text-decoration:none;">Scopri di più <i class="fas fa-arrow-right"></i></a>
+      <h5><?= __('index_feature8_title') ?></h5>
+      <p><?= __('index_feature8_desc') ?></p>
+      <a href="./documentation.php" class="card-arrow" style="text-decoration:none;"><?= __('index_feature_link') ?> <i class="fas fa-arrow-right"></i></a>
     </div>
   </div>
 </div>
 
 <!-- ===== STATS ===== -->
 <div id="numeri" class="section-container StatsSection stats-gradient-section">
-  <h2 class="SectionTitle fade-in-up-on-scroll">La community in <span class="gradient-text">numeri</span></h2>
+  <h2 class="SectionTitle fade-in-up-on-scroll"><?= __('index_stats_title1') ?> <span class="gradient-text"><?= __('index_stats_title2') ?></span></h2>
   <div class="StatCardContainer stagger-grid">
     <?php
       $statIcons = [
@@ -677,35 +677,35 @@
 
 <!-- ===== FAQ ===== -->
 <div id="faq" class="section-container FAQsSection">
-  <h2 class="SectionTitle fade-in-up-on-scroll">Domande <span class="gradient-text">frequenti</span></h2>
+  <h2 class="SectionTitle fade-in-up-on-scroll"><?= __('index_faq_title1') ?> <span class="gradient-text"><?= __('index_faq_title2') ?></span></h2>
   <div class="FAQsContainer">
     <div class="faq-item fade-in-up-on-scroll">
       <button class="faq-question">
-        <span>Costa qualcosa utilizzare la piattaforma?</span>
+        <span><?= __('index_faq1_q') ?></span>
         <span class="faq-icon"><i class="fas fa-plus"></i></span>
       </button>
-      <div class="faq-answer">No, la piattaforma è completamente gratuita. Puoi registrare un numero illimitato di giochi e gestire le tue classifiche senza alcun costo.</div>
+      <div class="faq-answer"><?= __('index_faq1_a') ?></div>
     </div>
     <div class="faq-item fade-in-up-on-scroll anim-delay-100">
       <button class="faq-question">
-        <span>Come integro le API nel mio gioco GameMaker?</span>
+        <span><?= __('index_faq2_q') ?></span>
         <span class="faq-icon"><i class="fas fa-plus"></i></span>
       </button>
-      <div class="faq-answer">Abbiamo una documentazione dettagliata con esempi pronti all'uso per GameMaker. Basta copiare il codice, inserire la tua chiave API e sei pronto.</div>
+      <div class="faq-answer"><?= __('index_faq2_a') ?></div>
     </div>
     <div class="faq-item fade-in-up-on-scroll anim-delay-200">
       <button class="faq-question">
-        <span>Posso proteggere le mie classifiche dagli hacker?</span>
+        <span><?= __('index_faq3_q') ?></span>
         <span class="faq-icon"><i class="fas fa-plus"></i></span>
       </button>
-      <div class="faq-answer">Sì, offriamo strumenti di moderazione tra cui ban players, cancellazione punteggi sospetti e validazione lato server per prevenire abusi.</div>
+      <div class="faq-answer"><?= __('index_faq3_a') ?></div>
     </div>
     <div class="faq-item fade-in-up-on-scroll anim-delay-300">
       <button class="faq-question">
-        <span>Quali linguaggi/engine sono supportati?</span>
+        <span><?= __('index_faq4_q') ?></span>
         <span class="faq-icon"><i class="fas fa-plus"></i></span>
       </button>
-      <div class="faq-answer">Le API sono basate su semplici chiamate HTTP, quindi supportano qualsiasi engine o linguaggio che possa fare richieste web. La documentazione copre GameMaker in dettaglio.</div>
+      <div class="faq-answer"><?= __('index_faq4_a') ?></div>
     </div>
   </div>
 </div>
@@ -713,14 +713,14 @@
 <!-- ===== FINAL CTA ===== -->
 <div id="contatti" class="section-container FinalCtaSection" style="text-align:center">
   <h4 class="fade-in-up-on-scroll">
-    <strong>Pronto a portare i tuoi giochi <span class="gradient-text">al livello successivo?</span></strong>
+    <strong><?= __('index_cta_title1') ?> <span class="gradient-text"><?= __('index_cta_title2') ?></span></strong>
   </h4>
   <p class="fade-in-up-on-scroll anim-delay-100">
-    Unisciti alla community di sviluppatori e offri ai tuoi giocatori un'esperienza competitiva indimenticabile.
+    <?= __('index_cta_desc') ?>
   </p>
   <div class="fade-in-up-on-scroll anim-delay-200 ripple-btn" style="display:inline-block;">
     <a href="./add-game.php" class="CtaButton CtaButton--primary" style="display:inline-flex;align-items:center;gap:10px;padding:18px 44px;font-size:1.1em;text-decoration:none;">
-      <i class="fas fa-rocket"></i> Aggiungi il tuo gioco
+      <i class="fas fa-rocket"></i> <?= __('index_cta_button') ?>
     </a>
   </div>
 </div>

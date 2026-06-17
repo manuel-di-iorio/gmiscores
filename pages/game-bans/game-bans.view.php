@@ -8,7 +8,7 @@
   <?php
     // Filters for banned players (always shown)
     $filters = [
-      [ 'name' => 'player', 'label' => 'Giocatore', 'type' => 'text', 'placeholder' => 'Nome giocatore' ]
+      [ 'name' => 'player', 'label' => __('bans_filter_player'), 'type' => 'text', 'placeholder' => __('bans_filter_player_placeholder') ]
     ];
     render_table_filters($filters);
 
@@ -16,8 +16,8 @@
   <div style="overflow-x:auto">
     <table style="width:100%;border-collapse:collapse;margin-bottom:16px">
       <tr>
-        <th>Giocatore</th>
-        <th>Bannato il</th>
+        <th><?= __('bans_col_player') ?></th>
+        <th><?= __('bans_col_banned_on') ?></th>
         <th></th>
       </tr>
       
@@ -31,7 +31,7 @@
         
         <td>
           <!-- Delete ban -->
-          <a href="javascript:;" data-tippy-content="Revoca ban" class="btn-link">
+          <a href="javascript:;" data-tippy-content="<?= __('bans_action_revoke') ?>" class="btn-link">
             <li class="fas fa-user-check"
                 onclick="openModal('modal-delete-ban', onDeleteBanModalOpen,
                 { banId: <?= $record['ban_id'] ?>,
@@ -47,26 +47,26 @@
       if ($hasFilter) { ?>
         <div class="internal-empty">
           <i class="fas fa-search"></i>
-          <h4>Nessun ban trovato</h4>
-          <p>Prova ad azzerare i filtri.</p>
-          <?= ui_button('Rimuovi filtri', 'primary', 'md', ['href' => htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $game['game_id']]) ?>
+          <h4><?= __('bans_empty_filter_title') ?></h4>
+          <p><?= __('bans_empty_filter_desc') ?></p>
+          <?= ui_button(__('bans_empty_filter_btn'), 'primary', 'md', ['href' => htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $game['game_id']]) ?>
         </div>
       <?php } else { ?>
         <div class="internal-empty">
           <i class="fas fa-user-check"></i>
-          <h4>Non ci sono ban attivi</h4>
-          <p>Nessun giocatore è stato bannato per questo gioco.</p>
+          <h4><?= __('bans_empty_title') ?></h4>
+          <p><?= __('bans_empty_desc') ?></p>
         </div>
       <?php } } ?>
   </div>
 </div>
 
 <?= ui_modal('modal-delete-ban', [
-  'title' => 'Conferma revoca ban',
-  'content' => '<p>Sei sicuro di voler revocare il ban di <strong><span id="modal-delete-ban__player-name"></span></strong> ?</p>',
+  'title' => __('bans_modal_revoke_title'),
+  'content' => '<p>' . __('bans_modal_revoke_body') . ' <strong><span id="modal-delete-ban__player-name"></span></strong> ?</p>',
   'footer' =>
-    ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-ban', onDeleteBanModalClose)"]]) .
-    ui_button('Revoca ban', 'danger', 'md', ['icon' => 'fas fa-user-check', 'attrs' => ['onclick' => 'deleteBan()'], 'class' => 'ui-destructive']),
+    ui_button(__('bans_modal_revoke_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-ban', onDeleteBanModalClose)"]]) .
+    ui_button(__('bans_modal_revoke_confirm'), 'danger', 'md', ['icon' => 'fas fa-user-check', 'attrs' => ['onclick' => 'deleteBan()'], 'class' => 'ui-destructive']),
   'footer_right' => true,
 ]) ?>
 

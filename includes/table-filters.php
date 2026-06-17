@@ -68,7 +68,7 @@ function render_table_filters(array $fields, array $options = []) {
 
         if ($type === 'select' && isset($field['options']) && is_array($field['options'])) {
             echo '<select name="' . htmlspecialchars($name) . '">';
-            echo '<option value="">(Tutti)</option>';
+            echo '<option value="">' . __('filter_all') . '</option>';
             foreach ($field['options'] as $optValue => $optLabel) {
                 $sel = ((string)$optValue === (string)$value) ? ' selected' : '';
                 echo '<option value="' . htmlspecialchars($optValue) . '"' . $sel . '>' . htmlspecialchars($optLabel) . '</option>';
@@ -90,7 +90,7 @@ function render_table_filters(array $fields, array $options = []) {
         echo '<div class="filters-col">';
     echo '<label>&nbsp;</label>';
     echo '<div class="filters-actions">';
-    echo ui_button('Applica filtri', 'primary', 'md', ['type' => 'submit']);
+    echo ui_button( __('filter_apply'), 'primary', 'md', ['type' => 'submit']);
 
     // Build reset URL preserving only selected keys
     $resetParams = [];
@@ -100,7 +100,7 @@ function render_table_filters(array $fields, array $options = []) {
         }
     }
     $resetUrl = $_SERVER['PHP_SELF'] . (count($resetParams) ? ('?' . http_build_query($resetParams)) : '');
-    echo '<a href="' . htmlspecialchars($resetUrl) . '" class="btn-link">Azzera</a>';
+    echo '<a href="' . htmlspecialchars($resetUrl) . '" class="btn-link">' . __('filter_reset') . '</a>';
 
     echo '</div>'; // close filters-actions
     echo '</div>'; // close action col

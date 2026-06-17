@@ -26,5 +26,5 @@ while ($record = $result->fetch_assoc()) {
 
 // Render the layout
 $view = "game-bans";
-$pageName = "Giocatori bannati su " . htmlspecialchars($game["name"]);
+$pageName = __('bans_page_title', ['game' => htmlspecialchars($game["name"])]);
 require_once("includes/layout.php");

@@ -182,7 +182,7 @@ function render_table(array $data, array $columns, array $actions = [], array $o
         echo '</th>';
     }
     if (!empty($actions)) {
-        echo '<th class="ui-table-header-cell actions-header-cell">Azioni</th>';
+        echo '<th class="ui-table-header-cell actions-header-cell">' . __('table_actions') . '</th>';
     }
     echo '</tr></thead>';
 
@@ -190,7 +190,7 @@ function render_table(array $data, array $columns, array $actions = [], array $o
     echo '<tbody class="ui-table-body">';
     if (empty($pageData)) {
         $colspan = count($columns) + (!empty($actions) ? 1 : 0) + ($selectable ? 1 : 0);
-        echo '<tr class="ui-table-empty-row"><td colspan="' . $colspan . '" style="text-align:center">Nessun dato disponibile.</td></tr>';
+        echo '<tr class="ui-table-empty-row"><td colspan="' . $colspan . '" style="text-align:center">' . __('table_empty') . '</td></tr>';
     } else {
         foreach ($pageData as $row) {
             echo '<tr class="ui-table-row">';
@@ -256,7 +256,7 @@ function render_table(array $data, array $columns, array $actions = [], array $o
         // Previous button (for 0-indexed)
         if ($currentPage > 0) {
             $prevPageParams = http_build_query(array_merge($_GET, ['page' => $currentPage - 1]));
-            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $prevPageParams) . '" class="pagination-btn">&laquo; Precedente</a>';
+            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $prevPageParams) . '" class="pagination-btn">&laquo; ' . __('table_prev') . '</a>';
         }
 
         // Page numbers (for 0-indexed)
@@ -310,7 +310,7 @@ function render_table(array $data, array $columns, array $actions = [], array $o
         // Next button (for 0-indexed)
         if ($currentPage < $totalPages) {
             $nextPageParams = http_build_query(array_merge($_GET, ['page' => $currentPage + 1]));
-            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $nextPageParams) . '" class="pagination-btn">Successivo &raquo;</a>';
+            echo '<a href="' . htmlspecialchars($baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . $nextPageParams) . '" class="pagination-btn">' . __('table_next') . ' &raquo;</a>';
         }
 
         echo '</div>';

@@ -128,11 +128,11 @@
 <?php if ($totalGames === 0) { ?>
   <div class="empty-state">
     <i class="fas fa-chart-pie"></i>
-    <h3>Nessun dato disponibile</h3>
-    <p>Non hai ancora aggiunto giochi. Aggiungi il tuo primo gioco per vedere le statistiche!</p>
+    <h3><?= __('home_empty_title') ?></h3>
+    <p><?= __('home_empty_desc') ?></p>
     <div style="margin-top:20px">
       <a href="add-game.php" class="CtaButton CtaButton--primary" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;text-decoration:none;border-radius:12px;font-weight:600;">
-        <i class="fas fa-plus"></i> Aggiungi gioco
+        <i class="fas fa-plus"></i> <?= __('home_empty_cta') ?>
       </a>
     </div>
   </div>
@@ -143,28 +143,28 @@
     <div class="home-stat-card__icon home-stat-card__icon--primary"><i class="fas fa-star"></i></div>
     <div>
       <div class="home-stat-card__value"><?= number_format($totalScores) ?></div>
-      <div class="home-stat-card__label">Punteggi inviati</div>
+      <div class="home-stat-card__label"><?= __('home_stat_scores') ?></div>
     </div>
   </div>
   <div class="home-stat-card">
     <div class="home-stat-card__icon home-stat-card__icon--success"><i class="fas fa-users"></i></div>
     <div>
       <div class="home-stat-card__value"><?= number_format($totalPlayers) ?></div>
-      <div class="home-stat-card__label">Giocatori unici</div>
+      <div class="home-stat-card__label"><?= __('home_stat_players') ?></div>
     </div>
   </div>
   <div class="home-stat-card">
     <div class="home-stat-card__icon home-stat-card__icon--info"><i class="fas fa-gamepad"></i></div>
     <div>
       <div class="home-stat-card__value"><?= $totalGames ?></div>
-      <div class="home-stat-card__label">Giochi</div>
+      <div class="home-stat-card__label"><?= __('home_stat_games') ?></div>
     </div>
   </div>
   <div class="home-stat-card">
     <div class="home-stat-card__icon home-stat-card__icon--warning"><i class="fas fa-calendar-day"></i></div>
     <div>
       <div class="home-stat-card__value"><?= number_format($scoresToday) ?></div>
-      <div class="home-stat-card__label">Punteggi oggi</div>
+      <div class="home-stat-card__label"><?= __('home_stat_today') ?></div>
     </div>
   </div>
 </div>
@@ -203,7 +203,7 @@ foreach ($countries as $row) {
   <div class="ui-card ui-card--padding-md">
     <div class="ui-card__body">
       <div style="font-weight:600;font-size:1em;color:var(--text-color-headings,#333);margin-bottom:12px">
-        <i class="fas fa-chart-line" style="color:var(--primary-color,#6366f1);margin-right:8px"></i>Punteggi negli ultimi 30 giorni
+        <i class="fas fa-chart-line" style="color:var(--primary-color,#6366f1);margin-right:8px"></i><?= __('home_chart_30days') ?>
       </div>
       <div class="chart-container">
         <canvas id="chartScoresOverTime"></canvas>
@@ -213,7 +213,7 @@ foreach ($countries as $row) {
   <div class="ui-card ui-card--padding-md">
     <div class="ui-card__body">
       <div style="font-weight:600;font-size:1em;color:var(--text-color-headings,#333);margin-bottom:12px">
-        <i class="fas fa-chart-bar" style="color:var(--primary-color,#6366f1);margin-right:8px"></i>Punteggi totali per gioco
+        <i class="fas fa-chart-bar" style="color:var(--primary-color,#6366f1);margin-right:8px"></i><?= __('home_chart_by_game') ?>
       </div>
       <div class="chart-container">
         <canvas id="chartScoresByGame"></canvas>
@@ -227,7 +227,7 @@ foreach ($countries as $row) {
   <div class="ui-card ui-card--padding-md">
     <div class="ui-card__body">
       <div style="font-weight:600;font-size:1em;color:var(--text-color-headings,#333);margin-bottom:12px">
-        <i class="fas fa-globe" style="color:var(--primary-color,#6366f1);margin-right:8px"></i>Paesi
+        <i class="fas fa-globe" style="color:var(--primary-color,#6366f1);margin-right:8px"></i><?= __('home_chart_countries') ?>
       </div>
       <div class="chart-container" style="max-height:350px">
         <canvas id="chartCountries"></canvas>
@@ -337,8 +337,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  createLineCtx('chartScoresOverTime', <?= json_encode($chartDays) ?>, <?= json_encode($chartCounts) ?>, 'Punteggi');
-  createBarCtx('chartScoresByGame', <?= json_encode($gameNames) ?>, <?= json_encode($gameCounts) ?>, 'Punteggi');
+  createLineCtx('chartScoresOverTime', <?= json_encode($chartDays) ?>, <?= json_encode($chartCounts) ?>, '<?= __('home_chart_scores_label') ?>');
+  createBarCtx('chartScoresByGame', <?= json_encode($gameNames) ?>, <?= json_encode($gameCounts) ?>, '<?= __('home_chart_scores_label') ?>');
   createDoughnutCtx('chartCountries', <?= json_encode($countryLabels) ?>, <?= json_encode($countryCounts) ?>);
 });
 </script>

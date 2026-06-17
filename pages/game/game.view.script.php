@@ -12,12 +12,12 @@ function toggleSecretVisibility(inputSecretEyeBtn) {
     inputSecret.type = "text";
     icon.classList.remove("fa-eye");
     icon.classList.add("fa-eye-slash");
-    inputSecretEyeBtn.setAttribute("data-tippy-content", "Nascondi il secret del gioco");
+    inputSecretEyeBtn.setAttribute("data-tippy-content", "<?= __('game_details_secret_hide') ?>");
   } else {
     inputSecret.type = "password";
     icon.classList.remove("fa-eye-slash");
     icon.classList.add("fa-eye");
-    inputSecretEyeBtn.setAttribute("data-tippy-content", "Mostra il secret del gioco");
+    inputSecretEyeBtn.setAttribute("data-tippy-content", "<?= __('game_details_secret_show') ?>");
   }
   // Refresh tippy instance if available
   if (inputSecretEyeBtn._tippy) {

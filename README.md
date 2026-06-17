@@ -1,21 +1,21 @@
 # GameMaker Italia - Platform Template
 
-Template base per la creazione di nuove aree del sito
+Basic template for creating new site areas
 
-## Struttura files
+## File structure
 
-- /includes/layout.php Template base delle pagine
-- /lib: Componenti del server
-- /pages: Pagine HTML renderizzate dal layout (strutturate in componenti .view e .ctrl)
-- /api: API richiamali tramite HTTP Request
-- /models: Classi entità del database
-- /assets: Files statici (immagini, css)
-- Gli altri file php nella root sono le pagine che verranno effettivamente chiamate dal browser
+- /includes/layout.php Basic page template
+- /lib: Server components
+- /pages: HTML pages rendered by the layout (structured in .view and .ctrl components)
+- /api: API called via HTTP Request
+- /models: Database entity classes
+- /assets: Static files (images, CSS)
+- The other PHP files in the root are the pages that will actually be called by the browser.
 
 ## .htaccess
 
-Nega l'accesso diretto da browser ad alcune sottocartelle e setta il php engine di Altervista.
+Deny direct browser access to some subfolders and set the Altervista PHP engine.
 
 ## Env
 
-Il file `.env` non è convidiso sulla repository GitHub, ma puoi trovare l'esempio default sul file `.emv.example`.
+The `.env` file is not shared on the GitHub repository, but you can find the default example in the `.emv.example` file.

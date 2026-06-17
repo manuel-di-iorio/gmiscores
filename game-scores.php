@@ -69,6 +69,6 @@ while ($row = $result->fetch_assoc()) {
 }
 
 $view = "game-scores";
-$pageName = "Punteggi - " . htmlspecialchars($lb['name']) . " (" . htmlspecialchars($game["name"]) . ")";
+$pageName = __('scores_page_title', ['leaderboard' => htmlspecialchars($lb['name']), 'game' => htmlspecialchars($game["name"])]);
 $backUrl = "leaderboards.php?game_id=$gameId";
 require_once("includes/layout.php");

@@ -50,5 +50,5 @@
    }
  }
  $view = "add-game";
- $pageName = "Aggiungi il tuo gioco";
+ $pageName = __('add_game_title');
  require_once("includes/layout.php");

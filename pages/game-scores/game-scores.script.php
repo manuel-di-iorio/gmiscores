@@ -46,11 +46,11 @@ function deleteSelectedScores() {
     if (data.success) {
       location.reload();
     } else {
-      alert('Errore: ' + (data.error || 'Operazione fallita'));
+      alert(<?= json_encode(__('scores_script_error_prefix')) ?> + (data.error || <?= json_encode(__('scores_script_error_fallback')) ?>));
     }
   })
   .catch(function() {
-    alert('Errore di rete durante l\'eliminazione');
+    alert(<?= json_encode(__('scores_script_network_error')) ?>);
   });
 }
 
@@ -124,7 +124,7 @@ function importUploadOnChange(elem) {
 document.getElementById("form-add-score").addEventListener("submit", function() {
   var btn = this.querySelector('button[type="submit"]');
   btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px"></i> Invio...';
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:8px"></i> ' + <?= json_encode(__('scores_script_sending')) ?>;
 });
 
 function resetInsertScoreForm() {

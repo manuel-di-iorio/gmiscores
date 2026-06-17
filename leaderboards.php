@@ -44,6 +44,6 @@ foreach ($leaderboards as &$row) {
 unset($row);
 
 $view = "leaderboards";
-$pageName = "Classifiche di " . htmlspecialchars($game['name']);
+$pageName = __('leaderboards_page_title', ['game' => htmlspecialchars($game['name'])]);
 require_once("includes/layout.php");
 ?>

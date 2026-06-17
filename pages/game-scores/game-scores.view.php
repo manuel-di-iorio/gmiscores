@@ -1,27 +1,27 @@
 <div class="internal-page">
   <?php if (!empty($lb['is_private'])) { ?>
-    <div class="private-badge"><i class="fas fa-lock"></i> Classifica privata — la lettura via API richiede un hash di autenticazione.</div>
+    <div class="private-badge"><i class="fas fa-lock"></i> <?= __('scores_private_badge') ?></div>
   <?php } ?>
   <div class="internal-actions internal-actions--right">
-    <?= ui_button('Inserisci punteggio', 'primary', 'md', ['icon' => 'fa fa-plus-circle', 'attrs' => ['onclick' => "openModal('modal-insert-score')"]]) ?>
+    <?= ui_button(__('scores_add_button'), 'primary', 'md', ['icon' => 'fa fa-plus-circle', 'attrs' => ['onclick' => "openModal('modal-insert-score')"]]) ?>
 
     <?php if (!empty($scores)) { ?>
-      <?= ui_button('Esporta', 'primary', 'md', ['icon' => 'fa fa-cloud-download-alt', 'href' => 'game-scores-export.php?id=' . $game['game_id'] . '&leaderboard_id=' . $leaderboardId, 'attrs' => ['download' => '']]) ?>
+      <?= ui_button(__('scores_export_button'), 'primary', 'md', ['icon' => 'fa fa-cloud-download-alt', 'href' => 'game-scores-export.php?id=' . $game['game_id'] . '&leaderboard_id=' . $leaderboardId, 'attrs' => ['download' => '']]) ?>
     <?php } ?>
 
-    <?= ui_button('Importa', 'primary', 'md', ['icon' => 'fa fa-cloud-upload-alt', 'attrs' => ['onclick' => 'importPickFile()']]) ?>
+    <?= ui_button(__('scores_import_button'), 'primary', 'md', ['icon' => 'fa fa-cloud-upload-alt', 'attrs' => ['onclick' => 'importPickFile()']]) ?>
     <form id="form-import" action="game-scores-import.php?id=<?= $game["game_id"] ?>&leaderboard_id=<?= $leaderboardId ?>" method="post" enctype="multipart/form-data" onsubmit="return false;" style="display:none">
       <input type='file' name="file" id="btn-import-pick-file" hidden onchange="importUploadOnChange(this)" />
     </form>
 
     <?php if (!empty($scores)) { ?>
       <a href="javascript:;" id="btn-delete-selected-wrapper" style="display:none">
-        <?= ui_button('Elimina selezionati', 'primary', 'md', ['icon' => 'fa fa-trash', 'attrs' => ['onclick' => "openModal('modal-delete-selected-scores', onDeleteSelectedScoresModalOpen)"]]) ?>
+        <?= ui_button(__('scores_delete_selected'), 'primary', 'md', ['icon' => 'fa fa-trash', 'attrs' => ['onclick' => "openModal('modal-delete-selected-scores', onDeleteSelectedScoresModalOpen)"]]) ?>
       </a>
     <?php } ?>
 
     <?php if (!empty($scores)) { ?>
-      <?= ui_button('Cancella tutti', 'primary', 'md', ['icon' => 'fa fa-trash', 'attrs' => ['onclick' => "openModal('modal-clear-scores')"]]) ?>
+      <?= ui_button(__('scores_clear_all'), 'primary', 'md', ['icon' => 'fa fa-trash', 'attrs' => ['onclick' => "openModal('modal-clear-scores')"]]) ?>
     <?php } ?>
   </div>
 
@@ -29,25 +29,25 @@
   <?php
     // Filters for the scores table (always shown)
     $envOptions = [
-      'production' => 'Produzione',
-      'test' => 'Test',
+      'production' => __('scores_env_production'),
+      'test' => __('scores_env_test'),
     ];
     $scoreFilters = [
-      [ 'name' => 'player', 'label' => 'Giocatore', 'type' => 'text', 'placeholder' => 'Nome giocatore' ],
-      [ 'name' => 'score_min', 'label' => 'Punti (a partire da)', 'type' => 'number', 'placeholder' => 'Min' ],
-      [ 'name' => 'score_max', 'label' => 'Punti (fino a)', 'type' => 'number', 'placeholder' => 'Max' ],
-      [ 'name' => 'ip_country', 'label' => 'Nazione', 'type' => 'text', 'placeholder' => 'Nazione' ],
-      [ 'name' => 'tags', 'label' => 'Tags', 'type' => 'text', 'placeholder' => 'Tags' ],
-      [ 'name' => 'env', 'label' => 'Ambiente', 'type' => 'select', 'options' => $envOptions, 'default' => 'production' ],
-      [ 'name' => 'date_from', 'label' => 'Da', 'type' => 'date' ],
-      [ 'name' => 'date_to', 'label' => 'A', 'type' => 'date' ],
+      [ 'name' => 'player', 'label' => __('scores_filter_player'), 'type' => 'text', 'placeholder' => __('scores_filter_player_placeholder') ],
+      [ 'name' => 'score_min', 'label' => __('scores_filter_points_from'), 'type' => 'number', 'placeholder' => __('scores_filter_points_from_placeholder') ],
+      [ 'name' => 'score_max', 'label' => __('scores_filter_points_to'), 'type' => 'number', 'placeholder' => __('scores_filter_points_to_placeholder') ],
+      [ 'name' => 'ip_country', 'label' => __('scores_filter_country'), 'type' => 'text', 'placeholder' => __('scores_filter_country_placeholder') ],
+      [ 'name' => 'tags', 'label' => __('scores_filter_tags'), 'type' => 'text', 'placeholder' => __('scores_filter_tags_placeholder') ],
+      [ 'name' => 'env', 'label' => __('scores_filter_environment'), 'type' => 'select', 'options' => $envOptions, 'default' => 'production' ],
+      [ 'name' => 'date_from', 'label' => __('scores_filter_date_from'), 'type' => 'date' ],
+      [ 'name' => 'date_to', 'label' => __('scores_filter_date_to'), 'type' => 'date' ],
     ];
     render_table_filters($scoreFilters, ['reset_preserve' => ['id', 'leaderboard_id', 'sort', 'dir']]);
 
     if (!empty($scores)) {
     $tableColumns = [
       [
-        "label" => "Giocatore",
+        "label" => __('scores_col_player'),
         "key" => "username",
         "sortable" => true,
         "format_callback" => function ($value, $row) {
@@ -55,36 +55,36 @@
         }
       ],
       [
-        "label" => "Punteggio",
+        "label" => __('scores_col_score'),
         "key" => "score",
         "sortable" => true
       ],
       [
-        "label" => "Nazione",
+        "label" => __('scores_col_country'),
         "key" => "ip_country",
         "sortable" => true,
         "format_callback" => function ($value, $row) {
-          return is_null($value) ? "N/A" : htmlspecialchars($value);
+          return is_null($value) ? __('scores_col_country_na') : htmlspecialchars($value);
         }
       ],
       [
-        "label" => "Tags",
+        "label" => __('scores_col_tags'),
         "key" => "tags",
         "sortable" => true
       ],
       [
-        "label" => "Ambiente",
+        "label" => __('scores_col_env'),
         "key" => "env",
         "sortable" => true,
         "format_callback" => function ($value, $row) {
           $env = $value ?? 'production';
           $badgeClass = $env === 'test' ? 'tag-yellow' : 'tag-green';
-          $label = $env === 'test' ? 'Test' : 'Produzione';
+          $label = $env === 'test' ? __('scores_env_test') : __('scores_env_production');
           return '<span class="tag ' . $badgeClass . ' env-tag">' . $label . '</span>';
         }
       ],
       [
-        "label" => "Data",
+        "label" => __('scores_col_date'),
         "key" => "updated_at",
         "sortable" => true,
         "format_callback" => function ($value, $row) {
@@ -95,7 +95,7 @@
 
     $tableActions = [
       [
-        "label" => "Mostra dati",
+        "label" => __('scores_action_data'),
         "icon" => "fas fa-file-alt",
         "url" => "javascript:;",
         "class" => "btn-link",
@@ -107,7 +107,7 @@
         }
       ],
       [
-        "label" => "Banna giocatore",
+        "label" => __('scores_action_ban'),
         "icon" => "fas fa-user-times",
         "url" => "javascript:;",
         "class" => "btn-link",
@@ -116,7 +116,7 @@
         }
       ],
       [
-        "label" => "Cancella punteggio",
+        "label" => __('scores_action_delete'),
         "icon" => "fas fa-trash",
         "url" => "javascript:;",
         "class" => "btn-link",
@@ -152,114 +152,114 @@
     if ($filtersApplied) { ?>
       <div class="internal-empty">
         <i class="fas fa-search"></i>
-        <h4>Nessun punteggio trovato</h4>
-        <p>Prova ad allargare i criteri o azzerare i filtri.</p>
-        <?= ui_button('Rimuovi filtri', 'primary', 'md', ['href' => htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $game['game_id'] . '&leaderboard_id=' . $leaderboardId]) ?>
+        <h4><?= __('scores_empty_filter_title') ?></h4>
+        <p><?= __('scores_empty_filter_desc') ?></p>
+        <?= ui_button(__('scores_empty_filter_btn'), 'primary', 'md', ['href' => htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $game['game_id'] . '&leaderboard_id=' . $leaderboardId]) ?>
       </div>
     <?php } else { ?>
       <div class="internal-empty">
         <i class="fas fa-trophy"></i>
-        <h4>Non ci sono ancora punteggi</h4>
-        <p>I punteggi inviati dagli utenti tramite API appariranno qui. Consulta la documentazione per iniziare.</p>
-        <?= ui_button('Documentazione', 'primary', 'md', ['icon' => 'fa fa-arrow-circle-right', 'href' => 'documentation.php']) ?>
+        <h4><?= __('scores_empty_title') ?></h4>
+        <p><?= __('scores_empty_desc') ?></p>
+        <?= ui_button(__('scores_empty_btn'), 'primary', 'md', ['icon' => 'fa fa-arrow-circle-right', 'href' => 'documentation.php']) ?>
       </div>
     <?php } } ?>
   </div>
 </div>
 
 <?= ui_modal('modal-delete-score', [
-  'title' => 'Conferma eliminazione',
-  'content' => '<p>Sei sicuro di voler cancellare il punteggio di <strong><span id="modal-delete-score__player-name"></span></strong> ?</p><p>L\'operazione non è reversibile.</p>',
+  'title' => __('scores_modal_delete_title'),
+  'content' => '<p>' . __('scores_modal_delete_body') . ' <strong><span id="modal-delete-score__player-name"></span></strong> ?</p><p>' . __('scores_modal_delete_irreversible') . '</p>',
   'footer' =>
-    ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-score', onDeleteScoreModalClose)"]]) .
-    ui_button('Elimina punteggio', 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'deleteScore()'], 'class' => 'ui-destructive']),
+    ui_button(__('scores_modal_delete_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-score', onDeleteScoreModalClose)"]]) .
+    ui_button(__('scores_modal_delete_confirm'), 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'deleteScore()'], 'class' => 'ui-destructive']),
   'footer_right' => true,
 ]) ?>
 
 
 <?= ui_modal('modal-insert-score', [
-  'title' => 'Inserisci manualmente un punteggio',
+  'title' => __('scores_modal_add_title'),
   'content' => '<form id="form-add-score" style="margin-bottom:0" method="POST" action="/game-scores-add.php?id=' . $game["game_id"] . '&leaderboard_id=' . $leaderboardId . '">
     <input type="hidden" name="leaderboard_id" value="' . $leaderboardId . '">
     <div class="ui-input-group">
-      <label class="ui-label">Nome del giocatore</label>
+      <label class="ui-label">' . __('scores_modal_add_player') . '</label>
       <input id="input-insert-score__player" name="player" type="text" class="ui-input" required>
     </div>
     <div class="ui-input-group">
-      <label class="ui-label">Punteggio</label>
+      <label class="ui-label">' . __('scores_modal_add_score') . '</label>
       <input id="input-insert-score__score" name="score" type="number" step="any" class="ui-input" required>
     </div>
     <h5 class="accordion" onclick="toggleAccordion(this)" style="display:block;width:100%;text-align:left;background:var(--bg-color-offset,#f1f1f1);border:none;padding:8px 16px;cursor:pointer">
-      <span style="margin-right:16px">Campi opzionali</span>
+      <span style="margin-right:16px">' . __('scores_modal_add_optional') . '</span>
       <small><i class="fas fa-arrow-circle-down"></i></small>
     </h5>
     <div class="accordion-content" style="display:none">
       <div class="ui-input-group">
-        <label class="ui-label">Tags <a href="/documentation.php" target="_blank" data-tippy-content="Vedi documentazione"><i class="fas fa-question-circle"></i></a></label>
+        <label class="ui-label">' . __('scores_modal_add_tags') . ' <a href="/documentation.php" target="_blank" data-tippy-content="' . __('scores_modal_add_tags_help') . '"><i class="fas fa-question-circle"></i></a></label>
         <input id="input-insert-score__tags" name="tags" type="text" class="ui-input">
       </div>
       <div class="ui-input-group">
-        <label class="ui-label">Dati (una stringa associata al punteggio, max 64kb)</label>
+        <label class="ui-label">' . __('scores_modal_add_data') . '</label>
         <textarea id="input-insert-score__data" name="data" class="ui-input"></textarea>
       </div>
       <div class="ui-input-group">
-        <label class="ui-label">Modalit&agrave; di inserimento del punteggio <a href="/documentation.php" target="_blank" data-tippy-content="Vedi documentazione"><i class="fas fa-question-circle"></i></a></label>
+        <label class="ui-label">' . __('scores_modal_add_mode') . ' <a href="/documentation.php" target="_blank" data-tippy-content="' . __('scores_modal_add_mode_help') . '"><i class="fas fa-question-circle"></i></a></label>
         <select class="ui-select" name="insertMode" required>
-          <option value="higher" selected>Solo se maggiore del precedente (higher)</option>
-          <option value="lower">Solo se minore del precedente (lower)</option>
-          <option value="all">In ogni caso (all)</option>
+          <option value="higher" selected>' . __('scores_modal_add_mode_higher') . '</option>
+          <option value="lower">' . __('scores_modal_add_mode_lower') . '</option>
+          <option value="all">' . __('scores_modal_add_mode_all') . '</option>
         </select>
       </div>
       <div class="ui-input-group">
-        <label class="ui-label">Ambiente</label>
+        <label class="ui-label">' . __('scores_modal_add_env') . '</label>
         <select class="ui-select" name="env">
-          <option value="production">Produzione</option>
-          <option value="test">Test</option>
+          <option value="production">' . __('scores_env_production') . '</option>
+          <option value="test">' . __('scores_env_test') . '</option>
         </select>
       </div>
     </div>
     <div style="display:flex;justify-content:flex-end;gap:8px;padding-top:16px">
-      ' . ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-insert-score', resetInsertScoreForm)"]]) . '
-      ' . ui_button('Inserisci', 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'type' => 'submit']) . '
+      ' . ui_button(__('scores_modal_add_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-insert-score', resetInsertScoreForm)"]]) . '
+      ' . ui_button(__('scores_modal_add_submit'), 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'type' => 'submit']) . '
     </div>
   </form>',
 ]) ?>
 
 <?= ui_modal('modal-delete-selected-scores', [
-  'title' => 'Conferma eliminazione',
-  'content' => '<p>Sei sicuro di voler cancellare i <strong><span id="modal-delete-selected-scores__count"></span></strong> punteggi selezionati?</p><p>L\'operazione non è reversibile.</p>',
+  'title' => __('scores_modal_delete_selected_title'),
+  'content' => '<p>' . __('scores_modal_delete_selected_body') . ' <strong><span id="modal-delete-selected-scores__count"></span></strong> ' . __('scores_modal_delete_selected_body2') . '</p><p>' . __('scores_modal_delete_selected_irreversible') . '</p>',
   'footer' =>
-    ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-selected-scores')"]]) .
-    ui_button('Elimina selezionati', 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'deleteSelectedScores()'], 'class' => 'ui-destructive']),
+    ui_button(__('scores_modal_delete_selected_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-selected-scores')"]]) .
+    ui_button(__('scores_modal_delete_selected_confirm'), 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'deleteSelectedScores()'], 'class' => 'ui-destructive']),
   'footer_right' => true,
 ]) ?>
 
 <?= ui_modal('modal-clear-scores', [
-  'title' => 'Conferma cancellazione',
-  'content' => '<p>Sei sicuro di voler cancellare <strong>tutti</strong> i punteggi ?</p><p>L\'operazione non è reversibile.</p>',
+  'title' => __('scores_modal_clear_title'),
+  'content' => '<p>' . __('scores_modal_clear_body') . '</p><p>' . __('scores_modal_clear_irreversible') . '</p>',
   'footer' =>
-    ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-clear-scores')"]]) .
-    ui_button('Elimina tutti', 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'clearScores()'], 'class' => 'ui-destructive']),
+    ui_button(__('scores_modal_clear_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-clear-scores')"]]) .
+    ui_button(__('scores_modal_clear_confirm'), 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'clearScores()'], 'class' => 'ui-destructive']),
   'footer_right' => true,
 ]) ?>
 
 <?= ui_modal('modal-ban-player', [
-  'title' => 'Conferma ban',
-  'content' => '<p>Vuoi bannare <strong><span id="modal-ban-player__player-name"></span></strong> ?</p>
-    <p>Tutti i suoi punteggi inviati su questo gioco verranno rimossi e non potr&agrave; inviarne di nuovi.</p>
-    <p>Potrai rimuovere il ban in seguito ma i punteggi rimossi non potranno essere recuperati.</p>
-    <p>I ban non influiscono su altri tuoi giochi.</p>',
+  'title' => __('scores_modal_ban_title'),
+  'content' => '<p>' . __('scores_modal_ban_body1') . ' <strong><span id="modal-ban-player__player-name"></span></strong> ?</p>
+    <p>' . __('scores_modal_ban_body2') . '</p>
+    <p>' . __('scores_modal_ban_body3') . '</p>
+    <p>' . __('scores_modal_ban_body4') . '</p>',
   'footer' =>
-    ui_button('Annulla', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-ban-player', onBanPlayerModalClose)"]]) .
-    ui_button('Banna giocatore', 'danger', 'md', ['icon' => 'fas fa-user-times', 'attrs' => ['onclick' => 'banPlayer()'], 'class' => 'ui-destructive']),
+    ui_button(__('scores_modal_ban_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-ban-player', onBanPlayerModalClose)"]]) .
+    ui_button(__('scores_modal_ban_confirm'), 'danger', 'md', ['icon' => 'fas fa-user-times', 'attrs' => ['onclick' => 'banPlayer()'], 'class' => 'ui-destructive']),
   'footer_right' => true,
 ]) ?>
 
 <?= ui_modal('modal-view-score-data', [
-  'title' => 'Dati associati al punteggio',
-  'content' => '<p>Dati associati al punteggio #<span id="modal-view-score-data__score-id"></span> di <strong><span id="modal-view-score-data__player-name"></span></strong></p>
+  'title' => __('scores_modal_data_title'),
+  'content' => '<p>' . __('scores_modal_data_body') . '<span id="modal-view-score-data__score-id"></span> ' . __('scores_modal_data_of') . ' <strong><span id="modal-view-score-data__player-name"></span></strong></p>
     <textarea id="modal-view-score-data__data" class="ui-input" style="min-height:120px"></textarea>',
-  'footer' => ui_button('Chiudi', 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-view-score-data')"]]),
+  'footer' => ui_button(__('scores_modal_data_close'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-view-score-data')"]]),
   'footer_right' => true,
 ]) ?>
 
