@@ -63,11 +63,7 @@
           <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
             <i class="far fa-copy"></i>
           </button>
-          <div class="code-block jsHigh">{
-  "message": "&lt;messaggio&gt;",
-  "code": "&lt;ID errore&gt;",
-  "status": &lt;http status code&gt;
-}</div>
+          <div class="code-block jsHigh">{<br/>&nbsp;&nbsp;"message": "&lt;messaggio&gt;",<br/>&nbsp;&nbsp;"code": "&lt;ID errore&gt;",<br/>&nbsp;&nbsp;"status": &lt;http status code&gt;<br/>}</div>
         </div>
       </div>
     </div>
@@ -96,7 +92,7 @@
             <div class="terminal-dot terminal-dot--yellow"></div>
             <div class="terminal-dot terminal-dot--green"></div>
           </div>
-          <span class="terminal-title">Send Score</span>
+          <span class="terminal-title">SDK Usage - Send Score</span>
         </div>
         <div class="terminal-body code-block-wrapper">
           <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
@@ -106,14 +102,14 @@
         </div>
       </div>
       
-      <div class="terminal-mockup">
+      <div class="terminal-mockup" style="margin-top: 16px;">
         <div class="terminal-header">
           <div class="terminal-dots">
             <div class="terminal-dot terminal-dot--red"></div>
             <div class="terminal-dot terminal-dot--yellow"></div>
             <div class="terminal-dot terminal-dot--green"></div>
           </div>
-          <span class="terminal-title">Get Scores</span>
+          <span class="terminal-title">SDK Usage - Get Scores</span>
         </div>
         <div class="terminal-body code-block-wrapper">
           <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
@@ -277,11 +273,7 @@
               <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
                 <i class="far fa-copy"></i>
               </button>
-              <div class="code-block jsHigh">{
-  "status": 200,
-  "scoreAction": "inserted",
-  "position": 4
-}</div>
+              <div class="code-block jsHigh">{<br/>&nbsp;&nbsp;"status": 200,<br/>&nbsp;&nbsp;"scoreAction": "inserted",<br/>&nbsp;&nbsp;"position": 4<br/>}</div>
             </div>
           </div>
 
@@ -304,15 +296,7 @@
               <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
                 <i class="far fa-copy"></i>
               </button>
-              <div class="code-block jsHigh">var points = 100; // <?= __('docs_code_points') ?>
-
-var player = "Harry"; // <?= __('docs_code_player') ?>
-
-var data = "game=ID&amp;leaderboard_id=ID_LEADERBOARD&amp;score=" + string(points) + "&amp;player=" + base64_encode(player);
-var secret = "SECRET_DEL_GIOCO"; // <?= __('docs_code_secret') ?>
-
-var hash = "&amp;hash=" + sha1_string_utf8(data + secret);
-http_post_string("<?= $baseApiPath ?>/add.php", data + hash);</div>
+              <div class="code-block jsHigh">var points = 100; // <?= __('docs_code_points') ?><br/>var player = "Harry"; // <?= __('docs_code_player') ?><br/>var data = "game=ID&amp;leaderboard_id=ID_LEADERBOARD&amp;score=" + string(points) + "&amp;player=" + base64_encode(player);<br/>var secret = "SECRET_DEL_GIOCO"; // <?= __('docs_code_secret') ?><br/>var hash = "&amp;hash=" + sha1_string_utf8(data + secret);<br/>http_post_string("<?= $baseApiPath ?>/add.php", data + hash);</div>
             </div>
           </div>
         </div>
@@ -498,19 +482,7 @@ http_post_string("<?= $baseApiPath ?>/add.php", data + hash);</div>
               <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
                 <i class="far fa-copy"></i>
               </button>
-              <div class="code-block jsHigh">{
-  "status": 200,
-  "scores": [
-    { "player_id": 130, "username": "Freank", "score": 2000, "created_at": "2020-05-03 08:58:12" },
-    { "player_id": 54, "username": "Jak", "score": 1200, "created_at": "2020-05-04 22:20:20" }
-  ],
-  "playerScore": {
-    "player_id": 75,
-    "username": "Rolando",
-    "score": 1000,
-    "position": 1
-  }
-}</div>
+              <div class="code-block jsHigh">{<br/>&nbsp;&nbsp;"status": 200,<br/>&nbsp;&nbsp;"scores": [<br/>&nbsp;&nbsp;&nbsp;&nbsp;{ "player_id": 130, "username": "Freank", "score": 2000, "created_at": "2020-05-03 08:58:12" },<br/>&nbsp;&nbsp;&nbsp;&nbsp;{ "player_id": 54, "username": "Jak", "score": 1200, "created_at": "2020-05-04 22:20:20" }<br/>&nbsp;&nbsp;],<br/>&nbsp;&nbsp;"playerScore": {<br/>&nbsp;&nbsp;&nbsp;&nbsp;"player_id": 75,<br/>&nbsp;&nbsp;&nbsp;&nbsp;"username": "Rolando",<br/>&nbsp;&nbsp;&nbsp;&nbsp;"score": 1000,<br/>&nbsp;&nbsp;&nbsp;&nbsp;"position": 1<br/>&nbsp;&nbsp;}<br/>}</div>
             </div>
           </div>
 
@@ -527,18 +499,13 @@ http_post_string("<?= $baseApiPath ?>/add.php", data + hash);</div>
                 <div class="terminal-dot terminal-dot--yellow"></div>
                 <div class="terminal-dot terminal-dot--green"></div>
               </div>
-              <span class="terminal-title">Create Event</span>
+              <span class="terminal-title">GMS Create Event</span>
             </div>
             <div class="terminal-body code-block-wrapper">
               <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
                 <i class="far fa-copy"></i>
               </button>
-              <div class="code-block jsHigh">// <?= __('docs_code_create_comment') ?>
-
-// <?= __('docs_code_request_comment') ?>
-
-scores = noone;
-getScores = http_get("<?= $baseApiPath ?>/list.php?game=ID");</div>
+              <div class="code-block jsHigh">// <?= __('docs_code_create_comment') ?><br/>// <?= __('docs_code_request_comment') ?><br/>scores = noone;<br/>getScores = http_get("<?= $baseApiPath ?>/list.php?game=ID");</div>
             </div>
           </div>
 
@@ -549,18 +516,13 @@ getScores = http_get("<?= $baseApiPath ?>/list.php?game=ID");</div>
                 <div class="terminal-dot terminal-dot--yellow"></div>
                 <div class="terminal-dot terminal-dot--green"></div>
               </div>
-              <span class="terminal-title">Async HTTP Event</span>
+              <span class="terminal-title">GMS Async HTTP Event</span>
             </div>
             <div class="terminal-body code-block-wrapper">
               <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
                 <i class="far fa-copy"></i>
               </button>
-              <div class="code-block jsHigh">// <?= __('docs_code_async_comment') ?>
-
-if (async_load[? "id"] == getScores &amp;&amp; async_load[? "status"] == 0) {
-  var result = json_decode(async_load[? "result"]);
-  scores = result[? "scores"];
-}</div>
+              <div class="code-block jsHigh">// <?= __('docs_code_async_comment') ?><br/>if (async_load[? "id"] == getScores &amp;&amp; async_load[? "status"] == 0) {<br/>&nbsp;&nbsp;var result = json_decode(async_load[? "result"]);<br/>&nbsp;&nbsp;scores = result[? "scores"];<br/>}</div>
             </div>
           </div>
         </div>
