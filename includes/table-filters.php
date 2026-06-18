@@ -12,38 +12,13 @@
  * Supported field types: text, number, date, select
  */
 function render_table_filters(array $fields, array $options = []) {
-    static $cssPrinted = false;
-    if (!$cssPrinted) {
-        echo '<style>
-.table-filters { background: var(--bg-color-card, #fff); border: 1px solid var(--border-color, #e9e9e9); padding: 12px; border-radius: 8px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-.table-filters .filters-row { margin: 0 -8px; display: flex; flex-wrap: wrap; }
-.table-filters .filters-col { padding: 0 8px 12px 8px; box-sizing: border-box; width: 25%; }
-.table-filters label { font-weight: 600; color: var(--text-color, #333); font-size: 0.95rem; display: block; margin-bottom: 6px; }
-.table-filters .ui-input, .table-filters select { padding: 10px 12px; border-radius: 4px; border: 1px solid var(--border-color, #e0e0e0); background: var(--input-bg, #fff); height: 40px; box-sizing: border-box; color: var(--input-text, #333); width: 100%; }
-.table-filters .ui-input:focus, .table-filters select:focus { border-color: var(--primary-color, #6366f1); box-shadow: 0 0 0 3px rgba(99,102,241,0.12); outline: none; }
-.table-filters .ui-input::placeholder, .table-filters select::placeholder { color: var(--text-color-secondary, #bbb); }
-.table-filters .filters-actions { display:flex; align-items:flex-end; gap: 20px; }
-.table-filters .filters-actions .btn-link { color: var(--text-color, #333); text-decoration: none; align-self: center; }
-.table-filters .btn-link { color: var(--text-color, #333); text-decoration: none; align-self: center; transition: color .15s; }
-.table-filters .btn-link:hover { color: var(--primary-color, #6366f1); }
-@media (max-width: 992px) { .table-filters .filters-col { width: 50%; } }
-@media (max-width: 600px) { .table-filters .filters-col { width: 100%; } .table-filters .filters-actions { flex-direction: row; } }
-</style>';
-        $cssPrinted = true;
-    }
-    // Names of the filter fields to exclude from preserved hidden inputs
     $filterNames = array_map(function($f){ return $f['name']; }, $fields);
-
-    // Exclude page so filters reset to first page
     $exclude = array_merge($filterNames, ['page']);
-
-    // Which keys to preserve on reset (only keep id, sort, dir by default)
     $resetPreserve = $options['reset_preserve'] ?? ['id', 'sort', 'dir'];
 
-    echo '<form method="GET" class="table-filters">';
-    echo '<div class="filters-row">';
+    echo '<form method="GET" class="bg-surface-card border border-solid border-border-color rounded-lg p-3 shadow-sm mb-4">';
+    echo '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">';
 
-    // Preserve existing GET parameters (hidden inputs) except filter fields and page
     foreach ($_GET as $k => $v) {
         if (in_array($k, $exclude, true)) continue;
         if (is_array($v)) {
@@ -55,7 +30,6 @@ function render_table_filters(array $fields, array $options = []) {
         echo '<input type="hidden" name="' . htmlspecialchars($k) . '" value="' . htmlspecialchars($v) . '">';
     }
 
-    // Render fields
     foreach ($fields as $field) {
         $name = $field['name'];
         $label = $field['label'] ?? ucfirst($name);
@@ -63,11 +37,11 @@ function render_table_filters(array $fields, array $options = []) {
         $placeholder = $field['placeholder'] ?? '';
         $value = isset($_GET[$name]) ? $_GET[$name] : ($field['default'] ?? '');
 
-        echo '<div class="filters-col">';
-        echo '<label>' . htmlspecialchars($label) . '</label>';
+        echo '<div>';
+        echo '<label class="font-semibold text-sm text-[var(--text-color)] block mb-1.5">' . htmlspecialchars($label) . '</label>';
 
         if ($type === 'select' && isset($field['options']) && is_array($field['options'])) {
-            echo '<select name="' . htmlspecialchars($name) . '">';
+            echo '<select name="' . htmlspecialchars($name) . '" class="w-full px-3.5 py-2 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] h-10">';
             echo '<option value="">' . __('filter_all') . '</option>';
             foreach ($field['options'] as $optValue => $optLabel) {
                 $sel = ((string)$optValue === (string)$value) ? ' selected' : '';
@@ -75,24 +49,19 @@ function render_table_filters(array $fields, array $options = []) {
             }
             echo '</select>';
         } else {
-            // Map to HTML input types
             $htmlType = 'text';
             if ($type === 'number') $htmlType = 'number';
             if ($type === 'date') $htmlType = 'date';
-
-            echo '<input type="' . $htmlType . '" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" placeholder="' . htmlspecialchars($placeholder) . '" class="ui-input">';
+            echo '<input type="' . $htmlType . '" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '" placeholder="' . htmlspecialchars($placeholder) . '" class="w-full px-3.5 py-2 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] disabled:bg-input-bg-disabled disabled:text-input-text-disabled disabled:cursor-not-allowed h-10">';
         }
 
         echo '</div>';
     }
 
-    // Action buttons
-        echo '<div class="filters-col">';
-    echo '<label>&nbsp;</label>';
-    echo '<div class="filters-actions">';
-    echo ui_button( __('filter_apply'), 'primary', 'md', ['type' => 'submit']);
+    echo '<div class="flex items-end">';
+    echo '<div class="flex items-end gap-5">';
+    echo ui_button(__('filter_apply'), 'primary', 'md', ['type' => 'submit']);
 
-    // Only show reset if any filter has a value
     $hasFilter = false;
     foreach ($fields as $field) {
         $name = $field['name'];
@@ -110,12 +79,13 @@ function render_table_filters(array $fields, array $options = []) {
             }
         }
         $resetUrl = $_SERVER['PHP_SELF'] . (count($resetParams) ? ('?' . http_build_query($resetParams)) : '');
-        echo '<a href="' . htmlspecialchars($resetUrl) . '" class="btn-link">' . __('filter_reset') . '</a>';
+        echo '<a href="' . htmlspecialchars($resetUrl) . '" class="text-sm text-[var(--text-color)] no-underline self-center transition-colors duration-150 hover:text-[var(--primary-color)]">' . __('filter_reset') . '</a>';
     }
 
-    echo '</div>'; // close filters-actions
-    echo '</div>'; // close action col
-    echo '</div>'; // close filters-row
+    echo '</div>';
+    echo '</div>';
+
+    echo '</div>'; // close grid
     echo '</form>';
 }
 

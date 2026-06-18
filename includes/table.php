@@ -336,65 +336,22 @@ function toggleSelectAll(source, name) {
         margin-right: 5px;
         text-decoration: none;
     }
-
     .actions-cell a:last-child {
         margin-right: 0;
     }
-
-    .ui-table-container {
-        overflow-x: auto;
-    }
-
-    .ui-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .ui-table-header {
-        background-color: var(--table-header-bg, #f0f2f5);
-    }
-
-    .ui-table-header-cell {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid var(--table-border-color, #ddd);
-    }
-
-    .ui-table-body {
-        background-color: var(--bg-color-card, #fff);
-    }
-
-    .ui-table-row:nth-child(even) {
-        background-color: var(--table-row-even-bg, #f9f9f9);
-    }
-
-    .ui-table-cell {
-        padding: 8px;
-        border-bottom: 1px solid var(--table-border-color, #ddd);
-    }
-
-    .ui-table-empty-row {
-        text-align: center;
-        color: var(--text-color-secondary, #777);
-    }
-
     .ui-table-pagination {
         margin-top: 16px;
     }
-
     .pagination-arrow {
         padding: 8px 16px;
     }
-
     .pagination-number {
         padding: 8px 16px;
     }
-
     .pagination-active {
         background-color: var(--pagination-active-bg, #4CAF50);
         color: var(--pagination-active-text, white);
     }
-
     .pagination-ellipsis {
         padding: 8px 16px;
     }

@@ -9,7 +9,7 @@ function ui_card($content, $options = []) {
   $footer = $options['footer'] ?? null;
   $id = isset($options['id']) ? ' id="' . htmlspecialchars($options['id']) . '"' : '';
 
-  $base = 'bg-surface-card border border-border-color rounded-xl shadow-sm overflow-hidden';
+  $base = 'bg-surface-card border border-solid border-border-color rounded-xl shadow-sm overflow-hidden';
 
   $variants = [
     'default'     => '',
@@ -39,7 +39,7 @@ function ui_card($content, $options = []) {
   $html .= '<div class="' . $bodyPad . '">' . $content . '</div>';
 
   if ($footer) {
-    $html .= '<div class="px-5 py-3 border-t border-border-color flex items-center gap-2">' . $footer . '</div>';
+    $html .= '<div class="px-5 py-3 border-t border-solid border-border-color flex items-center gap-2">' . $footer . '</div>';
   }
 
   $html .= '</div>';

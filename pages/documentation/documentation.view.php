@@ -192,13 +192,13 @@
       </button>
       <div class="accordion-content">
         <p class="documentation-text"><?= __('docs_resources_desc') ?></p>
-        <?= ui_button(__('docs_resources_download'), 'primary', 'md', ['icon' => 'fa fa-download', 'href' => '/files/gms2_3-gmi_cloud-v0_9_3.yymps', 'attrs' => ['download' => ''], 'class' => 'mb-4']) ?>
+        <?= ui_button(__('docs_resources_download'), 'primary', 'md', ['icon' => 'fa fa-download', 'href' => '/sdk/GameMaker/sdk.yymps', 'attrs' => ['download' => ''], 'class' => 'mb-4']) ?>
         <p class="documentation-text"><strong><?= __('docs_resources_preview') ?></strong></p>
         <div class="code-block jsHigh">
-        gmi_scores_send({ player: "Harry", score: 5000 }); // <?= __('docs_resources_preview_send') ?>
+        gmi_scores_send({ leaderboard_id: 30, player: "Harry", score: 5000 }); // <?= __('docs_resources_preview_send') ?>
         </div>
         <div class="code-block jsHigh">
-        gmi_scores_get_list(); // <?= __('docs_resources_preview_list') ?>
+        gmi_scores_get_list({ leaderboard_id: 30 }); // <?= __('docs_resources_preview_list') ?>
         </div>
       </div>
     </div>

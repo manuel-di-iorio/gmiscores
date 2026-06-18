@@ -38,20 +38,14 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
 
     <!-- Style -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-    <link rel="stylesheet" href="assets/css/toggle.css?v=<?= asset_version('assets/css/toggle.css') ?>">
     <link rel="stylesheet" href="assets/css/variables.css?v=<?= asset_version('assets/css/variables.css') ?>">
     <link rel="stylesheet" href="assets/css/style.css?v=<?= asset_version('assets/css/style.css') ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="assets/ui-kit/Button/button.css?v=<?= asset_version('assets/ui-kit/Button/button.css') ?>">
-
-    <link rel="stylesheet" href="assets/ui-kit/Input/input.css?v=<?= asset_version('assets/ui-kit/Input/input.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Modal/modal.css?v=<?= asset_version('assets/ui-kit/Modal/modal.css') ?>">
-    <link rel="stylesheet" href="assets/ui-kit/Table/table.css?v=<?= asset_version('assets/ui-kit/Table/table.css') ?>">
-    <link rel="stylesheet" href="assets/ui-kit/Icon/icon.css?v=<?= asset_version('assets/ui-kit/Icon/icon.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Tabs/tabs.css?v=<?= asset_version('assets/ui-kit/Tabs/tabs.css') ?>">
-    <link rel="stylesheet" href="assets/ui-kit/Badge/badge.css?v=<?= asset_version('assets/ui-kit/Badge/badge.css') ?>">
-
     <link rel="stylesheet" href="assets/ui-kit/Skeleton/skeleton.css?v=<?= asset_version('assets/ui-kit/Skeleton/skeleton.css') ?>">
+    <link rel="stylesheet" href="assets/ui-kit/Table/table.css?v=<?= asset_version('assets/ui-kit/Table/table.css') ?>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <script>

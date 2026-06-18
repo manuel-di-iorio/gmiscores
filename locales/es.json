@@ -369,7 +369,7 @@
   "docs_resources_title": "Recursos",
   "docs_resources_library": "Descargar la librería para GameMaker",
   "docs_resources_desc": "Incluye scripts listos para enviar y leer puntuaciones. Para importarla, simplemente arrastra el archivo al editor.",
-  "docs_resources_download": "Descargar v0.9.3",
+  "docs_resources_download": "Descargar",
   "docs_resources_preview": "Vista previa:",
   "docs_resources_preview_send": "Enviar puntuación 5000 del jugador Harry",
   "docs_resources_preview_list": "Obtener la lista de puntuaciones",

@@ -6,19 +6,19 @@
 
         <div class="internal-card__title"><i class="fas fa-edit"></i> <?= __('edit_lb_title') ?></div>
 
-        <div class="ui-input-group">
-            <label class="ui-label" for="name"><?= __('edit_lb_name') ?></label>
-            <input type="text" name="name" class="ui-input" required
+        <div class="mb-4">
+            <label class="block font-semibold mb-1.5 text-sm text-[var(--text-color)]" for="name"><?= __('edit_lb_name') ?></label>
+            <input type="text" name="name" class="w-full px-3.5 py-2.5 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] disabled:bg-input-bg-disabled disabled:text-input-text-disabled disabled:cursor-not-allowed" required
                    value="<?= htmlspecialchars($_POST['name'] ?? $lb['name']) ?>">
         </div>
 
-        <div class="ui-input-group">
-            <label class="ui-label" for="description"><?= __('edit_lb_description') ?></label>
-            <textarea name="description" class="ui-input"><?= htmlspecialchars($_POST['description'] ?? $lb['description'] ?? '') ?></textarea>
+        <div class="mb-4">
+            <label class="block font-semibold mb-1.5 text-sm text-[var(--text-color)]" for="description"><?= __('edit_lb_description') ?></label>
+            <textarea name="description" class="w-full px-3.5 py-2.5 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] disabled:bg-input-bg-disabled disabled:text-input-text-disabled disabled:cursor-not-allowed min-h-[80px] resize-y"><?= htmlspecialchars($_POST['description'] ?? $lb['description'] ?? '') ?></textarea>
         </div>
 
-        <div class="ui-input-group">
-            <label class="ui-checkbox" style="display:flex;align-items:flex-start;gap:8px;cursor:pointer">
+        <div class="mb-4">
+            <label class="flex items-start gap-2 cursor-pointer"
                 <input type="checkbox" name="is_private" value="1" style="margin-top:3px"
                     <?= (isset($_POST['is_private']) ? $_POST['is_private'] === '1' : ($lb['is_private'] ?? true)) ? 'checked' : '' ?>>
                 <div>

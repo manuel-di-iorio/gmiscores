@@ -369,7 +369,7 @@
   "docs_resources_title": "Ressources",
   "docs_resources_library": "Télécharger la bibliothèque GameMaker",
   "docs_resources_desc": "Inclut des scripts prêts à l'emploi pour envoyer et lire les scores. Pour l'importer, faites simplement glisser le fichier sur l'éditeur.",
-  "docs_resources_download": "Télécharger v0.9.3",
+  "docs_resources_download": "Télécharger",
   "docs_resources_preview": "Aperçu :",
   "docs_resources_preview_send": "Envoyer le score 5000 du joueur Harry",
   "docs_resources_preview_list": "Obtenir la liste des scores",

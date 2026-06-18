@@ -13,9 +13,9 @@ switch ($activeTab) {
   <form method="GET" action="/admin.php" style="display:flex;gap:8px;align-items:center;flex:1;flex-wrap:wrap">
     <input type="hidden" name="tab" value="users">
     ' . ($pendingOnly ? '<input type="hidden" name="pending" value="1">' : '') . '
-    <input type="text" name="search" class="ui-input" placeholder="' . __('admin_search_placeholder') . '" value="' . $searchValue . '" style="max-width:220px">
-    ' . ui_button(__('filter_apply'), 'primary', 'sm', ['icon' => 'fas fa-search', 'type' => 'submit']) . '
-    ' . (($search || $pendingOnly) ? ui_button(__('filter_reset'), 'secondary', 'sm', ['icon' => 'fas fa-times', 'href' => '/admin.php?tab=users']) : '') . '
+    <input type="text" name="search" class="w-full px-3.5 py-2 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] disabled:bg-input-bg-disabled disabled:text-input-text-disabled disabled:cursor-not-allowed h-10" placeholder="' . __('admin_search_placeholder') . '" value="' . $searchValue . '" style="max-width:220px">
+    ' . ui_button(__('filter_apply'), 'primary', 'md', ['icon' => 'fas fa-search', 'type' => 'submit']) . '
+    ' . (($search || $pendingOnly) ? ui_button(__('filter_reset'), 'secondary', 'md', ['icon' => 'fas fa-times', 'href' => '/admin.php?tab=users']) : '') . '
     <a href="/admin.php?tab=users' . ($pendingOnly ? '' : '&pending=1') . ($search ? '&search=' . urlencode($search) : '') . '" class="pending-filter-btn ' . ($pendingOnly ? 'pending-filter-btn--active' : 'pending-filter-btn--inactive') . '">
       <i class="fas fa-clock"></i> ' . __('admin_pending_only') . '
       ' . ($unapprovedCount > 0 ? ui_badge((string)$unapprovedCount, 'warning', ['pill' => true]) : '') . '
@@ -93,9 +93,9 @@ switch ($activeTab) {
 <div class="search-form">
   <form method="GET" action="/admin.php" style="display:flex;gap:8px;align-items:center;flex:1;flex-wrap:wrap">
     <input type="hidden" name="tab" value="players">
-    <input type="text" name="players_search" class="ui-input" placeholder="' . __('admin_search_placeholder') . '" value="' . $playersSearchValue . '" style="max-width:220px">
-    ' . ui_button(__('filter_apply'), 'primary', 'sm', ['icon' => 'fas fa-search', 'type' => 'submit']) . '
-    ' . ($playersSearch ? ui_button(__('filter_reset'), 'secondary', 'sm', ['icon' => 'fas fa-times', 'href' => '/admin.php?tab=players']) : '') . '
+    <input type="text" name="players_search" class="w-full px-3.5 py-2 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] disabled:bg-input-bg-disabled disabled:text-input-text-disabled disabled:cursor-not-allowed h-10" placeholder="' . __('admin_search_placeholder') . '" value="' . $playersSearchValue . '" style="max-width:220px">
+    ' . ui_button(__('filter_apply'), 'primary', 'md', ['icon' => 'fas fa-search', 'type' => 'submit']) . '
+    ' . ($playersSearch ? ui_button(__('filter_reset'), 'secondary', 'md', ['icon' => 'fas fa-times', 'href' => '/admin.php?tab=players']) : '') . '
   </form>
   <div style="font-size:0.85em;color:var(--text-color-secondary,#6b7280);white-space:nowrap">
     ' . __('admin_total_players') . ': ' . $totalPlayers . '

@@ -6,10 +6,20 @@ function ui_icon($name, $options = []) {
   $class = $options['class'] ?? '';
   $attrs = $options['attrs'] ?? [];
 
-  $classes = ['icon'];
+  $classes = ['inline-flex items-center justify-center'];
 
-  if ($size) $classes[] = 'icon--' . $size;
-  if ($color) $classes[] = 'icon--' . $color;
+  $sizes = ['sm' => 'text-sm', 'md' => 'text-base', 'lg' => 'text-lg', 'xl' => 'text-2xl'];
+  $colors = [
+    'primary'   => 'text-primary-color',
+    'secondary' => 'text-secondary',
+    'success'   => 'text-emerald-500',
+    'danger'    => 'text-red-500',
+    'warning'   => 'text-amber-500',
+    'muted'     => 'text-gray-400',
+  ];
+
+  if ($size && isset($sizes[$size])) $classes[] = $sizes[$size];
+  if ($color && isset($colors[$color])) $classes[] = $colors[$color];
 
   $classes[] = $class;
 

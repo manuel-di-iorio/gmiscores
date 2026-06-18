@@ -3,22 +3,24 @@
 function ui_toggle($active, $url, $options = []) {
   $labelOn = $options['labelOn'] ?? 'Enable';
   $labelOff = $options['labelOff'] ?? 'Disable';
-  $size = $options['size'] ?? 'md';
   $class = $options['class'] ?? '';
 
-  $base = 'inline-flex items-center justify-center no-underline transition-all duration-150 rounded-md hover:scale-110';
-
+  $size = $options['size'] ?? 'md';
   $sizes = [
-    'sm' => 'text-xl px-1.5 py-1',
-    'md' => 'text-2xl px-1.5 py-1',
-    'lg' => 'text-3xl px-2 py-1',
+    'sm' => ['w-[30px] h-[17px]', 'w-[16px] h-[16px] top-[0.5px]', 'left-[1px]', 'translate-x-[13px]'],
+    'md' => ['w-[35px] h-[19px]', 'w-[18px] h-[18px] top-[0.5px]', 'left-[1px]', 'translate-x-[15px]'],
+    'lg' => ['w-[42px] h-[23px]', 'w-[22px] h-[22px] top-[0.5px]', 'left-[1px]', 'translate-x-[19px]'],
   ];
+  list($wh, $knobSize, $knobPos, $translate) = $sizes[$size] ?? $sizes['md'];
 
-  $sizeClass = $sizes[$size] ?? $sizes['md'];
-  $colorClass = $active ? 'text-emerald-500' : 'text-gray-400';
-  $icon = $active ? 'fa-toggle-on' : 'fa-toggle-off';
+  $bg = $active ? 'bg-[var(--toggle-bg--checked,#2196F3)]' : 'bg-[var(--toggle-bg,#ccc)]';
+  $knobActive = $active ? $translate : 'translate-x-0';
 
-  $classes = trim("$base $sizeClass $colorClass " . htmlspecialchars($class));
+  $html = '<a href="' . htmlspecialchars($url) . '" title="' . ($active ? htmlspecialchars($labelOn) : htmlspecialchars($labelOff)) . '" class="inline-flex items-center justify-center no-underline ' . htmlspecialchars($class) . '">';
+  $html .= '<span class="relative inline-block ' . $wh . ' ' . $bg . ' rounded-full transition-colors duration-[400ms]">';
+  $html .= '<span class="absolute ' . $knobSize . ' ' . $knobPos . ' rounded-full bg-white shadow-sm transition-transform duration-[400ms] ' . $knobActive . '"></span>';
+  $html .= '</span>';
+  $html .= '</a>';
 
-  return '<a href="' . htmlspecialchars($url) . '" title="' . ($active ? htmlspecialchars($labelOn) : htmlspecialchars($labelOff)) . '" class="' . $classes . '"><i class="fas ' . $icon . '"></i></a>';
+  return $html;
 }

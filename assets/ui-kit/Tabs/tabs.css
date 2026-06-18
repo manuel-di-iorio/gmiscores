@@ -1,23 +1,12 @@
-.ui-tabs {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
+/* Dynamic states toggled by JS — must be in CSS, not Tailwind */
+.ui-tabs__panel { display: none; }
+.ui-tabs__panel.is-active { display: block; animation: uiTabsFadeIn 0.25s ease; }
 
-.ui-tabs__nav {
-  display: flex;
-  gap: 2px;
-  padding: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  position: relative;
-}
+.ui-tabs__btn { color: var(--text-color-secondary, #6b7280); }
+.ui-tabs__btn:hover { color: var(--text-color, #374151); background: var(--bg-color-offset, #f3f4f6); }
+.ui-tabs__btn.is-active { color: var(--primary-color, #6366f1); font-weight: 600; }
 
-.ui-tabs__nav::-webkit-scrollbar {
-  display: none;
-}
-
+/* Pseudo-elements */
 .ui-tabs__nav::after {
   content: '';
   position: absolute;
@@ -29,32 +18,8 @@
   pointer-events: none;
 }
 
-.ui-tabs__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--text-color-secondary, #6b7280);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: color 0.2s, background 0.2s;
-  font-family: inherit;
-  position: relative;
-}
-
-.ui-tabs__btn:hover {
-  color: var(--text-color, #374151);
-  background: var(--bg-color-offset, #f3f4f6);
-}
-
-.ui-tabs__btn.is-active {
-  color: var(--primary-color, #6366f1);
-  font-weight: 600;
-}
+.ui-tabs__nav::-webkit-scrollbar { display: none; }
+.ui-tabs__nav { scrollbar-width: none; -ms-overflow-style: none; }
 
 .ui-tabs__btn::after {
   content: '';
@@ -70,23 +35,6 @@
 
 .ui-tabs__btn.is-active::after {
   background: var(--primary-color, #6366f1);
-}
-
-.ui-tabs__btn i {
-  font-size: 0.95em;
-}
-
-.ui-tabs__panels {
-  padding-top: 20px;
-}
-
-.ui-tabs__panel {
-  display: none;
-  animation: uiTabsFadeIn 0.25s ease;
-}
-
-.ui-tabs__panel.is-active {
-  display: block;
 }
 
 @keyframes uiTabsFadeIn {
