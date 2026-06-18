@@ -19,25 +19,22 @@ if ($isAdminUser) {
 }
 ?>
 
-<!-- Overlay effect when opening sidebar on small screens -->
 <div class="NavbarOverlay" id="overlay" onclick="w3_close()"></div>
 
 <nav id="navbar">
   <div class="LogoContainer">
-    <!-- Logo -->
     <a href="./index.php" class="navbar-logo-link">
       <img src="assets/images/logo<?= $navbarLogoColor ?>.svg" class="round Logo" alt="Logo Piattaforma">
     </a>
   </div>
   
-  <!-- Menu items -->
   <div class="navbar-menu">
     <?php foreach ($navbarItems as $navbarItem) {
 
       if (!$navbarItem["showOnlyLogged"] || isset($user)) { ?>
         <a href="<?= $navbarItem["url"] ?>"
         class="navbar-item <?php if ($navbarItem["url"] === $pageURI) { echo "active-link"; } ?>">
-          <i class="fas fa-<?= $navbarItem["icon"] ?> fa-fw" style="margin-right:16px"></i>
+          <i class="fas fa-<?= $navbarItem["icon"] ?> fa-fw"></i>
           <span class="navbar-item-label"><?= isset($navbarItem["allowHtml"]) && $navbarItem["allowHtml"] ? $navbarItem["label"] : htmlspecialchars($navbarItem["label"]) ?></span>
         </a>
       <?php } ?>
@@ -45,7 +42,6 @@ if ($isAdminUser) {
     <?php } ?>
   </div>
 
-  <!-- User box -->
   <div class="UserBox">
   
   <?php if (isset($user)) { ?>      
@@ -59,5 +55,3 @@ if ($isAdminUser) {
 
   </div>
 </nav>
-
-

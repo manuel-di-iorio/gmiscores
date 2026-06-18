@@ -1,0 +1,202 @@
+header .LogoSmall {
+  width: 65px;
+}
+
+.PageContent {
+  padding: 0 80px;
+  flex-grow: 1;
+  transition: margin-left 0.3s ease;
+  flex: 1 0 auto;
+  margin-top: 0px;
+}
+
+.PageContent h1 {
+  margin: 24px 0 0;
+}
+
+.PageContentFooter {
+  flex-shrink: 0;
+  transition: margin-left 0.3s ease;
+  flex-shrink: 0;
+}
+
+.page-title {
+  font-weight: 600;
+  color: var(--text-color-headings, #333);
+  margin-bottom: 30px;
+  border-bottom: 2px solid var(--primary-color, #007bff);
+  padding-bottom: 5px;
+  font-size: 1.4em !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  hr {
+    margin-bottom: 10px;
+  }
+}
+
+.page-title .GameNameBackIcon {
+  font-size: 0.85em;
+  color: var(--primary-color, #6366f1);
+  transition: color 0.2s;
+}
+
+.page-title .GameNameBackIcon:hover {
+  color: var(--primary-color--hover, #818cf8);
+}
+
+.GameNameBackIcon {
+  font-size: 19px;
+  vertical-align: middle;
+}
+
+@media (min-width: 992px) {
+  .PageContent, .PageContentFooter {
+    margin-left: 260px;
+  }
+}
+
+@media (max-width: 991px) {
+  .PageContent {
+    padding: 0 16px;
+  }
+}
+
+.modern-footer {
+  background-color: var(--footer-bg, #1f2937);
+  color: var(--footer-text-color, #9ca3af);
+  padding-top: 40px;
+  padding-bottom: 20px;
+  border-top: 1px solid var(--footer-border-color, #374151);
+  margin-top: 50px;
+  box-shadow: var(--shadow-footer);
+}
+
+.modern-footer .footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.modern-footer .footer-section {
+  margin-bottom: 30px;
+  flex-basis: 100%;
+}
+
+@media (min-width: 768px) {
+  .modern-footer .footer-section {
+    flex-basis: calc(33.333% - 20px);
+    margin-right: 20px;
+  }
+  .modern-footer .footer-section:last-child {
+    margin-right: 0;
+  }
+}
+
+.modern-footer .footer-heading {
+  margin-top: 0;
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--footer-heading-color, #e5e7eb);
+  margin-bottom: 15px;
+}
+
+.modern-footer .footer-section p {
+  font-size: 0.9em;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.modern-footer .footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modern-footer .footer-section ul li {
+  margin-bottom: 8px;
+}
+
+.modern-footer .footer-link {
+  color: var(--footer-link-color, #9ca3af);
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: color 0.2s ease;
+}
+
+.modern-footer .footer-link:hover {
+  color: var(--footer-link-hover-color, #d1d5db);
+  text-decoration: underline;
+}
+
+.modern-footer .social-link {
+  color: var(--footer-link-color, #9ca3af);
+  font-size: 1.5em;
+  margin-right: 15px;
+  transition: color 0.2s ease;
+}
+
+.modern-footer .social-link:last-child {
+  margin-right: 0;
+}
+
+.modern-footer .social-link:hover {
+  color: var(--footer-link-hover-color, #d1d5db);
+}
+
+.modern-footer .footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid var(--footer-border-color, #374151);
+  font-size: 0.85em;
+  color: var(--footer-text-color, #9ca3af);
+}
+
+.modern-footer .footer-bottom p {
+  margin: 0;
+}
+
+.footer-logo { max-width: 120px; height: auto; margin-bottom: 12px; }
+
+.footer-bottom { display: flex; align-items: center; justify-content: center; gap: 50px; flex-wrap: wrap; }
+
+.footer-bottom p { margin: 0; }
+
+.footer-theme-link { color: var(--text-color-secondary, #9ca3af); text-decoration: none; font-size: 0.82em; transition: color 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+
+.footer-theme-link:hover { color: var(--text-color, #e5e7eb); }
+
+.footer-lang { display: flex; align-items: center; gap: 8px; }
+
+.footer-lang-link { color: var(--text-color-secondary, #9ca3af); text-decoration: none; font-size: 0.82em; transition: color 0.2s; }
+
+.footer-lang-link:hover { color: var(--text-color, #e5e7eb); }
+
+.footer-lang-link--active { color: var(--primary-color, #6366f1); font-weight: 600; }
+
+.footer-lang-sep { color: var(--text-color-secondary, #9ca3af); font-size: 0.82em; opacity: 0.4; }
+
+.nav-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.7em;
+  font-weight: 700;
+  margin-left: 6px;
+  vertical-align: middle;
+  line-height: 1;
+}

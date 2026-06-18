@@ -1,0 +1,122 @@
+#cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255,255,255,0.95);
+    color: var(--text-color-primary);
+    padding: 15px 20px;
+    z-index: 90000;
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -3px 15px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    transform: translateY(100%);
+    animation: slideUpBanner 0.5s ease-out forwards;
+}
+
+@keyframes slideUpBanner {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.cookie-banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-grow: 1;
+}
+
+.cookie-icon {
+    font-size: 1.8em;
+    color: var(--accent-color);
+}
+
+#cookie-banner p {
+    margin: 0;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+#cookie-banner a {
+    color: var(--accent-color);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+#cookie-banner button#accept-cookie-banner {
+    color: var(--button-text-color, #ffffff);
+    border: none;
+    padding: 10px 22px;
+    font-size: 0.85em;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+#cookie-banner button#accept-cookie-banner:hover {
+    background-color: var(--accent-color-hover);
+    transform: scale(1.05);
+}
+
+#cookie-banner {
+  background-color: var(--cookie-banner-bg, #2c3e50);
+  color: var(--cookie-banner-text-color, #ecf0f1);
+  padding: 20px 30px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  box-shadow: 0 -2px 15px rgba(0,0,0,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 3px solid var(--primary-color, #3498db);
+}
+
+#cookie-banner p {
+  margin: 0;
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+
+#cookie-banner a {
+  color: var(--cookie-banner-link-color, #3498db);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+#cookie-banner a:hover {
+  color: var(--cookie-banner-link-hover-color, #5dade2);
+}
+
+#accept-cookie-banner {
+  background-color: var(--primary-color, #3498db) !important;
+  color: white !important;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 25px !important;
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#accept-cookie-banner:hover {
+  background-color: var(--primary-color-darker, #2980b9) !important;
+  transform: translateY(-1px);
+}

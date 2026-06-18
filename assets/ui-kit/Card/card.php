@@ -39,7 +39,7 @@ function ui_card($content, $options = []) {
   $html .= '<div class="' . $bodyPad . '">' . $content . '</div>';
 
   if ($footer) {
-    $html .= '<div class="px-5 py-3 border-t border-solid border-border-color flex items-center gap-2">' . $footer . '</div>';
+    $html .= '<div class="px-5 py-3 border-0 border-t border-solid border-border-color flex items-center gap-2">' . $footer . '</div>';
   }
 
   $html .= '</div>';

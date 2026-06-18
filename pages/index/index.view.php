@@ -468,7 +468,7 @@
 
 <!-- ===== HERO ===== -->
 <div class="HomeBanner dot-pattern">
-  <img src="assets/images/logo<?= $theme === 'dark' ? 'White' : '' ?>.svg" class="hero-logo" alt="Logo">
+  <img src="assets/images/logoWhite.svg" class="hero-logo" alt="Logo">
   <div id="hero-particles"></div>
   <div class="hero-floating-shape"></div>
   <div class="hero-floating-shape"></div>

@@ -1,0 +1,195 @@
+#navbar {
+  width: 260px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 0;
+  z-index: 1030;
+  background: var(--navbar-bg, #1e293b) !important;
+  box-shadow: var(--shadow-navbar, 2px 0 10px rgba(0,0,0,0.15));
+  transition: transform 0.3s ease-in-out;
+  border-right: 1px solid var(--navbar-border-color, #334155);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+
+#navbar::-webkit-scrollbar { width: 4px; }
+#navbar::-webkit-scrollbar-track { background: transparent; }
+#navbar::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+}
+#navbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.NavbarOverlay {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
+}
+
+@media (min-width: 992px) {
+  #navbar {
+    transform: translateX(0) !important;
+  }
+  .NavbarOverlay {
+    display: none !important;
+  }
+}
+
+#navbar .LogoContainer {
+  text-align: center;
+  padding: 25px 15px;
+  border-bottom: 1px solid var(--navbar-border-color, #334155);
+  margin-bottom: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--navbar-bg, #1e293b);
+}
+
+#navbar .navbar-logo-link {
+  display: inline-block;
+}
+
+#navbar .Logo {
+  max-width: 150px;
+  height: auto;
+}
+
+#navbar .BrandTitle {
+  font-size: 1.1em;
+  font-weight: 600;
+  margin-top: 5px;
+  color: var(--navbar-text-color, #e2e8f0);
+}
+
+#navbar .navbar-menu {
+  display: block;
+}
+
+#navbar .navbar-menu .navbar-item {
+  display: block;
+  padding: 12px 20px;
+  border-left: 3px solid transparent;
+  transition: background-color 0.2s ease, border-left-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+  color: var(--navbar-link-color, #cbd5e1);
+  font-size: 0.95em;
+  text-decoration: none;
+}
+
+#navbar .navbar-menu .navbar-item:hover {
+  padding-left: 23px;
+  border-left-color: var(--navbar-link-hover-border-color, #64748b);
+  color: var(--navbar-link-hover-color, #f1f5f9);
+}
+
+#navbar .navbar-menu .navbar-item.active-link {
+  background-color: var(--navbar-link-active-bg, #0f172a);
+  border-left-color: var(--primary-color, #3b82f6);
+  color: var(--navbar-link-active-color, #ffffff);
+  font-weight: 500;
+  padding-left: 23px;
+}
+
+#navbar .navbar-menu .navbar-item .fa-fw {
+  margin-right: 12px;
+  width: 18px;
+  text-align: center;
+  font-size: 1.1em;
+}
+
+#navbar .UserBox {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid var(--border-color-sidebar, rgba(255,255,255,0.1));
+  background-color: var(--bg-color-sidebar-footer, rgba(0,0,0,0.1));
+  box-sizing: border-box;
+}
+
+#navbar .UserBox .user-info {
+  flex: 1;
+  color: var(--navbar-text-color, #e2e8f0);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#navbar .UserBox .username {
+  font-weight: 500;
+}
+
+#navbar .UserBox .navbar-logout-icon {
+  color: var(--navbar-text-color, #e2e8f0);
+  font-size: 1.1em;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+#navbar .UserBox .navbar-logout-icon:hover {
+  opacity: 1;
+  text-decoration: none;
+}
+
+#navbar .UserBox .navbar-login-btn {
+  width: 100%;
+  display: block;
+  text-align: center;
+  padding: 8px 15px;
+  border-radius: 6px;
+  background-color: var(--navbar-button-bg, #334155);
+  color: var(--navbar-button-text-color, #e2e8f0);
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: background-color 0.2s, transform 0.2s;
+}
+#navbar .UserBox .navbar-login-btn:hover {
+  background-color: var(--navbar-button-hover-bg, #475569);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+#navbar .navbar-divider {
+  border-color: var(--border-color-sidebar, rgba(255,255,255,0.1));
+  margin: 0;
+}
+
+@media (min-width: 993px) {
+  #logo-small, #btn-sidebar-open {
+    display: none !important;
+  }
+}
+@media (max-width: 992px) {
+  #logo-small, #btn-sidebar-open {
+    display: block !important;
+  }
+}
+
+@media (max-width: 992px) {
+  #navbar {
+    transform: translateX(-100%);
+  }
+  #navbar.navbar-visible {
+    transform: translateX(0);
+  }
+}
+@media (min-width: 993px) {
+  #navbar {
+    transform: translateX(0);
+  }
+}

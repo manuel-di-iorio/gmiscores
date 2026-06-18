@@ -46,6 +46,12 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     <link rel="stylesheet" href="assets/ui-kit/Tabs/tabs.css?v=<?= asset_version('assets/ui-kit/Tabs/tabs.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Skeleton/skeleton.css?v=<?= asset_version('assets/ui-kit/Skeleton/skeleton.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Table/table.css?v=<?= asset_version('assets/ui-kit/Table/table.css') ?>">
+    <link rel="stylesheet" href="assets/ui-kit/Paginator/paginator.css?v=<?= asset_version('assets/ui-kit/Paginator/paginator.css') ?>">
+    <link rel="stylesheet" href="assets/css/cookie-banner.css?v=<?= asset_version('assets/css/cookie-banner.css') ?>">
+    <link rel="stylesheet" href="assets/css/navbar.css?v=<?= asset_version('assets/css/navbar.css') ?>">
+    <link rel="stylesheet" href="assets/css/layout.css?v=<?= asset_version('assets/css/layout.css') ?>">
+    <link rel="stylesheet" href="assets/css/internal-pages.css?v=<?= asset_version('assets/css/internal-pages.css') ?>">
+    <link rel="stylesheet" href="assets/css/documentation.css?v=<?= asset_version('assets/css/documentation.css') ?>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <script>
@@ -243,26 +249,26 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
         <?= ui_button( __('cookie_banner_accept'), 'primary', 'sm', ['attrs' => ['id' => 'accept-cookie-banner']]) ?>
     </div>
     <?php if ($config["maintenance"]) { ?>
-      <div style="background:#f59e0b;color:#000;text-align:center;padding:8px 16px;margin:0;border-radius:0;">
-        <i class="fas fa-tools" style="margin-right:8px"></i><?= htmlspecialchars($config["maintenanceMessage"]) ?>
+      <div class="bg-amber-500 text-black text-center px-4 py-2 m-0 rounded-none">
+        <i class="fas fa-tools mr-2"></i><?= htmlspecialchars($config["maintenanceMessage"]) ?>
       </div>
     <?php } ?>
     <?php if (!$isIndexPage) { // Conditionally include navbar
       require_once("includes/navbar.php"); 
     } ?>
 
-    <div class="PageContent" <?php if ($isIndexPage) { echo 'style="margin-left: 0 !important; padding: 0 !important;"'; } ?>>
+    <div class="PageContent" <?php if ($isIndexPage || !empty($hidePageHeader)) { echo 'style="margin-left: 0 !important; padding: 0 !important;"'; } ?>>
       <!-- Header -->
-      <?php if (!$isIndexPage) { ?>
+      <?php if (!$isIndexPage && empty($hidePageHeader)) { ?>
         <header id="portfolio" style="padding-bottom:0">
         <!-- Small logo shown on small screens -->
-        <a href="./index.php"><img src="assets/images/logoSmall.png" class="shape-circle LogoSmall" style="float:right;margin:16px;display:none" id="logo-small"></a>
+        <a href="./index.php"><img src="assets/images/logoSmall.png" class="shape-circle LogoSmall float-right m-4 hidden" id="logo-small"></a>
 
         <!-- Close sidebar button -->
-        <span id="btn-sidebar-open" style="display:none;font-size:32px;cursor:pointer;padding:8px 16px" onclick="w3_open()"><i class="fas fa-bars"></i></span>
+        <span id="btn-sidebar-open" class="hidden text-[32px] cursor-pointer px-4 py-2" onclick="w3_open()"><i class="fas fa-bars"></i></span>
 
         <!-- Page title -->
-        <div style="padding:0.01em 0;padding-bottom:0">
+        <div class="pt-0.5 pb-0">
         <h1>
           <?php if ($pageName !== $config["platformTitle"] && !$isIndexPage) { ?>
             <div class="page-title">

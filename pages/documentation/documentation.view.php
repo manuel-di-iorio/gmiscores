@@ -1,28 +1,18 @@
-<style>
-.code-block {
-  font-size: 13px;
-}
-
-.inline-code {
-  font-size: 14px;
-}
-</style>
-
 <div class="internal-page documentation-page">
 
   <div class="documentation-section">
-    <p class="documentation-text">Base URL: <code class="inline-code"><?= $config["host"] ?>/api/v1</code></p>
-    <p class="documentation-text">Request content-type: <code class="inline-code">application/x-www-form-urlencoded</code></p>
-    <p class="documentation-text">Response content-type: <code class="inline-code">application/json</code></p>
+    <p class="documentation-text">Base URL: <code class="inline-code shadow-sm"><?= $config["host"] ?>/api/v1</code></p>
+    <p class="documentation-text">Request content-type: <code class="inline-code shadow-sm">application/x-www-form-urlencoded</code></p>
+    <p class="documentation-text">Response content-type: <code class="inline-code shadow-sm">application/json</code></p>
   </div>
 
   <div class="documentation-section">
-    <h5 class="documentation-subtitle"><strong><?= __('docs_subtitle') ?></strong></h5>
+    <h5 class="documentation-subtitle"><?= __('docs_subtitle') ?></h5>
 
     <div class="accordion-container">
-      <button class="accordion-header" style="display:block;width:100%;text-align:left;background:var(--bg-color-offset,#f1f1f1);border:none;padding:8px 16px;cursor:pointer">
-        <span style="margin-right:16px"><?= __('docs_accordion_add') ?></span>
-        <i class="fas fa-chevron-down accordion-icon"></i>
+      <button class="accordion-header">
+        <span><?= __('docs_accordion_add') ?></span>
+        <i class="fas fa-chevron-down accordion-icon text-gray-400"></i>
       </button>
       <div class="accordion-content" style="display:none">
         <div class="code-block jsHigh">
@@ -57,15 +47,15 @@
         </div>
 
         <div class="panel-info">
-          <p><i class="fas fa-info-circle" style="margin-right:8px"></i><?= __('docs_note_add') ?></p>
+          <p><i class="fas fa-info-circle mr-2"></i><?= __('docs_note_add') ?></p>
         </div>
       </div>
     </div>
 
     <div class="accordion-container">
-      <button class="accordion-header" style="display:block;width:100%;text-align:left;background:var(--bg-color-offset,#f1f1f1);border:none;padding:8px 16px;cursor:pointer">
-        <span style="margin-right:16px"><?= __('docs_accordion_list') ?></span>
-        <i class="fas fa-chevron-down accordion-icon"></i>
+      <button class="accordion-header">
+        <span><?= __('docs_accordion_list') ?></span>
+        <i class="fas fa-chevron-down accordion-icon text-gray-400"></i>
       </button>
       <div class="accordion-content" style="display:none">
         <div class="code-block jsHigh">
@@ -120,7 +110,7 @@
   </div>
 
   <div class="documentation-section">
-    <h5 class="documentation-subtitle"><strong><?= __('docs_security_title') ?></strong></h5>
+    <h5 class="documentation-subtitle"><?= __('docs_security_title') ?></h5>
     <!-- <div class="accordion-container">
       <button class="accordion-header" style="display:block;width:100%;text-align:left;background:var(--bg-color-offset,#f1f1f1);border:none;padding:8px 16px;cursor:pointer">
         <span style="margin-right:16px">Secret e hash</span>
@@ -172,7 +162,7 @@
     </div> -->
 
   <div class="documentation-section">
-    <h5 class="documentation-subtitle"><strong><?= __('docs_errors_title') ?></strong></h5>
+    <h5 class="documentation-subtitle"><?= __('docs_errors_title') ?></h5>
     <p class="documentation-text"><?= __('docs_errors_text') ?></p>
     <div class="code-block jsHigh">
     {<br/>
@@ -184,11 +174,11 @@
   </div>
 
   <div class="documentation-section">
-    <h5 class="documentation-subtitle"><strong><?= __('docs_resources_title') ?></strong></h5>
+    <h5 class="documentation-subtitle"><?= __('docs_resources_title') ?></h5>
     <div class="accordion-container">
-      <button class="accordion-header" style="display:block;width:100%;text-align:left;background:var(--bg-color-offset,#f1f1f1);border:none;padding:8px 16px;cursor:pointer">
-        <span style="margin-right:16px"><i class="fas fa-download" style="margin-right:8px"></i><?= __('docs_resources_library') ?></span>
-        <i class="fas fa-chevron-down accordion-icon"></i>
+      <button class="accordion-header">
+        <span><i class="fas fa-download mr-2"></i><?= __('docs_resources_library') ?></span>
+        <i class="fas fa-chevron-down accordion-icon text-gray-400"></i>
       </button>
       <div class="accordion-content">
         <p class="documentation-text"><?= __('docs_resources_desc') ?></p>
