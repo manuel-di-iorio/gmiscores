@@ -39,7 +39,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     <!-- Style -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <link rel="stylesheet" href="assets/css/toggle.css?v=<?= asset_version('assets/css/toggle.css') ?>">
-    <link rel="stylesheet" href="assets/css/variables-<?= $theme ?>.css?v=<?= asset_version('assets/css/variables-' . $theme . '.css') ?>">
+    <link rel="stylesheet" href="assets/css/variables.css?v=<?= asset_version('assets/css/variables.css') ?>">
     <link rel="stylesheet" href="assets/css/style.css?v=<?= asset_version('assets/css/style.css') ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="assets/ui-kit/Button/button.css?v=<?= asset_version('assets/ui-kit/Button/button.css') ?>">
@@ -50,13 +50,14 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     <link rel="stylesheet" href="assets/ui-kit/Icon/icon.css?v=<?= asset_version('assets/ui-kit/Icon/icon.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Tabs/tabs.css?v=<?= asset_version('assets/ui-kit/Tabs/tabs.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Badge/badge.css?v=<?= asset_version('assets/ui-kit/Badge/badge.css') ?>">
-    <link rel="stylesheet" href="assets/ui-kit/Toggle/toggle.css?v=<?= asset_version('assets/ui-kit/Toggle/toggle.css') ?>">
+
     <link rel="stylesheet" href="assets/ui-kit/Skeleton/skeleton.css?v=<?= asset_version('assets/ui-kit/Skeleton/skeleton.css') ?>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <script>
       tailwind.config = {
         corePlugins: { preflight: false },
+        darkMode: 'class',
         theme: {
           extend: {
             colors: {
@@ -64,15 +65,181 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
                 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd',
                 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8',
                 800: '#1e40af', 900: '#1e3a8a',
-              }
-            }
-          }
-        }
+              },
+              surface: {
+                DEFAULT: 'var(--bg-color)',
+                sidebar: 'var(--bg-color-sidebar)',
+                reversed: 'var(--bg-color--reversed)',
+                card: 'var(--bg-color-card)',
+                offset: 'var(--bg-color-offset)',
+                'offset-hover': 'var(--bg-color-offset-hover)',
+                code: 'var(--bg-color-code)',
+                'sidebar-footer': 'var(--bg-color-sidebar-footer)',
+                'section-alt': 'var(--section-alt-bg)',
+              },
+              text: {
+                DEFAULT: 'var(--text-color)',
+                reversed: 'var(--text-color--reversed)',
+                headings: 'var(--text-color-headings)',
+                secondary: 'var(--text-color-secondary)',
+                primary: 'var(--text-color-primary)',
+                code: 'var(--text-color-code)',
+                'sidebar-link': 'var(--text-color-sidebar-link)',
+                'sidebar-link-hover': 'var(--text-color-sidebar-link-hover)',
+              },
+              input: {
+                bg: 'var(--input-bg)',
+                'bg-disabled': 'var(--input-bg--disabled)',
+                text: 'var(--input-text)',
+                'text-disabled': 'var(--input-text--disabled)',
+              },
+              table: {
+                border: 'var(--table-border-color)',
+                'header-bg': 'var(--table-header-bg)',
+                'header-text': 'var(--table-header-text-color)',
+                'row-even': 'var(--table-row-even-bg)',
+                'row-hover': 'var(--table-row-hover-bg)',
+                'cell-text': 'var(--table-cell-text-color)',
+                'action-icon': 'var(--table-action-icon-color)',
+                'action-icon-hover': 'var(--table-action-icon-hover-color)',
+                'action-icon-hover-bg': 'var(--table-action-icon-hover-bg)',
+                line: 'var(--table-line-color)',
+              },
+              button: {
+                bg: 'var(--button-bg)',
+                'bg-hover': 'var(--button-bg--hover)',
+                text: 'var(--button-text-color)',
+              },
+              pagination: {
+                'hover-bg': 'var(--pagination-hover-bg)',
+                'hover-text': 'var(--pagination-hover-text)',
+                'active-bg': 'var(--pagination-active-bg)',
+                'active-text': 'var(--pagination-active-text)',
+                'disabled-bg': 'var(--pagination-disabled-bg)',
+                'disabled-text': 'var(--pagination-disabled-text)',
+              },
+              navbar: {
+                bg: 'var(--navbar-bg)',
+                border: 'var(--navbar-border-color)',
+                text: 'var(--navbar-text-color)',
+                'logo-border': 'var(--navbar-logo-border-color)',
+                link: 'var(--navbar-link-color)',
+                'link-hover-bg': 'var(--navbar-link-hover-bg)',
+                'link-hover-border': 'var(--navbar-link-hover-border-color)',
+                'link-hover': 'var(--navbar-link-hover-color)',
+                'link-active-bg': 'var(--navbar-link-active-bg)',
+                'link-active': 'var(--navbar-link-active-color)',
+                'button-bg': 'var(--navbar-button-bg)',
+                'button-text': 'var(--navbar-button-text-color)',
+                'button-hover-bg': 'var(--navbar-button-hover-bg)',
+                'button-hover-text': 'var(--navbar-button-hover-text-color)',
+              },
+              'border-color': {
+                DEFAULT: 'var(--border-color)',
+                sidebar: 'var(--border-color-sidebar)',
+                soft: 'var(--border-color-soft)',
+              },
+              'primary-color': {
+                DEFAULT: 'var(--primary-color)',
+                light: 'var(--primary-color-light)',
+                dark: 'var(--primary-color-dark)',
+                darker: 'var(--primary-color-darker)',
+              },
+              accent: {
+                DEFAULT: 'var(--accent-color)',
+                hover: 'var(--accent-color-hover)',
+              },
+              secondary: 'var(--secondary-color)',
+              info: {
+                'panel-bg': 'var(--info-panel-bg)',
+                'panel-text': 'var(--info-panel-text)',
+                'panel-border': 'var(--info-panel-border)',
+              },
+              cookie: {
+                'banner-bg': 'var(--cookie-banner-bg)',
+                'banner-text': 'var(--cookie-banner-text-color)',
+                'banner-link': 'var(--cookie-banner-link-color)',
+                'banner-link-hover': 'var(--cookie-banner-link-hover-color)',
+              },
+              toggle: {
+                bg: 'var(--toggle-bg)',
+                'bg-checked': 'var(--toggle-bg--checked)',
+                'knob-bg': 'var(--toggle-knob-bg)',
+              },
+              'code-syntax': {
+                DEFAULT: 'var(--code-syntax-default)',
+                keyword: 'var(--code-syntax-keyword)',
+                string: 'var(--code-syntax-string)',
+                number: 'var(--code-syntax-number)',
+                property: 'var(--code-syntax-property)',
+                comment: 'var(--code-syntax-comment)',
+                regexp: 'var(--code-syntax-regexp)',
+                stringtemp: 'var(--code-syntax-stringtemp)',
+              },
+              cta: {
+                'button-bg': 'var(--cta-button-bg)',
+                'button-text': 'var(--cta-button-text)',
+              },
+              footer: {
+                bg: 'var(--footer-bg)',
+                text: 'var(--footer-text-color)',
+                border: 'var(--footer-border-color)',
+                heading: 'var(--footer-heading-color)',
+                link: 'var(--footer-link-color)',
+                'link-hover': 'var(--footer-link-hover-color)',
+                'social-icon': 'var(--footer-social-icon-color)',
+                'social-icon-hover': 'var(--footer-social-icon-hover-color)',
+              },
+              gradient: {
+                start: 'var(--gradient-start)',
+                mid: 'var(--gradient-mid)',
+                end: 'var(--gradient-end)',
+              },
+              glass: {
+                bg: 'var(--glass-bg)',
+                border: 'var(--glass-border)',
+                'border-hover': 'var(--glass-border-hover)',
+              },
+              glow: 'var(--glow-color)',
+              header: {
+                bg: 'var(--header-bg)',
+                border: 'var(--header-border)',
+              },
+              'nav-hover': 'var(--nav-hover-bg)',
+              overlay: {
+                1: 'rgb(var(--overlay-color-1))',
+                2: 'rgb(var(--overlay-color-2))',
+                3: 'rgb(var(--overlay-color-3))',
+              },
+              scrollbar: {
+                thumb: 'var(--scrollbar-thumb)',
+                'thumb-hover': 'var(--scrollbar-thumb-hover)',
+              },
+              divider: 'var(--divider-fill)',
+              'progress-bar': 'var(--progress-bar-bg)',
+              'mesh-dot': 'var(--mesh-dot)',
+              'card-bg-hover': 'var(--card-bg-hover)',
+              hr: 'var(--hr-color)',
+            },
+            boxShadow: {
+              'card-right': 'var(--shadow-1--right)',
+              'card-lg': 'var(--shadow-2)',
+              card: 'var(--shadow-1)',
+              navbar: 'var(--shadow-navbar)',
+              'card-prominent': 'var(--shadow-2-prominent)',
+              'card-subtle': 'var(--shadow-1-subtle)',
+              footer: 'var(--shadow-footer)',
+            },
+            backgroundImage: {
+              cta: 'var(--gradient-cta)',
+            },
+          },
+        },
       }
     </script>
   </head>
 
-  <body>
+  <body<?= $theme === 'dark' ? ' class="dark"' : '' ?>>
     <div id="cookie-banner" style="display: none;">
         <div class="cookie-banner-content">
           <div>
