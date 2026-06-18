@@ -150,6 +150,7 @@
   --mesh-dot: rgba(99, 102, 241, 0.07);
   --section-alt-bg: #f8fafc;
   --card-bg-hover: rgba(255, 255, 255, 0.95);
+  --tilt-shine-color: rgba(99, 102, 241, 0.07);
 }
 
 .dark {
@@ -304,4 +305,5 @@
   --mesh-dot: rgba(129, 140, 248, 0.05);
   --section-alt-bg: #141724;
   --card-bg-hover: rgba(26, 29, 40, 0.8);
+  --tilt-shine-color: rgba(255, 255, 255, 0.06);
 }

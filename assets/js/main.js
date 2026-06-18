@@ -219,7 +219,7 @@ function toggleAccordion(el) {
       const rotateX = (y - centerY) / centerY * -10;
       const rotateY = (x - centerX) / centerX * 10;
 
-      card.style.transition = 'none';
+      card.style.transition = 'transform 0.15s cubic-bezier(0.16,1,0.3,1)';
       card.style.transform = `perspective(800px) translateY(-8px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
 
       const shine = card.querySelector('.tilt-card__shine');

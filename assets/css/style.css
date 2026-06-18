@@ -1337,10 +1337,7 @@ textarea {
   transform-style: preserve-3d;
   will-change: transform;
   perspective: 800px;
-}
-
-.tilt-card:hover {
-  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1);
 }
 
 .tilt-card .tilt-card__shine {
@@ -1348,9 +1345,9 @@ textarea {
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.1), transparent 60%);
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), var(--tilt-shine-color, rgba(255,255,255,0.06)), transparent 60%);
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s ease;
 }
 
 .tilt-card:hover .tilt-card__shine {
