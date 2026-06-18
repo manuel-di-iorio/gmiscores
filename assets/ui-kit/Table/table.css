@@ -3,11 +3,11 @@
 .ui-table-header { background-color: var(--table-header-bg, #f0f2f5); color: var(--table-header-text-color, #333); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
 .ui-table-header a { color: inherit; text-decoration: none; }
 .ui-table-header a:hover { text-decoration: underline; }
-.ui-table-header-cell { padding: 8px; text-align: left; border-bottom: 1px solid var(--table-border-color, #ddd); }
+.ui-table-header-cell { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--table-border-color, #ddd); }
 .ui-table-header-cell:last-child { text-align: right; }
 .ui-table-body { background-color: var(--bg-color-card, #fff); }
 .ui-table-row:nth-child(even) { background-color: var(--table-row-even-bg, #f9f9f9); }
 .ui-table-row:hover { background-color: var(--table-row-hover-bg, #f1f1f1); }
-.ui-table-cell { padding: 8px; border-bottom: 1px solid var(--table-border-color, #ddd); color: var(--table-cell-text-color, #555); }
+.ui-table-cell { padding: 10px 12px; border-bottom: 1px solid var(--table-border-color, #ddd); color: var(--table-cell-text-color, #555); }
 .ui-table-cell:last-child { text-align: right; white-space: nowrap; }
 .ui-table-empty-row { text-align: center; color: var(--text-color-secondary, #777); padding: 20px; font-style: italic; }
