@@ -94,6 +94,7 @@
     cursor: pointer;
     border: none;
     font-size: 1em;
+    box-sizing: border-box;
     transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
   }
 
@@ -440,6 +441,11 @@
     .hero-actions { flex-direction: column; width: 100%; }
     .hero-actions .CtaButton { width: 100%; text-align: center; justify-content: center; }
     .hero-logo { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .HomeBanner { padding: 40px 16px; height: auto; min-height: 100vh; }
+    .CtaButton { padding: 14px 20px; font-size: 0.9em; }
   }
 </style>
 

@@ -70,31 +70,15 @@
   margin-top: 20px;
 }
 
-.chart-grid > .ui-card {
-  display: flex;
-  flex-direction: column;
-  height: 360px;
-}
+  .chart-grid .chart-container {
+    flex: 1;
+    min-height: 200px;
+    max-height: none;
+  }
 
-.chart-grid > .ui-card > .ui-card__body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.chart-grid > .ui-card .chart-container {
-  flex: 1;
-  min-height: 200px;
-  max-height: none;
-}
-
-.chart-grid > .ui-card .chart-container canvas {
-  max-height: none;
-}
-
-.chart-grid .ui-card + .ui-card {
-  margin-top: 0;
-}
+  .chart-grid .chart-container canvas {
+    max-height: none;
+  }
 
 @media (max-width: 768px) {
   .chart-grid {

@@ -66,22 +66,22 @@ switch ($activeTab) {
     if ($gameTotalScores > 0) {
       echo '
 <div class="chart-grid">
-  <div class="ui-card ui-card--padding-md">
-    <div class="ui-card__body">
-      <div style="font-weight:600;font-size:1em;color:var(--text-color-headings,#333);margin-bottom:12px">
-        <i class="fas fa-chart-line" style="color:var(--primary-color,#6366f1);margin-right:8px"></i>' . __('game_chart_30days') . '
+  <div class="bg-surface-card border border-border-color rounded-xl shadow-sm overflow-hidden flex flex-col h-[360px]">
+    <div class="p-5 flex-1 flex flex-col">
+      <div class="font-semibold text-headings mb-3">
+        <i class="fas fa-chart-line text-primary-color mr-2"></i>' . __('game_chart_30days') . '
       </div>
-      <div class="chart-container">
+      <div class="chart-container flex-1 min-h-[200px]">
         <canvas id="chartGameScoresOverTime"></canvas>
       </div>
     </div>
   </div>
-  <div class="ui-card ui-card--padding-md">
-    <div class="ui-card__body">
-      <div style="font-weight:600;font-size:1em;color:var(--text-color-headings,#333);margin-bottom:12px">
-        <i class="fas fa-chart-bar" style="color:var(--primary-color,#6366f1);margin-right:8px"></i>' . __('game_chart_by_lb') . '
+  <div class="bg-surface-card border border-border-color rounded-xl shadow-sm overflow-hidden flex flex-col h-[360px]">
+    <div class="p-5 flex-1 flex flex-col">
+      <div class="font-semibold text-headings mb-3">
+        <i class="fas fa-chart-bar text-primary-color mr-2"></i>' . __('game_chart_by_lb') . '
       </div>
-      <div class="chart-container">
+      <div class="chart-container flex-1 min-h-[200px]">
         <canvas id="chartGameScoresByLb"></canvas>
       </div>
     </div>
@@ -91,12 +91,12 @@ switch ($activeTab) {
       if (count($gameCountryLabels) > 0) {
         echo '
 <div style="margin-top:20px">
-  <div class="ui-card ui-card--padding-md">
-    <div class="ui-card__body">
-      <div style="font-weight:600;font-size:1em;color:var(--text-color-headings,#333);margin-bottom:12px">
-        <i class="fas fa-globe" style="color:var(--primary-color,#6366f1);margin-right:8px"></i>' . __('game_chart_countries') . '
+  <div class="bg-surface-card border border-border-color rounded-xl shadow-sm overflow-hidden flex flex-col">
+    <div class="p-5 flex-1 flex flex-col">
+      <div class="font-semibold text-headings mb-3">
+        <i class="fas fa-globe text-primary-color mr-2"></i>' . __('game_chart_countries') . '
       </div>
-      <div class="chart-container" style="max-height:350px">
+      <div class="chart-container flex-1 min-h-[200px]" style="max-height:350px">
         <canvas id="chartGameCountries"></canvas>
       </div>
     </div>

@@ -43,7 +43,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     <link rel="stylesheet" href="assets/css/style.css?v=<?= asset_version('assets/css/style.css') ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="assets/ui-kit/Button/button.css?v=<?= asset_version('assets/ui-kit/Button/button.css') ?>">
-    <link rel="stylesheet" href="assets/ui-kit/Card/card.css?v=<?= asset_version('assets/ui-kit/Card/card.css') ?>">
+
     <link rel="stylesheet" href="assets/ui-kit/Input/input.css?v=<?= asset_version('assets/ui-kit/Input/input.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Modal/modal.css?v=<?= asset_version('assets/ui-kit/Modal/modal.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Table/table.css?v=<?= asset_version('assets/ui-kit/Table/table.css') ?>">
@@ -137,7 +137,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
               'border-color': {
                 DEFAULT: 'var(--border-color)',
                 sidebar: 'var(--border-color-sidebar)',
-                soft: 'var(--border-color-soft)',
+                soft: 'var(--border-color)',
               },
               'primary-color': {
                 DEFAULT: 'var(--primary-color)',
@@ -149,7 +149,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
                 DEFAULT: 'var(--accent-color)',
                 hover: 'var(--accent-color-hover)',
               },
-              secondary: 'var(--secondary-color)',
+              secondary: 'var(--accent-color)',
               info: {
                 'panel-bg': 'var(--info-panel-bg)',
                 'panel-text': 'var(--info-panel-text)',
@@ -187,8 +187,8 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
                 heading: 'var(--footer-heading-color)',
                 link: 'var(--footer-link-color)',
                 'link-hover': 'var(--footer-link-hover-color)',
-                'social-icon': 'var(--footer-social-icon-color)',
-                'social-icon-hover': 'var(--footer-social-icon-hover-color)',
+                'social-icon': 'var(--footer-link-color)',
+                'social-icon-hover': 'var(--footer-link-hover-color)',
               },
               gradient: {
                 start: 'var(--gradient-start)',

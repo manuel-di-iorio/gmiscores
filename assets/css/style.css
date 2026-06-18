@@ -627,7 +627,7 @@ textarea {
 }
 
 .modern-footer .social-link {
-  color: var(--footer-social-icon-color, #9ca3af);
+  color: var(--footer-link-color, #9ca3af);
   font-size: 1.5em; /* Icone social più grandi */
   margin-right: 15px;
   transition: color 0.2s ease;
@@ -638,7 +638,7 @@ textarea {
 }
 
 .modern-footer .social-link:hover {
-  color: var(--footer-social-icon-hover-color, #d1d5db);
+  color: var(--footer-link-hover-color, #d1d5db);
 }
 
 .modern-footer .footer-bottom {

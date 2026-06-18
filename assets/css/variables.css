@@ -90,12 +90,9 @@
   /* Miscellaneous */
   --accent-color: #007bff;
   --accent-color-hover: #0056b3;
-  --secondary-color: #007bff;
   --text-color-primary: #111;
   --shadow-2-prominent: 0 8px 25px rgba(0,0,0,0.15);
   --shadow-1-subtle: 0 2px 8px rgba(0,0,0,0.06);
-  --border-color-soft: #e3e7ed;
-
   /* Cookie Banner */
   --cookie-banner-bg: #ffffff;
   --cookie-banner-text-color: #333333;
@@ -128,8 +125,6 @@
   --footer-heading-color: #202124;
   --footer-link-color: #5f6368;
   --footer-link-hover-color: #007bff;
-  --footer-social-icon-color: #5f6368;
-  --footer-social-icon-hover-color: #007bff;
   --shadow-footer: 0 -4px 12px rgba(0,0,0,0.08);
 
   /* Modern Landing */
@@ -249,12 +244,9 @@
   /* Miscellaneous */
   --accent-color: #818cf8;
   --accent-color-hover: #6366f1;
-  --secondary-color: #818cf8;
   --text-color-primary: #e2e8f0;
   --shadow-2-prominent: 0 8px 25px rgba(0,0,0,0.3);
   --shadow-1-subtle: 0 2px 8px rgba(0,0,0,0.2);
-  --border-color-soft: #2d3142;
-
   /* Cookie Banner */
   --cookie-banner-bg: #1a1d28;
   --cookie-banner-text-color: #e2e8f0;
@@ -287,8 +279,6 @@
   --footer-heading-color: #e2e8f0;
   --footer-link-color: #94a3b8;
   --footer-link-hover-color: #818cf8;
-  --footer-social-icon-color: #94a3b8;
-  --footer-social-icon-hover-color: #818cf8;
   --shadow-footer: 0 -4px 15px rgba(0,0,0,0.3);
 
   /* Modern Landing */
