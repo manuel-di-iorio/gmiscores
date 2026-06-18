@@ -88,6 +88,31 @@ switch ($activeTab) {
 
   case 'players':
     $playersSearchValue = htmlspecialchars($playersSearch ?? "");
+    $pCurrentSort = $playersSortBy ?? '';
+    $pCurrentDir = strtoupper($playersSortDir) === 'ASC' ? 'ASC' : 'DESC';
+    $pBannedOnly = $playersBannedOnly ?? false;
+
+    $pSortUrlBase = '/admin.php?tab=players';
+    if ($playersSearch) $pSortUrlBase .= '&players_search=' . urlencode($playersSearch);
+    if ($pBannedOnly) $pSortUrlBase .= '&players_banned=1';
+
+    function playerSortLink($label, $key, $pCurrentSort, $pCurrentDir, $pSortUrlBase) {
+      $isActive = $pCurrentSort === $key;
+      $nextDir = ($isActive && $pCurrentDir === 'DESC') ? 'ASC' : 'DESC';
+      $icon = '';
+      if ($isActive) {
+        $icon = $pCurrentDir === 'ASC' ? ' <i class="fas fa-sort-up"></i>' : ' <i class="fas fa-sort-down"></i>';
+      } else {
+        $icon = ' <i class="fas fa-sort" style="opacity:0.3"></i>';
+      }
+      $url = $pSortUrlBase . '&players_sort=' . $key . '&players_dir=' . $nextDir;
+      return '<a href="' . htmlspecialchars($url) . '" style="text-decoration:none;color:inherit;display:inline-flex;align-items:center;gap:4px">' . $label . $icon . '</a>';
+    }
+
+    $bannedFilterActive = $pBannedOnly;
+    $bannedFilterUrl = '/admin.php?tab=players';
+    if ($playersSearch) $bannedFilterUrl .= '&players_search=' . urlencode($playersSearch);
+    if (!$bannedFilterActive) $bannedFilterUrl .= '&players_banned=1';
 
     $html = '
 <div class="search-form">
@@ -96,6 +121,9 @@ switch ($activeTab) {
     <input type="text" name="players_search" class="w-full px-3.5 py-2 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] disabled:bg-input-bg-disabled disabled:text-input-text-disabled disabled:cursor-not-allowed h-10" placeholder="' . __('admin_search_placeholder') . '" value="' . $playersSearchValue . '" style="max-width:220px">
     ' . ui_button(__('filter_apply'), 'primary', 'md', ['icon' => 'fas fa-search', 'type' => 'submit']) . '
     ' . ($playersSearch ? ui_button(__('filter_reset'), 'secondary', 'md', ['icon' => 'fas fa-times', 'href' => '/admin.php?tab=players']) : '') . '
+    <a href="' . htmlspecialchars($bannedFilterUrl) . '" class="pending-filter-btn ' . ($bannedFilterActive ? 'pending-filter-btn--active' : 'pending-filter-btn--inactive') . '">
+      <i class="fas fa-ban"></i> ' . __('admin_col_banned') . '
+    </a>
   </form>
   <div style="font-size:0.85em;color:var(--text-color-secondary,#6b7280);white-space:nowrap">
     ' . __('admin_total_players') . ': ' . $totalPlayers . '
@@ -106,10 +134,10 @@ switch ($activeTab) {
       $html .= '<div style="text-align:center;padding:40px 20px;color:var(--text-color-secondary,#6b7280)"><i class="fas fa-user-friends" style="font-size:2.5em;opacity:0.3;margin-bottom:12px;display:block"></i>' . __('table_empty') . '</div>';
     } else {
       $html .= '<div class="ui-table-container"><table class="ui-table"><thead class="ui-table-header"><tr>
-        <th class="ui-table-header-cell">ID</th>
-        <th class="ui-table-header-cell">' . __('admin_col_username') . '</th>
-        <th class="ui-table-header-cell">' . __('admin_col_top_score') . '</th>
-        <th class="ui-table-header-cell">' . __('admin_col_game') . '</th>
+        <th class="ui-table-header-cell">' . playerSortLink('ID', 'id', $pCurrentSort, $pCurrentDir, $pSortUrlBase) . '</th>
+        <th class="ui-table-header-cell">' . playerSortLink(__('admin_col_username'), 'username', $pCurrentSort, $pCurrentDir, $pSortUrlBase) . '</th>
+        <th class="ui-table-header-cell">' . playerSortLink(__('admin_col_top_score'), 'top_score', $pCurrentSort, $pCurrentDir, $pSortUrlBase) . '</th>
+        <th class="ui-table-header-cell">' . playerSortLink(__('admin_col_game'), 'game', $pCurrentSort, $pCurrentDir, $pSortUrlBase) . '</th>
         <th class="ui-table-header-cell">' . __('admin_col_banned') . '</th>
         <th class="ui-table-header-cell">' . __('table_actions') . '</th>
       </tr></thead><tbody class="ui-table-body">';
@@ -118,8 +146,11 @@ switch ($activeTab) {
         $isBanned = (int)($p["has_bans"] ?? 0) === 1;
         $toggleUrl = "/admin-players-toggle.php?id=" . (int)$p["player_id"];
         $toggleParams = [];
-        if ($playersSearch) $toggleParams[] = "search=" . urlencode($playersSearch);
-        if ($playersPage > 0) $toggleParams[] = "page=" . $playersPage;
+        if ($playersSearch) $toggleParams[] = "players_search=" . urlencode($playersSearch);
+        if ($playersPage > 0) $toggleParams[] = "players_page=" . $playersPage;
+        if ($pCurrentSort) $toggleParams[] = "players_sort=" . urlencode($pCurrentSort);
+        if ($pCurrentDir !== 'DESC') $toggleParams[] = "players_dir=" . urlencode($pCurrentDir);
+        if ($pBannedOnly) $toggleParams[] = "players_banned=1";
         if ($toggleParams) $toggleUrl .= "&" . implode("&", $toggleParams);
 
         $html .= '<tr class="ui-table-row">
@@ -147,6 +178,109 @@ switch ($activeTab) {
         $html .= '<div style="text-align:center;margin-top:16px">' .
           ui_paginator($playersPage, $playersTotalPages, [
             'url' => $urlPattern,
+            'prevLabel' => __('table_prev'),
+            'nextLabel' => __('table_next'),
+          ]) . '</div>';
+      }
+    }
+
+    echo $html;
+    break;
+
+  case 'scores':
+    $scoresSearchValue = htmlspecialchars($scoresSearch ?? "");
+    $currentSort = $scoresSortBy ?? 'date';
+    $currentDir = strtoupper($scoresSortDir) === 'ASC' ? 'ASC' : 'DESC';
+
+    $sortUrlBase = '/admin.php?tab=scores';
+    if ($scoresSearch) $sortUrlBase .= '&scores_search=' . urlencode($scoresSearch);
+
+    function scoreSortLink($label, $key, $currentSort, $currentDir, $sortUrlBase) {
+      $isActive = $currentSort === $key;
+      $nextDir = ($isActive && $currentDir === 'DESC') ? 'ASC' : 'DESC';
+      $icon = '';
+      if ($isActive) {
+        $icon = $currentDir === 'ASC' ? ' <i class="fas fa-sort-up"></i>' : ' <i class="fas fa-sort-down"></i>';
+      } else {
+        $icon = ' <i class="fas fa-sort" style="opacity:0.3"></i>';
+      }
+      $url = $sortUrlBase . '&scores_sort=' . $key . '&scores_dir=' . $nextDir;
+      return '<a href="' . htmlspecialchars($url) . '" style="text-decoration:none;color:inherit;display:inline-flex;align-items:center;gap:4px">' . $label . $icon . '</a>';
+    }
+
+    $html = '
+<div class="search-form">
+  <form method="GET" action="/admin.php" style="display:flex;gap:8px;align-items:center;flex:1;flex-wrap:wrap">
+    <input type="hidden" name="tab" value="scores">
+    <input type="text" name="scores_search" class="w-full px-3.5 py-2 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] disabled:bg-input-bg-disabled disabled:text-input-text-disabled disabled:cursor-not-allowed h-10" placeholder="' . __('admin_search_placeholder') . '" value="' . $scoresSearchValue . '" style="max-width:220px">
+    ' . ui_button(__('filter_apply'), 'primary', 'md', ['icon' => 'fas fa-search', 'type' => 'submit']) . '
+    ' . ($scoresSearch ? ui_button(__('filter_reset'), 'secondary', 'md', ['icon' => 'fas fa-times', 'href' => '/admin.php?tab=scores']) : '') . '
+  </form>
+  <div style="font-size:0.85em;color:var(--text-color-secondary,#6b7280);white-space:nowrap">
+    ' . __('admin_total_scores') . ': ' . number_format($totalScores) . '
+  </div>
+</div>';
+
+    if (empty($scores)) {
+      $html .= '<div style="text-align:center;padding:40px 20px;color:var(--text-color-secondary,#6b7280)"><i class="fas fa-star" style="font-size:2.5em;opacity:0.3;margin-bottom:12px;display:block"></i>' . __('table_empty') . '</div>';
+    } else {
+      $html .= '<div class="ui-table-container"><table class="ui-table"><thead class="ui-table-header"><tr>
+        <th class="ui-table-header-cell">' . scoreSortLink(__('admin_col_username'), 'username', $currentSort, $currentDir, $sortUrlBase) . '</th>
+        <th class="ui-table-header-cell">' . scoreSortLink(__('scores_col_score'), 'score', $currentSort, $currentDir, $sortUrlBase) . '</th>
+        <th class="ui-table-header-cell">' . scoreSortLink(__('admin_col_game'), 'game', $currentSort, $currentDir, $sortUrlBase) . '</th>
+        <th class="ui-table-header-cell">' . scoreSortLink(__('scores_col_date'), 'date', $currentSort, $currentDir, $sortUrlBase) . '</th>
+        <th class="ui-table-header-cell">' . __('table_actions') . '</th>
+      </tr></thead><tbody class="ui-table-body">';
+
+      foreach ($scores as $score) {
+        $scoreId = (int)$score["score_id"];
+        $playerName = htmlspecialchars($score["username"]);
+        $gameName = htmlspecialchars($score["game_name"]);
+        $scoreValue = number_format((float)$score["score"], 2);
+        $createdAt = htmlspecialchars($score["created_at"]);
+        $pageParam = max(0, (int)($scoresPage ?? 0));
+        $deleteUrl = "/admin-scores-delete.php?id=$scoreId&scores_page=$pageParam";
+        $banUrl = "/admin-scores-ban-player.php?id=$scoreId&scores_page=$pageParam";
+        if ($scoresSearch) {
+          $deleteUrl .= "&scores_search=" . urlencode($scoresSearch);
+          $banUrl .= "&scores_search=" . urlencode($scoresSearch);
+        }
+        if ($currentSort !== 'date') {
+          $deleteUrl .= "&scores_sort=" . urlencode($currentSort);
+          $banUrl .= "&scores_sort=" . urlencode($currentSort);
+        }
+        if ($currentDir !== 'DESC') {
+          $deleteUrl .= "&scores_dir=" . urlencode($currentDir);
+          $banUrl .= "&scores_dir=" . urlencode($currentDir);
+        }
+
+        $html .= '<tr class="ui-table-row">
+          <td class="ui-table-cell">' . $playerName . '</td>
+          <td class="ui-table-cell">' . $scoreValue . '</td>
+          <td class="ui-table-cell">' . $gameName . '</td>
+          <td class="ui-table-cell">' . $createdAt . '</td>
+          <td class="ui-table-cell actions-cell">
+            <a href="' . htmlspecialchars($deleteUrl) . '" class="admin-score-action admin-score-action--danger" data-admin-score-delete="1" data-player="' . $playerName . '" data-tippy-content="' . __('scores_action_delete') . '" aria-label="' . __('scores_action_delete') . '">
+              <i class="fas fa-trash"></i>
+            </a>
+            <a href="' . htmlspecialchars($banUrl) . '" class="admin-score-action admin-score-action--danger" data-admin-score-ban="1" data-player="' . $playerName . '" data-game="' . $gameName . '" data-tippy-content="' . __('scores_action_ban') . '" aria-label="' . __('scores_action_ban') . '">
+              <i class="fas fa-user-times"></i>
+            </a>
+          </td>
+        </tr>';
+      }
+
+      $html .= '</tbody></table></div>';
+
+      $scoresTotalPages = (int)ceil($totalScores / $scoresPerPage);
+      if ($scoresTotalPages > 1) {
+        $scoresUrlParams = ['tab' => 'scores', 'scores_page' => '{page}'];
+        if ($scoresSearch) $scoresUrlParams['scores_search'] = $scoresSearch;
+        if ($currentSort !== 'date') $scoresUrlParams['scores_sort'] = $currentSort;
+        if ($currentDir !== 'DESC') $scoresUrlParams['scores_dir'] = $currentDir;
+        $html .= '<div style="text-align:center;margin-top:16px">' .
+          ui_paginator($scoresPage, $scoresTotalPages, [
+            'url' => '/admin.php?' . http_build_query($scoresUrlParams),
             'prevLabel' => __('table_prev'),
             'nextLabel' => __('table_next'),
           ]) . '</div>';

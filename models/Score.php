@@ -299,6 +299,84 @@ class Score {
     return exec_query($sql, [ "i", $scoreId ]);
   }
 
+  public static function getByIdForAdmin(int $scoreId) {
+    global $dbTableScores;
+    global $dbTablePlayers;
+    
+    $sql = "SELECT S.score_id, S.game_id, S.ip, P.player_id, P.username
+            FROM $dbTableScores AS S
+            INNER JOIN $dbTablePlayers AS P ON S.player_id = P.player_id
+            WHERE S.score_id=?
+            LIMIT 1";
+
+    $result = exec_query($sql, [ "i", $scoreId ]);
+    return $result->num_rows ? $result->fetch_assoc() : null;
+  }
+
+  public static function deleteAsAdmin(int $scoreId) {
+    global $dbTableScores;
+    $sql = "DELETE FROM $dbTableScores WHERE score_id=?";
+    exec_query($sql, [ "i", $scoreId ]);
+  }
+
+  public static function listAllRecent(int $page = 0, int $perPage = 50, ?string $search = null, ?string $sortBy = null, ?string $sortDir = null) {
+    global $dbTableScores;
+    global $dbTablePlayers;
+    global $dbTableGames;
+
+    $offset = $page * $perPage;
+    $allowedSorts = [
+      'score' => 'S.score',
+      'date' => 'S.created_at',
+      'username' => 'P.username',
+      'game' => 'G.name',
+    ];
+    $sortCol = $allowedSorts[$sortBy] ?? 'S.created_at';
+    $sortDirection = strtoupper($sortDir) === 'ASC' ? 'ASC' : 'DESC';
+
+    $sql = "SELECT S.score_id, S.game_id, S.player_id, S.score, S.created_at, S.ip,
+                   P.username, G.name AS game_name
+            FROM $dbTableScores AS S
+            INNER JOIN $dbTablePlayers AS P ON S.player_id = P.player_id
+            INNER JOIN $dbTableGames AS G ON S.game_id = G.game_id";
+
+    if (!empty($search)) {
+      $sql .= " WHERE P.username LIKE ? OR G.name LIKE ?";
+      $sql .= " ORDER BY $sortCol $sortDirection, S.score_id DESC LIMIT ?,?";
+      return exec_query($sql, ["ssii", "%" . $search . "%", "%" . $search . "%", $offset, $perPage]);
+    }
+
+    $sql .= " ORDER BY $sortCol $sortDirection, S.score_id DESC LIMIT ?,?";
+    return exec_query($sql, ["ii", $offset, $perPage]);
+  }
+
+  public static function countAllFiltered(?string $search = null) {
+    global $dbTableScores;
+    global $dbTablePlayers;
+    global $dbTableGames;
+
+    $sql = "SELECT COUNT(S.score_id) AS count
+            FROM $dbTableScores AS S
+            INNER JOIN $dbTablePlayers AS P ON S.player_id = P.player_id
+            INNER JOIN $dbTableGames AS G ON S.game_id = G.game_id";
+
+    if (!empty($search)) {
+      $sql .= " WHERE P.username LIKE ? OR G.name LIKE ?";
+      $result = exec_query($sql, ["ss", "%" . $search . "%", "%" . $search . "%"]);
+    } else {
+      $result = exec_query($sql);
+    }
+
+    return $result->num_rows ? (int)$result->fetch_assoc()["count"] : 0;
+  }
+
+  public static function countAll() {
+    global $dbTableScores;
+    $sql = "SELECT COUNT(score_id) AS count FROM $dbTableScores";
+    $result = exec_query($sql);
+    return $result->num_rows ? (int)$result->fetch_assoc()["count"] : 0;
+  }
+
   public static function deleteByPlayerAndGame(int $playerId, int $gameId) {
     global $dbTableScores;
     $sql = "DELETE FROM $dbTableScores WHERE player_id=? AND game_id=?";

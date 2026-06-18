@@ -157,6 +157,29 @@
 .migrate-output .ok { color: #a6e3a1; }
 .migrate-output .error { color: #f38ba8; }
 .migrate-output .fail { color: #fab387; }
+
+.admin-score-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: var(--table-action-icon-color, #555);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+
+.admin-score-action:hover {
+  background: var(--table-action-icon-hover-bg, rgba(99,102,241,0.08));
+  color: var(--primary-color, #6366f1);
+  transform: translateY(-1px);
+}
+
+.admin-score-action--danger:hover {
+  color: #dc2626;
+  background: rgba(220,38,38,0.08);
+}
 </style>
 
 <?php
@@ -168,16 +191,18 @@ $activeContent = ob_get_clean();
 
 // Build tab array with lazy loading for inactive tabs
 $tabs = [];
-$tabIds = ['users', 'players', 'analytics', 'migrate'];
+$tabIds = ['users', 'players', 'scores', 'analytics', 'migrate'];
 $tabLabels = [
   'users' => __('admin_tab_users'),
   'players' => __('admin_tab_players'),
+  'scores' => __('admin_tab_scores'),
   'analytics' => __('admin_tab_analytics'),
   'migrate' => __('admin_tab_migrate'),
 ];
 $tabIcons = [
   'users' => 'fas fa-users',
   'players' => 'fas fa-user-friends',
+  'scores' => 'fas fa-star',
   'analytics' => 'fas fa-chart-pie',
   'migrate' => 'fas fa-database',
 ];
@@ -209,7 +234,7 @@ echo ui_modal('modal-admin-user-toggle', [
   'content' => '<p id="modal-admin-user-toggle__body"></p>',
   'footer' =>
     ui_button(__('admin_confirm_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-admin-user-toggle', onAdminUserToggleClose)"]]) .
-    ui_button(__('admin_confirm_confirm'), 'primary', 'md', ['icon' => 'fas fa-check', 'attrs' => ['onclick' => 'adminUserToggleConfirm()']]),
+    ui_button(__('admin_confirm_confirm'), 'primary', 'md', ['icon' => 'fas fa-check', 'attrs' => ['onclick' => 'adminUserToggleConfirm()'], 'class' => 'ui-destructive']),
 ]);
 
 echo ui_modal('modal-admin-player-ban', [
@@ -217,19 +242,61 @@ echo ui_modal('modal-admin-player-ban', [
   'content' => '<p id="modal-admin-player-ban__body"></p>',
   'footer' =>
     ui_button(__('admin_confirm_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-admin-player-ban', onAdminPlayerBanClose)"]]) .
-    ui_button(__('admin_confirm_confirm'), 'danger', 'md', ['icon' => 'fas fa-ban', 'attrs' => ['onclick' => 'adminPlayerBanConfirm()']]),
+    ui_button(__('admin_confirm_confirm'), 'danger', 'md', ['icon' => 'fas fa-ban', 'attrs' => ['onclick' => 'adminPlayerBanConfirm()'], 'class' => 'ui-destructive']),
+]);
+
+echo ui_modal('modal-admin-score-delete', [
+  'title' => __('scores_modal_delete_title'),
+  'content' => '<p id="modal-admin-score-delete__body"></p><p>' . __('scores_modal_delete_irreversible') . '</p>',
+  'footer' =>
+    ui_button(__('scores_modal_delete_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-admin-score-delete', onAdminScoreDeleteClose)"]]) .
+    ui_button(__('scores_modal_delete_confirm'), 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'adminScoreDeleteConfirm()'], 'class' => 'ui-destructive']),
+  'footer_right' => true,
+]);
+
+echo ui_modal('modal-admin-score-ban', [
+  'title' => __('scores_modal_ban_title'),
+  'content' => '<p id="modal-admin-score-ban__body"></p><p>' . __('scores_modal_ban_body2') . '</p><p>' . __('scores_modal_ban_body3') . '</p>',
+  'footer' =>
+    ui_button(__('scores_modal_ban_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-admin-score-ban', onAdminScoreBanClose)"]]) .
+    ui_button(__('scores_modal_ban_confirm'), 'danger', 'md', ['icon' => 'fas fa-ban', 'attrs' => ['onclick' => 'adminScoreBanConfirm()'], 'class' => 'ui-destructive']),
+  'footer_right' => true,
 ]);
 ?>
 
 <script>
+var _t = {
+  scores_modal_delete_body: <?= json_encode(__('scores_modal_delete_body')) ?>,
+  scores_modal_ban_body1: <?= json_encode(__('scores_modal_ban_body1')) ?>,
+  admin_col_banned: <?= json_encode(__('admin_col_banned')) ?>,
+  admin_ban: <?= json_encode(__('admin_ban')) ?>,
+  admin_unban: <?= json_encode(__('admin_unban')) ?>,
+  admin_ban_infinitive: <?= json_encode(__('admin_ban_infinitive')) ?>,
+  admin_unban_infinitive: <?= json_encode(__('admin_unban_infinitive')) ?>,
+  admin_enable_infinitive: <?= json_encode(__('admin_enable_infinitive')) ?>,
+  admin_disable_infinitive: <?= json_encode(__('admin_disable_infinitive')) ?>,
+  admin_confirm_player_ban_body: <?= json_encode(__('admin_confirm_player_ban_body', ['action' => '__ACTION__', 'player' => '__PLAYER__', 'game' => '__GAME__'])) ?>,
+  admin_confirm_user_toggle_body: <?= json_encode(__('admin_confirm_user_toggle_body', ['action' => '__ACTION__', 'user' => '__USER__'])) ?>
+};
+
 let adminToggleUrl = '';
 const adminUserToggleBody = document.getElementById('modal-admin-user-toggle__body');
 const adminPlayerBanBody = document.getElementById('modal-admin-player-ban__body');
+let adminScoreDeleteUrl = '';
+let adminScoreBanUrl = '';
+const adminScoreDeleteBody = document.getElementById('modal-admin-score-delete__body');
+const adminScoreBanBody = document.getElementById('modal-admin-score-ban__body');
 
 function openModal(id, onOpen, data) {
   var overlay = document.getElementById(id);
   if (!overlay) return;
   overlay.style.display = 'block';
+  overlay.removeAttribute('data-armed');
+  var btn = overlay.querySelector('.ui-destructive');
+  if (btn) {
+    btn.innerHTML = btn.getAttribute('data-original-html') || btn.innerHTML;
+    btn.classList.remove('is-armed');
+  }
   if (typeof onOpen === 'function') onOpen(data);
 }
 
@@ -242,6 +309,8 @@ function closeModal(id, onClose) {
 
 function onAdminUserToggleClose() { adminToggleUrl = ''; }
 function onAdminPlayerBanClose() { adminToggleUrl = ''; }
+function onAdminScoreDeleteClose() { adminScoreDeleteUrl = ''; }
+function onAdminScoreBanClose() { adminScoreBanUrl = ''; }
 
 function adminUserToggleConfirm() {
   if (adminToggleUrl) location.href = adminToggleUrl;
@@ -251,39 +320,61 @@ function adminPlayerBanConfirm() {
   if (adminToggleUrl) location.href = adminToggleUrl;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll('.ui-table').forEach(function (table) {
-    table.addEventListener('click', function (e) {
-      var toggle = e.target.closest('.ui-toggle');
-      if (!toggle) return;
-      e.preventDefault();
-      adminToggleUrl = toggle.getAttribute('href');
+function adminScoreDeleteConfirm() {
+  if (adminScoreDeleteUrl) location.href = adminScoreDeleteUrl;
+}
 
-      var tableHeader = toggle.closest('.ui-table').querySelector('.ui-table-header');
-      if (tableHeader && tableHeader.textContent.indexOf('<?= __('admin_col_banned') ?>') !== -1) {
-        var row = toggle.closest('tr');
-        var cells = row.querySelectorAll('.ui-table-cell');
-        var playerName = cells.length > 1 ? cells[1].textContent.trim() : '';
-        var gameName = cells.length > 3 ? cells[3].textContent.trim() : '';
-        var isBanning = toggle.style.color === 'rgb(156, 163, 175)' || toggle.getAttribute('title') === '<?= __('admin_ban') ?>';
-        var actionLabel = isBanning ? '<?= __('admin_ban') ?>' : '<?= __('admin_unban') ?>';
-        adminPlayerBanBody.textContent = '<?= __('admin_confirm_player_ban_body', ['action' => '__ACTION__', 'player' => '__PLAYER__', 'game' => '__GAME__']) ?>'
-          .replace('__ACTION__', actionLabel)
-          .replace('__PLAYER__', playerName)
-          .replace('__GAME__', gameName);
-        openModal('modal-admin-player-ban', onAdminPlayerBanClose, {});
-      } else {
-        var row = toggle.closest('tr');
-        var cells = row.querySelectorAll('.ui-table-cell');
-        var userName = cells.length > 1 ? cells[1].textContent.trim() : '';
-        var isEnabling = toggle.style.color === 'rgb(156, 163, 175)';
-        var actionLabel = isEnabling ? '<?= __('admin_enable') ?>' : '<?= __('admin_disable') ?>';
-        adminUserToggleBody.textContent = '<?= __('admin_confirm_user_toggle_body', ['action' => '__ACTION__', 'user' => '__USER__']) ?>'
-          .replace('__ACTION__', actionLabel)
-          .replace('__USER__', userName);
-        openModal('modal-admin-user-toggle', onAdminUserToggleClose, {});
-      }
-    });
-  });
+function adminScoreBanConfirm() {
+  if (adminScoreBanUrl) location.href = adminScoreBanUrl;
+}
+
+document.addEventListener('click', function (e) {
+  var scoreDelete = e.target.closest('[data-admin-score-delete]');
+  if (scoreDelete) {
+    e.preventDefault();
+    adminScoreDeleteUrl = scoreDelete.getAttribute('href');
+    adminScoreDeleteBody.textContent = _t.scores_modal_delete_body + ' ' + (scoreDelete.dataset.player || '') + '?';
+    openModal('modal-admin-score-delete');
+    return;
+  }
+
+  var scoreBan = e.target.closest('[data-admin-score-ban]');
+  if (scoreBan) {
+    e.preventDefault();
+    adminScoreBanUrl = scoreBan.getAttribute('href');
+    adminScoreBanBody.textContent = _t.scores_modal_ban_body1 + ' ' + (scoreBan.dataset.player || '') + ' (' + (scoreBan.dataset.game || '') + ')?';
+    openModal('modal-admin-score-ban');
+    return;
+  }
+
+  var toggle = e.target.closest('.ui-toggle');
+  if (!toggle) return;
+  e.preventDefault();
+  adminToggleUrl = toggle.getAttribute('href');
+
+  var tableHeader = toggle.closest('.ui-table').querySelector('.ui-table-header');
+  if (tableHeader && tableHeader.textContent.indexOf(_t.admin_col_banned) !== -1) {
+    var row = toggle.closest('tr');
+    var cells = row.querySelectorAll('.ui-table-cell');
+    var playerName = cells.length > 1 ? cells[1].textContent.trim() : '';
+    var gameName = cells.length > 3 ? cells[3].textContent.trim() : '';
+    var isBanning = toggle.style.color === 'rgb(156, 163, 175)' || toggle.getAttribute('title') === _t.admin_ban;
+    var actionLabel = isBanning ? _t.admin_ban_infinitive : _t.admin_unban_infinitive;
+    adminPlayerBanBody.textContent = _t.admin_confirm_player_ban_body
+      .replace('__ACTION__', actionLabel)
+      .replace('__PLAYER__', playerName)
+      .replace('__GAME__', gameName);
+    openModal('modal-admin-player-ban');
+  } else {
+    var row = toggle.closest('tr');
+    var cells = row.querySelectorAll('.ui-table-cell');
+    var userName = cells.length > 1 ? cells[1].textContent.trim() : '';
+    var isEnabling = toggle.style.color === 'rgb(156, 163, 175)';
+    var actionLabel = isEnabling ? _t.admin_enable_infinitive : _t.admin_disable_infinitive;
+    adminUserToggleBody.textContent = _t.admin_confirm_user_toggle_body
+      .replace('__ACTION__', actionLabel)
+      .replace('__USER__', userName);
+    openModal('modal-admin-user-toggle');
+  }
 });
 </script>

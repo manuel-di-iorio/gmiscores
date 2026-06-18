@@ -33,12 +33,21 @@ class Player {
     return $result->num_rows ? $result->fetch_assoc()["count"] : 0;
   }
 
-  public static function listAllWithScores(?string $search = null, int $page = 0, int $perPage = 50) {
+  public static function listAllWithScores(?string $search = null, int $page = 0, int $perPage = 50, ?string $sortBy = null, ?string $sortDir = null, bool $bannedOnly = false) {
     global $dbTablePlayers;
     global $dbTableScores;
     global $dbTableGames;
     global $dbTableBans;
     $offset = $page * $perPage;
+
+    $allowedSorts = [
+      'id' => 'p.player_id',
+      'username' => 'p.username',
+      'top_score' => 'top_score',
+      'game' => 'top_game',
+    ];
+    $sortCol = $allowedSorts[$sortBy] ?? null;
+    $sortDirection = strtoupper($sortDir) === 'ASC' ? 'ASC' : 'DESC';
 
     $sql = "SELECT p.player_id, p.username,
                    (SELECT g2.name FROM $dbTableScores s2
@@ -72,11 +81,21 @@ class Player {
       $params[] = "%" . $search . "%";
     }
 
+    if ($bannedOnly) {
+      $conditions[] = "EXISTS (SELECT 1 FROM $dbTableBans b WHERE b.player_id = p.player_id)";
+    }
+
     if ($conditions) {
       $sql .= " WHERE " . implode(" AND ", $conditions);
     }
 
-    $sql .= " ORDER BY top_score IS NULL, top_score DESC LIMIT ?,?";
+    if ($sortCol) {
+      $sql .= " ORDER BY $sortCol $sortDirection, p.player_id DESC";
+    } else {
+      $sql .= " ORDER BY top_score IS NULL, top_score DESC";
+    }
+
+    $sql .= " LIMIT ?,?";
     $types .= "ii";
     $params[] = $offset;
     $params[] = $perPage;
@@ -105,8 +124,9 @@ class Player {
     return $result->num_rows ? $result->fetch_assoc() : null;
   }
 
-  public static function countAllWithScores(?string $search = null) {
+  public static function countAllWithScores(?string $search = null, bool $bannedOnly = false) {
     global $dbTablePlayers;
+    global $dbTableBans;
 
     $sql = "SELECT COUNT(p.player_id) AS count
             FROM $dbTablePlayers p";
@@ -121,12 +141,16 @@ class Player {
       $params[] = "%" . $search . "%";
     }
 
+    if ($bannedOnly) {
+      $conditions[] = "EXISTS (SELECT 1 FROM $dbTableBans b WHERE b.player_id = p.player_id)";
+    }
+
     if ($conditions) {
       $sql .= " WHERE " . implode(" AND ", $conditions);
     }
 
     $result = $types ? exec_query($sql, array_merge([$types], $params)) : exec_query($sql);
-    return $result->num_rows ? $result->fetch_assoc()["count"] : 0;
+    return $result->num_rows ? (int)$result->fetch_assoc()["count"] : 0;
   }
 
 }

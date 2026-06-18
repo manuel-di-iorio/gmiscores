@@ -39,6 +39,15 @@ if (!empty($_GET["players_search"])) {
 if (!empty($_GET["players_page"])) {
   $params["players_page"] = (int)$_GET["players_page"];
 }
+if (!empty($_GET["players_sort"])) {
+  $params["players_sort"] = $_GET["players_sort"];
+}
+if (!empty($_GET["players_dir"])) {
+  $params["players_dir"] = $_GET["players_dir"];
+}
+if (!empty($_GET["players_banned"])) {
+  $params["players_banned"] = $_GET["players_banned"];
+}
 
 $query = $params ? "?" . http_build_query($params) : "";
 header("Location: admin.php" . $query);

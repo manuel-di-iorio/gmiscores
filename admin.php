@@ -35,13 +35,30 @@ switch ($activeTab) {
   case 'players':
     $playersSearch = $_GET["players_search"] ?? null;
     $playersPage = (int)($_GET["players_page"] ?? 0);
+    $playersSortBy = $_GET["players_sort"] ?? null;
+    $playersSortDir = $_GET["players_dir"] ?? 'DESC';
+    $playersBannedOnly = isset($_GET["players_banned"]) && $_GET["players_banned"] === "1";
     $playersPerPage = 20;
     $players = [];
-    $playersResult = Player::listAllWithScores($playersSearch, $playersPage, $playersPerPage);
+    $playersResult = Player::listAllWithScores($playersSearch, $playersPage, $playersPerPage, $playersSortBy, $playersSortDir, $playersBannedOnly);
     while ($row = $playersResult->fetch_assoc()) {
       $players[] = $row;
     }
-    $totalPlayers = Player::countAllWithScores($playersSearch);
+    $totalPlayers = Player::countAllWithScores($playersSearch, $playersBannedOnly);
+    break;
+
+  case 'scores':
+    $scoresSearch = $_GET["scores_search"] ?? null;
+    $scoresPage = (int)($_GET["scores_page"] ?? 0);
+    $scoresSortBy = $_GET["scores_sort"] ?? 'date';
+    $scoresSortDir = $_GET["scores_dir"] ?? 'DESC';
+    $scoresPerPage = 50;
+    $scores = [];
+    $scoresResult = Score::listAllRecent($scoresPage, $scoresPerPage, $scoresSearch, $scoresSortBy, $scoresSortDir);
+    while ($row = $scoresResult->fetch_assoc()) {
+      $scores[] = $row;
+    }
+    $totalScores = Score::countAllFiltered($scoresSearch);
     break;
 
   case 'analytics':
