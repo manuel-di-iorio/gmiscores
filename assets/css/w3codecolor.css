@@ -1,0 +1,70 @@
+/* ----------------------------------------------------------
+   w3codecolor.js syntax highlighting (global, used on
+   game detail page and documentation page)
+   ---------------------------------------------------------- */
+.jscolor,
+.phpcolor,
+.sqlcolor,
+.pythoncolor,
+.javacolor,
+.kotlincolor {
+  color: var(--code-syntax-default) !important;
+}
+
+.jskeywordcolor,
+.phpkeywordcolor,
+.sqlkeywordcolor,
+.pythonkeywordcolor,
+.javakeywordcolor,
+.kotlinkeywordcolor,
+.angularstatementcolor {
+  color: var(--code-syntax-keyword) !important;
+}
+
+.jsstringcolor,
+.phpstringcolor,
+.sqlstringcolor,
+.pythonstringcolor,
+.javastringcolor,
+.kotlinstringcolor,
+.attributevaluecolor,
+.csspropertyvaluecolor {
+  color: var(--code-syntax-string) !important;
+}
+
+.jsstringtempcolor { color: var(--code-syntax-stringtemp) !important; }
+.jsregexpcolor     { color: var(--code-syntax-regexp) !important; }
+
+.jsnumbercolor,
+.phpnumbercolor,
+.sqlnumbercolor,
+.pythonnumbercolor,
+.javanumbercolor,
+.kotlinnumbercolor,
+.tagnamecolor {
+  color: var(--code-syntax-number) !important;
+}
+
+.jspropertycolor,
+.javapropertycolor,
+.kotlinpropertycolor,
+.csspropertycolor,
+.cssselectorcolor,
+.attributecolor,
+.phpglobalcolor {
+  color: var(--code-syntax-property) !important;
+}
+
+.commentcolor,
+.doctypecolor,
+.tagcolor,
+.cssdelimitercolor {
+  color: var(--code-syntax-comment) !important;
+}
+
+.phptagcolor { color: var(--code-syntax-regexp) !important; }
+
+.cssimportantcolor {
+  color: var(--code-syntax-keyword) !important;
+  font-weight: bold !important;
+}

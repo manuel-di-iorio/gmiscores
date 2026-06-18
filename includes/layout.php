@@ -40,6 +40,10 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <link rel="stylesheet" href="assets/css/variables.css?v=<?= asset_version('assets/css/variables.css') ?>">
     <link rel="stylesheet" href="assets/css/style.css?v=<?= asset_version('assets/css/style.css') ?>">
+    <link rel="stylesheet" href="assets/css/w3codecolor.css?v=<?= asset_version('assets/css/w3codecolor.css') ?>">
+    <?php if ($isIndexPage): ?>
+    <link rel="stylesheet" href="assets/css/landing.css?v=<?= asset_version('assets/css/landing.css') ?>">
+    <?php endif; ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="assets/ui-kit/Button/button.css?v=<?= asset_version('assets/ui-kit/Button/button.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Modal/modal.css?v=<?= asset_version('assets/ui-kit/Modal/modal.css') ?>">

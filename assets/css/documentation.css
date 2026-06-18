@@ -232,7 +232,6 @@
 .api-params-title {
   font-size: 0.85rem;
   font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-color-secondary, #6b7280);
   margin-bottom: 12px;
