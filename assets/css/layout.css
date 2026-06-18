@@ -71,7 +71,7 @@ header .LogoSmall {
   padding-top: 40px;
   padding-bottom: 20px;
   border-top: 1px solid var(--footer-border-color, #374151);
-  margin-top: 50px;
+  margin-top: 100px;
   box-shadow: var(--shadow-footer);
 }
 

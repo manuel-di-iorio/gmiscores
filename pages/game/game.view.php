@@ -201,58 +201,8 @@ $configContent = '
     </div>
   </div>
 
-  <h3 class="section-header" style="margin-top:2rem"><i class="fab fa-steam-symbol" style="margin-right:16px"></i>' . __('game_integration_title') . '</h3>
-
-  <div class="internal-card">
-    <div class="code-block-header">' . __('game_code_send_header') . '</div>
-    <div class="code-block jsHigh">
-  var points = 100; // ' . __('game_code_player_points') . '<br/>
-  var player = "Harry"; // ' . __('game_code_player_name') . '<br/>
-  var data = "game=' . $gameId . '&leaderboard_id=ID_CLASSIFICA&score=" + string(points) + "&player=" + base64_encode(player);<br/>
-  var secret = "SECRET_DEL_GIOCO"; // ' . __('game_code_secret_comment') . '<br/>
-  var hash = "&hash=" + sha1_string_utf8(data + secret);<br/>
-  http_post_string("' . $baseApiPath . '/add.php", data + hash);
-    </div>
-  </div>
-
-  <div class="internal-card">
-    <div class="code-block-header">' . __('game_code_list_header') . '</div>
-    <div class="code-block jsHigh">
-  // ' . __('game_code_list_create_comment') . '<br/>
-  // ' . __('game_code_list_request_comment') . '<br/>
-  scores = noone;<br/>
-  getScores = http_get("' . $baseApiPath . '/list.php?game=' . $gameId . '&leaderboard_id=ID_CLASSIFICA");
-    </div>
-  </div>
-
-  <div class="internal-card">
-    <div class="code-block-header">' . __('game_code_list_async_header') . '</div>
-    <div class="code-block jsHigh">
-  // ' . __('game_code_list_async_comment') . '<br/>
-  if (async_load[? "id"] == getScores && async_load[? "status"] == 0) {<br/>
-  &nbsp;&nbsp;var result = json_decode(async_load[? "result"]);<br/>
-  &nbsp;&nbsp;scores = result[? "scores"];<br/>
-  }
-    </div>
-  </div>
-
-  <div class="internal-card">
-    <div class="code-block-header">' . __('game_code_draw_comment') . '</div>
-    <div class="code-block jsHigh">
-  draw_text(20, 20, "' . __('game_code_draw_header') . '");<br/><br/>
-  if (scores != noone) {<br/>
-  &nbsp;&nbsp;for (var i=0; i&lt;ds_list_size(scores); i++) {<br/>
-  &nbsp;&nbsp;&nbsp;&nbsp;var player = scores[| i];<br/>
-  &nbsp;&nbsp;&nbsp;&nbsp;draw_text(20, 50+i*20, player[? "username"] + " - " + string(player[? "score"]));<br/>
-  &nbsp;&nbsp;}<br/>
-  }
-    </div>
-  </div>
-
-  <h3 class="section-header" style="margin-top:2rem"><i class="fas fa-book" style="margin-right:16px"></i>' . __('game_api_docs_title') . '</h3>
-  <p style="margin-bottom:16px">' . __('game_api_docs_desc') . '</p>
-  ' . ui_button(__('game_api_docs_button'), 'primary', 'md', ['icon' => 'fa fa-arrow-circle-right', 'href' => 'documentation.php']) . '
 ';
+
 
 $activeTab = $_GET["tab"] ?? "config";
 

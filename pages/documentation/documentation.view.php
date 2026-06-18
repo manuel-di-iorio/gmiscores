@@ -52,11 +52,6 @@
     <div class="api-endpoint-right">
       <div class="terminal-mockup">
         <div class="terminal-header">
-          <div class="terminal-dots">
-            <div class="terminal-dot terminal-dot--red"></div>
-            <div class="terminal-dot terminal-dot--yellow"></div>
-            <div class="terminal-dot terminal-dot--green"></div>
-          </div>
           <span class="terminal-title">Error Response JSON</span>
         </div>
         <div class="terminal-body code-block-wrapper">
@@ -87,12 +82,7 @@
     <div class="api-endpoint-right">
       <div class="terminal-mockup">
         <div class="terminal-header">
-          <div class="terminal-dots">
-            <div class="terminal-dot terminal-dot--red"></div>
-            <div class="terminal-dot terminal-dot--yellow"></div>
-            <div class="terminal-dot terminal-dot--green"></div>
-          </div>
-          <span class="terminal-title">SDK Usage - Send Score</span>
+          <span class="terminal-title">Send Score</span>
         </div>
         <div class="terminal-body code-block-wrapper">
           <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
@@ -104,12 +94,7 @@
       
       <div class="terminal-mockup" style="margin-top: 16px;">
         <div class="terminal-header">
-          <div class="terminal-dots">
-            <div class="terminal-dot terminal-dot--red"></div>
-            <div class="terminal-dot terminal-dot--yellow"></div>
-            <div class="terminal-dot terminal-dot--green"></div>
-          </div>
-          <span class="terminal-title">SDK Usage - Get Scores</span>
+          <span class="terminal-title">Get Scores</span>
         </div>
         <div class="terminal-body code-block-wrapper">
           <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
@@ -262,11 +247,6 @@
           <h6 class="documentation-example-title"><?= __('docs_response') ?></h6>
           <div class="terminal-mockup">
             <div class="terminal-header">
-              <div class="terminal-dots">
-                <div class="terminal-dot terminal-dot--red"></div>
-                <div class="terminal-dot terminal-dot--yellow"></div>
-                <div class="terminal-dot terminal-dot--green"></div>
-              </div>
               <span class="terminal-title">Response</span>
             </div>
             <div class="terminal-body code-block-wrapper">
@@ -285,11 +265,6 @@
           <h6 class="documentation-example-title"><?= __('docs_example_gms') ?></h6>
           <div class="terminal-mockup">
             <div class="terminal-header">
-              <div class="terminal-dots">
-                <div class="terminal-dot terminal-dot--red"></div>
-                <div class="terminal-dot terminal-dot--yellow"></div>
-                <div class="terminal-dot terminal-dot--green"></div>
-              </div>
               <span class="terminal-title">GameMaker Integration</span>
             </div>
             <div class="terminal-body code-block-wrapper">
@@ -471,11 +446,6 @@
           <h6 class="documentation-example-title"><?= __('docs_response_example') ?></h6>
           <div class="terminal-mockup">
             <div class="terminal-header">
-              <div class="terminal-dots">
-                <div class="terminal-dot terminal-dot--red"></div>
-                <div class="terminal-dot terminal-dot--yellow"></div>
-                <div class="terminal-dot terminal-dot--green"></div>
-              </div>
               <span class="terminal-title">Response payload</span>
             </div>
             <div class="terminal-body code-block-wrapper">
@@ -494,12 +464,7 @@
           <h6 class="documentation-example-title"><?= __('docs_example_gms2') ?></h6>
           <div class="terminal-mockup">
             <div class="terminal-header">
-              <div class="terminal-dots">
-                <div class="terminal-dot terminal-dot--red"></div>
-                <div class="terminal-dot terminal-dot--yellow"></div>
-                <div class="terminal-dot terminal-dot--green"></div>
-              </div>
-              <span class="terminal-title">GMS Create Event</span>
+              <span class="terminal-title">Create Event</span>
             </div>
             <div class="terminal-body code-block-wrapper">
               <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
@@ -511,12 +476,7 @@
 
           <div class="terminal-mockup" style="margin-top: 16px;">
             <div class="terminal-header">
-              <div class="terminal-dots">
-                <div class="terminal-dot terminal-dot--red"></div>
-                <div class="terminal-dot terminal-dot--yellow"></div>
-                <div class="terminal-dot terminal-dot--green"></div>
-              </div>
-              <span class="terminal-title">GMS Async HTTP Event</span>
+              <span class="terminal-title">Async HTTP Event</span>
             </div>
             <div class="terminal-body code-block-wrapper">
               <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
