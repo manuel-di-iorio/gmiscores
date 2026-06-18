@@ -59,7 +59,7 @@ function ui_page_header(string $title, array $options = []): string {
   $descHtml = '';
   if ($desc) {
     $descHtml = '
-      <p class="mt-2 max-w-3xl text-sm leading-6 text-text-secondary sm:text-[0.98rem]">
+      <p class="mb-0 mt-2 max-w-3xl text-sm leading-6 text-text-secondary sm:text-[0.98rem]">
         ' . htmlspecialchars((string) $desc, ENT_QUOTES, 'UTF-8') . '
       </p>';
   }
