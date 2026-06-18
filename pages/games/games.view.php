@@ -1,5 +1,5 @@
 <div class="internal-page">
-  <div class="internal-actions">
+  <div class="internal-actions internal-actions--right">
     <?= ui_button(__('games_add_button'), 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-game.php']) ?>
   </div>
 

@@ -4,6 +4,9 @@ $isIndexPage = basename($pageURI) === 'index.php' || $pageURI === '/'; // Check 
 $gameNameShowBackIcon = strpos($pageURI, "/game-scores.php") === 0 || strpos($pageURI, "/game-bans.php") === 0 || 
   strpos($pageURI, "/game.php") === 0 || strpos($pageURI, "/leaderboards.php") === 0;
 $backUrl = $backUrl ?? "games.php";
+$layoutPageTitle = $pageName ?? $pageTitle ?? $config["platformTitle"];
+$layoutPageDesc = $pageDesc ?? '';
+$layoutPageBackUrl = $gameNameShowBackIcon ? $backUrl : '';
 header("Cache-Control: private, must-revalidate");
 require_once __DIR__ . '/../assets/ui-kit/kit.php';
 ?>
@@ -265,25 +268,23 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
       <!-- Header -->
       <?php if (!$isIndexPage && empty($hidePageHeader)) { ?>
         <header id="portfolio" style="padding-bottom:0">
-        <!-- Small logo shown on small screens -->
-        <a href="./index.php"><img src="assets/images/logoSmall.png" class="shape-circle LogoSmall float-right m-4 hidden" id="logo-small"></a>
+          <!-- Small logo shown on small screens -->
+          <a href="./index.php"><img src="assets/images/logoSmall.png" class="shape-circle LogoSmall float-right m-4 hidden" id="logo-small"></a>
 
-        <!-- Close sidebar button -->
-        <span id="btn-sidebar-open" class="hidden text-[32px] cursor-pointer px-4 py-2" onclick="w3_open()"><i class="fas fa-bars"></i></span>
+          <!-- Close sidebar button -->
+          <span id="btn-sidebar-open" class="hidden text-[32px] cursor-pointer px-4 py-2" onclick="w3_open()"><i class="fas fa-bars"></i></span>
 
-        <!-- Page title -->
-        <div class="pt-0.5 pb-0">
-        <h1>
-          <?php if ($pageName !== $config["platformTitle"] && !$isIndexPage) { ?>
-            <div class="page-title">
-              <?php if ($gameNameShowBackIcon) { ?>
-                <a href="<?= $backUrl ?>" data-tippy-content="<?= __("back_tooltip") ?>"><i class="fas fa-arrow-circle-left GameNameBackIcon"></i></a>
-              <?php } ?>
-              <?= htmlspecialchars($pageName) ?>
-            </div>
+          <!-- Page header -->
+          <?php if ($layoutPageTitle !== $config["platformTitle"] && !$isIndexPage) { ?>
+            <?= ui_page_header(
+              $layoutPageTitle,
+              [
+                'desc' => $layoutPageDesc,
+                'back_url' => $layoutPageBackUrl,
+                'back_label' => __("back_tooltip"),
+              ]
+            ) ?>
           <?php } ?>
-        </h1>
-        </div>
       </header>
       <?php } ?>
 

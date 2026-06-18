@@ -14,6 +14,10 @@ header .LogoSmall {
   margin: 24px 0 0;
 }
 
+.PageContent .ui-page-header h1 {
+  margin: 0 !important;
+}
+
 .PageContentFooter {
   flex-shrink: 0;
   transition: margin-left 0.3s ease;
