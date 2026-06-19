@@ -330,14 +330,14 @@ class Score {
     $offset = $page * $perPage;
     $allowedSorts = [
       'score' => 'S.score',
-      'date' => 'S.created_at',
+      'date' => 'S.updated_at',
       'username' => 'P.username',
       'game' => 'G.name',
     ];
-    $sortCol = $allowedSorts[$sortBy] ?? 'S.created_at';
+    $sortCol = $allowedSorts[$sortBy] ?? 'S.updated_at';
     $sortDirection = strtoupper($sortDir) === 'ASC' ? 'ASC' : 'DESC';
 
-    $sql = "SELECT S.score_id, S.game_id, S.player_id, S.score, S.created_at, S.ip,
+    $sql = "SELECT S.score_id, S.game_id, S.player_id, S.score, S.updated_at, S.ip,
                    P.username, G.name AS game_name
             FROM $dbTableScores AS S
             INNER JOIN $dbTablePlayers AS P ON S.player_id = P.player_id

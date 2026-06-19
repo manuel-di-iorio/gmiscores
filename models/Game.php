@@ -192,7 +192,7 @@ class Game {
   public static function deleteWithAccess(int $gameId, int $userId) {
     global $dbTableGames;
     global $dbTableTeamMembers;
-    $sql = "DELETE FROM $dbTableGames AS G
+    $sql = "DELETE G FROM $dbTableGames AS G
             WHERE G.game_id=? AND (
               G.user_id = ? OR
               EXISTS (SELECT 1 FROM $dbTableTeamMembers TM WHERE TM.team_id = G.team_id AND TM.user_id = ?)

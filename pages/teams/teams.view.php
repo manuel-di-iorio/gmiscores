@@ -1,9 +1,8 @@
 <div class="internal-page">
-  <div class="internal-actions internal-actions--right">
-    <?= ui_button(__('teams_create_button'), 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-team.php']) ?>
-  </div>
-
   <?php if (!empty($teams)) { ?>
+    <div class="internal-actions internal-actions--right">
+      <?= ui_button(__('teams_create_button'), 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-team.php']) ?>
+    </div>
     <div class="ui-table-container">
       <table class="ui-table">
         <thead class="ui-table-header">

@@ -237,7 +237,7 @@ switch ($activeTab) {
         $playerName = htmlspecialchars($score["username"]);
         $gameName = htmlspecialchars($score["game_name"]);
         $scoreValue = number_format((float)$score["score"], 2);
-        $createdAt = htmlspecialchars($score["created_at"]);
+        $dateValue = htmlspecialchars($score["updated_at"]);
         $pageParam = max(0, (int)($scoresPage ?? 0));
         $deleteUrl = "/admin-scores-delete.php?id=$scoreId&scores_page=$pageParam";
         $banUrl = "/admin-scores-ban-player.php?id=$scoreId&scores_page=$pageParam";
@@ -258,7 +258,7 @@ switch ($activeTab) {
           <td class="ui-table-cell">' . $playerName . '</td>
           <td class="ui-table-cell">' . $scoreValue . '</td>
           <td class="ui-table-cell">' . $gameName . '</td>
-          <td class="ui-table-cell">' . $createdAt . '</td>
+          <td class="ui-table-cell">' . $dateValue . '</td>
           <td class="ui-table-cell actions-cell">
             <a href="' . htmlspecialchars($deleteUrl) . '" class="admin-score-action admin-score-action--danger" data-admin-score-delete="1" data-player="' . $playerName . '" data-tippy-content="' . __('scores_action_delete') . '" aria-label="' . __('scores_action_delete') . '">
               <i class="fas fa-trash"></i>
@@ -272,15 +272,17 @@ switch ($activeTab) {
 
       $html .= '</tbody></table></div>';
 
-      $scoresTotalPages = (int)ceil($totalScores / $scoresPerPage);
-      if ($scoresTotalPages > 1) {
-        $scoresUrlParams = ['tab' => 'scores', 'scores_page' => '{page}'];
+      $scoresTotalPages = ceil($totalScores / $scoresPerPage) - 1;
+      if ($scoresTotalPages > 0) {
+        $scoresUrlParams = ['tab' => 'scores'];
         if ($scoresSearch) $scoresUrlParams['scores_search'] = $scoresSearch;
         if ($currentSort !== 'date') $scoresUrlParams['scores_sort'] = $currentSort;
         if ($currentDir !== 'DESC') $scoresUrlParams['scores_dir'] = $currentDir;
+        $scoresBaseQuery = http_build_query($scoresUrlParams);
+        $scoresUrlPattern = '/admin.php?' . $scoresBaseQuery . '&scores_page={page}';
         $html .= '<div style="text-align:center;margin-top:16px">' .
           ui_paginator($scoresPage, $scoresTotalPages, [
-            'url' => '/admin.php?' . http_build_query($scoresUrlParams),
+            'url' => $scoresUrlPattern,
             'prevLabel' => __('table_prev'),
             'nextLabel' => __('table_next'),
           ]) . '</div>';
