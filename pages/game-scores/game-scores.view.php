@@ -5,14 +5,9 @@
   <div class="internal-actions internal-actions--right">
     <?= ui_button(__('scores_add_button'), 'primary', 'md', ['icon' => 'fa fa-plus-circle', 'attrs' => ['onclick' => "openModal('modal-insert-score')"]]) ?>
 
-    <?php if (!empty($scores)) { ?>
-      <?= ui_button(__('scores_export_button'), 'primary', 'md', ['icon' => 'fa fa-cloud-download-alt', 'href' => 'game-scores-export.php?id=' . $game['game_id'] . '&leaderboard_id=' . $leaderboardId, 'attrs' => ['download' => '']]) ?>
-    <?php } ?>
+    <?= ui_button(__('scores_export_button'), 'primary', 'md', ['icon' => 'fa fa-cloud-download-alt', 'href' => 'game-scores-export.php?id=' . $game['game_id'] . '&leaderboard_id=' . $leaderboardId]) ?>
 
-    <?= ui_button(__('scores_import_button'), 'primary', 'md', ['icon' => 'fa fa-cloud-upload-alt', 'attrs' => ['onclick' => 'importPickFile()']]) ?>
-    <form id="form-import" action="game-scores-import.php?id=<?= $game["game_id"] ?>&leaderboard_id=<?= $leaderboardId ?>" method="post" enctype="multipart/form-data" onsubmit="return false;" style="display:none">
-      <input type='file' name="file" id="btn-import-pick-file" hidden onchange="importUploadOnChange(this)" />
-    </form>
+    <?= ui_button(__('scores_import_button'), 'primary', 'md', ['icon' => 'fa fa-cloud-upload-alt', 'href' => 'game-scores-import.php?id=' . $game['game_id'] . '&leaderboard_id=' . $leaderboardId]) ?>
 
     <?php if (!empty($scores)) { ?>
       <a href="javascript:;" id="btn-delete-selected-wrapper" style="display:none">
@@ -21,7 +16,7 @@
     <?php } ?>
 
     <?php if (!empty($scores)) { ?>
-      <?= ui_button(__('scores_clear_all'), 'primary', 'md', ['icon' => 'fa fa-trash', 'attrs' => ['onclick' => "openModal('modal-clear-scores')"]]) ?>
+      <?= ui_button(__('scores_clear_all'), 'danger', 'md', ['icon' => 'fa fa-trash', 'attrs' => ['onclick' => "openModal('modal-clear-scores')"]]) ?>
     <?php } ?>
   </div>
 

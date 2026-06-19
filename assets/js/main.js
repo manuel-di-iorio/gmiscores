@@ -390,6 +390,7 @@ document.addEventListener('click', function (e) {
             s.parentNode.replaceChild(ns, s);
           });
           panel.dispatchEvent(new CustomEvent('tabloaded', { bubbles: true }));
+          tippy(panel.querySelectorAll('[data-tippy-content]'));
         })
         .catch(function () {
           panel.setAttribute('data-loaded', 'false');

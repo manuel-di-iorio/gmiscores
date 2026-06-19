@@ -1,7 +1,7 @@
 <?php
 $pageURI = $_SERVER["REQUEST_URI"];
 $isIndexPage = basename($pageURI) === 'index.php' || $pageURI === '/'; // Check for index.php or root
-$gameNameShowBackIcon = strpos($pageURI, "/game-scores.php") === 0 || strpos($pageURI, "/game-bans.php") === 0 || 
+$gameNameShowBackIcon = strpos($pageURI, "/game-scores.php") === 0 || strpos($pageURI, "/game-scores-export.php") === 0 || strpos($pageURI, "/game-scores-import.php") === 0 || strpos($pageURI, "/game-bans.php") === 0 || 
   strpos($pageURI, "/game.php") === 0 || strpos($pageURI, "/leaderboards.php") === 0 ||
   strpos($pageURI, "/add-team.php") === 0 || strpos($pageURI, "/team-move-game.php") === 0 ||
   strpos($pageURI, "/team.php") === 0;

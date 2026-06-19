@@ -233,7 +233,7 @@ function render_table(array $data, array $columns, array $actions = [], array $o
                         }
 
                         // Render the action button
-                        echo '<a href="' . $actionUrl . '" title="' . $action["label"] . '" class="' . $actionClass . '"' . $linkAttributes . '>';
+                        echo '<a href="' . $actionUrl . '" data-tippy-content="' . $action["label"] . '" class="' . $actionClass . '"' . $linkAttributes . '>';
                         echo '<i class="' . $action["icon"] . '"></i>';
                         echo '</a> ';
                     }

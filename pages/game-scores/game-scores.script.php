@@ -109,17 +109,6 @@ function onViewScoreDataModalOpen({ scoreId, playerName, data }) {
 }
 
 
-/* IMPORT FILE UPLOAD */
-function importPickFile() {
-  document.getElementById("btn-import-pick-file").click();
-}
-
-function importUploadOnChange(elem) {
-  document.getElementById("form-import").submit();
-  document.getElementById("btn-import-pick-file").value = "";
-}
-
-
 /* Add score */
 document.getElementById("form-add-score").addEventListener("submit", function() {
   var btn = this.querySelector('button[type="submit"]');
