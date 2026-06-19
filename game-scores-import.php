@@ -158,7 +158,7 @@ if (isset($_POST["action"]) && $_POST["action"] === "import") {
       $country = $line[3];
       $createdAt = $line[4];
       $sign = $columnCount > 5 && !empty($line[5]) ? $line[5] : NULL;
-      $tags = $columnCount > 6 ? $line[6] : "default";
+      $tags = $columnCount > 6 && !empty($line[6]) ? $line[6] : NULL;
       $data = $columnCount > 8 ? $line[8] : NULL;
       $env = $columnCount > 9 && !empty($line[9]) ? $line[9] : 'production';
 
