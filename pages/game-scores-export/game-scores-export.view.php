@@ -78,6 +78,7 @@
 
 <script>
 var csvData = null;
+var csrfToken = '<?= csrf_token() ?>';
 
 function startExport() {
   document.getElementById('export-options').style.display = 'none';
@@ -89,6 +90,7 @@ function startExport() {
   var formData = new FormData();
   formData.append('action', 'export');
   formData.append('env', env);
+  formData.append('csrf_token', csrfToken);
 
   fetch('game-scores-export.php?id=<?= $gameId ?><?= $leaderboardId ? '&leaderboard_id=' . $leaderboardId : '' ?>', {
     method: 'POST',

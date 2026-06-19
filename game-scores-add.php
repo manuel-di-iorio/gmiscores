@@ -7,11 +7,14 @@ require_once("models/Game.php");
 require_once("models/Team.php");
 require_once("models/Score.php");
 require_once("models/Player.php");
+require_once("lib/csrf.php");
 require_once("models/Leaderboard.php");
 
 if ($_SERVER['REQUEST_METHOD'] !== "POST") {
   api_reply_error("Request method not allowed", "MethodNotAllowed", 405);
 }
+
+csrf_validate_request();
 
 if (!isset($_GET["id"])) {
   header("Location: games.php");

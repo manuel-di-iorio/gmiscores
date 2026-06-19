@@ -4,6 +4,7 @@ require_once("lib/checkSession.php");
 require_once("models/Game.php");
 require_once("models/Team.php");
 require_once("models/Score.php");
+require_once("lib/csrf.php");
 require_once("models/Leaderboard.php");
 
 if (!isset($_GET["id"])) {
@@ -33,9 +34,10 @@ $envFilter = isset($_GET["env"]) ? $_GET["env"] : null;
 
 // Handle AJAX export request
 if (isset($_POST["action"]) && $_POST["action"] === "export") {
+  csrf_validate_request();
   header('Content-Type: application/json');
 
-  $env = isset($_POST["env"]) ? $_POST["env"] : null;
+  $env = !empty($_POST["env"]) ? $_POST["env"] : null;
 
   $result = Score::getAll($gameId, $user["id"], $env);
 

@@ -7,6 +7,7 @@ require_once("../../models/Player.php");
 require_once("../../models/Score.php");
 require_once("../../models/Ban.php");
 require_once("../../models/Leaderboard.php");
+
 header("Access-Control-Allow-Origin: *");
 
 if ($_SERVER['REQUEST_METHOD'] !== "POST") {
@@ -28,6 +29,10 @@ $gameId = (int)$_POST["game"];
 $score = (string)$_POST["score"];
 $playerNameEncoded = $_POST["player"];
 $playerName = base64_decode($playerNameEncoded);
+$playerName = trim($playerName);
+if (empty($playerName) || strlen($playerName) > 64) {
+  api_reply_error("Invalid player name", "ValidationError", 400);
+}
 $clientHash = $_POST["hash"];
 $sign = isset($_POST["sign"]) ? $_POST["sign"] : NULL;
 $tags = isset($_POST["tags"]) && $_POST["tags"] !== '' ? (string)$_POST["tags"] : NULL;

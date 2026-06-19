@@ -77,7 +77,7 @@ if ($selectedTeamId !== null && isset($user)) {
   
   <?php if (isset($user)) { ?>      
     <div class="user-info">
-      <span class="username"><?= $user["username"] ?></span>
+      <span class="username"><?= htmlspecialchars($user["username"]) ?></span>
     </div>
     <a href="logout.php" class="navbar-logout-icon" title="<?= __('nav_logout') ?>"><i class="fas fa-sign-out-alt"></i></a>
   <?php } else { ?>

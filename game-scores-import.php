@@ -1,6 +1,7 @@
 <?php
 require_once("lib/db.php");
 require_once("lib/checkSession.php");
+require_once("lib/csrf.php");
 require_once("models/Game.php");
 require_once("models/Team.php");
 require_once("models/Player.php");
@@ -32,6 +33,7 @@ if ($leaderboardId) {
 
 // Handle AJAX parse request (validate CSV and show preview)
 if (isset($_POST["action"]) && $_POST["action"] === "parse") {
+  csrf_validate_request();
   header('Content-Type: application/json');
 
   if (!isset($_FILES["file"])) {
@@ -122,9 +124,10 @@ if (isset($_POST["action"]) && $_POST["action"] === "parse") {
 
 // Handle AJAX import request (execute the import)
 if (isset($_POST["action"]) && $_POST["action"] === "import") {
+  csrf_validate_request();
   header('Content-Type: application/json');
 
-  $tmpFileBasename = isset($_POST["tmp_file"]) ? $_POST["tmp_file"] : '';
+  $tmpFileBasename = isset($_POST["tmp_file"]) ? basename($_POST["tmp_file"]) : '';
   $tmpFile = sys_get_temp_dir() . '/' . $tmpFileBasename;
 
   if (!file_exists($tmpFile)) {

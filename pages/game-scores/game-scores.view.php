@@ -3,21 +3,57 @@
     <div class="private-badge"><i class="fas fa-lock"></i> <?= __('scores_private_badge') ?></div>
   <?php } ?>
   <div class="internal-actions internal-actions--right">
-    <?= ui_button(__('scores_add_button'), 'primary', 'md', ['icon' => 'fa fa-plus-circle', 'attrs' => ['onclick' => "openModal('modal-insert-score')"]]) ?>
-
-    <?= ui_button(__('scores_export_button'), 'primary', 'md', ['icon' => 'fa fa-cloud-download-alt', 'href' => 'game-scores-export.php?id=' . $game['game_id'] . '&leaderboard_id=' . $leaderboardId]) ?>
-
-    <?= ui_button(__('scores_import_button'), 'primary', 'md', ['icon' => 'fa fa-cloud-upload-alt', 'href' => 'game-scores-import.php?id=' . $game['game_id'] . '&leaderboard_id=' . $leaderboardId]) ?>
-
     <?php if (!empty($scores)) { ?>
       <a href="javascript:;" id="btn-delete-selected-wrapper" style="display:none">
-        <?= ui_button(__('scores_delete_selected'), 'primary', 'md', ['icon' => 'fa fa-trash', 'attrs' => ['onclick' => "openModal('modal-delete-selected-scores', onDeleteSelectedScoresModalOpen)"]]) ?>
+        <?= ui_button(__('scores_delete_selected'), 'danger', 'md', ['icon' => 'fa fa-trash', 'attrs' => ['onclick' => "openModal('modal-delete-selected-scores', onDeleteSelectedScoresModalOpen)"]]) ?>
       </a>
     <?php } ?>
 
-    <?php if (!empty($scores)) { ?>
-      <?= ui_button(__('scores_clear_all'), 'danger', 'md', ['icon' => 'fa fa-trash', 'attrs' => ['onclick' => "openModal('modal-clear-scores')"]]) ?>
-    <?php } ?>
+    <?php
+    $moreActions = [
+      [
+        'label' => __('scores_add_button'),
+        'icon' => 'fa fa-plus-circle',
+        'onclick' => "openModal('modal-insert-score')",
+        'tooltip' => __('scores_add_button')
+      ],
+      ['divider' => true],
+      [
+        'label' => __('scores_export_button'),
+        'icon' => 'fa fa-cloud-download-alt',
+        'href' => 'game-scores-export.php?id=' . $game['game_id'] . '&leaderboard_id=' . $leaderboardId,
+        'tooltip' => __('scores_export_button')
+      ],
+      [
+        'label' => __('scores_import_button'),
+        'icon' => 'fa fa-cloud-upload-alt',
+        'href' => 'game-scores-import.php?id=' . $game['game_id'] . '&leaderboard_id=' . $leaderboardId,
+        'tooltip' => __('scores_import_button')
+      ],
+    ];
+
+    if (!empty($scores)) {
+      $moreActions[] = ['divider' => true];
+      $moreActions[] = [
+        'label' => __('scores_clear_all'),
+        'icon' => 'fa fa-trash',
+        'variant' => 'danger',
+        'onclick' => "openModal('modal-clear-scores')",
+        'tooltip' => __('scores_clear_all')
+      ];
+    }
+
+    $moreActions[] = ['divider' => true];
+    $moreActions[] = [
+      'label' => __('scores_delete_leaderboard'),
+      'icon' => 'fa fa-trash',
+      'variant' => 'danger',
+      'onclick' => "openModal('modal-delete-leaderboard')",
+      'tooltip' => __('scores_delete_leaderboard')
+    ];
+
+    echo ui_actions_menu($moreActions, ['triggerLabel' => __('scores_more_actions')]);
+    ?>
   </div>
 
   <!-- Scores list -->
@@ -174,7 +210,7 @@
 
 <?= ui_modal('modal-insert-score', [
   'title' => __('scores_modal_add_title'),
-  'content' => '<form id="form-add-score" style="margin-bottom:0" method="POST" action="/game-scores-add.php?id=' . $game["game_id"] . '&leaderboard_id=' . $leaderboardId . '">
+  'content' => '<form id="form-add-score" style="margin-bottom:0" method="POST" action="/game-scores-add.php?id=' . $game["game_id"] . '&leaderboard_id=' . $leaderboardId . '">' . csrf_field() . '
     <input type="hidden" name="leaderboard_id" value="' . $leaderboardId . '">
     <div class="mb-4">
       <label class="block font-semibold mb-1.5 text-sm text-[var(--text-color)]">' . __('scores_modal_add_player') . '</label>
@@ -234,6 +270,15 @@
   'footer' =>
     ui_button(__('scores_modal_clear_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-clear-scores')"]]) .
     ui_button(__('scores_modal_clear_confirm'), 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'clearScores()'], 'class' => 'ui-destructive']),
+  'footer_right' => true,
+]) ?>
+
+<?= ui_modal('modal-delete-leaderboard', [
+  'title' => __('scores_modal_delete_leaderboard_title'),
+  'content' => '<p>' . __('scores_modal_delete_leaderboard_body') . '</p><p>' . __('scores_modal_delete_leaderboard_irreversible') . '</p>',
+  'footer' =>
+    ui_button(__('scores_modal_delete_leaderboard_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-leaderboard')"]]) .
+    ui_button(__('scores_modal_delete_leaderboard_confirm'), 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'deleteLeaderboard()'], 'class' => 'ui-destructive']),
   'footer_right' => true,
 ]) ?>
 

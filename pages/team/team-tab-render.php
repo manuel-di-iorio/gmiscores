@@ -13,6 +13,7 @@ switch ($activeTab) {
       <div class="internal-card">
         <div class="internal-card__title"><i class="fas fa-edit"></i> ' . __('team_settings_title') . '</div>
         <form method="POST" action="/team-settings.php?id=' . $teamId . '">
+          ' . csrf_field() . '
           <label style="display:block;font-weight:600;margin-bottom:8px;color:var(--text-color-headings,#444)">' . __('team_settings_name') . '</label>
           <div class="input-group">
             <input name="name" type="text" class="w-full px-3.5 py-2.5 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] disabled:bg-input-bg-disabled disabled:text-input-text-disabled disabled:cursor-not-allowed" value="' . htmlspecialchars($team['name']) . '" required>
@@ -32,6 +33,7 @@ switch ($activeTab) {
         <div class="internal-card__title"><i class="fas fa-user-plus"></i> ' . __('team_members_add_title') . '</div>
         <p style="color:var(--text-color-secondary,#6b7280);font-size:0.875em;margin:0 0 16px">' . __('team_members_add_note', ['site' => $config['platformTitle']]) . '</p>
         <form method="POST" action="/team-members.php?id=' . $teamId . '" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+          ' . csrf_field() . '
           <div style="flex:1;min-width:200px">
             <label style="display:block;font-weight:600;margin-bottom:8px;color:var(--text-color-headings,#444)">' . __('team_members_add_discord_id') . '</label>
             <input name="discord_id" type="text" required style="height:42px" class="w-full px-3.5 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] disabled:bg-input-bg-disabled disabled:text-input-text-disabled disabled:cursor-not-allowed" placeholder="' . __('team_members_add_discord_id') . '">
@@ -81,7 +83,8 @@ switch ($activeTab) {
         if ($isTeamAdmin) {
           $html .= '<td class="ui-table-cell actions-cell">';
           if (!$isSelf) {
-            $html .= '<a href="/team-members-remove.php?id=' . $teamId . '&user_id=' . $m['user_id'] . '" class="admin-score-action admin-score-action--danger" data-tippy-content="' . __('team_members_remove') . '" onclick="return confirm(\'' . __('team_members_remove') . '?\')">
+            $postBody = http_build_query(['id' => $teamId, 'user_id' => $m['user_id'], 'csrf_token' => csrf_token()]);
+            $html .= '<a href="javascript:void(0)" class="admin-score-action admin-score-action--danger" data-tippy-content="' . __('team_members_remove') . '" onclick="if(confirm(\'' . __('team_members_remove') . '?\'))fetch(\'/team-members-remove.php\',{method:\'POST\',headers:{\'Content-Type\':\'application/x-www-form-urlencoded\'},body:\'' . addslashes($postBody) . '\'}).then(function(){location.reload();})">
               <i class="fas fa-times-circle"></i>
             </a>';
           }

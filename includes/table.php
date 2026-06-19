@@ -233,8 +233,8 @@ function render_table(array $data, array $columns, array $actions = [], array $o
                         }
 
                         // Render the action button
-                        echo '<a href="' . $actionUrl . '" data-tippy-content="' . $action["label"] . '" class="' . $actionClass . '"' . $linkAttributes . '>';
-                        echo '<i class="' . $action["icon"] . '"></i>';
+                        echo '<a href="' . htmlspecialchars($actionUrl) . '" data-tippy-content="' . htmlspecialchars($action["label"]) . '" class="' . htmlspecialchars($actionClass) . '"' . $linkAttributes . '>';
+                        echo '<i class="' . htmlspecialchars($action["icon"]) . '"></i>';
                         echo '</a> ';
                     }
                 }

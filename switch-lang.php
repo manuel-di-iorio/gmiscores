@@ -10,6 +10,9 @@ if (!in_array($lang, $availableLangs) || strlen($go) < 1 || $go[0] !== "/" || (s
   exit;
 }
 
+// Sanitize go: strip CRLF characters
+$go = str_replace(["\r", "\n"], "", $go);
+
 setcookie("lang", $lang, [
   "expires" => time() + 60 * 60 * 24 * 365,
   "path" => "/",
@@ -19,3 +22,4 @@ setcookie("lang", $lang, [
 ]);
 
 header("Location: " . $go);
+exit;

@@ -2,12 +2,15 @@
 require_once("lib/db.php");
 require_once("lib/checkSession.php");
 require_once("lib/maintenance.php"); check_maintenance();
+require_once("lib/csrf.php");
 require_once("models/Score.php");
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   header("Location: games.php");
   exit;
 }
+
+csrf_validate_request();
 
 $input = json_decode(file_get_contents('php://input'), true);
 $scoreIds = isset($input['score_ids']) ? $input['score_ids'] : [];

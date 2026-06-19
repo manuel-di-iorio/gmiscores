@@ -2,9 +2,14 @@
 require_once("../../lib/db.php");
 session_start();
 
-if (!isset($_GET["code"])) {
+// Validate OAuth state parameter (CSRF protection)
+if (!isset($_GET["code"]) || !isset($_GET["state"]) || empty($_SESSION["oauth_state"]) || !hash_equals($_SESSION["oauth_state"], $_GET["state"])) {
   header("Location: /");
+  exit;
 }
+
+unset($_SESSION["oauth_state"]);
+
 $code = $_GET["code"];
 
 $redirectUri = isset($_SESSION["loginGo"]) ? $_SESSION["loginGo"] : "/home.php";
@@ -15,8 +20,8 @@ $response = file_get_contents('https://discordapp.com/api/v6/oauth2/token', fals
       'method' => 'POST',
       'header'  => "Content-type: application/x-www-form-urlencoded",
       'content' => http_build_query([
-          'client_id' => $config['discordLoginClientId'], //'706202409848012830',
-          'client_secret' => $config['discordLoginClientSecret'], // 'xG1ESfyY1jirFwawuWkIczYTUrNbGzGV',
+          'client_id' => $config['discordLoginClientId'],
+          'client_secret' => $config['discordLoginClientSecret'],
           'grant_type' => 'authorization_code',
           'code' => $code,
           'redirect_uri' => $config["loginCallback"],
@@ -55,6 +60,9 @@ if (isset($discordUser["avatar"])) {
 User::upsert($discordUserId, $discordUser["username"], $discordUser["avatar"]);
 $user = User::getByDiscordUserId($discordUserId)->fetch_assoc();
 
+// Regenerate session ID to prevent session fixation
+session_regenerate_id(true);
+
 // Store the user in the cookie
 $encryptedUser = aes_encrypt(json_encode([ "id" => $user["id"] ]), true);
 
@@ -69,3 +77,4 @@ setcookie("user", $encryptedUser, [
 
 // Redirect back
 header("Location: $redirectUri");
+exit;

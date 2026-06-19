@@ -4,6 +4,7 @@ require_once("../../lib/rateLimit.php");
 require_once("../../models/Score.php");
 require_once("../../models/Game.php");
 require_once("../../models/Leaderboard.php");
+
 header("Access-Control-Allow-Origin: *");
 
 if ($_SERVER['REQUEST_METHOD'] !== "GET") {
@@ -80,7 +81,6 @@ if (!is_null($endTime)) {
   try {
     new DateTime($endTime);
   } catch (Exception $e) {
-    print_r($e->getMessage());
     api_reply_error("Parameter 'endTime' is not a valid date", "ValidationError", 400);
   }
 }

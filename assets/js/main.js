@@ -398,3 +398,27 @@ document.addEventListener('click', function (e) {
     }
   }
 });
+
+// ActionsMenu dropdown toggle
+document.addEventListener('click', function(e) {
+  var trigger = e.target.closest('.ui-actions-menu__trigger');
+  if (trigger) {
+    e.stopPropagation();
+    var menu = trigger.closest('.ui-actions-menu');
+    var dropdown = menu.querySelector('.ui-actions-menu__dropdown');
+    var isOpen = dropdown.classList.contains('ui-actions-menu__dropdown--open');
+
+    document.querySelectorAll('.ui-actions-menu__dropdown--open').forEach(function(d) {
+      d.classList.remove('ui-actions-menu__dropdown--open');
+    });
+
+    if (!isOpen) {
+      dropdown.classList.add('ui-actions-menu__dropdown--open');
+    }
+    return;
+  }
+
+  document.querySelectorAll('.ui-actions-menu__dropdown--open').forEach(function(d) {
+    d.classList.remove('ui-actions-menu__dropdown--open');
+  });
+});

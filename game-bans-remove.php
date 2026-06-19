@@ -2,25 +2,26 @@
 require_once("lib/db.php");
 require_once("lib/checkSession.php");
 require_once("lib/maintenance.php"); check_maintenance();
+require_once("lib/csrf.php");
 require_once("models/Ban.php");
 
-if (isset($_GET["id"])) {
-  $banId = (int)$_GET["id"];
+csrf_validate_request();
+
+if (isset($_POST["id"])) {
+  $banId = (int)$_POST["id"];
   $userId = $user["id"];
 
-  // Check that the user owns the game
   $result = Ban::getByIdAndUser($banId, $userId);
   if (!$result->num_rows) {
     header("Location: games.php");
     exit;
   }
 
-  // Remove the ban
-  Ban::remove($banId);
+  Ban::remove($banId, $userId);
 }
 
-if (isset($_GET["game"])) {
-  header("Location: game-bans.php?id=" . (int)$_GET["game"]);
+if (isset($_POST["game"])) {
+  header("Location: game-bans.php?id=" . (int)$_POST["game"]);
 } else {
   header("Location: games.php");
 }

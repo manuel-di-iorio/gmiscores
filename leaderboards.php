@@ -25,7 +25,7 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     $deleteId = (int)$_GET['delete'];
     $lb = Leaderboard::getById($deleteId);
     if ($lb && $lb['game_id'] == $game_id) {
-        Leaderboard::delete($deleteId);
+        Leaderboard::delete($deleteId, $game_id);
     }
     header("Location: leaderboards.php?game_id=$game_id");
     exit;

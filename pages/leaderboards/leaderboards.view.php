@@ -53,7 +53,6 @@
             ]
         ];
 
-        $canDelete = count($leaderboards) > 1;
         $tableActions = [
             [
                 "label" => __('leaderboards_action_view'),
@@ -73,19 +72,17 @@
             ]
         ];
 
-        if ($canDelete) {
-            $tableActions[] = [
-                "label" => __('leaderboards_action_delete'),
-                "icon" => "fas fa-trash",
-                "url" => "javascript:;",
-                "class" => "btn-link",
-                "onclick" => function ($row) use ($game) {
-                    $leaderboard_id = $row['leaderboard_id'] ?? 'null';
-                    $leaderboard_name = escapeChars($row['name'] ?? '');
-                    return "openModal('modal-delete-leaderboard', onDeleteLeaderboardModalOpen, { leaderboardId: " . $leaderboard_id . ", leaderboardName: '" . $leaderboard_name . "' })";
-                }
-            ];
-        }
+        $tableActions[] = [
+            "label" => __('leaderboards_action_delete'),
+            "icon" => "fas fa-trash",
+            "url" => "javascript:;",
+            "class" => "btn-link",
+            "onclick" => function ($row) use ($game) {
+                $leaderboard_id = $row['leaderboard_id'] ?? 'null';
+                $leaderboard_name = escapeChars($row['name'] ?? '');
+                return "openModal('modal-delete-leaderboard', onDeleteLeaderboardModalOpen, { leaderboardId: " . $leaderboard_id . ", leaderboardName: '" . $leaderboard_name . "' })";
+            }
+        ];
 
         $tableOptions = [
             "table_id" => "leaderboardsTable",
@@ -109,7 +106,7 @@
 
 <?= ui_modal('modal-delete-leaderboard', [
   'title' => __('leaderboards_modal_delete_title'),
-  'content' => '<p>' . __('leaderboards_modal_delete_body') . ' <strong id="modal-delete-leaderboard__name"></strong>?</p><p><i class="fas fa-exclamation-triangle"></i> ' . __('leaderboards_modal_delete_warning') . '</p>',
+  'content' => '<p>' . __('leaderboards_modal_delete_body') . ' <strong id="modal-delete-leaderboard__name"></strong>?</p><p>' . __('leaderboards_modal_delete_warning') . '</p>',
   'footer' =>
     ui_button(__('leaderboards_modal_delete_cancel'), 'secondary', 'md', ['attrs' => ['onclick' => "closeModal('modal-delete-leaderboard')"]]) .
     ui_button(__('leaderboards_modal_delete_confirm'), 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => 'deleteLeaderboard()'], 'class' => 'ui-destructive']),
@@ -117,16 +114,24 @@
 ]) ?>
 
 <script>
-let deleteLeaderboardUrl = '';
+var csrfToken = '<?= csrf_token() ?>';
+let deleteLeaderboardData = {};
 
 function onDeleteLeaderboardModalOpen(params) {
     document.getElementById('modal-delete-leaderboard__name').textContent = params.leaderboardName;
-    deleteLeaderboardUrl = 'delete-leaderboard.php?leaderboard_id=' + params.leaderboardId + '&game_id=<?= $game['game_id'] ?>';
+    deleteLeaderboardData = { leaderboard_id: params.leaderboardId, game_id: '<?= $game['game_id'] ?>' };
 }
 
 function deleteLeaderboard() {
-    if (deleteLeaderboardUrl) {
-        window.location.href = deleteLeaderboardUrl;
+    if (deleteLeaderboardData.leaderboard_id) {
+        var body = 'leaderboard_id=' + encodeURIComponent(deleteLeaderboardData.leaderboard_id)
+            + '&game_id=' + encodeURIComponent(deleteLeaderboardData.game_id)
+            + '&csrf_token=' + encodeURIComponent(csrfToken);
+        fetch('delete-leaderboard.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: body
+        }).then(function() { location.reload(); });
     }
 }
 </script>

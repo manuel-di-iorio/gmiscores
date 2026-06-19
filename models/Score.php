@@ -34,6 +34,8 @@ class Score {
     global $dbTablePlayers;
 
     $pageOffset = $page * $limit;
+    $allowedOrders = ['ASC', 'DESC'];
+    $orderDir = strtoupper($order) === 'ASC' ? 'ASC' : 'DESC';
 
     $sql = "SELECT P.player_id, P.username, S.score_id, S.tags, S.score, S.created_at, S.updated_at, S.sign, S.data, S.env
             FROM $dbTableScores AS S
@@ -70,7 +72,7 @@ class Score {
       $params[] = $env;
     }
 
-    $sql .= " ORDER BY S.score $order LIMIT ?,?";
+    $sql .= " ORDER BY S.score $orderDir LIMIT ?,?";
     $params[0] .= "ii";
     $params[] = $pageOffset;
     $params[] = $limit;
@@ -93,6 +95,7 @@ class Score {
     ];
 
     $sqlSortExpression = $allowedSortColumns[$sortSanitized] ?? 'S.updated_at';
+    $sortDirection = strtoupper($sortOrder) === 'ASC' ? 'ASC' : 'DESC';
 
     $sql = "SELECT P.player_id, P.username, S.score_id, S.score, S.data, S.updated_at, S.ip_country, S.tags, S.env
             FROM $dbTableScores AS S
@@ -148,7 +151,7 @@ class Score {
       $params[] = $filters['env'];
     }
 
-    $sql .= "\n            ORDER BY $sqlSortExpression $sortOrder\n            LIMIT ?,?";
+    $sql .= "\n            ORDER BY $sqlSortExpression $sortDirection\n            LIMIT ?,?";
 
     $params[0] .= "ii";
     $params[] = $pageOffset;
@@ -272,14 +275,16 @@ class Score {
   public static function getAll(int $gameId, int $userId, ?string $env = NULL) {
     global $dbTableScores;
     global $dbTablePlayers;
-    global $dbTableUsers;
+    global $dbTableGames;
+    global $dbTableTeamMembers;
     
     $sql = "SELECT P.player_id, P.username, S.score, S.ip, S.ip_country, S.created_at, S.sign, S.tags, S.leaderboard_id, S.data, S.env
     FROM $dbTableScores AS S
     INNER JOIN $dbTablePlayers AS P ON S.player_id = P.player_id
-    INNER JOIN $dbTableUsers AS U ON S.game_id = S.game_id AND U.id=?
-    WHERE S.game_id=?";
-    $params = [ "ii", $userId, $gameId ];
+    INNER JOIN $dbTableGames AS G ON S.game_id = G.game_id
+    LEFT JOIN $dbTableTeamMembers AS TM ON G.team_id = TM.team_id AND TM.user_id = ?
+    WHERE S.game_id=? AND (G.user_id = ? OR TM.id IS NOT NULL)";
+    $params = [ "iii", $userId, $gameId, $userId ];
 
     if (!is_null($env)) {
       $sql .= " AND S.env=?";

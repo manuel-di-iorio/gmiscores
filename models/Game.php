@@ -68,6 +68,10 @@ class Game {
     exec_query($sql, [ "ii", $gameId, $userId ]);
   }
 
+  /**
+   * Admin-only: delete game without user_id check.
+   * Callers must verify admin status before using this method.
+   */
   public static function deleteById(int $gameId) {
     global $dbTableGames;
     $sql = "DELETE FROM $dbTableGames WHERE game_id = ?";

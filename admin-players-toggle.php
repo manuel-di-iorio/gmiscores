@@ -1,6 +1,7 @@
 <?php
 require_once("lib/db.php");
 require_once("lib/checkSession.php");
+require_once("lib/csrf.php");
 require_once("models/Player.php");
 require_once("models/Ban.php");
 
@@ -10,7 +11,9 @@ if (!$isAdmin) {
   exit;
 }
 
-$playerId = (int)($_GET["id"] ?? 0);
+csrf_validate_request();
+
+$playerId = (int)($_POST["id"] ?? 0);
 if (!$playerId) {
   header("Location: admin.php");
   exit;
@@ -24,7 +27,6 @@ if (!$player || !$player["top_game_id"]) {
 
 $topGameId = (int)$player["top_game_id"];
 
-// Check if already banned in top game
 $existingBan = Ban::getByPlayerAndGame($playerId, $topGameId);
 if ($existingBan && $existingBan->num_rows > 0) {
   Ban::removeByPlayerAndGame($playerId, $topGameId);
@@ -33,20 +35,20 @@ if ($existingBan && $existingBan->num_rows > 0) {
 }
 
 $params = ["tab" => "players"];
-if (!empty($_GET["players_search"])) {
-  $params["players_search"] = $_GET["players_search"];
+if (!empty($_POST["players_search"])) {
+  $params["players_search"] = $_POST["players_search"];
 }
-if (!empty($_GET["players_page"])) {
-  $params["players_page"] = (int)$_GET["players_page"];
+if (!empty($_POST["players_page"])) {
+  $params["players_page"] = (int)$_POST["players_page"];
 }
-if (!empty($_GET["players_sort"])) {
-  $params["players_sort"] = $_GET["players_sort"];
+if (!empty($_POST["players_sort"])) {
+  $params["players_sort"] = $_POST["players_sort"];
 }
-if (!empty($_GET["players_dir"])) {
-  $params["players_dir"] = $_GET["players_dir"];
+if (!empty($_POST["players_dir"])) {
+  $params["players_dir"] = $_POST["players_dir"];
 }
-if (!empty($_GET["players_banned"])) {
-  $params["players_banned"] = $_GET["players_banned"];
+if (!empty($_POST["players_banned"])) {
+  $params["players_banned"] = $_POST["players_banned"];
 }
 
 $query = $params ? "?" . http_build_query($params) : "";

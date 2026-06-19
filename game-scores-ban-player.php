@@ -2,19 +2,22 @@
 require_once("lib/db.php");
 require_once("lib/checkSession.php");
 require_once("lib/maintenance.php"); check_maintenance();
+require_once("lib/csrf.php");
 require_once("models/Game.php");
 require_once("models/Team.php");
 require_once("models/Score.php");
 require_once("models/Ban.php");
 
-if (!isset($_GET["id"]) || !isset($_GET["game"])) {
+csrf_validate_request();
+
+if (!isset($_POST["id"]) || !isset($_POST["game"])) {
   header("Location: games.php");
   exit;
 }
 
-$scoreId = (int)$_GET["id"];
-$gameId = (int)$_GET["game"];
-$leaderboardId = isset($_GET["leaderboard_id"]) ? (int)$_GET["leaderboard_id"] : null;
+$scoreId = (int)$_POST["id"];
+$gameId = (int)$_POST["game"];
+$leaderboardId = isset($_POST["leaderboard_id"]) ? (int)$_POST["leaderboard_id"] : null;
 
 $result = Game::getByIdWithAccess($gameId, $user["id"]);
 if (!$result || !$result->num_rows) {
@@ -44,7 +47,7 @@ try {
   if ($leaderboardId) {
     $redirect .= "&leaderboard_id=" . $leaderboardId;
   }
-  header("Location: $redirect&error=" . urlencode($e->getMessage()));
+  header("Location: $redirect&error=" . urlencode("An error occurred."));
   exit;
 }
 

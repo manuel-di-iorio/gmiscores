@@ -1,4 +1,5 @@
 <script>
+var csrfToken = '<?= csrf_token() ?>';
 /* MODALS */
 let modalSelectedScore;
 
@@ -72,12 +73,29 @@ function onDeleteScoreModalClose() {
 }
 
 function deleteScore() {
-  location.href = "game-scores-delete.php?id=" + modalSelectedScore + "&game=<?= $game["game_id"]; ?>&leaderboard_id=<?= $leaderboardId; ?>";
+  fetch("game-scores-delete.php", {
+    method: "POST",
+    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    body: "id=" + encodeURIComponent(modalSelectedScore) + "&game=<?= $game["game_id"]; ?>&leaderboard_id=<?= $leaderboardId; ?>&csrf_token=" + encodeURIComponent(csrfToken)
+  }).then(function() { location.reload(); });
 }
 
 // MODAL: Clear scores
 function clearScores() {
-  location.href = "game-scores-clear.php?id=<?= $game["game_id"]; ?>&leaderboard_id=<?= $leaderboardId; ?>";
+  fetch("game-scores-clear.php", {
+    method: "POST",
+    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    body: "id=<?= $game["game_id"]; ?>&leaderboard_id=<?= $leaderboardId; ?>&csrf_token=" + encodeURIComponent(csrfToken)
+  }).then(function() { location.reload(); });
+}
+
+// MODAL: Delete leaderboard
+function deleteLeaderboard() {
+  fetch("delete-leaderboard.php", {
+    method: "POST",
+    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    body: "leaderboard_id=<?= $leaderboardId; ?>&game_id=<?= $game["game_id"]; ?>&csrf_token=" + encodeURIComponent(csrfToken)
+  }).then(function() { location.href = "leaderboards.php?game_id=<?= $game["game_id"]; ?>"; });
 }
 
 // MODAL: Ban Player
@@ -93,7 +111,11 @@ function onBanPlayerModalClose() {
 }
 
 function banPlayer() {
-  location.href = "game-scores-ban-player.php?id=" + modalSelectedScore + "&game=<?= $game["game_id"]; ?>&leaderboard_id=<?= $leaderboardId; ?>";
+  fetch("game-scores-ban-player.php", {
+    method: "POST",
+    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    body: "id=" + encodeURIComponent(modalSelectedScore) + "&game=<?= $game["game_id"]; ?>&leaderboard_id=<?= $leaderboardId; ?>&csrf_token=" + encodeURIComponent(csrfToken)
+  }).then(function() { location.reload(); });
 }
 
 // MODAL: Ban Player

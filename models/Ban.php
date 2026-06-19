@@ -30,10 +30,15 @@ class Ban {
   /**
    * Delete a player ban for a game
    */
-  public static function remove(int $banId) {
+  public static function remove(int $banId, int $userId) {
     global $dbTableBans;
-    $sql = "DELETE FROM $dbTableBans WHERE ban_id=?";
-    exec_query($sql, [ "i", $banId ]);
+    global $dbTableGames;
+    global $dbTableTeamMembers;
+    $sql = "DELETE B FROM $dbTableBans AS B
+            INNER JOIN $dbTableGames AS G ON B.game_id=G.game_id
+            LEFT JOIN $dbTableTeamMembers TM ON G.team_id = TM.team_id AND TM.user_id=?
+            WHERE B.ban_id=? AND (G.user_id=? OR TM.id IS NOT NULL)";
+    exec_query($sql, [ "iii", $userId, $banId, $userId ]);
   }
 
   /**

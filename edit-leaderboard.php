@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Il nome è obbligatorio.";
     } else {
         $isPrivate = isset($_POST['is_private']) && $_POST['is_private'] === '1';
-        Leaderboard::update($lb_id, $name, $description ?: null, $isPrivate);
+        Leaderboard::update($lb_id, $name, $description ?: null, $lb['game_id'], $isPrivate);
         header("Location: leaderboards.php?game_id=" . $lb['game_id']);
         exit;
     }

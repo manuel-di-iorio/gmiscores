@@ -43,12 +43,12 @@ switch ($activeTab) {
         $isUserApproved = (int)$u["approved"] === 1;
         $isUserAdmin = (int)($u["admin"] ?? 0) === 1;
 
-        $toggleUrl = "/admin-users-toggle.php?id=" . (int)$u["id"];
-        $toggleParams = [];
-        if ($search) $toggleParams[] = "search=" . urlencode($search);
-        if ($pendingOnly) $toggleParams[] = "pending=1";
-        if ($page > 0) $toggleParams[] = "page=" . $page;
-        if ($toggleParams) $toggleUrl .= "&" . implode("&", $toggleParams);
+        $togglePostBody = http_build_query(array_merge(
+          ['id' => (int)$u["id"], 'csrf_token' => csrf_token()],
+          $search ? ['search' => $search] : [],
+          $pendingOnly ? ['pending' => '1'] : [],
+          $page > 0 ? ['page' => $page] : []
+        ));
 
         $html .= '<tr class="ui-table-row">
           <td class="ui-table-cell">' . (int)$u["id"] . '</td>
@@ -61,7 +61,7 @@ switch ($activeTab) {
             ? '<span style="color:#6366f1"><i class="fas fa-crown"></i></span>'
             : '') . '</td>
           <td class="ui-table-cell actions-cell">
-            ' . ui_toggle($isUserApproved, $toggleUrl, ['labelOn' => __('admin_disable'), 'labelOff' => __('admin_enable'), 'size' => 'md']) . '
+            ' . ui_toggle($isUserApproved, '/admin-users-toggle.php', ['labelOn' => __('admin_disable'), 'labelOff' => __('admin_enable'), 'size' => 'md', 'method' => 'POST', 'postBody' => $togglePostBody]) . '
           </td>
         </tr>';
       }
@@ -144,14 +144,14 @@ switch ($activeTab) {
 
       foreach ($players as $p) {
         $isBanned = (int)($p["has_bans"] ?? 0) === 1;
-        $toggleUrl = "/admin-players-toggle.php?id=" . (int)$p["player_id"];
-        $toggleParams = [];
-        if ($playersSearch) $toggleParams[] = "players_search=" . urlencode($playersSearch);
-        if ($playersPage > 0) $toggleParams[] = "players_page=" . $playersPage;
-        if ($pCurrentSort) $toggleParams[] = "players_sort=" . urlencode($pCurrentSort);
-        if ($pCurrentDir !== 'DESC') $toggleParams[] = "players_dir=" . urlencode($pCurrentDir);
-        if ($pBannedOnly) $toggleParams[] = "players_banned=1";
-        if ($toggleParams) $toggleUrl .= "&" . implode("&", $toggleParams);
+        $togglePostBody = http_build_query(array_merge(
+          ['id' => (int)$p["player_id"], 'csrf_token' => csrf_token()],
+          $playersSearch ? ['players_search' => $playersSearch] : [],
+          $playersPage > 0 ? ['players_page' => $playersPage] : [],
+          $pCurrentSort ? ['players_sort' => $pCurrentSort] : [],
+          $pCurrentDir !== 'DESC' ? ['players_dir' => $pCurrentDir] : [],
+          $pBannedOnly ? ['players_banned' => '1'] : []
+        ));
 
         $html .= '<tr class="ui-table-row">
           <td class="ui-table-cell">' . (int)$p["player_id"] . '</td>
@@ -162,7 +162,7 @@ switch ($activeTab) {
             ? ui_badge(__('admin_yes'), 'danger', ['icon' => 'fas fa-ban'])
             : ui_badge(__('admin_no'), 'default', ['icon' => 'fas fa-check'])) . '</td>
           <td class="ui-table-cell actions-cell">
-            ' . ui_toggle($isBanned, $toggleUrl, ['labelOn' => __('admin_unban'), 'labelOff' => __('admin_ban'), 'size' => 'md']) . '
+            ' . ui_toggle($isBanned, '/admin-players-toggle.php', ['labelOn' => __('admin_unban'), 'labelOff' => __('admin_ban'), 'size' => 'md', 'method' => 'POST', 'postBody' => $togglePostBody]) . '
           </td>
         </tr>';
       }
@@ -239,20 +239,18 @@ switch ($activeTab) {
         $scoreValue = number_format((float)$score["score"], 2);
         $dateValue = htmlspecialchars($score["updated_at"]);
         $pageParam = max(0, (int)($scoresPage ?? 0));
-        $deleteUrl = "/admin-scores-delete.php?id=$scoreId&scores_page=$pageParam";
-        $banUrl = "/admin-scores-ban-player.php?id=$scoreId&scores_page=$pageParam";
-        if ($scoresSearch) {
-          $deleteUrl .= "&scores_search=" . urlencode($scoresSearch);
-          $banUrl .= "&scores_search=" . urlencode($scoresSearch);
-        }
-        if ($currentSort !== 'date') {
-          $deleteUrl .= "&scores_sort=" . urlencode($currentSort);
-          $banUrl .= "&scores_sort=" . urlencode($currentSort);
-        }
-        if ($currentDir !== 'DESC') {
-          $deleteUrl .= "&scores_dir=" . urlencode($currentDir);
-          $banUrl .= "&scores_dir=" . urlencode($currentDir);
-        }
+        $deletePostBody = http_build_query(array_merge(
+          ['id' => $scoreId, 'scores_page' => $pageParam, 'csrf_token' => csrf_token()],
+          $scoresSearch ? ['scores_search' => $scoresSearch] : [],
+          $currentSort !== 'date' ? ['scores_sort' => $currentSort] : [],
+          $currentDir !== 'DESC' ? ['scores_dir' => $currentDir] : []
+        ));
+        $banPostBody = http_build_query(array_merge(
+          ['id' => $scoreId, 'scores_page' => $pageParam, 'csrf_token' => csrf_token()],
+          $scoresSearch ? ['scores_search' => $scoresSearch] : [],
+          $currentSort !== 'date' ? ['scores_sort' => $currentSort] : [],
+          $currentDir !== 'DESC' ? ['scores_dir' => $currentDir] : []
+        ));
 
         $html .= '<tr class="ui-table-row">
           <td class="ui-table-cell">' . $playerName . '</td>
@@ -260,10 +258,10 @@ switch ($activeTab) {
           <td class="ui-table-cell">' . $gameName . '</td>
           <td class="ui-table-cell">' . $dateValue . '</td>
           <td class="ui-table-cell actions-cell">
-            <a href="' . htmlspecialchars($deleteUrl) . '" class="admin-score-action admin-score-action--danger" data-admin-score-delete="1" data-player="' . $playerName . '" data-tippy-content="' . __('scores_action_delete') . '" aria-label="' . __('scores_action_delete') . '">
+            <a href="javascript:void(0)" class="admin-score-action admin-score-action--danger" data-post-url="/admin-scores-delete.php" data-post-body="' . htmlspecialchars($deletePostBody) . '" data-player="' . $playerName . '" data-tippy-content="' . __('scores_action_delete') . '" aria-label="' . __('scores_action_delete') . '">
               <i class="fas fa-trash"></i>
             </a>
-            <a href="' . htmlspecialchars($banUrl) . '" class="admin-score-action admin-score-action--danger" data-admin-score-ban="1" data-player="' . $playerName . '" data-game="' . $gameName . '" data-tippy-content="' . __('scores_action_ban') . '" aria-label="' . __('scores_action_ban') . '">
+            <a href="javascript:void(0)" class="admin-score-action admin-score-action--danger" data-post-url="/admin-scores-ban-player.php" data-post-body="' . htmlspecialchars($banPostBody) . '" data-player="' . $playerName . '" data-game="' . $gameName . '" data-tippy-content="' . __('scores_action_ban') . '" aria-label="' . __('scores_action_ban') . '">
               <i class="fas fa-user-times"></i>
             </a>
           </td>
@@ -308,7 +306,7 @@ switch ($activeTab) {
     $gameNames = [];
     $gameCounts = [];
     foreach ($globalScoresByGame as $row) {
-      $gameNames[] = addslashes($row["name"]);
+      $gameNames[] = $row["name"];
       $gameCounts[] = (int)$row["count"];
     }
 
@@ -318,10 +316,10 @@ switch ($activeTab) {
     $countryCountsAll = [];
     foreach ($globalCountriesList as $i => $row) {
       if (!$row["ip_country"]) continue;
-      $countryLabelsAll[] = addslashes($row["ip_country"]);
+      $countryLabelsAll[] = $row["ip_country"];
       $countryCountsAll[] = (int)$row["count"];
       if ($i < 30) {
-        $countryLabels[] = addslashes($row["ip_country"]);
+        $countryLabels[] = $row["ip_country"];
         $countryCounts[] = (int)$row["count"];
       }
     }
@@ -596,6 +594,7 @@ switch ($activeTab) {
       if ($pendingMigrateCount > 0) {
         $html .= '
         <form method="POST" action="/admin.php?tab=migrate" style="margin-top:16px">
+          ' . csrf_field() . '
           <input type="hidden" name="run" value="1">
           ' . ui_button(__('migrate_button', ['count' => $pendingMigrateCount]), 'primary', 'md', ['icon' => 'fas fa-play', 'type' => 'submit']) . '
         </form>';
@@ -608,3 +607,29 @@ switch ($activeTab) {
     echo $html;
     break;
 }
+?>
+<script>
+document.addEventListener('click', function(e) {
+  var toggle = e.target.closest('[data-ui-toggle-post]');
+  if (toggle) {
+    e.preventDefault();
+    var url = toggle.getAttribute('data-post-url');
+    var body = toggle.getAttribute('data-post-body');
+    if (url && body) {
+      fetch(url, { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: body })
+        .then(function() { location.reload(); });
+    }
+    return;
+  }
+  var action = e.target.closest('[data-post-url]');
+  if (action) {
+    e.preventDefault();
+    var url = action.getAttribute('data-post-url');
+    var body = action.getAttribute('data-post-body');
+    if (url && body) {
+      fetch(url, { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: body })
+        .then(function() { location.reload(); });
+    }
+  }
+});
+</script>

@@ -58,6 +58,8 @@ if ($activeTab === 'analytics') {
   }
 }
 
+require_once("lib/csrf.php");
+
 if (isset($_GET['ajax'])) {
   header('Content-Type: text/html; charset=utf-8');
   require "pages/game/game-tab-render.php";

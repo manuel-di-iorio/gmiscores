@@ -26,7 +26,11 @@ function toggleSecretVisibility(inputSecretEyeBtn) {
 }
 
 function regenerateSecret() {
-  location.href = "/game-regenerate-secret.php?id=<?= $game["game_id"] ?>";
+  fetch("/game-regenerate-secret.php", {
+    method: "POST",
+    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    body: "id=" + encodeURIComponent("<?= $game["game_id"] ?>") + "&csrf_token=" + encodeURIComponent("<?= csrf_token() ?>")
+  }).then(function() { location.reload(); });
 }
 
 // Ensure Tippy tooltips are initialized after DOM is ready

@@ -81,6 +81,11 @@
   --info-panel-text: #0c5460;
   --info-panel-border: #0ea5e9;
 
+  /* Warning panel */
+  --warning-panel-bg: #fff8e1;
+  --warning-panel-text: #5d4037;
+  --warning-panel-border: #ffc107;
+
   /* Sidebar */
   --border-color-sidebar: rgba(0,0,0,0.05);
   --bg-color-sidebar-footer: rgba(0,0,0,0.02);
@@ -235,6 +240,11 @@
   --info-panel-bg: #0f172a;
   --info-panel-text: #93c5fd;
   --info-panel-border: #3b82f6;
+
+  /* Warning panel */
+  --warning-panel-bg: #422006;
+  --warning-panel-text: #fcd34d;
+  --warning-panel-border: #f59e0b;
 
   /* Sidebar */
   --border-color-sidebar: #2d3142;

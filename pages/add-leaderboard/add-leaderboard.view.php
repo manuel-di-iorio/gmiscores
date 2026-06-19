@@ -1,5 +1,6 @@
 <div class="internal-page">
     <form method="POST" class="internal-card internal-card--form">
+        <?= csrf_field() ?>
         <?php if (isset($error)) { ?>
             <div style="background:#f44336;color:#fff;padding:8px 16px;border-radius:4px;margin-bottom:16px"><?= htmlspecialchars($error) ?></div>
         <?php } ?>

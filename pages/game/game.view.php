@@ -195,7 +195,7 @@ $configContent = '
         <label class="form-label" style="margin-top:16px">' . __('game_details_secret') . '</label>
         <div style="color:var(--text-muted,#666);font-size:0.875em;margin-bottom:12px">' . __('game_details_secret_help') . '</div>
         <div class="input-group">
-          <input id="input-secret" type="password" class="w-full px-3.5 py-2.5 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] disabled:bg-input-bg-disabled disabled:text-input-text-disabled disabled:cursor-not-allowed" value="' . $game["client_secret"] . '" disabled>
+          <input id="input-secret" type="password" class="w-full px-3.5 py-2.5 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] disabled:bg-input-bg-disabled disabled:text-input-text-disabled disabled:cursor-not-allowed" value="' . htmlspecialchars($game["client_secret"]) . '" disabled>
           <i class="input-regenerate-secret-btn fas fa-sync" onclick="openModal(\'modal-regenerate-secret\')" data-tippy-content="' . __('game_details_secret_regenerate_tooltip') . '"></i>
           <i class="input-secret-eye-btn fas fa-eye" onclick="toggleSecretVisibility(this)" data-tippy-content="' . __('game_details_secret_toggle_tooltip') . '"></i>
         </div>
@@ -206,6 +206,7 @@ $configContent = '
       <div class="internal-card">
         <div class="internal-card__title"><i class="fas fa-edit"></i> ' . __('game_rename_title') . '</div>
         <form method="POST" action="/game-rename.php?id=' . $gameId . '">
+          ' . csrf_field() . '
           <div class="input-group">
             <input id="input-game-name" name="name" type="text" class="w-full px-3.5 py-2.5 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] disabled:bg-input-bg-disabled disabled:text-input-text-disabled disabled:cursor-not-allowed" value="' . htmlspecialchars($game["name"]) . '" required>
           </div>
@@ -236,7 +237,7 @@ echo ui_tabs([
 <?= ui_modal('modal-regenerate-secret', [
   'title' => __('game_modal_secret_title'),
   'content' => '<p>' . __('game_modal_secret_body') . '</p>
-    <div style="background:#fff8e1;border-left:4px solid #ffc107;padding:16px;border-radius:8px;margin-top:16px">
+    <div style="background:var(--warning-panel-bg);color:var(--warning-panel-text);border-left:4px solid var(--warning-panel-border);padding:16px;border-radius:8px;margin-top:16px">
       <p><i class="fas fa-exclamation-triangle" style="margin-right:8px"></i><strong>' . __('game_modal_secret_warning_label') . '</strong> ' . __('game_modal_secret_warning') . '</p>
       <p>' . __('game_modal_secret_irreversible') . '</p>
     </div>',
@@ -256,6 +257,7 @@ echo ui_tabs([
 ]) ?>
 
 <script>
+var csrfToken = '<?= csrf_token() ?>';
 const modalGameDiv = document.getElementById('modal-game-name');
 let modalSelectedGameId;
 
@@ -269,7 +271,11 @@ function onDeleteGameModalClose() {
 }
 
 function deleteGame() {
-  location.href = "delete-game.php?id=" + modalSelectedGameId;
+  fetch("delete-game.php", {
+    method: "POST",
+    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    body: "id=" + encodeURIComponent(modalSelectedGameId) + "&csrf_token=" + encodeURIComponent(csrfToken)
+  }).then(function() { location.href = "games.php"; });
 }
 </script>
 

@@ -161,6 +161,7 @@
 
 <script>
 var importTmpFile = null;
+var csrfToken = '<?= csrf_token() ?>';
 
 document.addEventListener('DOMContentLoaded', function() {
   var fileInput = document.getElementById('file-input');
@@ -187,6 +188,7 @@ function parseCsv() {
   var formData = new FormData();
   formData.append('action', 'parse');
   formData.append('file', fileInput.files[0]);
+  formData.append('csrf_token', csrfToken);
 
   fetch('game-scores-import.php?id=<?= $gameId ?><?= $leaderboardId ? '&leaderboard_id=' . $leaderboardId : '' ?>', {
     method: 'POST',
@@ -257,6 +259,7 @@ function executeImport() {
   var formData = new FormData();
   formData.append('action', 'import');
   formData.append('tmp_file', importTmpFile);
+  formData.append('csrf_token', csrfToken);
 
   fetch('game-scores-import.php?id=<?= $gameId ?><?= $leaderboardId ? '&leaderboard_id=' . $leaderboardId : '' ?>', {
     method: 'POST',

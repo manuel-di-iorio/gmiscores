@@ -15,7 +15,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 try {
     $db = new mysqli($config["dbHost"], $config["dbUsername"], $config["dbPassword"], $config["dbDatabase"]);
 } catch (Exception $e ) {
-    api_reply_error("Error connecting to the database. " . $e->getMessage(), "DatabaseConnectionError", 500);
+    api_reply_error("Error connecting to the database.", "DatabaseConnectionError", 500);
 }
 
 $db->set_charset("utf8mb4");
@@ -47,8 +47,8 @@ if (!isset($user) && isset($_COOKIE["user"])) {
             }
         }
     } catch (Exception $e) {
-        setcookie("user", "", time() - 3600);
-        exit($e->getMessage());
+        setcookie("user", "", time() - 3600, ["httponly" => true, "samesite" => "Lax"]);
+        exit("Session error.");
     }
 }
 
@@ -77,7 +77,7 @@ function exec_query(string $sql, $params=NULL) {
         return $result;
 
     } catch (Exception $e) {
-      api_reply_error("An error occured while processing the request. " . $e->getMessage(), "InternalServerError", 500);
+      api_reply_error("An error occured while processing the request.", "InternalServerError", 500);
     }
 }
 
@@ -85,5 +85,5 @@ function exec_query(string $sql, $params=NULL) {
  * Escape a string to be rendered inside a js function call
  */
 function escapeChars(string $string) {
-    return htmlspecialchars(addslashes($string));
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 }

@@ -1,6 +1,7 @@
 <?php
 require_once("lib/db.php");
 require_once("lib/checkSession.php");
+require_once("lib/csrf.php");
 
 $isAdmin = isset($user["admin"]) && (int)$user["admin"] === 1;
 if (!$isAdmin) {
@@ -8,22 +9,24 @@ if (!$isAdmin) {
   exit;
 }
 
-if (!isset($_GET["id"])) {
+csrf_validate_request();
+
+if (!isset($_POST["id"])) {
   header("Location: admin.php");
   exit;
 }
 
-User::toggleApproved((int)$_GET["id"]);
+User::toggleApproved((int)$_POST["id"]);
 
 $params = ["tab" => "users"];
-if (!empty($_GET["search"])) {
-  $params["search"] = $_GET["search"];
+if (!empty($_POST["search"])) {
+  $params["search"] = $_POST["search"];
 }
-if (!empty($_GET["pending"])) {
-  $params["pending"] = $_GET["pending"];
+if (!empty($_POST["pending"])) {
+  $params["pending"] = $_POST["pending"];
 }
-if (!empty($_GET["page"])) {
-  $params["page"] = (int)$_GET["page"];
+if (!empty($_POST["page"])) {
+  $params["page"] = (int)$_POST["page"];
 }
 
 $query = $params ? "?" . http_build_query($params) : "";

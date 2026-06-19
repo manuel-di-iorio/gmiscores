@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . "/../lib/csrf.php");
 $pageURI = $_SERVER["REQUEST_URI"];
 $isIndexPage = basename($pageURI) === 'index.php' || $pageURI === '/'; // Check for index.php or root
 $gameNameShowBackIcon = strpos($pageURI, "/game-scores.php") === 0 || strpos($pageURI, "/game-scores-export.php") === 0 || strpos($pageURI, "/game-scores-import.php") === 0 || strpos($pageURI, "/game-bans.php") === 0 || 
@@ -56,6 +57,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     <link rel="stylesheet" href="assets/ui-kit/Skeleton/skeleton.css?v=<?= asset_version('assets/ui-kit/Skeleton/skeleton.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Table/table.css?v=<?= asset_version('assets/ui-kit/Table/table.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Paginator/paginator.css?v=<?= asset_version('assets/ui-kit/Paginator/paginator.css') ?>">
+    <link rel="stylesheet" href="assets/ui-kit/ActionsMenu/actions-menu.css?v=<?= asset_version('assets/ui-kit/ActionsMenu/actions-menu.css') ?>">
     <link rel="stylesheet" href="assets/css/cookie-banner.css?v=<?= asset_version('assets/css/cookie-banner.css') ?>">
     <link rel="stylesheet" href="assets/css/navbar.css?v=<?= asset_version('assets/css/navbar.css') ?>">
     <link rel="stylesheet" href="assets/css/layout.css?v=<?= asset_version('assets/css/layout.css') ?>">
@@ -313,6 +315,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
             <li><a href="/terms.php" class="footer-link"><?= __("footer_terms") ?></a></li>
             <li><a href="/privacy.php" class="footer-link"><?= __("footer_privacy") ?></a></li>
             <li><a href="/cookie.php" class="footer-link"><?= __("footer_cookie") ?></a></li>
+            <li><a href="https://github.com/manuel-di-iorio/gmiscores/issues" class="footer-link" target="_blank" rel="noopener noreferrer"><?= __("footer_report_issue") ?></a></li>
           </ul>
         </div>
         <div class="footer-section social">
@@ -320,6 +323,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
           <a href="https://discord.gg/85RCMD9VQD" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="fab fa-discord"></i></a>
           <a href="https://www.facebook.com/gmitalia" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
           <a href="https://twitter.com/gamemakerita" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="https://github.com/manuel-di-iorio/gmiscores" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
         </div>
       </div>
       <div class="footer-bottom">

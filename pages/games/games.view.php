@@ -98,6 +98,7 @@
 ]) ?>
 
 <script>
+  var csrfToken = '<?= csrf_token() ?>';
   const modalDivGameName = document.getElementById('modal-game-name');
   let modalSelectedGame;
 
@@ -111,7 +112,11 @@
   }
 
   function deleteGame() {
-    location.href = "delete-game.php?id=" + modalSelectedGame;
+    fetch("delete-game.php", {
+      method: "POST",
+      headers: {"Content-Type": "application/x-www-form-urlencoded"},
+      body: "id=" + encodeURIComponent(modalSelectedGame) + "&csrf_token=" + encodeURIComponent(csrfToken)
+    }).then(function() { location.reload(); });
   }
 
 </script>

@@ -2,6 +2,7 @@
 require_once("lib/db.php");
 require_once("lib/checkSession.php");
 require_once("lib/maintenance.php"); check_maintenance();
+require_once("lib/csrf.php");
 require_once("models/Team.php");
 
 if (!isset($_GET["id"])) {
@@ -18,6 +19,7 @@ if (!Team::isAdmin($teamId, $userId)) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
+  csrf_validate_request();
   $teamName = isset($_POST["name"]) ? trim($_POST["name"]) : "";
   if (!empty($teamName)) {
     Team::updateName($teamId, $userId, $teamName);
@@ -27,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === "DELETE") {
+  csrf_validate_request();
   Team::delete($teamId, $userId);
   header("Location: teams.php");
   exit;

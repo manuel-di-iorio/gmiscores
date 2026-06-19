@@ -53,21 +53,21 @@ class Leaderboard {
         return $result->fetch_assoc();
     }
 
-    public static function update(int $leaderboardId, string $name, ?string $description, bool $isPrivate = false) {
+    public static function update(int $leaderboardId, string $name, ?string $description, int $gameId, bool $isPrivate = false) {
         global $db, $dbTableLeaderboards;
 
         $name = escapeChars($name);
         $description = $description ? escapeChars($description) : null;
 
         $sql = "UPDATE $dbTableLeaderboards SET name = ?, description = ?, is_private = ?, updated_at = CURRENT_TIMESTAMP 
-                WHERE leaderboard_id = ?";
-        return exec_query($sql, ["ssii", $name, $description, $isPrivate ? 1 : 0, $leaderboardId]);
+                WHERE leaderboard_id = ? AND game_id = ?";
+        return exec_query($sql, ["ssiii", $name, $description, $isPrivate ? 1 : 0, $leaderboardId, $gameId]);
     }
 
-    public static function delete(int $leaderboardId) {
+    public static function delete(int $leaderboardId, int $gameId) {
         global $db, $dbTableLeaderboards;
-        $sql = "DELETE FROM $dbTableLeaderboards WHERE leaderboard_id = ?";
-        return exec_query($sql, ["i", $leaderboardId]);
+        $sql = "DELETE FROM $dbTableLeaderboards WHERE leaderboard_id = ? AND game_id = ?";
+        return exec_query($sql, ["ii", $leaderboardId, $gameId]);
     }
 }
 ?>

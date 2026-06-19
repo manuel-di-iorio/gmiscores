@@ -4,6 +4,7 @@ require_once("lib/checkSession.php");
 require_once("models/Game.php");
 require_once("models/Team.php");
 require_once("models/Ban.php");
+require_once("includes/table.php");
 
 // Get the game data
 if (!isset($_GET["id"])) {

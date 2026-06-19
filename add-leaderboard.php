@@ -3,6 +3,7 @@ require_once("lib/db.php");
 require_once("lib/checkSession.php");
 require_once("lib/maintenance.php"); check_maintenance();
 require_once("models/Game.php");
+require_once("lib/csrf.php");
 require_once("models/Leaderboard.php");
 
 if (!isset($_GET['game_id']) || !is_numeric($_GET['game_id'])) {
@@ -20,11 +21,14 @@ if (!$gameResult || !$gameResult->num_rows) {
 $game = $gameResult->fetch_assoc();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_validate_request();
     $name = isset($_POST['name']) ? trim($_POST['name']) : '';
     $description = isset($_POST['description']) ? trim($_POST['description']) : '';
 
     if (empty($name)) {
         $error = "Il nome è obbligatorio.";
+    } elseif (strlen($name) > 100) {
+        $error = "Il nome è troppo lungo (max 100 caratteri).";
     } else {
         $isPrivate = isset($_POST['is_private']) && $_POST['is_private'] === '1';
         Leaderboard::create($game_id, $name, $description ?: null, $user['id'], $isPrivate);

@@ -20,14 +20,14 @@ switch ($activeTab) {
     $lbNames = [];
     $lbCounts = [];
     foreach ($gameScoresByLb as $row) {
-      $lbNames[] = addslashes($row["name"]);
+      $lbNames[] = $row["name"];
       $lbCounts[] = (int)$row["count"];
     }
 
     $gameCountryLabels = [];
     $gameCountryCounts = [];
     foreach ($gameCountries as $row) {
-      $gameCountryLabels[] = addslashes($row["ip_country"]);
+      $gameCountryLabels[] = $row["ip_country"];
       $gameCountryCounts[] = (int)$row["count"];
     }
 

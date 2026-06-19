@@ -173,7 +173,7 @@ for ($i = 29; $i >= 0; $i--) {
 $gameNames = [];
 $gameCounts = [];
 foreach ($scoresByGame as $row) {
-  $gameNames[] = addslashes($row["name"]);
+  $gameNames[] = $row["name"];
   $gameCounts[] = (int)$row["count"];
 }
 
@@ -182,7 +182,7 @@ $countryCounts = [];
 foreach ($countries as $row) {
   $c = $row["ip_country"];
   if (!$c) continue;
-  $countryLabels[] = addslashes($c);
+  $countryLabels[] = $c;
   $countryCounts[] = (int)$row["count"];
 }
 ?>

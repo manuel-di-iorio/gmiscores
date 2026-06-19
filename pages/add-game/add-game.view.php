@@ -4,6 +4,7 @@
   
   <!-- Add game form -->
   <form class="internal-card internal-card--form" id="form-add-game" method="POST" onsubmit="return onSubmit()">
+    <?= csrf_field() ?>
     <div class="internal-card__title"><i class="fas fa-gamepad"></i> <?= __('add_game_title') ?></div>
     <div class="mb-4">
       <label class="block font-semibold mb-1.5 text-sm text-[var(--text-color)]" for="name"><?= __('add_game_name_label') ?></label>
@@ -39,7 +40,7 @@
 <?php } else { ?>
 <div class="internal-page">
   <div class="internal-card">
-    <?= $formError ?>
+    <?= htmlspecialchars($formError) ?>
     <?= ui_button(__('add_game_back'), 'primary', 'md', ['href' => '']) ?>
   </div>
 </div>

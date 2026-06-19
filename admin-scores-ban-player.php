@@ -1,6 +1,7 @@
 <?php
 require_once("lib/db.php");
 require_once("lib/checkSession.php");
+require_once("lib/csrf.php");
 require_once("models/Score.php");
 require_once("models/Ban.php");
 
@@ -10,11 +11,13 @@ if (!$isAdmin) {
   exit;
 }
 
-$scoreId = (int)($_GET["id"] ?? 0);
-$page = max(0, (int)($_GET["scores_page"] ?? 0));
-$search = $_GET["scores_search"] ?? null;
-$sortBy = $_GET["scores_sort"] ?? null;
-$sortDir = $_GET["scores_dir"] ?? null;
+csrf_validate_request();
+
+$scoreId = (int)($_POST["id"] ?? 0);
+$page = max(0, (int)($_POST["scores_page"] ?? 0));
+$search = $_POST["scores_search"] ?? null;
+$sortBy = $_POST["scores_sort"] ?? null;
+$sortDir = $_POST["scores_dir"] ?? null;
 $redirect = "admin.php?tab=scores&scores_page=" . $page;
 if (!empty($search)) $redirect .= "&scores_search=" . urlencode($search);
 if (!empty($sortBy)) $redirect .= "&scores_sort=" . urlencode($sortBy);
@@ -40,7 +43,7 @@ try {
   if (!$db->commit()) throw new Exception("TransactionCommitFailed");
 } catch (Exception $e) {
   $db->rollback();
-  header("Location: $redirect&error=" . urlencode($e->getMessage()));
+  header("Location: $redirect&error=" . urlencode("An error occurred."));
   exit;
 }
 
