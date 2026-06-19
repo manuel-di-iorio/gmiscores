@@ -2,11 +2,6 @@
 .team-settings-card {
   max-width: 500px;
 }
-.team-member-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
 </style>
 
 <?php

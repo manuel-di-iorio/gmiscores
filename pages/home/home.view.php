@@ -92,6 +92,12 @@
     opacity: 0.3;
   }
 
+  .empty-state .ui-btn i {
+    font-size: 1em;
+    margin-bottom: 0;
+    opacity: 1;
+  }
+
   .empty-state h3 {
     font-size: 1.2em;
     font-weight: 600;
@@ -115,9 +121,7 @@
     <h3><?= __('home_empty_title') ?></h3>
     <p><?= __('home_empty_desc') ?></p>
     <div style="margin-top:20px">
-      <a href="add-game.php" class="CtaButton CtaButton--primary" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;text-decoration:none;border-radius:12px;font-weight:600;">
-        <i class="fas fa-plus"></i> <?= __('home_empty_cta') ?>
-      </a>
+      <?= ui_button(__('home_empty_cta'), 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-game.php']) ?>
     </div>
   </div>
 <?php } else { ?>

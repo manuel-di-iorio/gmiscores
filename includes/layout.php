@@ -39,7 +39,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     <meta property="og:image" content="<?= $config["logo"] ?>">
     <meta property="og:image:width" content="<?= $config["logoWidth"] ?>">
     <meta property="og:image:height" content="<?= $config["logoHeight"] ?>">
-    <meta property="og:site_name" content="<?= __("site_name") ?>">
+    <meta property="og:site_name" content="<?= $config["platformTitle"] ?>">
 
     <!-- Style -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">

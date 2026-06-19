@@ -1,6 +1,5 @@
 {
   "html_lang": "de",
-  "site_name": "GMI Scores",
   "cookie_banner_text": "Diese Seite verwendet nur technische Cookies, um Ihnen die beste Erfahrung zu gew\u00e4hrleisten. Wir verwenden keine Cookies von Drittanbietern.",
   "cookie_banner_link": "Mehr Informationen",
   "cookie_banner_accept": "Ok",
@@ -558,7 +557,7 @@
   "teams_empty_title": "Du bist Mitglied in keinem Team",
   "teams_empty_desc": "Erstelle ein Team, um mit anderen Entwicklern zusammenzuarbeiten.",
   "teams_empty_btn": "Team erstellen",
-  "team_tab_config": "Einstellungen",
+  "team_tab_config": "Konfiguration",
   "team_tab_members": "Mitglieder",
   "team_tab_games": "Spiele",
   "team_settings_title": "Team-Einstellungen",
@@ -572,7 +571,7 @@
   "team_settings_delete_confirm": "Team löschen",
   "team_members_title": "Team-Mitglieder",
   "team_members_add_title": "Mitglied hinzufügen",
-  "team_members_add_note": "Der Benutzer muss sich mindestens einmal bei GMI Scores angemeldet haben.",
+  "team_members_add_note": "Der Benutzer muss sich mindestens einmal bei {site} angemeldet haben.",
   "team_members_add_discord_id": "Discord-ID",
   "team_members_add_role": "Rolle",
   "team_members_add_submit": "Hinzufügen",
@@ -585,7 +584,6 @@
   "team_games_move_title": "Spiel verschieben",
   "team_games_move_to": "Verschieben nach",
   "team_games_move_personal": "Persönlich",
-  "team_games_move_submit": "Verschieben",
   "team_games_move_confirm": "Spiel verschieben",
   "team_selector_label": "Team",
   "team_selector_personal": "Persönlich"

@@ -1,7 +1,15 @@
 <?php
 switch ($activeTab) {
   case 'config':
-    $html = '<div class="team-settings-card">
+    $html = '';
+
+    if ($isTeamAdmin) {
+      $html .= '<div class="internal-actions internal-actions--right" style="margin-bottom:20px">
+        ' . ui_button(__('team_settings_delete'), 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => "openModal('modal-delete-team')"]]) . '
+      </div>';
+    }
+
+    $html .= '<div class="team-settings-card">
       <div class="internal-card">
         <div class="internal-card__title"><i class="fas fa-edit"></i> ' . __('team_settings_title') . '</div>
         <form method="POST" action="/team-settings.php?id=' . $teamId . '">
@@ -11,17 +19,8 @@ switch ($activeTab) {
           </div>
           ' . ui_button(__('team_settings_save'), 'primary', 'md', ['icon' => 'fa fa-edit', 'type' => 'submit', 'class' => 'mt-2']) . '
         </form>
-      </div>';
-
-    if ($isTeamAdmin) {
-      $html .= '<div class="internal-card" style="margin-top:16px;border-color:rgba(220,38,38,0.3)">
-        <div class="internal-card__title" style="color:#dc2626"><i class="fas fa-trash" style="color:#dc2626"></i> ' . __('team_settings_delete') . '</div>
-        <p style="color:var(--text-color-secondary,#6b7280);margin-bottom:12px">' . __('team_settings_delete_warning') . '</p>
-        ' . ui_button(__('team_settings_delete'), 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => "openModal('modal-delete-team')"]]) . '
-      </div>';
-    }
-
-    $html .= '</div>';
+      </div>
+    </div>';
     echo $html;
     break;
 
@@ -31,7 +30,7 @@ switch ($activeTab) {
     if ($isTeamAdmin) {
       $html .= '<div class="internal-card" style="margin-bottom:20px">
         <div class="internal-card__title"><i class="fas fa-user-plus"></i> ' . __('team_members_add_title') . '</div>
-        <p style="color:var(--text-color-secondary,#6b7280);font-size:0.875em;margin:0 0 16px">' . __('team_members_add_note') . '</p>
+        <p style="color:var(--text-color-secondary,#6b7280);font-size:0.875em;margin:0 0 16px">' . __('team_members_add_note', ['site' => $config['platformTitle']]) . '</p>
         <form method="POST" action="/team-members.php?id=' . $teamId . '" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
           <div style="flex:1;min-width:200px">
             <label style="display:block;font-weight:600;margin-bottom:8px;color:var(--text-color-headings,#444)">' . __('team_members_add_discord_id') . '</label>

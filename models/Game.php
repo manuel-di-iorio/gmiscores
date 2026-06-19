@@ -157,6 +157,13 @@ class Game {
     return $result->fetch_assoc()["count"] ?? 0;
   }
 
+  public static function countByTeamId(int $teamId) {
+    global $dbTableGames;
+    $sql = "SELECT COUNT(game_id) AS count FROM $dbTableGames WHERE team_id = ?";
+    $result = exec_query($sql, ["i", $teamId]);
+    return $result->fetch_assoc()["count"] ?? 0;
+  }
+
   public static function getLeaderboardCountByGame(int $gameId) {
     global $dbTableLeaderboards;
     $sql = "SELECT COUNT(leaderboard_id) AS count FROM $dbTableLeaderboards WHERE game_id = ?";

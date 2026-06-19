@@ -499,6 +499,66 @@ class Score {
     return exec_query($sql, ["i", $userId]);
   }
 
+  public static function countByTeam(int $teamId) {
+    global $dbTableScores;
+    global $dbTableGames;
+    $sql = "SELECT COUNT(S.score_id) AS count FROM $dbTableScores S
+            INNER JOIN $dbTableGames G ON S.game_id = G.game_id
+            WHERE G.team_id = ? AND S.env = 'production'";
+    $result = exec_query($sql, ["i", $teamId]);
+    return $result->fetch_assoc()["count"] ?? 0;
+  }
+
+  public static function countByTeamToday(int $teamId) {
+    global $dbTableScores;
+    global $dbTableGames;
+    $sql = "SELECT COUNT(S.score_id) AS count FROM $dbTableScores S
+            INNER JOIN $dbTableGames G ON S.game_id = G.game_id
+            WHERE G.team_id = ? AND S.env = 'production' AND DATE(COALESCE(S.updated_at, S.created_at)) = CURDATE()";
+    $result = exec_query($sql, ["i", $teamId]);
+    return $result->fetch_assoc()["count"] ?? 0;
+  }
+
+  public static function getUniquePlayersByTeam(int $teamId) {
+    global $dbTableScores;
+    global $dbTableGames;
+    $sql = "SELECT COUNT(DISTINCT S.player_id) AS count FROM $dbTableScores S
+            INNER JOIN $dbTableGames G ON S.game_id = G.game_id
+            WHERE G.team_id = ? AND S.env = 'production'";
+    $result = exec_query($sql, ["i", $teamId]);
+    return $result->fetch_assoc()["count"] ?? 0;
+  }
+
+  public static function getCountriesByTeam(int $teamId) {
+    global $dbTableScores;
+    global $dbTableGames;
+    $sql = "SELECT S.ip_country, COUNT(*) AS count FROM $dbTableScores S
+            INNER JOIN $dbTableGames G ON S.game_id = G.game_id
+            WHERE G.team_id = ? AND S.env = 'production' AND S.ip_country IS NOT NULL AND S.ip_country != ''
+            GROUP BY S.ip_country ORDER BY count DESC";
+    return exec_query($sql, ["i", $teamId]);
+  }
+
+  public static function getScoresPerDayByTeam(int $teamId, int $days = 30) {
+    global $dbTableScores;
+    global $dbTableGames;
+    $sql = "SELECT DATE(COALESCE(S.updated_at, S.created_at)) AS day, COUNT(*) AS count FROM $dbTableScores S
+            INNER JOIN $dbTableGames G ON S.game_id = G.game_id
+            WHERE G.team_id = ? AND S.env = 'production' AND COALESCE(S.updated_at, S.created_at) >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+            GROUP BY DATE(COALESCE(S.updated_at, S.created_at)) ORDER BY day ASC";
+    return exec_query($sql, ["ii", $teamId, $days]);
+  }
+
+  public static function getScoresByGameByTeam(int $teamId) {
+    global $dbTableScores;
+    global $dbTableGames;
+    $sql = "SELECT G.name, G.game_id, COUNT(S.score_id) AS count FROM $dbTableScores S
+            INNER JOIN $dbTableGames G ON S.game_id = G.game_id
+            WHERE G.team_id = ? AND S.env = 'production'
+            GROUP BY G.game_id ORDER BY count DESC";
+    return exec_query($sql, ["i", $teamId]);
+  }
+
   public static function getCountriesByGame(int $gameId) {
     global $dbTableScores;
     $sql = "SELECT S.ip_country, COUNT(*) AS count FROM $dbTableScores S
