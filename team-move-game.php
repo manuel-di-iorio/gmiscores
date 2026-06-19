@@ -35,10 +35,15 @@ if (!$gameResult || !$gameResult->num_rows) {
 $game = $gameResult->fetch_assoc();
 $currentTeamId = $game["team_id"];
 
+if ($currentTeamId !== null && !Team::isAdmin($currentTeamId, $userId)) {
+  header("Location: team.php?id=$currentTeamId&tab=games");
+  exit;
+}
+
 $userTeams = [];
 $teamsResult = Team::listByUser($userId);
 while ($row = $teamsResult->fetch_assoc()) {
-  if ($row["team_id"] != $currentTeamId) {
+  if ($row["team_id"] != $currentTeamId && Team::isAdmin($row["team_id"], $userId)) {
     $userTeams[] = $row;
   }
 }

@@ -177,7 +177,7 @@ $configContent = '
           <label class="form-label mb-1.5 text-xs uppercase tracking-wide text-text-secondary">' . __('team_selector_label') . '</label>
           <div class="flex items-center justify-between">
             <span class="flex items-center gap-2 font-semibold text-text-headings"><i class="fas fa-users text-primary-color"></i>' . htmlspecialchars($gameTeam["name"]) . '</span>
-            ' . ui_button(__('team_games_move'), 'secondary', 'sm', ['icon' => 'fas fa-exchange-alt', 'href' => 'team-move-game.php?id=' . $gameId]) . '
+            ' . ($isTeamAdmin ? ui_button(__('team_games_move'), 'secondary', 'sm', ['icon' => 'fas fa-exchange-alt', 'href' => 'team-move-game.php?id=' . $gameId]) : '') . '
           </div>
         </div>' : '<div class="mb-4 p-3 rounded-lg border border-border-color bg-surface-offset">
           <label class="form-label mb-1.5 text-xs uppercase tracking-wide text-text-secondary">' . __('team_selector_label') . '</label>

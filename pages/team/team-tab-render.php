@@ -103,6 +103,12 @@ switch ($activeTab) {
     $html = '';
     $nameValue = htmlspecialchars($_GET['name'] ?? '');
 
+    if ($isTeamAdmin) {
+      $html .= '<div class="internal-actions internal-actions--right" style="margin-bottom:20px">
+        ' . ui_button(__('add_game_submit'), 'primary', 'md', ['icon' => 'fas fa-plus-circle', 'href' => 'add-game.php']) . '
+      </div>';
+    }
+
     $html .= '<form method="GET" action="/team.php" class="bg-surface-card border border-solid border-border-color rounded-lg p-3 shadow-sm mb-4">
       <input type="hidden" name="id" value="' . $teamId . '">
       <input type="hidden" name="tab" value="games">
@@ -141,15 +147,18 @@ switch ($activeTab) {
           },
           "class" => "btn-link"
         ],
-        [
+      ];
+
+      if ($isTeamAdmin) {
+        $tableActions[] = [
           "label" => __('team_games_move'),
           "icon" => "fas fa-exchange-alt",
           "url" => function ($data) {
             return "team-move-game.php?id={$data['game_id']}";
           },
           "class" => "btn-link"
-        ],
-      ];
+        ];
+      }
 
       $tableOptions = [
         "table_class" => "ui-table",

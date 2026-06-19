@@ -23,9 +23,11 @@ $gameId = $game["game_id"];
 $gameTeamId = $game["team_id"];
 
 $gameTeam = null;
+$isTeamAdmin = false;
 if ($gameTeamId !== null) {
   require_once("models/Team.php");
   $gameTeam = Team::getById($gameTeamId);
+  $isTeamAdmin = Team::isAdmin($gameTeamId, $user["id"]);
 }
 
 $activeTab = $_GET["tab"] ?? "config";

@@ -7,7 +7,7 @@
  $selectedTeamId = isset($_COOKIE['selected_team_id']) && $_COOKIE['selected_team_id'] !== '' ? (int)$_COOKIE['selected_team_id'] : null;
  if ($selectedTeamId !== null) {
    require_once("models/Team.php");
-   if (!Team::isMember($selectedTeamId, $user["id"])) {
+   if (!Team::isMember($selectedTeamId, $user["id"]) || !Team::isAdmin($selectedTeamId, $user["id"])) {
      $selectedTeamId = null;
    }
  }
