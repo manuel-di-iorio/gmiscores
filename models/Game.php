@@ -152,7 +152,7 @@ class Game {
 
   public static function countByUser(int $userId) {
     global $dbTableGames;
-    $sql = "SELECT COUNT(game_id) AS count FROM $dbTableGames WHERE user_id = ?";
+    $sql = "SELECT COUNT(game_id) AS count FROM $dbTableGames WHERE user_id = ? AND team_id IS NULL";
     $result = exec_query($sql, ["i", $userId]);
     return $result->fetch_assoc()["count"] ?? 0;
   }
