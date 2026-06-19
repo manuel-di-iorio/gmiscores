@@ -27,7 +27,7 @@ $gameId = (int)$_GET["id"];
 $leaderboardId = (int)$_POST["leaderboard_id"];
 $score = (float)$_POST["score"];
 $sign = isset($_POST["sign"]) ? $_POST["sign"] : NULL;
-$tags = isset($_POST["tags"]) ? (string)$_POST["tags"] : "default";
+$tags = isset($_POST["tags"]) && $_POST["tags"] !== '' ? (string)$_POST["tags"] : NULL;
 $insertMode = $_POST["insertMode"];
 $playerName = $_POST["player"];
 $data = isset($_POST["data"]) ? $_POST["data"] : NULL;

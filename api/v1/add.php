@@ -30,15 +30,13 @@ $playerNameEncoded = $_POST["player"];
 $playerName = base64_decode($playerNameEncoded);
 $clientHash = $_POST["hash"];
 $sign = isset($_POST["sign"]) ? $_POST["sign"] : NULL;
-$tags = isset($_POST["tags"]) ? (string)$_POST["tags"] : "default";
+$tags = isset($_POST["tags"]) && $_POST["tags"] !== '' ? (string)$_POST["tags"] : NULL;
 $insertMode = isset($_POST["insertMode"]) ? $_POST["insertMode"] : "higher";
 if ($insertMode === "all") $insertMode = "higher";
 $data = isset($_POST["data"]) ? (string)$_POST["data"] : NULL;
 $minScore = isset($_POST["minScore"]) ? (float)$_POST["minScore"] : NULL;
 $maxScore = isset($_POST["maxScore"]) ? (float)$_POST["maxScore"] : NULL;
 $env = isset($_POST["env"]) && $_POST["env"] === "test" ? "test" : "production";
-
-if ($tags === "0") $tags = "default";
 
 // leaderboard_id: INT (new client) or tag string (old client)
 $leaderboardId = NULL;

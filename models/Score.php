@@ -2,7 +2,7 @@
 
 class Score {
   public static function create(int $gameId, int $playerId, float $score, ?string $ip = NULL, ?string $country = NULL,
-  ?string $createdAt = NULL, ?string $sign = NULL, ?int $leaderboardId = NULL, string $tags = 'default', ?string $data = NULL,
+  ?string $createdAt = NULL, ?string $sign = NULL, ?int $leaderboardId = NULL, ?string $tags = NULL, ?string $data = NULL,
   string $env = 'production') {
     global $dbTableScores;
     global $db;

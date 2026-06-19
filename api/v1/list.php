@@ -17,7 +17,7 @@ if (!isset($_GET["game"])) {
 check_rate_limit('get_scores', 60, 60);
 
 $gameId = (int)$_GET["game"];
-$tags = isset($_GET["tags"]) ? (string)$_GET["tags"] : "default";
+$tags = isset($_GET["tags"]) && $_GET["tags"] !== '' ? (string)$_GET["tags"] : NULL;
 $page = isset($_GET["page"]) ? max(0, (int)$_GET["page"]) : 0;
 $limit = isset($_GET["limit"]) ? max(0, min(1000, (int)$_GET["limit"])) : 10;
 $order = isset($_GET["order"]) && strtoupper($_GET["order"]) === "ASC" ? "ASC" : "DESC";
@@ -26,8 +26,6 @@ $endTime = isset($_GET["endTime"]) ? $_GET["endTime"] : NULL;
 $playerIdOrName = isset($_GET["player"]) ? $_GET["player"] : NULL;
 $includePlayer = isset($_GET["includePlayer"]) ? $_GET["includePlayer"] : NULL;
 $env = isset($_GET["env"]) ? $_GET["env"] : "production";
-
-if ($tags === "0") $tags = "default";
 
 // leaderboard_id: INT (new client) or tag string (old client)
 $leaderboardId = NULL;
