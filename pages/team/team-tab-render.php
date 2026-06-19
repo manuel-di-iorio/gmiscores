@@ -102,14 +102,22 @@ switch ($activeTab) {
 
   case 'games':
     $html = '';
+    $nameValue = htmlspecialchars($_GET['name'] ?? '');
 
-    $filters = [
-      ['name' => 'name', 'label' => __('games_filter_name'), 'type' => 'text', 'placeholder' => __('games_filter_placeholder')]
-    ];
-
-    ob_start();
-    render_table_filters($filters, ['action' => '/team.php?id=' . $teamId . '&tab=games']);
-    $html .= ob_get_clean();
+    $html .= '<form method="GET" action="/team.php" class="bg-surface-card border border-solid border-border-color rounded-lg p-3 shadow-sm mb-4">
+      <input type="hidden" name="id" value="' . $teamId . '">
+      <input type="hidden" name="tab" value="games">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div>
+          <label class="font-semibold text-sm text-[var(--text-color)] block mb-1.5">' . __('games_filter_name') . '</label>
+          <input type="text" name="name" value="' . $nameValue . '" placeholder="' . __('games_filter_placeholder') . '" class="w-full px-3.5 py-2 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] h-10">
+        </div>
+        <div class="flex items-end gap-5">
+          ' . ui_button(__('filter_apply'), 'primary', 'md', ['type' => 'submit']) . '
+          ' . ($nameValue ? ui_button(__('filter_reset'), 'secondary', 'md', ['icon' => 'fas fa-times', 'href' => '/team.php?id=' . $teamId . '&tab=games']) : '') . '
+        </div>
+      </div>
+    </form>';
 
     if (!empty($games)) {
       $tableColumns = [
@@ -156,7 +164,7 @@ switch ($activeTab) {
     } else {
       $hasFilter = isset($_GET['name']) && trim($_GET['name']) !== '';
       if ($hasFilter) {
-        $html .= '<div class="internal-empty"><i class="fas fa-search"></i><h4>' . __('games_empty_filter_title') . '</h4><p>' . __('games_empty_filter_desc') . '</p>' . ui_button(__('games_empty_filter_btn'), 'primary', 'md', ['href' => htmlspecialchars($_SERVER['PHP_SELF'] . '?id=' . $teamId . '&tab=games')]) . '</div>';
+        $html .= '<div class="internal-empty"><i class="fas fa-search"></i><h4>' . __('games_empty_filter_title') . '</h4><p>' . __('games_empty_filter_desc') . '</p>' . ui_button(__('games_empty_filter_btn'), 'primary', 'md', ['href' => '/team.php?id=' . $teamId . '&tab=games']) . '</div>';
       } else {
         $html .= '<div class="internal-empty"><i class="fas fa-gamepad"></i><h4>' . __('team_games_empty') . '</h4></div>';
       }

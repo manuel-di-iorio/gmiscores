@@ -22,6 +22,7 @@ function render_table_filters(array $fields, array $options = []) {
 
     foreach ($_GET as $k => $v) {
         if (in_array($k, $exclude, true)) continue;
+        if ($formAction && in_array($k, ['id', 'tab'])) continue;
         if (is_array($v)) {
             foreach ($v as $sub) {
                 echo '<input type="hidden" name="' . htmlspecialchars($k) . '[]" value="' . htmlspecialchars($sub) . '">';
@@ -80,7 +81,7 @@ function render_table_filters(array $fields, array $options = []) {
             }
         }
         $resetUrl = ($formAction ?: $_SERVER['PHP_SELF']) . (count($resetParams) ? ('?' . http_build_query($resetParams)) : '');
-        echo '<a href="' . htmlspecialchars($resetUrl) . '" class="text-sm text-[var(--text-color)] no-underline self-center transition-colors duration-150 hover:text-[var(--primary-color)]">' . __('filter_reset') . '</a>';
+        echo ui_button(__('filter_reset'), 'secondary', 'md', ['icon' => 'fas fa-times', 'href' => $resetUrl]);
     }
 
     echo '</div>';

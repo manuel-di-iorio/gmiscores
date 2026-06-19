@@ -48,8 +48,9 @@
 #navbar .LogoContainer {
   text-align: center;
   padding: 25px 15px;
+  height: 91px;
+  box-sizing: border-box;
   border-bottom: 1px solid var(--navbar-border-color, #334155);
-  margin-bottom: 10px;
   position: sticky;
   top: 0;
   z-index: 2;
