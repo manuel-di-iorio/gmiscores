@@ -15,8 +15,9 @@ function render_table_filters(array $fields, array $options = []) {
     $filterNames = array_map(function($f){ return $f['name']; }, $fields);
     $exclude = array_merge($filterNames, ['page']);
     $resetPreserve = $options['reset_preserve'] ?? ['id', 'sort', 'dir'];
+    $formAction = $options['action'] ?? '';
 
-    echo '<form method="GET" class="bg-surface-card border border-solid border-border-color rounded-lg p-3 shadow-sm mb-4">';
+    echo '<form method="GET"' . ($formAction ? ' action="' . htmlspecialchars($formAction) . '"' : '') . ' class="bg-surface-card border border-solid border-border-color rounded-lg p-3 shadow-sm mb-4">';
     echo '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">';
 
     foreach ($_GET as $k => $v) {
@@ -78,7 +79,7 @@ function render_table_filters(array $fields, array $options = []) {
                 $resetParams[$k] = $_GET[$k];
             }
         }
-        $resetUrl = $_SERVER['PHP_SELF'] . (count($resetParams) ? ('?' . http_build_query($resetParams)) : '');
+        $resetUrl = ($formAction ?: $_SERVER['PHP_SELF']) . (count($resetParams) ? ('?' . http_build_query($resetParams)) : '');
         echo '<a href="' . htmlspecialchars($resetUrl) . '" class="text-sm text-[var(--text-color)] no-underline self-center transition-colors duration-150 hover:text-[var(--primary-color)]">' . __('filter_reset') . '</a>';
     }
 

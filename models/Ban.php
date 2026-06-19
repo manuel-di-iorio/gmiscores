@@ -16,13 +16,15 @@ class Ban {
   public static function getByIdAndUser(int $banId, int $userId) {
     global $dbTableBans;
     global $dbTableGames;
+    global $dbTableTeamMembers;
 
     $sql = "SELECT B.game_id
             FROM $dbTableBans AS B
-            LEFT JOIN $dbTableGames AS G ON B.game_id=G.game_id AND G.user_id=?
-            WHERE B.ban_id=?";
+            INNER JOIN $dbTableGames AS G ON B.game_id=G.game_id
+            LEFT JOIN $dbTableTeamMembers TM ON G.team_id = TM.team_id AND TM.user_id=?
+            WHERE B.ban_id=? AND (G.user_id=? OR TM.id IS NOT NULL)";
 
-    return exec_query($sql, [ "ii", $userId, $banId ]);
+    return exec_query($sql, [ "iii", $userId, $banId, $userId ]);
   }
 
   /**

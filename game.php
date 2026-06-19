@@ -13,17 +13,23 @@ if (!isset($_GET["id"])) {
   exit;
 }
 
-$gameResult = Game::getByIdAndUser((int)$_GET["id"], $user["id"]);
-if (!$gameResult->num_rows) {
+$gameResult = Game::getByIdWithAccess((int)$_GET["id"], $user["id"]);
+if (!$gameResult || !$gameResult->num_rows) {
   header("Location: games.php");
   exit;
 }
 $game = $gameResult->fetch_assoc();
 $gameId = $game["game_id"];
+$gameTeamId = $game["team_id"];
+
+$gameTeam = null;
+if ($gameTeamId !== null) {
+  require_once("models/Team.php");
+  $gameTeam = Team::getById($gameTeamId);
+}
 
 $activeTab = $_GET["tab"] ?? "config";
 
-// Load only the active tab's data
 if ($activeTab === 'analytics') {
   $gameScoresResult = Score::countByGame($gameId, ['env' => 'production']);
   $gameTotalScores = $gameScoresResult->fetch_assoc()["count"] ?? 0;
@@ -50,7 +56,6 @@ if ($activeTab === 'analytics') {
   }
 }
 
-// AJAX mode
 if (isset($_GET['ajax'])) {
   header('Content-Type: text/html; charset=utf-8');
   require "pages/game/game-tab-render.php";

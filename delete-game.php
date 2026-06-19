@@ -5,7 +5,7 @@ require_once("lib/maintenance.php"); check_maintenance();
 require_once("models/Game.php");
 
 if (isset($_GET["id"])) {
-  Game::delete((int)$_GET["id"], $user["id"]);
+  Game::deleteWithAccess((int)$_GET["id"], $user["id"]);
 }
 
 header("Location: games.php");

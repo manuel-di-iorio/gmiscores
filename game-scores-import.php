@@ -3,6 +3,7 @@ require_once("lib/db.php");
 require_once("lib/checkSession.php");
 require_once("lib/maintenance.php"); check_maintenance();
 require_once("models/Game.php");
+require_once("models/Team.php");
 require_once("models/Player.php");
 require_once("models/Score.php");
 require_once("models/Leaderboard.php");
@@ -16,8 +17,8 @@ $leaderboardId = isset($_GET["leaderboard_id"]) ? (int)$_GET["leaderboard_id"] :
 $file = $_FILES["file"];
 $userId = $user["id"];
 
-$result = Game::getByIdAndUser($gameId, $userId);
-if (!$result->num_rows) {
+$result = Game::getByIdWithAccess($gameId, $userId);
+if (!$result || !$result->num_rows) {
   header("Location: games.php");
   exit;
 }

@@ -161,7 +161,6 @@
 </style>
 
 <?php
-// Configuration tab content
 $configContent = '
   <div class="internal-actions internal-actions--right" style="margin-bottom:20px">
     ' . ui_button(__('game_tab_leaderboards'), 'primary', 'md', ['icon' => 'fas fa-trophy', 'href' => 'leaderboards.php?game_id=' . $gameId]) . '
@@ -173,6 +172,21 @@ $configContent = '
     <div style="flex:1;min-width:300px">
       <div class="internal-card">
         <div class="internal-card__title"><i class="fas fa-cog"></i> ' . __('game_details_title') . '</div>
+
+        ' . ($gameTeam ? '<div class="mb-4 p-3 rounded-lg border border-primary-color/20 bg-primary-color/5">
+          <label class="form-label mb-1.5 text-xs uppercase tracking-wide text-text-secondary">' . __('team_selector_label') . '</label>
+          <div class="flex items-center justify-between">
+            <span class="flex items-center gap-2 font-semibold text-text-headings"><i class="fas fa-users text-primary-color"></i>' . htmlspecialchars($gameTeam["name"]) . '</span>
+            ' . ui_button(__('team_games_move'), 'secondary', 'sm', ['icon' => 'fas fa-exchange-alt', 'href' => 'team-move-game.php?id=' . $gameId]) . '
+          </div>
+        </div>' : '<div class="mb-4 p-3 rounded-lg border border-border-color bg-surface-offset">
+          <label class="form-label mb-1.5 text-xs uppercase tracking-wide text-text-secondary">' . __('team_selector_label') . '</label>
+          <div class="flex items-center justify-between">
+            <span class="flex items-center gap-2 text-text-secondary"><i class="fas fa-user"></i>' . __('team_selector_personal') . '</span>
+            ' . ui_button(__('team_games_move'), 'secondary', 'sm', ['icon' => 'fas fa-exchange-alt', 'href' => 'team-move-game.php?id=' . $gameId]) . '
+          </div>
+        </div>') . '
+
         <label class="form-label">' . __('game_details_id') . '</label>
         <div class="input-group">
           <input id="input-gameid" class="w-full px-3.5 py-2.5 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] disabled:bg-input-bg-disabled disabled:text-input-text-disabled disabled:cursor-not-allowed" value="' . $gameId . '" disabled style="background:var(--bg-color-sidebar,#f0f0f0)!important">

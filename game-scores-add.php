@@ -4,6 +4,7 @@ require_once("lib/insertScore.php");
 require_once("lib/checkSession.php");
 require_once("lib/maintenance.php"); check_maintenance();
 require_once("models/Game.php");
+require_once("models/Team.php");
 require_once("models/Score.php");
 require_once("models/Player.php");
 require_once("models/Leaderboard.php");
@@ -37,8 +38,8 @@ $env = isset($_POST["env"]) && $_POST["env"] === "test" ? "test" : "production";
 if (empty($sign)) $sign = NULL;
 if (empty($data)) $data = NULL;
 
-$result = Game::getByIdAndUser($gameId, $userId);
-if (!$result->num_rows) {
+$result = Game::getByIdWithAccess($gameId, $userId);
+if (!$result || !$result->num_rows) {
   header("Location: games.php");
   exit;
 }

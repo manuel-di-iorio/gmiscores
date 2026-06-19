@@ -2,6 +2,7 @@
 require_once("lib/db.php");
 require_once("lib/checkSession.php");
 require_once("models/Game.php");
+require_once("models/Team.php");
 require_once("models/Score.php");
 require_once("models/Leaderboard.php");
 require_once("includes/table.php");
@@ -12,12 +13,12 @@ if (!isset($_GET["id"])) {
 }
 
 $gameId = (int)$_GET["id"];
-$result = Game::getByIdAndUser($gameId, $user["id"]);
-if (!$result->num_rows) {
+$gameResult = Game::getByIdWithAccess($gameId, $user["id"]);
+if (!$gameResult || !$gameResult->num_rows) {
   header("Location: games.php");
   exit;
 }
-$game = $result->fetch_assoc();
+$game = $gameResult->fetch_assoc();
 
 // Require leaderboard_id
 if (!isset($_GET["leaderboard_id"]) || !is_numeric($_GET["leaderboard_id"])) {

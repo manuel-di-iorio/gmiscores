@@ -4,7 +4,6 @@ require_once("lib/checkSession.php");
 require_once("lib/maintenance.php"); check_maintenance();
 require_once("models/Game.php");
 
-// Input validation
 if ($_SERVER['REQUEST_METHOD'] !== "POST") {
   api_reply_error("Request method not allowed", "MethodNotAllowed", 405);
 }
@@ -22,6 +21,6 @@ if (strlen($name) == 0) {
   exit;
 }
 
-Game::rename($gameId, $user["id"], $name);
+Game::renameWithAccess($gameId, $user["id"], $name);
 
 header("Location: game.php?id=" . $gameId);

@@ -17,13 +17,13 @@ if (!$lb) {
     exit;
 }
 
-// Verify ownership through the game
-$game = Game::getByIdAndUser($lb['game_id'], $user['id']);
-if (!$game) {
+require_once("models/Team.php");
+$gameResult = Game::getByIdWithAccess($lb['game_id'], $user['id']);
+if (!$gameResult || !$gameResult->num_rows) {
     header("Location: games.php?error=" . urlencode("Non autorizzato."));
     exit;
 }
-$game = $game->fetch_assoc();
+$game = $gameResult->fetch_assoc();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = isset($_POST['name']) ? trim($_POST['name']) : '';

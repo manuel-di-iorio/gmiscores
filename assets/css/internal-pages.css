@@ -123,6 +123,14 @@
   opacity: 0.35;
 }
 
+.internal-empty .internal-empty-btn i,
+.internal-empty .ui-btn i {
+  color: inherit;
+  opacity: 1;
+  font-size: 1em;
+  margin-bottom: 0;
+}
+
 .internal-empty h4 {
   margin: 0 0 8px;
   color: var(--text-color-headings, #333);
@@ -207,4 +215,27 @@ textarea.internal-input {
   .internal-actions {
     gap: 8px;
   }
+}
+
+.admin-score-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: var(--table-action-icon-color, #555);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+
+.admin-score-action:hover {
+  background: var(--table-action-icon-hover-bg, rgba(99,102,241,0.08));
+  color: var(--primary-color, #6366f1);
+  transform: translateY(-1px);
+}
+
+.admin-score-action--danger:hover {
+  color: #dc2626;
+  background: rgba(220,38,38,0.08);
 }

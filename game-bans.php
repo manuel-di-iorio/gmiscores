@@ -2,6 +2,7 @@
 require_once("lib/db.php");
 require_once("lib/checkSession.php");
 require_once("models/Game.php");
+require_once("models/Team.php");
 require_once("models/Ban.php");
 
 // Get the game data
@@ -9,8 +10,8 @@ if (!isset($_GET["id"])) {
   header("Location: games.php");
 }
 $gameId = (int)$_GET["id"];
-$result = Game::getByIdAndUser($gameId, $user["id"]);
-if (!$result->num_rows) {
+$result = Game::getByIdWithAccess($gameId, $user["id"]);
+if (!$result || !$result->num_rows) {
   header("Location: games.php");
 }
 $game = $result->fetch_assoc();

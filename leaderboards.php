@@ -11,13 +11,14 @@ if (!isset($_GET['game_id']) || !is_numeric($_GET['game_id'])) {
 }
 
 $game_id = (int)$_GET['game_id'];
-$game = Game::getByIdAndUser($game_id, $user['id']);
+require_once("models/Team.php");
+$gameResult = Game::getByIdWithAccess($game_id, $user['id']);
 
-if (!$game) {
+if (!$gameResult || !$gameResult->num_rows) {
     header("Location: games.php?error=" . urlencode("Gioco non trovato o non autorizzato."));
     exit;
 }
-$game = $game->fetch_assoc();
+$game = $gameResult->fetch_assoc();
 
 // Handle delete action
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {

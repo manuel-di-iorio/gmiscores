@@ -220,18 +220,20 @@ class Score {
   public static function delete(int $scoreId, int $userId) {
     global $dbTableScores;
     global $dbTableGames;
+    global $dbTableTeamMembers;
     
     $sql = "DELETE S FROM $dbTableScores AS S
-            INNER JOIN $dbTableGames AS G
-            ON S.game_id = G.game_id AND G.user_id = ?
-            WHERE S.score_id = ?";
+            INNER JOIN $dbTableGames AS G ON S.game_id = G.game_id
+            LEFT JOIN $dbTableTeamMembers TM ON G.team_id = TM.team_id AND TM.user_id = ?
+            WHERE S.score_id = ? AND (G.user_id = ? OR TM.id IS NOT NULL)";
 
-    exec_query($sql, [ "ii", $userId, $scoreId ]);
+    exec_query($sql, [ "iii", $userId, $scoreId, $userId ]);
   }
 
   public static function deleteBatch(array $scoreIds, int $userId) {
     global $dbTableScores;
     global $dbTableGames;
+    global $dbTableTeamMembers;
 
     if (empty($scoreIds)) return;
 
@@ -239,23 +241,24 @@ class Score {
     $placeholders = implode(',', array_fill(0, count($ids), '?'));
 
     $sql = "DELETE S FROM $dbTableScores AS S
-            INNER JOIN $dbTableGames AS G
-            ON S.game_id = G.game_id AND G.user_id = ?
-            WHERE S.score_id IN ($placeholders)";
+            INNER JOIN $dbTableGames AS G ON S.game_id = G.game_id
+            LEFT JOIN $dbTableTeamMembers TM ON G.team_id = TM.team_id AND TM.user_id = ?
+            WHERE S.score_id IN ($placeholders) AND (G.user_id = ? OR TM.id IS NOT NULL)";
 
-    $params = array_merge(["i" . str_repeat("i", count($ids)), $userId], $ids);
+    $params = array_merge(["i" . str_repeat("i", count($ids) + 1), $userId], $ids, [$userId]);
     exec_query($sql, $params);
   }  
 
   public static function clear(int $gameId, int $userId, ?int $leaderboardId = NULL) {
     global $dbTableScores;
     global $dbTableGames;
+    global $dbTableTeamMembers;
     
     $sql = "DELETE S FROM $dbTableScores AS S
-            LEFT JOIN $dbTableGames AS G
-            ON S.game_id = G.game_id AND G.user_id = ?
-            WHERE S.game_id = ?";
-    $params = ["ii", $userId, $gameId];
+            INNER JOIN $dbTableGames AS G ON S.game_id = G.game_id
+            LEFT JOIN $dbTableTeamMembers TM ON G.team_id = TM.team_id AND TM.user_id = ?
+            WHERE S.game_id = ? AND (G.user_id = ? OR TM.id IS NOT NULL)";
+    $params = ["iii", $userId, $gameId, $userId];
 
     if (!is_null($leaderboardId)) {
       $sql .= " AND S.leaderboard_id = ?";

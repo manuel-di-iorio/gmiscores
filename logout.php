@@ -10,4 +10,10 @@ setcookie("user", "", [
   "httponly" => true,
   "sameSite" => "Lax"
 ]);
+setcookie("selected_team_id", "", [
+  "expires" => time() - 3600,
+  "path" => "/",
+  "httponly" => false,
+  "sameSite" => "Lax"
+]);
 header("Location: /");

@@ -13,9 +13,9 @@ if (!isset($_GET['leaderboard_id']) || !is_numeric($_GET['leaderboard_id']) || !
 $leaderboardId = (int)$_GET['leaderboard_id'];
 $gameId = (int)$_GET['game_id'];
 
-// Verify ownership
-$game = Game::getByIdAndUser($gameId, $user['id']);
-if (!$game) {
+require_once("models/Team.php");
+$gameResult = Game::getByIdWithAccess($gameId, $user['id']);
+if (!$gameResult || !$gameResult->num_rows) {
     header("Location: games.php");
     exit;
 }
