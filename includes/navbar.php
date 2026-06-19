@@ -17,7 +17,6 @@ if ($isAdminUser) {
     $adminLabel .= ' <span class="nav-badge">' . $pendingCount . '</span>';
   }
   $navbarItems[] = ["label" => $adminLabel, "url" => "/admin.php", "icon" => "cogs", "showOnlyLogged" => true, "allowHtml" => true];
-  $navbarItems[] = ["label" => "Performance", "url" => "/admin-performance.php", "icon" => "tachometer-alt", "showOnlyLogged" => true];
 }
 
 $userTeamsList = [];
