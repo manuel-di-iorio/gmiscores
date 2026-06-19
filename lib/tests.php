@@ -1,8 +1,16 @@
 <!-- AUTOMATED SCORE TESTS -->
 <?php
+require_once("./db.php");
+require_once("./checkSession.php");
+
+$isAdmin = isset($user["admin"]) && (int)$user["admin"] === 1;
+if (!$isAdmin) {
+  http_response_code(403);
+  exit("Forbidden");
+}
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-require_once("./db.php");
 require_once("../models/Game.php");
 require_once("../models/Score.php");
 require_once("../models/Leaderboard.php");
