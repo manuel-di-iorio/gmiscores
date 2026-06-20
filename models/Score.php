@@ -1,6 +1,46 @@
 <?php
 
 class Score {
+  public static array $schema = [
+    'table'       => 'scores',
+    'primaryKey'  => 'score_id',
+    'timestamps'  => true,
+    'columns'     => [
+      'score_id'       => ['type' => 'int',      'auto' => true],
+      'game_id'        => ['type' => 'int'],
+      'leaderboard_id' => ['type' => 'int',      'nullable' => true],
+      'player_id'      => ['type' => 'int'],
+      'score'          => ['type' => 'double'],
+      'ip'             => ['type' => 'string',   'nullable' => true],
+      'ip_country'     => ['type' => 'string',   'nullable' => true],
+      'sign'           => ['type' => 'string',   'nullable' => true],
+      'tags'           => ['type' => 'string',   'nullable' => true],
+      'data'           => ['type' => 'text',     'nullable' => true],
+      'env'            => ['type' => 'string',   'default' => 'production'],
+      'created_at'     => ['type' => 'datetime'],
+      'updated_at'     => ['type' => 'datetime'],
+    ],
+    'indexes'     => [
+      ['columns' => ['game_id']],
+      ['columns' => ['player_id']],
+      ['columns' => ['leaderboard_id']],
+      ['columns' => ['score']],
+      ['columns' => ['ip']],
+      ['columns' => ['updated_at']],
+      ['columns' => ['game_id', 'leaderboard_id']],
+      ['columns' => ['game_id', 'updated_at']],
+      ['columns' => ['env']],
+    ],
+    'foreignKeys' => [
+      ['columns' => ['game_id'],   'references' => ['games', 'game_id']],
+      ['columns' => ['player_id'], 'references' => ['players', 'player_id']],
+    ],
+    'relations'   => [
+      'game'        => ['type' => 'belongsTo', 'model' => 'Game',        'foreignKey' => 'game_id'],
+      'player'      => ['type' => 'belongsTo', 'model' => 'Player',      'foreignKey' => 'player_id'],
+      'leaderboard' => ['type' => 'belongsTo', 'model' => 'Leaderboard', 'foreignKey' => 'leaderboard_id'],
+    ],
+  ];
   public static function create(int $gameId, int $playerId, float $score, ?string $ip = NULL, ?string $country = NULL,
   ?string $createdAt = NULL, ?string $sign = NULL, ?int $leaderboardId = NULL, ?string $tags = NULL, ?string $data = NULL,
   string $env = 'production') {

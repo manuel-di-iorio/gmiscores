@@ -1,6 +1,22 @@
 <?php
 
 class Player {
+  public static array $schema = [
+    'table'      => 'players',
+    'primaryKey' => 'player_id',
+    'timestamps' => false,
+    'columns'    => [
+      'player_id' => ['type' => 'int',    'auto' => true],
+      'username'  => ['type' => 'string', 'unique' => true],
+    ],
+    'indexes'    => [
+      ['columns' => ['username'], 'unique' => true],
+    ],
+    'relations'  => [
+      'scores' => ['type' => 'hasMany', 'model' => 'Score', 'foreignKey' => 'player_id'],
+      'bans'   => ['type' => 'hasMany', 'model' => 'Ban',   'foreignKey' => 'player_id'],
+    ],
+  ];
   /**
    * Create a player entity if not exists
    */

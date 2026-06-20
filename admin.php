@@ -174,5 +174,5 @@ if (isset($_GET['ajax'])) {
 }
 
 $view = "admin";
-$pageName = __("admin_title");
+$pageName = "Administration";
 require_once("includes/layout.php");

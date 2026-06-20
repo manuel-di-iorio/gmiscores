@@ -1,6 +1,35 @@
 <?php
 
 class Game {
+  public static array $schema = [
+    'table'       => 'games',
+    'primaryKey'  => 'game_id',
+    'timestamps'  => true,
+    'columns'     => [
+      'game_id'       => ['type' => 'int',      'auto' => true],
+      'name'          => ['type' => 'string'],
+      'client_secret' => ['type' => 'string'],
+      'user_id'       => ['type' => 'int'],
+      'team_id'       => ['type' => 'int',      'nullable' => true],
+      'created_at'    => ['type' => 'datetime'],
+      'updated_at'    => ['type' => 'datetime'],
+    ],
+    'indexes'     => [
+      ['columns' => ['user_id']],
+      ['columns' => ['team_id']],
+      ['columns' => ['user_id', 'team_id']],
+    ],
+    'foreignKeys' => [
+      ['columns' => ['user_id'], 'references' => ['users', 'id']],
+      ['columns' => ['team_id'], 'references' => ['teams', 'team_id']],
+    ],
+    'relations'   => [
+      'scores'       => ['type' => 'hasMany',   'model' => 'Score',       'foreignKey' => 'game_id'],
+      'leaderboards' => ['type' => 'hasMany',   'model' => 'Leaderboard', 'foreignKey' => 'game_id'],
+      'user'         => ['type' => 'belongsTo', 'model' => 'User',        'foreignKey' => 'user_id'],
+      'team'         => ['type' => 'belongsTo', 'model' => 'Team',        'foreignKey' => 'team_id'],
+    ],
+  ];
   public static function getClientSecretById(string $gameId) {
     global $dbTableGames;
     $sql = "SELECT client_secret FROM $dbTableGames WHERE game_id=?";

@@ -1,6 +1,53 @@
 <?php
 
 class Team {
+  public static array $schema = [
+    'table'      => 'teams',
+    'primaryKey' => 'team_id',
+    'timestamps' => true,
+    'columns'    => [
+      'team_id'    => ['type' => 'int',    'auto' => true],
+      'name'       => ['type' => 'string'],
+      'created_by' => ['type' => 'int'],
+      'created_at' => ['type' => 'datetime'],
+      'updated_at' => ['type' => 'datetime'],
+    ],
+    'foreignKeys' => [
+      ['columns' => ['created_by'], 'references' => ['users', 'id']],
+    ],
+    'relations'  => [
+      'members' => ['type' => 'hasMany', 'model' => 'TeamMember', 'foreignKey' => 'team_id'],
+      'games'   => ['type' => 'hasMany', 'model' => 'Game',       'foreignKey' => 'team_id'],
+    ],
+  ];
+
+  public static array $teamMembersSchema = [
+    'table'      => 'team_members',
+    'primaryKey' => 'id',
+    'timestamps' => false,
+    'columns'    => [
+      'id'         => ['type' => 'int',    'auto' => true],
+      'team_id'    => ['type' => 'int'],
+      'user_id'    => ['type' => 'int'],
+      'role'       => ['type' => 'enum',   'values' => ['admin', 'member'], 'default' => 'member'],
+      'added_by'   => ['type' => 'int'],
+      'created_at' => ['type' => 'datetime'],
+    ],
+    'indexes'    => [
+      ['columns' => ['team_id', 'user_id'], 'unique' => true],
+      ['columns' => ['user_id']],
+      ['columns' => ['added_by']],
+    ],
+    'foreignKeys' => [
+      ['columns' => ['team_id'],  'references' => ['teams', 'team_id']],
+      ['columns' => ['user_id'],  'references' => ['users', 'id']],
+      ['columns' => ['added_by'], 'references' => ['users', 'id']],
+    ],
+    'relations'  => [
+      'team' => ['type' => 'belongsTo', 'model' => 'Team', 'foreignKey' => 'team_id'],
+      'user' => ['type' => 'belongsTo', 'model' => 'User', 'foreignKey' => 'user_id'],
+    ],
+  ];
   public static function create(int $userId, string $name) {
     global $dbTableTeams;
     global $dbTableTeamMembers;

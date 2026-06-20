@@ -1,6 +1,27 @@
 <?php
 
 class User {
+  public static array $schema = [
+    'table'      => 'users',
+    'primaryKey' => 'id',
+    'timestamps' => true,
+    'columns'    => [
+      'id'              => ['type' => 'int',    'auto' => true],
+      'discord_user_id' => ['type' => 'string', 'unique' => true],
+      'username'        => ['type' => 'string'],
+      'approved'        => ['type' => 'bool',   'default' => false],
+      'admin'           => ['type' => 'bool',   'default' => false],
+      'created_at'      => ['type' => 'datetime'],
+      'updated_at'      => ['type' => 'datetime'],
+    ],
+    'indexes'    => [
+      ['columns' => ['discord_user_id'], 'unique' => true],
+      ['columns' => ['created_at']],
+    ],
+    'relations'  => [
+      'games' => ['type' => 'hasMany', 'model' => 'Game', 'foreignKey' => 'user_id'],
+    ],
+  ];
   /**
    * Upsert the user
    */

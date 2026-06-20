@@ -1,6 +1,32 @@
 <?php
 
 class Leaderboard {
+  public static array $schema = [
+    'table'      => 'leaderboards',
+    'primaryKey' => 'leaderboard_id',
+    'timestamps' => true,
+    'columns'    => [
+      'leaderboard_id' => ['type' => 'int',    'auto' => true],
+      'game_id'        => ['type' => 'int'],
+      'name'           => ['type' => 'string'],
+      'description'    => ['type' => 'text',   'nullable' => true],
+      'user_id'        => ['type' => 'int'],
+      'is_private'     => ['type' => 'bool',   'default' => false],
+      'created_at'     => ['type' => 'datetime'],
+      'updated_at'     => ['type' => 'datetime'],
+    ],
+    'indexes'    => [
+      ['columns' => ['game_id']],
+    ],
+    'foreignKeys' => [
+      ['columns' => ['game_id'], 'references' => ['games', 'game_id']],
+    ],
+    'relations'  => [
+      'game'   => ['type' => 'belongsTo', 'model' => 'Game',  'foreignKey' => 'game_id'],
+      'scores' => ['type' => 'hasMany',   'model' => 'Score', 'foreignKey' => 'leaderboard_id'],
+    ],
+  ];
+
     public static function create(int $gameId, string $name, ?string $description, int $userId, bool $isPrivate = false) {
         global $db, $dbTableLeaderboards;
 

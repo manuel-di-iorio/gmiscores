@@ -1,6 +1,30 @@
 <?php
 
 class Ban {
+  public static array $schema = [
+    'table'      => 'bans',
+    'primaryKey' => 'ban_id',
+    'timestamps' => false,
+    'columns'    => [
+      'ban_id'      => ['type' => 'int',     'auto' => true],
+      'player_id'   => ['type' => 'int'],
+      'player_name' => ['type' => 'string'],
+      'ip'          => ['type' => 'string',  'nullable' => true],
+      'game_id'     => ['type' => 'int'],
+      'reason'      => ['type' => 'text',    'nullable' => true],
+      'created_at'  => ['type' => 'datetime'],
+    ],
+    'indexes'    => [
+      ['columns' => ['player_id']],
+      ['columns' => ['player_name']],
+      ['columns' => ['game_id']],
+      ['columns' => ['ip']],
+    ],
+    'foreignKeys' => [
+      ['columns' => ['player_id'], 'references' => ['players', 'player_id']],
+      ['columns' => ['game_id'],   'references' => ['games', 'game_id']],
+    ],
+  ];
   /**
    * Add a player ban for a game
    */
