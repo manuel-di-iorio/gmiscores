@@ -58,6 +58,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
     <link rel="stylesheet" href="assets/ui-kit/Table/table.css?v=<?= asset_version('assets/ui-kit/Table/table.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/Paginator/paginator.css?v=<?= asset_version('assets/ui-kit/Paginator/paginator.css') ?>">
     <link rel="stylesheet" href="assets/ui-kit/ActionsMenu/actions-menu.css?v=<?= asset_version('assets/ui-kit/ActionsMenu/actions-menu.css') ?>">
+    <link rel="stylesheet" href="assets/ui-kit/Toast/toast.css?v=<?= asset_version('assets/ui-kit/Toast/toast.css') ?>">
     <link rel="stylesheet" href="assets/css/cookie-banner.css?v=<?= asset_version('assets/css/cookie-banner.css') ?>">
     <link rel="stylesheet" href="assets/css/navbar.css?v=<?= asset_version('assets/css/navbar.css') ?>">
     <link rel="stylesheet" href="assets/css/layout.css?v=<?= asset_version('assets/css/layout.css') ?>">
@@ -251,6 +252,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
   </head>
 
   <body<?= $theme === 'dark' ? ' class="dark"' : '' ?>>
+    <?= ui_toast_container() ?>
     <div id="cookie-banner" style="display: none;">
         <div class="cookie-banner-content">
           <div>
@@ -378,6 +380,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
   <script src="https://unpkg.com/@popperjs/core@2"></script>
   <script src="https://unpkg.com/tippy.js@6"></script>
 
+  <script src="assets/ui-kit/Toast/toast.js?v=<?= asset_version('assets/ui-kit/Toast/toast.js') ?>"></script>
   <script src="assets/js/main.js?v=<?= asset_version('assets/js/main.js') ?>" async></script>
   <script>
     // Initialize the tooltips

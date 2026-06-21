@@ -14,3 +14,4 @@ require_once __DIR__ . '/Checkbox/checkbox.php';
 require_once __DIR__ . '/CodeBlock/codeblock.php';
 require_once __DIR__ . '/Skeleton/skeleton.php';
 require_once __DIR__ . '/ActionsMenu/actions-menu.php';
+require_once __DIR__ . '/Toast/toast.php';
