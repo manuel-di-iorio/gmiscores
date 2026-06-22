@@ -140,6 +140,80 @@ class Player {
     return $result->num_rows ? $result->fetch_assoc() : null;
   }
 
+  public static function listByGameWithBanStatus(int $gameId, ?string $search = null, bool $bannedOnly = false, int $page = 0, int $perPage = 50) {
+    global $dbTablePlayers;
+    global $dbTableScores;
+    global $dbTableBans;
+
+    $offset = $page * $perPage;
+
+    $sql = "SELECT DISTINCT p.player_id, p.username,
+                   CASE WHEN EXISTS (
+                     SELECT 1 FROM $dbTableBans b
+                     WHERE b.player_id = p.player_id AND b.game_id = ?
+                   ) THEN 1 ELSE 0 END AS is_banned
+            FROM $dbTablePlayers p
+            INNER JOIN $dbTableScores s ON s.player_id = p.player_id AND s.game_id = ?
+            WHERE 1=1";
+
+    $params = [ "ii", $gameId, $gameId ];
+
+    if (!is_null($search) && $search !== '') {
+      $sql .= " AND p.username LIKE ?";
+      $params[0] .= "s";
+      $params[] = "%" . $search . "%";
+    }
+
+    if ($bannedOnly) {
+      $sql .= " AND EXISTS (SELECT 1 FROM $dbTableBans b WHERE b.player_id = p.player_id AND b.game_id = ?)";
+      $params[0] .= "i";
+      $params[] = $gameId;
+    } else {
+      $sql .= " AND NOT EXISTS (SELECT 1 FROM $dbTableBans b WHERE b.player_id = p.player_id AND b.game_id = ?)";
+      $params[0] .= "i";
+      $params[] = $gameId;
+    }
+
+    $sql .= " ORDER BY p.username ASC LIMIT ?,?";
+    $params[0] .= "ii";
+    $params[] = $offset;
+    $params[] = $perPage;
+
+    return exec_query($sql, $params);
+  }
+
+  public static function countByGameWithBanStatus(int $gameId, ?string $search = null, bool $bannedOnly = false) {
+    global $dbTablePlayers;
+    global $dbTableScores;
+    global $dbTableBans;
+
+    $sql = "SELECT COUNT(DISTINCT p.player_id) AS count
+            FROM $dbTablePlayers p
+            INNER JOIN $dbTableScores s ON s.player_id = p.player_id AND s.game_id = ?
+            WHERE 1=1";
+
+    $params = [ "i", $gameId ];
+
+    if (!is_null($search) && $search !== '') {
+      $sql .= " AND p.username LIKE ?";
+      $params[0] .= "s";
+      $params[] = "%" . $search . "%";
+    }
+
+    if ($bannedOnly) {
+      $sql .= " AND EXISTS (SELECT 1 FROM $dbTableBans b WHERE b.player_id = p.player_id AND b.game_id = ?)";
+      $params[0] .= "i";
+      $params[] = $gameId;
+    } else {
+      $sql .= " AND NOT EXISTS (SELECT 1 FROM $dbTableBans b WHERE b.player_id = p.player_id AND b.game_id = ?)";
+      $params[0] .= "i";
+      $params[] = $gameId;
+    }
+
+    $result = exec_query($sql, $params);
+    return $result->num_rows ? (int)$result->fetch_assoc()["count"] : 0;
+  }
+
   public static function countAllWithScores(?string $search = null, bool $bannedOnly = false) {
     global $dbTablePlayers;
     global $dbTableBans;

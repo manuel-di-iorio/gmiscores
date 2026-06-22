@@ -25,17 +25,17 @@ if (!$gameResult || !$gameResult->num_rows) {
 
 $lb = Leaderboard::getById($leaderboardId);
 if (!$lb || $lb['game_id'] != $gameId) {
-    header("Location: leaderboards.php?game_id=$gameId&error=" . urlencode("Classifica non trovata."));
+    header("Location: game.php?id=$gameId&tab=leaderboards&error=" . urlencode("Classifica non trovata."));
     exit;
 }
 
 $allLbs = Leaderboard::listByGame($gameId);
 if (count($allLbs) <= 1) {
-    header("Location: leaderboards.php?game_id=$gameId&error=" . urlencode("Non puoi eliminare l'unica classifica del gioco."));
+    header("Location: game.php?id=$gameId&tab=leaderboards&error=" . urlencode("Non puoi eliminare l'unica classifica del gioco."));
     exit;
 }
 
 Leaderboard::delete($leaderboardId, $gameId);
 
-header("Location: leaderboards.php?game_id=$gameId");
+header("Location: game.php?id=$gameId&tab=leaderboards");
 exit;

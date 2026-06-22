@@ -7,21 +7,34 @@ require_once("models/Ban.php");
 
 csrf_validate_request();
 
-if (isset($_POST["id"])) {
+$gameId = null;
+
+if (isset($_POST["player_id"]) && isset($_POST["game_id"])) {
+  $playerId = (int)$_POST["player_id"];
+  $gameId = (int)$_POST["game_id"];
+  $userId = $user["id"];
+
+  $gameResult = Game::getByIdWithAccess($gameId, $userId);
+  if ($gameResult && $gameResult->num_rows) {
+    Ban::removeByPlayerAndGame($playerId, $gameId);
+  }
+} elseif (isset($_POST["id"])) {
   $banId = (int)$_POST["id"];
   $userId = $user["id"];
 
   $result = Ban::getByIdAndUser($banId, $userId);
-  if (!$result->num_rows) {
-    header("Location: games.php");
-    exit;
+  if ($result && $result->num_rows) {
+    Ban::remove($banId, $userId);
+    $gameId = isset($_POST["game"]) ? (int)$_POST["game"] : null;
   }
-
-  Ban::remove($banId, $userId);
 }
 
 if (isset($_POST["game"])) {
-  header("Location: game-bans.php?id=" . (int)$_POST["game"]);
+  $gameId = (int)$_POST["game"];
+}
+
+if ($gameId) {
+  header("Location: game.php?id=" . $gameId . "&tab=players");
 } else {
   header("Location: games.php");
 }

@@ -163,8 +163,6 @@
 <?php
 $configContent = '
   <div class="internal-actions internal-actions--right" style="margin-bottom:20px">
-    ' . ui_button(__('game_tab_leaderboards'), 'primary', 'md', ['icon' => 'fas fa-trophy', 'href' => 'leaderboards.php?game_id=' . $gameId]) . '
-    ' . ui_button(__('game_tab_bans'), 'primary', 'md', ['icon' => 'fas fa-user-times', 'href' => 'game-bans.php?id=' . $gameId]) . '
     ' . ui_button(__('game_tab_delete'), 'danger', 'md', ['icon' => 'fas fa-trash', 'attrs' => ['onclick' => "openModal('modal-delete-game', onDeleteGameModalOpen, { gameId: $gameId, gameName: '" . escapeChars($game['name']) . "' })"]]) . '
   </div>
 
@@ -221,16 +219,18 @@ $configContent = '
 
 $activeTab = $_GET["tab"] ?? "config";
 
-$analyticsContent = '';
-if ($activeTab === 'analytics') {
+$tabContent = '';
+if (in_array($activeTab, ['analytics', 'players', 'leaderboards'])) {
   ob_start();
   require "pages/game/game-tab-render.php";
-  $analyticsContent = ob_get_clean();
+  $tabContent = ob_get_clean();
 }
 
 echo ui_tabs([
   ["id" => "config", "label" => __('game_tab_config'), "icon" => "fas fa-cog", "content" => $configContent],
-  ["id" => "analytics", "label" => __('game_tab_analytics'), "icon" => "fas fa-chart-pie", "content" => $activeTab === 'analytics' ? $analyticsContent : ui_skeleton('chart', 2), "url" => $activeTab !== 'analytics' ? "/game.php?id=$gameId&tab=analytics&ajax=1" : null],
+  ["id" => "players", "label" => __('game_tab_players'), "icon" => "fas fa-users", "content" => $activeTab === 'players' ? $tabContent : ui_skeleton('chart', 2), "url" => $activeTab !== 'players' ? "/game.php?id=$gameId&tab=players&ajax=1" : null],
+  ["id" => "leaderboards", "label" => __('game_tab_leaderboards_tab'), "icon" => "fas fa-trophy", "content" => $activeTab === 'leaderboards' ? $tabContent : ui_skeleton('chart', 2), "url" => $activeTab !== 'leaderboards' ? "/game.php?id=$gameId&tab=leaderboards&ajax=1" : null],
+  ["id" => "analytics", "label" => __('game_tab_analytics'), "icon" => "fas fa-chart-pie", "content" => $activeTab === 'analytics' ? $tabContent : ui_skeleton('chart', 2), "url" => $activeTab !== 'analytics' ? "/game.php?id=$gameId&tab=analytics&ajax=1" : null],
 ], ["active" => $activeTab]);
 ?>
 

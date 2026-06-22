@@ -31,15 +31,7 @@
         "label" => __('games_action_leaderboards'),
         "icon" => "fas fa-trophy",
         "url" => function ($data) {
-          return "leaderboards.php?game_id={$data['game_id']}";
-        },
-        "class" => "btn-link"
-      ],
-      [
-        "label" => __('games_action_bans'),
-        "icon" => "fas fa-user-times",
-        "url" => function ($data) {
-          return "game-bans.php?id={$data['game_id']}";
+          return "game.php?id={$data['game_id']}&tab=leaderboards";
         },
         "class" => "btn-link"
       ],

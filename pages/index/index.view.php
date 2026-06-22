@@ -459,6 +459,7 @@
   </a>
   <nav class="header-nav">
     <a href="#come-funziona" class="nav-link-underline"><?= __('index_nav_how') ?></a>
+    <a href="#servizi" class="nav-link-underline"><?= __('index_nav_services') ?></a>
     <a href="#caratteristiche" class="nav-link-underline"><?= __('index_nav_features') ?></a>
     <a href="#numeri" class="nav-link-underline"><?= __('index_nav_numbers') ?></a>
     <a href="#faq" class="nav-link-underline"><?= __('index_nav_faq') ?></a>
@@ -655,6 +656,27 @@
       <h5><?= __('index_feature8_title') ?></h5>
       <p><?= __('index_feature8_desc') ?></p>
       <a href="./documentation.php" class="card-arrow" style="text-decoration:none;"><?= __('index_feature_link') ?> <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SERVICES ===== -->
+<div id="servizi" class="section-container FeaturesSection">
+  <h2 class="SectionTitle fade-in-up-on-scroll"><?= __('index_services_title') ?></h2>
+  <div class="FeaturesGrid">
+    <div class="FeatureCard fade-in-up-on-scroll tilt-card">
+      <div class="tilt-card__shine"></div>
+      <div class="FeatureCard__Icon"><i class="fas fa-trophy"></i></div>
+      <h5><?= __('index_service1_title') ?></h5>
+      <p><?= __('index_service1_desc') ?></p>
+      <a href="./add-game.php" class="card-arrow" style="text-decoration:none;"><?= __('index_service1_link') ?> <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="FeatureCard fade-in-up-on-scroll tilt-card">
+      <div class="tilt-card__shine"></div>
+      <div class="FeatureCard__Icon"><i class="fas fa-chart-pie"></i></div>
+      <h5><?= __('index_service2_title') ?></h5>
+      <p><?= __('index_service2_desc') ?></p>
+      <a href="./games.php" class="card-arrow" style="text-decoration:none;"><?= __('index_service2_link') ?> <i class="fas fa-arrow-right"></i></a>
     </div>
   </div>
 </div>
