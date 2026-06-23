@@ -12,8 +12,9 @@ function gmi_scores_send(opts = {}) {
 	var on_error = variable_struct_exists(opts, "on_error") ? opts.on_error : undefined;
 
 	var authToken = undefined;
-	if (global.GMI_PLAYER_LOGGED && is_undefined(player)) {
+	if (global.GMI_PLAYER_LOGGED) {
 		authToken = global.GMI_PLAYER_TOKEN;
+		player = global.GMI_PLAYER_USERNAME;
 	}
 
 	var data = "game=" + string(global.GMI_GAME_CLIENT_ID);

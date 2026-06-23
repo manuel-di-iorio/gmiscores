@@ -8,15 +8,31 @@ if (empty($session) || strlen($session) !== 64) {
   exit;
 }
 
+// Ensure the session row exists in the database
+global $db;
+$check = $db->prepare("SELECT id FROM player_login_sessions WHERE session_token = ?");
+$check->bind_param("s", $session);
+$check->execute();
+$check->store_result();
+if ($check->num_rows === 0) {
+  $ins = $db->prepare("INSERT INTO player_login_sessions (session_token) VALUES (?)");
+  $ins->bind_param("s", $session);
+  $ins->execute();
+  $ins->close();
+}
+$check->close();
+
 // Already logged in via cookie — link session directly
 if (isset($user)) {
-  global $db;
-  $stmt = $db->prepare("UPDATE player_login_sessions SET user_id = ? WHERE session_token = ?");
-  $stmt->bind_param("is", $user["id"], $session);
-  $stmt->execute();
-  $stmt->close();
-  header("Location: /player-auth/discord/login.php?session=" . urlencode($session) . "&done=1");
-  exit;
+  if (!isset($_GET["done"])) {
+    $stmt = $db->prepare("UPDATE player_login_sessions SET user_id = ? WHERE session_token = ?");
+    $stmt->bind_param("is", $user["id"], $session);
+    $stmt->execute();
+    $stmt->close();
+    header("Location: /player-auth/discord/login.php?session=" . urlencode($session) . "&done=1");
+    exit;
+  }
+  // Session already linked and done=1 present — render the success page
 }
 
 $_SESSION["player_login_session"] = $session;

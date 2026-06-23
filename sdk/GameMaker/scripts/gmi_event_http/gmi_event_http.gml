@@ -27,11 +27,12 @@ function gmi_event_http() {
 			if (_data.logged) {
 				global.GMI_PLAYER_LOGGED = true;
 				global.GMI_PLAYER_TOKEN = _data.token;
+				global.GMI_PLAYER_USERNAME = variable_struct_exists(_data, "username") ? _data.username : undefined;
 				global.GMI_PLAYER_SESSION = undefined;
 				global.GMI_PLAYER_LOGGING_IN = false;
 				global.gmi_player_poll_timer = 0;
 				global.gmi_player_poll_count = 0;
-				show_debug_message("[GMI] Player login successful!");
+				show_debug_message("[GMI] Player login successful!" + (global.GMI_PLAYER_USERNAME != undefined ? " (" + global.GMI_PLAYER_USERNAME + ")" : ""));
 			} else {
 				global.GMI_PLAYER_LOGGING_IN = false;
 			}

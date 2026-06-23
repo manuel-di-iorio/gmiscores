@@ -26,11 +26,16 @@ $result = exec_query("SELECT user_id FROM player_login_sessions WHERE session_to
 if ($result->num_rows) {
   $row = $result->fetch_assoc();
   if ($row["user_id"]) {
-    // Login completed - return token
+    // Login completed - return token + username
     $encryptedToken = aes_encrypt(json_encode(["id" => (int)$row["user_id"]]), true);
+    $userResult = User::getById((string)$row["user_id"]);
+    $username = "";
+    if ($userResult->num_rows) {
+      $username = $userResult->fetch_assoc()["username"];
+    }
     // Clean up
     exec_query("DELETE FROM player_login_sessions WHERE session_token = ?", ["s", $sessionToken]);
-    echo json_encode(["status" => 200, "logged" => true, "token" => $encryptedToken]);
+    echo json_encode(["status" => 200, "logged" => true, "token" => $encryptedToken, "username" => $username]);
     exit;
   }
 }

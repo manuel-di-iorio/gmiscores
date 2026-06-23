@@ -16,6 +16,7 @@ function gmi_init(clientId, clientSecret, env = "production") {
 	global.GMI_PLAYER_SESSION = undefined;
 	global.GMI_PLAYER_LOGGED = false;
 	global.GMI_PLAYER_TOKEN = undefined;
+	global.GMI_PLAYER_USERNAME = undefined;
 	global.GMI_PLAYER_LOGGING_IN = false;
 	
 	// Poll state
