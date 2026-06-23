@@ -8,6 +8,11 @@ if (empty($session) || strlen($session) !== 64) {
   exit;
 }
 
+// Cleanup old sessions (older than 10 minutes)
+$cleanup = $db->prepare("DELETE FROM player_login_sessions WHERE created_at < DATE_SUB(NOW(), INTERVAL 10 MINUTE)");
+$cleanup->execute();
+$cleanup->close();
+
 // Ensure the session row exists in the database
 global $db;
 $check = $db->prepare("SELECT id FROM player_login_sessions WHERE session_token = ?");
@@ -33,6 +38,10 @@ if (isset($user)) {
     exit;
   }
   // Session already linked and done=1 present — render the success page
+  $view = "player-login-sdk";
+  $pageName = "Player Login";
+  require_once(__DIR__ . "/../../includes/layout-minimal.php");
+  exit;
 }
 
 $_SESSION["player_login_session"] = $session;
@@ -40,8 +49,8 @@ $_SESSION["player_login_session"] = $session;
 $oauthState = bin2hex(random_bytes(32));
 $_SESSION["oauth_state"] = $oauthState;
 
+// Redirect directly to Discord OAuth
 $loginRedirectUrl = "https://discordapp.com/api/oauth2/authorize?client_id=" . $config["discordLoginClientId"] . "&response_type=code&scope=identify&redirect_uri=" . urlencode($config["playerLoginCallback"]) . "&state=" . $oauthState;
 
-$view = "player-login-sdk";
-$pageName = "Player Login";
-require_once(__DIR__ . "/../../includes/layout-minimal.php");
+header("Location: " . $loginRedirectUrl);
+exit;

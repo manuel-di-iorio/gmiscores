@@ -35,7 +35,7 @@ if ($result->num_rows) {
     }
     // Clean up
     exec_query("DELETE FROM player_login_sessions WHERE session_token = ?", ["s", $sessionToken]);
-    echo json_encode(["status" => 200, "logged" => true, "token" => $encryptedToken, "username" => $username]);
+    echo json_encode(["status" => 200, "logged" => true, "token" => $encryptedToken, "username" => $username, "user_id" => (int)$row["user_id"]]);
     exit;
   }
 }

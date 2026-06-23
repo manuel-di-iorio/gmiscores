@@ -5,5 +5,5 @@ gmi_draw_debug(20, 20);
 draw_set_halign(fa_left);
 draw_set_valign(fa_bottom);
 draw_set_color(c_gray);
-draw_text(20, room_height - 20, "L: Login | SPACE: Send Score | R: Refresh");
+draw_text(20, room_height - 20, (global.GMI_PLAYER_LOGGED ? "L: Logout" : "L: Login") + " | SPACE: Send Score | R: Refresh");
 draw_set_color(c_white);

@@ -25,6 +25,64 @@ function gmi_player_login(opts = {}) {
 	};
 	
 	var loginUrl = global.GMI_ENDPOINT_HOST + "/../../player-auth/discord/login.php?session=" + sessionToken;
-	show_debug_message("[GMI Player] Opening login: " + loginUrl);
+	show_debug_message("[GMI Player] Opening Discord login: " + loginUrl);
 	url_open(loginUrl);
+}
+
+/// @func gmi_player_save_token()
+/// @desc Save the current token and username to an encrypted local file
+function gmi_player_save_token() {
+	if (!global.GMI_PLAYER_LOGGED || is_undefined(global.GMI_PLAYER_TOKEN)) return;
+	
+	var _map = ds_map_create();
+	ds_map_add(_map, "token", global.GMI_PLAYER_TOKEN);
+	ds_map_add(_map, "username", global.GMI_PLAYER_USERNAME);
+	ds_map_add(_map, "user_id", global.GMI_PLAYER_ID);
+	
+	ds_map_secure_save(_map, "gmi_player.dat");
+	ds_map_destroy(_map);
+	
+	show_debug_message("[GMI] Token saved locally.");
+}
+
+/// @func gmi_player_restore_token()
+/// @desc Load a saved token from disk and validate it with the server
+function gmi_player_restore_token() {
+	if (!file_exists("gmi_player.dat")) return false;
+	
+	var _map = ds_map_secure_load("gmi_player.dat");
+	if (_map == noone || !ds_map_exists(_map, "token")) {
+		if (_map != noone) ds_map_destroy(_map);
+		file_delete("gmi_player.dat");
+		return false;
+	}
+	
+	var _savedToken = ds_map_find_value(_map, "token");
+	var _savedUsername = ds_map_exists(_map, "username") ? ds_map_find_value(_map, "username") : "";
+	var _savedUserId = ds_map_exists(_map, "user_id") ? ds_map_find_value(_map, "user_id") : undefined;
+	ds_map_destroy(_map);
+	
+	// Optimistically set logged in, then validate with server
+	global.GMI_PLAYER_LOGGED = true;
+	global.GMI_PLAYER_TOKEN = _savedToken;
+	global.GMI_PLAYER_USERNAME = _savedUsername;
+	global.GMI_PLAYER_ID = _savedUserId;
+	global.gmi_player_check_pending = true;
+	
+	show_debug_message("[GMI Player] Found saved token for '" + _savedUsername + "', verifying with server...");
+	
+	var url = global.GMI_ENDPOINT_HOST + "/player-check-token.php?token=" + string_replace_all(string_replace_all(string_replace_all(_savedToken, "+", "%2B"), "/", "%2F"), "=", "%3D");
+	var _req_id = http_get(url);
+	global.gmi_requests[$ string(_req_id)] = { on_success: undefined, on_error: undefined };
+	
+	return true;
+}
+
+/// @func gmi_player_clear_saved_token()
+/// @desc Delete the saved token file
+function gmi_player_clear_saved_token() {
+	if (file_exists("gmi_player.dat")) {
+		file_delete("gmi_player.dat");
+		show_debug_message("[GMI] Saved token deleted.");
+	}
 }

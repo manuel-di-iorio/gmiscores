@@ -16,7 +16,7 @@ function gmi_draw_debug(_x = 20, _y = 20) {
 	// Login status
 	if (global.GMI_PLAYER_LOGGED) {
 		draw_set_color(#10b981);
-		draw_text(_x, _cury, "● Logged in");
+		draw_text(_x, _cury, "● Logged in as " + global.GMI_PLAYER_USERNAME);
 	} else if (!is_undefined(global.GMI_PLAYER_SESSION)) {
 		draw_set_color(#f59e0b);
 		draw_text(_x, _cury, "● Waiting for login...");

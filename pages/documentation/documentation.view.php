@@ -119,7 +119,7 @@
 
       <h6 class="documentation-example-title" style="margin-top:24px"><?= __('docs_sdk_methods_title') ?></h6>
 
-      <div class="terminal-mockup">
+      <div class="terminal-mockup" style="margin-top: 12px;">
         <div class="terminal-header">
           <span class="terminal-title">gmi_player_login()</span>
         </div>
@@ -133,7 +133,7 @@
           <span class="terminal-title">gmi_player_is_logged()</span>
         </div>
         <div class="terminal-body code-block-wrapper">
-          <div class="code-block jsHigh">if (gmi_player_is_logged()) {<br/>&nbsp;&nbsp;// <?= __('docs_sdk_method_logged_if') ?><br/>}</div>
+          <div class="code-block jsHigh">// <?= __('docs_sdk_method_is_logged_desc') ?><br/>// <?= __('docs_sdk_method_is_logged_step') ?><br/>gmi_player_is_logged();<br/><br/>// <?= __('docs_sdk_method_is_logged_check') ?><br/>if (global.GMI_PLAYER_LOGGED) {<br/>&nbsp;&nbsp;// <?= __('docs_sdk_method_logged_if') ?><br/>}</div>
         </div>
       </div>
 
@@ -170,6 +170,37 @@
         </div>
         <div class="terminal-body code-block-wrapper">
           <div class="code-block jsHigh">gmi_scores_get_list({ leaderboard_id: 30 }); // <?= __('docs_sdk_method_get_list') ?></div>
+        </div>
+      </div>
+
+      <p class="documentation-text" style="margin-top: 20px;"><?= __('docs_sdk_token_persist_desc') ?></p>
+
+      <h6 class="documentation-example-title" style="margin-top:24px"><?= __('docs_sdk_globals_title') ?></h6>
+
+      <div class="terminal-mockup" style="margin-top: 12px;">
+        <div class="terminal-header">
+          <span class="terminal-title">global.GMI_PLAYER_LOGGED</span>
+        </div>
+        <div class="terminal-body code-block-wrapper">
+          <div class="code-block jsHigh">// <?= __('docs_sdk_global_logged_desc') ?><br/>if (global.GMI_PLAYER_LOGGED) {<br/>&nbsp;&nbsp;show_debug_message("Loggato come " + global.GMI_PLAYER_USERNAME);<br/>}</div>
+        </div>
+      </div>
+
+      <div class="terminal-mockup" style="margin-top: 12px;">
+        <div class="terminal-header">
+          <span class="terminal-title">global.GMI_PLAYER_USERNAME</span>
+        </div>
+        <div class="terminal-body code-block-wrapper">
+          <div class="code-block jsHigh">// <?= __('docs_sdk_global_username_desc') ?><br/>var _name = global.GMI_PLAYER_USERNAME;</div>
+        </div>
+      </div>
+
+      <div class="terminal-mockup" style="margin-top: 12px;">
+        <div class="terminal-header">
+          <span class="terminal-title">global.GMI_PLAYER_ID</span>
+        </div>
+        <div class="terminal-body code-block-wrapper">
+          <div class="code-block jsHigh">// <?= __('docs_sdk_global_userid_desc') ?><br/>var _id = global.GMI_PLAYER_ID;</div>
         </div>
       </div>
     </div>

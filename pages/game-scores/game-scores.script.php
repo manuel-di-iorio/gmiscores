@@ -35,7 +35,7 @@ function deleteSelectedScores() {
 
   fetch('game-scores-delete-batch.php', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
     body: JSON.stringify({
       score_ids: ids,
       game_id: <?= $game["game_id"]; ?>,

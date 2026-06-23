@@ -26,7 +26,7 @@ function gmi_scores_send(opts = {}) {
 
 	if (!is_undefined(insert_mode)) totalData += "&insertMode=" + insert_mode;
 	if (!is_undefined(scoreData)) totalData += "&data=" + scoreData;
-	if (!is_undefined(authToken)) totalData += "&token=" + authToken;
+	if (!is_undefined(authToken)) totalData += "&token=" + string_replace_all(string_replace_all(string_replace_all(authToken, "+", "%2B"), "/", "%2F"), "=", "%3D");
         
     show_debug_message("[GMI] SendScore: " + totalData);
 

@@ -70,14 +70,7 @@ if (!empty($sessionToken) && strlen($sessionToken) === 64) {
 
 // Also set cookie for web users
 $encryptedUser = aes_encrypt(json_encode(["id" => $user["id"]]), true);
-setcookie("user", $encryptedUser, [
-  "expires" => time()+60*60*24*365,
-  "domain" => $config["cookieDomain"],
-  "path" => "/",
-  "secure" => $config["httpsRedirect"] === "true",
-  "httponly" => true,
-  "sameSite" => "Lax"
-]);
+setcookie("user", $encryptedUser, time()+60*60*24*365, "/", "", false, true);
 
 session_regenerate_id(true);
 

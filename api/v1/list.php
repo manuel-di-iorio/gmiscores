@@ -3,6 +3,7 @@ require_once("../../lib/db.php");
 require_once("../../lib/rateLimit.php");
 require_once("../../models/Score.php");
 require_once("../../models/Game.php");
+require_once("../../models/Player.php");
 require_once("../../models/Leaderboard.php");
 
 header("Access-Control-Allow-Origin: *");
@@ -42,23 +43,21 @@ if ($token) {
       if ($userResult->num_rows) {
         $loggedUser = $userResult->fetch_assoc();
         $userId = (int)$loggedUser["id"];
-
-        $playerResult = Player::getByUserId($userId);
-        if ($playerResult->num_rows) {
-          $player = $playerResult->fetch_assoc();
-          $playerIdOrName = (string)$player["player_id"];
-        }
       }
     }
   } catch (Exception $e) {
     $userId = null;
-    $playerIdOrName = null;
   }
 }
 
 if ($requiresAuth) {
   if (!$userId) {
     api_reply_error("Player authentication required", "AuthenticationRequired", 401);
+  }
+  $playerResult = Player::getByUserId($userId);
+  if ($playerResult->num_rows) {
+    $player = $playerResult->fetch_assoc();
+    $playerIdOrName = (string)$player["player_id"];
   }
 } else {
   if (isset($_GET["player"])) {

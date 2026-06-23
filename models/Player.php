@@ -9,6 +9,7 @@ class Player {
       'player_id' => ['type' => 'int',    'auto' => true],
       'username'  => ['type' => 'string', 'unique' => true],
       'user_id'   => ['type' => 'int',    'nullable' => true],
+      'game_id'   => ['type' => 'int',    'nullable' => true],
     ],
     'indexes'    => [
       ['columns' => ['username'], 'unique' => true],
@@ -21,16 +22,16 @@ class Player {
   /**
    * Create a player entity if not exists
    */
-  public static function create(string $playerName) {
+  public static function create(string $playerName, ?int $gameId = null) {
     global $dbTablePlayers;
 
-    $sql = "INSERT INTO $dbTablePlayers (username)
-            SELECT * FROM (SELECT ?) AS tmp
+    $sql = "INSERT INTO $dbTablePlayers (username, game_id)
+            SELECT ?, ?
             WHERE NOT EXISTS (
               SELECT username FROM $dbTablePlayers WHERE username = ?
             ) LIMIT 1";
 
-    exec_query($sql, [ "ss", $playerName, $playerName ]);
+    exec_query($sql, [ "ssi", $playerName, $gameId, $playerName ]);
   }
 
   /**
@@ -52,9 +53,10 @@ class Player {
   }
 
   /**
-   * Get or create a player for an authenticated user
+   * Get or create a player for an authenticated user.
+   * If a guest player with the same username exists, link it to the user.
    */
-  public static function getOrCreateForUser(int $userId) {
+  public static function getOrCreateForUser(int $userId, ?string $playerName = null, ?int $gameId = null) {
     global $dbTablePlayers;
 
     $result = Player::getByUserId($userId);
@@ -62,24 +64,39 @@ class Player {
       return $result->fetch_assoc();
     }
 
-    Player::createWithUser($userId);
+    if ($playerName) {
+      $existing = Player::getByName($playerName);
+      if ($existing->num_rows) {
+        $player = $existing->fetch_assoc();
+        if (empty($player["user_id"])) {
+          $sql = "UPDATE $dbTablePlayers SET user_id = ?, game_id = ? WHERE player_id = ?";
+          exec_query($sql, ["iii", $userId, $gameId, $player["player_id"]]);
+          $player["user_id"] = $userId;
+          $player["game_id"] = $gameId;
+        }
+        return $player;
+      }
+    }
+
+    Player::createWithUser($userId, $playerName, $gameId);
     $result = Player::getByUserId($userId);
     return $result->fetch_assoc();
   }
 
   /**
-   * Create a player linked to a user (username is empty for authenticated players)
+   * Create a player linked to a user
    */
-  public static function createWithUser(int $userId) {
+  public static function createWithUser(int $userId, ?string $playerName = null, ?int $gameId = null) {
     global $dbTablePlayers;
 
-    $sql = "INSERT INTO $dbTablePlayers (username, user_id)
-            SELECT '', ?
+    $username = $playerName ?? '';
+    $sql = "INSERT INTO $dbTablePlayers (username, user_id, game_id)
+            SELECT ?, ?, ?
             WHERE NOT EXISTS (
               SELECT user_id FROM $dbTablePlayers WHERE user_id = ?
             ) LIMIT 1";
 
-    exec_query($sql, [ "ii", $userId, $userId ]);
+    exec_query($sql, [ "ssii", $username, $userId, $gameId, $userId ]);
   }
 
   /** Get the count of all players */

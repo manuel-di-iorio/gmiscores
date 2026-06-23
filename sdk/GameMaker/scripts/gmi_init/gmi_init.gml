@@ -17,13 +17,19 @@ function gmi_init(clientId, clientSecret, env = "production") {
 	global.GMI_PLAYER_LOGGED = false;
 	global.GMI_PLAYER_TOKEN = undefined;
 	global.GMI_PLAYER_USERNAME = undefined;
+	global.GMI_PLAYER_ID = undefined;
 	global.GMI_PLAYER_LOGGING_IN = false;
 	
 	// Poll state
 	global.gmi_player_poll_timer = 0;
 	global.gmi_player_poll_count = 0;
-	global.gmi_player_poll_interval = 300; // 5 sec at 60fps
-	global.gmi_player_poll_max = 36; // 36 * 5s = 3 min
+	global.gmi_player_poll_interval = 180; // 3 sec at 60fps
+	global.gmi_player_poll_max = 60; // 60 * 3s = 3 min
+	
+	// Token check state (for startup restore)
+	global.gmi_player_check_timer = 0;
+	global.gmi_player_check_interval = 60; // 1 sec at 60fps
+	global.gmi_player_check_pending = false;
 	
 	// Scores state
 	global.gmi_scores_list = noone;
@@ -31,4 +37,7 @@ function gmi_init(clientId, clientSecret, env = "production") {
 	
 	// Request registry: maps string(request_id) -> { on_success, on_error }
 	global.gmi_requests = {};
+	
+	// Try to restore saved token from disk
+	gmi_player_restore_token();
 }

@@ -21,9 +21,9 @@ function insert_score($params) {
   $userId = $userId ?? null;
 
   if ($userId) {
-    $player = Player::getOrCreateForUser($userId);
+    $player = Player::getOrCreateForUser($userId, $playerName, $gameId);
   } else {
-    Player::create($playerName);
+    Player::create($playerName, $gameId);
     $player = Player::getByName($playerName)->fetch_assoc();
   }
   $playerId = $player["player_id"];

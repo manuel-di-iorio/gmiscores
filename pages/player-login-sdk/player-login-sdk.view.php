@@ -37,7 +37,7 @@
   background: var(--bg-color-card, #fff);
   border: 1px solid var(--border-color, #e5e7eb);
   border-radius: 20px;
-  padding: 52px 44px 48px;
+  padding: 48px 44px;
   text-align: center;
   max-width: 550px;
   width: 100%;
@@ -135,7 +135,6 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  margin-top: 28px;
   padding: 24px 20px;
   background: rgba(16, 185, 129, 0.06);
   border-radius: 12px;
@@ -195,44 +194,44 @@
   <img src="/assets/images/logo<?= $theme === 'dark' ? 'White' : '' ?>.svg" alt="GMI Scores">
 </div>
 
+<?php $isDone = isset($_GET["done"]) && $_GET["done"] === "1"; ?>
+
 <div class="sdk-login-page">
   <div class="sdk-login-card">
-    <div class="sdk-login-logo">
-      <i class="fab fa-discord"></i>
-    </div>
-    <h2><?= __('player_sdk_login_title') ?></h2>
-    <p class="sdk-login-subtitle"><?= __('player_sdk_login_desc') ?></p>
+    <?php if ($isDone) { ?>
+      <div class="sdk-login-success" style="display:flex">
+        <i class="fas fa-check-circle sdk-success-icon"></i>
+        <h2 style="margin-top:12px"><?= __('player_sdk_login_success') ?></h2>
+        <p class="sdk-login-subtitle" style="margin-bottom:0"><?= __('player_sdk_login_success_desc') ?></p>
+      </div>
+    <?php } else { ?>
+      <div class="sdk-login-logo">
+        <i class="fab fa-discord"></i>
+      </div>
+      <h2><?= __('player_sdk_login_title') ?></h2>
+      <p class="sdk-login-subtitle"><?= __('player_sdk_login_desc') ?></p>
 
-    <a href="<?= $loginRedirectUrl ?>" class="sdk-discord-btn" id="btn-discord-login">
-      <i class="fab fa-discord"></i> <?= __('player_sdk_login_button') ?>
-    </a>
+      <a href="<?= $loginRedirectUrl ?>" class="sdk-discord-btn" id="btn-discord-login">
+        <i class="fab fa-discord"></i> <?= __('player_sdk_login_button') ?>
+      </a>
 
-    <div class="sdk-login-waiting" id="login-waiting">
-      <?= ui_spinner_block(__('player_sdk_login_waiting'), 'xl') ?>
-    </div>
+      <div class="sdk-login-waiting" id="login-waiting">
+        <?= ui_spinner_block(__('player_sdk_login_waiting'), 'xl') ?>
+      </div>
 
-    <div class="sdk-login-success" id="login-success">
-      <i class="fas fa-check-circle sdk-success-icon"></i>
-      <p><?= __('player_sdk_login_success') ?></p>
-    </div>
-
-    <div class="sdk-login-footer">
-      <?= __('player_sdk_login_footer', [
-        'terms' => '<a href="/terms.php" target="_blank">' . __('footer_terms') . '</a>',
-        'privacy' => '<a href="/privacy.php" target="_blank">' . __('footer_privacy') . '</a>',
-        'cookie' => '<a href="/cookie.php" target="_blank">' . __('footer_cookie') . '</a>'
-      ]) ?>
-    </div>
+      <div class="sdk-login-footer">
+        <?= __('player_sdk_login_footer', [
+          'terms' => '<a href="/terms.php" target="_blank">' . __('footer_terms') . '</a>',
+          'privacy' => '<a href="/privacy.php" target="_blank">' . __('footer_privacy') . '</a>',
+          'cookie' => '<a href="/cookie.php" target="_blank">' . __('footer_cookie') . '</a>'
+        ]) ?>
+      </div>
+    <?php } ?>
   </div>
 </div>
 
+<?php if (!$isDone) { ?>
 <script>
-<?php if (isset($_GET["done"]) && $_GET["done"] === "1") { ?>
-document.addEventListener("DOMContentLoaded", function() {
-  document.getElementById("btn-discord-login").style.display = "none";
-  document.getElementById("login-success").classList.add("active");
-});
-<?php } else { ?>
 var sessionToken = "<?= htmlspecialchars($session) ?>";
 var checkInterval = null;
 
@@ -246,11 +245,10 @@ document.getElementById("btn-discord-login").addEventListener("click", function(
       .then(function(data) {
         if (data.logged) {
           clearInterval(checkInterval);
-          document.getElementById("login-waiting").classList.remove("active");
-          document.getElementById("login-success").classList.add("active");
+          window.location.href = "/player-auth/discord/login.php?session=" + sessionToken + "&done=1";
         }
       });
   }, 2000);
 });
-<?php } ?>
 </script>
+<?php } ?>

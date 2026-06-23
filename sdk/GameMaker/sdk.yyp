@@ -36,7 +36,6 @@
     {"id":{"name":"gmi_player_login","path":"scripts/gmi_player_login/gmi_player_login.yy",},},
     {"id":{"name":"gmi_player_logout","path":"scripts/gmi_player_logout/gmi_player_logout.yy",},},
     {"id":{"name":"gmi_scores_get_list","path":"scripts/gmi_scores_get_list/gmi_scores_get_list.yy",},},
-    {"id":{"name":"gmi_scores_on_request","path":"scripts/gmi_scores_on_request/gmi_scores_on_request.yy",},},
     {"id":{"name":"gmi_scores_send","path":"scripts/gmi_scores_send/gmi_scores_send.yy",},},
     {"id":{"name":"uuid_generate","path":"scripts/uuid_generate/uuid_generate.yy",},},
   ],

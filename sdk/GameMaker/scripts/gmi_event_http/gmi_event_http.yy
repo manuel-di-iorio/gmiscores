@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"gmi_event_http",
   "parent":{
-    "name":"Player",
-    "path":"folders/Scripts/GMI Cloud Services/Player.yy",
+    "name":"GMI Cloud Services",
+    "path":"folders/Scripts/GMI Cloud Services.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
