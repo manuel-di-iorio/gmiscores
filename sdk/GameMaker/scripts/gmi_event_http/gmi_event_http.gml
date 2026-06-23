@@ -62,12 +62,17 @@ function gmi_event_http() {
 				global.GMI_PLAYER_ID = variable_struct_exists(_data, "user_id") ? _data.user_id : undefined;
 				global.GMI_PLAYER_SESSION = undefined;
 				global.GMI_PLAYER_LOGGING_IN = false;
-				global.gmi_player_poll_timer = 0;
 				global.gmi_player_poll_count = 0;
 				show_debug_message("[GMI] Player logged in as " + global.GMI_PLAYER_USERNAME + "!");
 				gmi_player_save_token();
+				// Fire login callback
+				if (!is_undefined(global.GMI_PLAYER_LOGIN_CB) && !is_undefined(global.GMI_PLAYER_LOGIN_CB.on_success)) {
+					global.GMI_PLAYER_LOGIN_CB.on_success({ username: global.GMI_PLAYER_USERNAME, user_id: global.GMI_PLAYER_ID });
+				}
 			} else {
 				global.GMI_PLAYER_LOGGING_IN = false;
+				// Schedule next poll
+				call_later(global.gmi_player_poll_interval, timeunit_frames, __gmi_player_poll_login);
 			}
 		}
 		

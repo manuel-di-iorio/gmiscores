@@ -1,7 +1,7 @@
-/// @func gmi_player_login(opts)
+/// @func gmi_login(opts)
 /// @desc Open the Discord login page for the player
-/// @example gmi_player_login()
-function gmi_player_login(opts = {}) {
+/// @example gmi_login()
+function gmi_login(opts = {}) {
 	if (global.GMI_PLAYER_LOGGED) return;
 	
 	var on_success = variable_struct_exists(opts, "on_success") ? opts.on_success : undefined;
@@ -15,7 +15,6 @@ function gmi_player_login(opts = {}) {
 	
 	global.GMI_PLAYER_SESSION = sessionToken;
 	global.GMI_PLAYER_LOGGING_IN = false;
-	global.gmi_player_poll_timer = 0;
 	global.gmi_player_poll_count = 0;
 	
 	// Store login callbacks to fire when the session check succeeds
@@ -27,6 +26,9 @@ function gmi_player_login(opts = {}) {
 	var loginUrl = global.GMI_ENDPOINT_HOST + "/../../player-auth/discord/login.php?session=" + sessionToken;
 	show_debug_message("[GMI Player] Opening Discord login: " + loginUrl);
 	url_open(loginUrl);
+	
+	// Start internal polling
+	__gmi_player_poll_login();
 }
 
 /// @func gmi_player_save_token()

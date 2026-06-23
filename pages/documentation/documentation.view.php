@@ -95,18 +95,6 @@
 
       <div class="terminal-mockup" style="margin-top: 16px;">
         <div class="terminal-header">
-          <span class="terminal-title">Step Event</span>
-        </div>
-        <div class="terminal-body code-block-wrapper">
-          <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
-            <i class="far fa-copy"></i>
-          </button>
-          <div class="code-block jsHigh">gmi_player_is_logged(); // <?= __('docs_sdk_polling_desc') ?></div>
-        </div>
-      </div>
-
-      <div class="terminal-mockup" style="margin-top: 16px;">
-        <div class="terminal-header">
           <span class="terminal-title">Async HTTP Event</span>
         </div>
         <div class="terminal-body code-block-wrapper">
@@ -121,28 +109,19 @@
 
       <div class="terminal-mockup" style="margin-top: 12px;">
         <div class="terminal-header">
-          <span class="terminal-title">gmi_player_login()</span>
+          <span class="terminal-title">gmi_login()</span>
         </div>
         <div class="terminal-body code-block-wrapper">
-          <div class="code-block jsHigh">gmi_player_login(); // <?= __('docs_sdk_method_login') ?></div>
+          <div class="code-block jsHigh">gmi_login(); // <?= __('docs_sdk_method_login') ?></div>
         </div>
       </div>
 
       <div class="terminal-mockup" style="margin-top: 12px;">
         <div class="terminal-header">
-          <span class="terminal-title">gmi_player_is_logged()</span>
+          <span class="terminal-title">gmi_logout()</span>
         </div>
         <div class="terminal-body code-block-wrapper">
-          <div class="code-block jsHigh">// <?= __('docs_sdk_method_is_logged_desc') ?><br/>// <?= __('docs_sdk_method_is_logged_step') ?><br/>gmi_player_is_logged();<br/><br/>// <?= __('docs_sdk_method_is_logged_check') ?><br/>if (global.GMI_PLAYER_LOGGED) {<br/>&nbsp;&nbsp;// <?= __('docs_sdk_method_logged_if') ?><br/>}</div>
-        </div>
-      </div>
-
-      <div class="terminal-mockup" style="margin-top: 12px;">
-        <div class="terminal-header">
-          <span class="terminal-title">gmi_player_logout()</span>
-        </div>
-        <div class="terminal-body code-block-wrapper">
-          <div class="code-block jsHigh">gmi_player_logout(); // <?= __('docs_sdk_method_logout') ?></div>
+          <div class="code-block jsHigh">gmi_logout(); // <?= __('docs_sdk_method_logout') ?></div>
         </div>
       </div>
 

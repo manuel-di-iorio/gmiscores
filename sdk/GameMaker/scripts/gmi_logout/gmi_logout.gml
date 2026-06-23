@@ -1,7 +1,7 @@
-/// @func gmi_player_logout(opts)
+/// @func gmi_logout(opts)
 /// @desc Log out the player
-/// @example gmi_player_logout()
-function gmi_player_logout(opts = {}) {
+/// @example gmi_logout()
+function gmi_logout(opts = {}) {
 	var on_success = variable_struct_exists(opts, "on_success") ? opts.on_success : undefined;
 	var on_error = variable_struct_exists(opts, "on_error") ? opts.on_error : undefined;
 	

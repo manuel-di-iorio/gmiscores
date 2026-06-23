@@ -1,2 +1,1 @@
-// Check login status (handles polling automatically)
-gmi_player_is_logged();
+// Polling is handled internally by the SDK

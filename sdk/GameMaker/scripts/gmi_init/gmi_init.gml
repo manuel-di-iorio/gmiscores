@@ -36,14 +36,11 @@ function gmi_init(clientId = undefined, clientSecret = undefined, env = undefine
 	global.GMI_PLAYER_LOGGING_IN = false;
 	
 	// Poll state
-	global.gmi_player_poll_timer = 0;
 	global.gmi_player_poll_count = 0;
 	global.gmi_player_poll_interval = 180; // 3 sec at 60fps
 	global.gmi_player_poll_max = 60; // 60 * 3s = 3 min
 	
 	// Token check state (for startup restore)
-	global.gmi_player_check_timer = 0;
-	global.gmi_player_check_interval = 60; // 1 sec at 60fps
 	global.gmi_player_check_pending = false;
 	
 	// Scores state

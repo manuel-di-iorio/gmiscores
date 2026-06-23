@@ -1,6 +1,6 @@
 // L key - Toggle login/logout
 if (global.GMI_PLAYER_LOGGED) {
-	gmi_player_logout();
+	gmi_logout();
 } else {
-	gmi_player_login();
+	gmi_login();
 }
