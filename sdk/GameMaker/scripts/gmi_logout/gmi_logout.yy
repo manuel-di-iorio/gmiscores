@@ -6,7 +6,7 @@
   "name":"gmi_logout",
   "parent":{
     "name":"Player",
-    "path":"folders/Scripts/GMI Cloud Services/Player.yy",
+    "path":"folders/Scripts/GMI Cloud/Player.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
