@@ -3,16 +3,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  padding: 40px 20px;
-  box-sizing: border-box;
-  margin-top: -64px;
-  padding-top: 64px;
+  min-height: calc(100vh - 212px);
+  /* margin: 0 -80px; */
+  padding-top: 64px 20px 40px;
   background:
     radial-gradient(ellipse at 20% 50%, rgba(88, 101, 242, 0.06) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 20%, rgba(129, 140, 248, 0.04) 0%, transparent 50%),
     var(--bg-color-offset, #f4f7f6);
 }
+
 .login-card {
   background: var(--bg-color-card, #fff);
   border: 1px solid var(--border-color, #e5e7eb);
@@ -21,7 +20,6 @@
   text-align: center;
   max-width: 500px;
   width: 100%;
-  box-sizing: border-box;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.06);
 }
 .login-discord-icon {
@@ -81,7 +79,6 @@
   background: #5865F2 !important;
   border: none !important;
   box-shadow: 0 2px 8px rgba(88, 101, 242, 0.25);
-  box-sizing: border-box;
 }
 .login-discord-btn:hover {
   background: #4752C4 !important;
