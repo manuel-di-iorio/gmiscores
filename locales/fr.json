@@ -189,7 +189,7 @@
   "player_sdk_login_button": "Se connecter avec Discord",
   "player_sdk_login_waiting": "En attente de la connexion...",
   "player_sdk_login_success": "Vous vous \u00eates connect\u00e9 avec succ\u00e8s. Vous pouvez maintenant fermer cette page.",
-  "player_sdk_login_footer": "En continuant, vous acceptez les {terms}, la {privacy} et la {cookie} de GMI Scores.",
+  "player_sdk_login_footer": "En cliquant \"Continuer avec Discord\", vous acceptez nos {terms}, la {privacy} et la {cookie}.",
   "docs_sdk_quickstart_title": "D\u00e9marrage rapide",
   "docs_sdk_polling_desc": "G\u00e8re le polling automatiquement",
   "docs_sdk_event_desc": "G\u00e8re toutes les r\u00e9ponses HTTP automatiquement",
