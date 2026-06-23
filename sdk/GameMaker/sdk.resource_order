@@ -7,6 +7,7 @@
     {"name":"Scores","order":3,"path":"folders/Scripts/GMI Cloud Services/Scores.yy",},
   ],
   "ResourceOrderSettings":[
+    {"name":"__gmi_load_env","order":5,"path":"scripts/__gmi_load_env/__gmi_load_env.yy",},
     {"name":"dec_to_hex","order":4,"path":"scripts/dec_to_hex/dec_to_hex.yy",},
     {"name":"gmi_draw_debug","order":2,"path":"scripts/gmi_draw_debug/gmi_draw_debug.yy",},
     {"name":"gmi_event_http","order":1,"path":"scripts/gmi_event_http/gmi_event_http.yy",},

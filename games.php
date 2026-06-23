@@ -12,7 +12,7 @@ if ($selectedTeamId !== null) {
   require_once("models/Team.php");
   if (!Team::isMember($selectedTeamId, $user["id"])) {
     $selectedTeamId = null;
-    setcookie("selected_team_id", "", ["expires" => time() - 3600, "path" => "/"]);
+    setcookie("selected_team_id", "", time() - 3600, "/");
     $_COOKIE['selected_team_id'] = '';
   }
 }

@@ -28,6 +28,7 @@
   "resources":[
     {"id":{"name":"LeaderboardTest","path":"objects/LeaderboardTest/LeaderboardTest.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"id":{"name":"__gmi_load_env","path":"scripts/__gmi_load_env/__gmi_load_env.yy",},},
     {"id":{"name":"dec_to_hex","path":"scripts/dec_to_hex/dec_to_hex.yy",},},
     {"id":{"name":"gmi_draw_debug","path":"scripts/gmi_draw_debug/gmi_draw_debug.yy",},},
     {"id":{"name":"gmi_event_http","path":"scripts/gmi_event_http/gmi_event_http.yy",},},

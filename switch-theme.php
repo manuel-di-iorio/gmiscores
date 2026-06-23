@@ -14,13 +14,7 @@ if (!in_array($theme, ["light", "dark"]) || strlen($go) < 1 || $go[0] !== "/" ||
 $go = str_replace(["\r", "\n"], "", $go);
 
 // Set the theme cookie
-setcookie("theme", $theme, [
-  "expires" => time()+60*60*24*365, 
-  "path" => "/",
-  "secure" => $config["httpsRedirect"] === "true",
-  "httponly" => true,
-  "sameSite" => "Lax"
-]);
+setcookie("theme", $theme, time()+60*60*24*365, "/", "", false, true);
 
 // Redirect back to the client
 header("Location: " . $go);

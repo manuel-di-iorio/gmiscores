@@ -47,7 +47,7 @@ if (!isset($user) && isset($_COOKIE["user"])) {
             }
         }
     } catch (Exception $e) {
-        setcookie("user", "", time() - 3600, ["httponly" => true, "samesite" => "Lax"]);
+        setcookie("user", "", time() - 3600, "/", "", false, true);
         exit("Session error.");
     }
 }

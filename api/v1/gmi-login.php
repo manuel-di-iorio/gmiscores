@@ -66,14 +66,7 @@ session_regenerate_id(true);
 // Store the user in the cookie
 $encryptedUser = aes_encrypt(json_encode([ "id" => $user["id"] ]), true);
 
-setcookie("user", $encryptedUser, [
-  "expires" => time()+60*60*24*365,
-  "domain" => $config["cookieDomain"],
-  "path" => "/", 
-  "secure" => $config["httpsRedirect"] === "true",
-  "httponly" => true,
-  "sameSite" => "Lax"
-]);
+setcookie("user", $encryptedUser, time()+60*60*24*365, "/", "", false, true);
 
 // Redirect back
 header("Location: $redirectUri");

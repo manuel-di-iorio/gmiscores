@@ -1,8 +1,23 @@
-/// @func gmi_init(game_id, game_secret)
-/// @desc Initialize the GMI Cloud Services client
-/// @arg {real} game_id
-/// @arg {string} game_secret
-function gmi_init(clientId, clientSecret, env = "production") {
+/// @func gmi_init([game_id, game_secret, env])
+/// @desc Initialize the GMI Cloud Services client. All parameters are optional if a .env file is present.
+/// @arg {real} [game_id]
+/// @arg {string} [game_secret]
+/// @arg {string} [env]
+function gmi_init(clientId = undefined, clientSecret = undefined, env = undefined) {
+	// Load .env file if present (provides defaults for all parameters)
+	__gmi_load_env();
+	
+	if (is_undefined(clientId) && variable_global_exists("gmi_env_game_id") && !is_undefined(global.gmi_env_game_id)) {
+		clientId = global.gmi_env_game_id;
+	}
+	if (is_undefined(clientSecret) && variable_global_exists("gmi_env_game_secret") && !is_undefined(global.gmi_env_game_secret)) {
+		clientSecret = global.gmi_env_game_secret;
+	}
+	if (is_undefined(env) && variable_global_exists("gmi_env") && !is_undefined(global.gmi_env)) {
+		env = global.gmi_env;
+	}
+	if (is_undefined(env)) env = "production";
+	
 	if (env == "production") {
 	   global.GMI_ENDPOINT_HOST = "https://gmiscores.altervista.org/api/v1";
     } else {
@@ -41,3 +56,4 @@ function gmi_init(clientId, clientSecret, env = "production") {
 	// Try to restore saved token from disk
 	gmi_player_restore_token();
 }
+
