@@ -100,7 +100,7 @@ class Team {
     global $dbTableTeamMembers;
     global $dbTableUsers;
 
-    $sql = "SELECT id FROM $dbTableUsers WHERE discord_user_id = ?";
+    $sql = "SELECT id FROM $dbTableUsers WHERE auth_discord_id = ?";
     $result = exec_query($sql, ["s", $discordUserId]);
     if (!$result->num_rows) return false;
     $targetUser = $result->fetch_assoc();
@@ -125,7 +125,7 @@ class Team {
     global $dbTableUsers;
 
     $sql = "SELECT tm.id, tm.user_id, tm.role, tm.added_by, tm.created_at,
-                   u.username, u.discord_user_id
+                   u.username, u.auth_discord_id
             FROM $dbTableTeamMembers tm
             INNER JOIN $dbTableUsers u ON tm.user_id = u.id
             WHERE tm.team_id = ?
@@ -157,7 +157,7 @@ class Team {
 
   public static function getUserById(int $userId) {
     global $dbTableUsers;
-    $sql = "SELECT id, discord_user_id, username FROM $dbTableUsers WHERE id = ?";
+    $sql = "SELECT id, auth_discord_id, username FROM $dbTableUsers WHERE id = ?";
     return exec_query($sql, ["i", $userId]);
   }
 }

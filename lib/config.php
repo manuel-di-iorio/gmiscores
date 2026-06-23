@@ -2,6 +2,7 @@
 $env = parse_ini_file(__DIR__ . '/../.env');
 
 $config = [
+  "appEnv" => $env['APP_ENV'] ?? 'production',
   "dbHost" => $env['DB_HOST'],
   "dbUsername" => $env['DB_USERNAME'],
   "dbPassword" => $env['DB_PASSWORD'],
@@ -17,6 +18,7 @@ $config = [
   "logoWidth" => $env['LOGO_WIDTH'],
   "logoHeight" => $env['LOGO_HEIGHT'],
   "loginCallback" => $env['LOGIN_CALLBACK'],
+  "playerLoginCallback" => $env['PLAYER_LOGIN_CALLBACK'] ?? '',
   "cookieKey" => $env['COOKIE_KEY'],
   "cookieDomain" => $env['COOKIE_DOMAIN'],
   "recaptchaKey" => $env['RECAPTCHA_KEY'],

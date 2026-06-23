@@ -56,7 +56,6 @@ switch ($activeTab) {
     if (!empty($members)) {
       $html .= '<div class="ui-table-container"><table class="ui-table"><thead class="ui-table-header"><tr>
         <th class="ui-table-header-cell">' . __('admin_col_username') . '</th>
-        <th class="ui-table-header-cell">' . __('admin_col_discord') . '</th>
         <th class="ui-table-header-cell">' . __('teams_col_role') . '</th>';
 
       if ($isTeamAdmin) {
@@ -69,7 +68,6 @@ switch ($activeTab) {
         $isSelf = (int)$m['user_id'] === $userId;
         $html .= '<tr class="ui-table-row">
           <td class="ui-table-cell">' . htmlspecialchars($m['username']) . ($isSelf ? ' <span style="color:var(--text-color-secondary,#6b7280)">(tu)</span>' : '') . '</td>
-          <td class="ui-table-cell"><code style="font-size:0.85em">' . htmlspecialchars($m['discord_user_id']) . '</code></td>
           <td class="ui-table-cell">';
 
         if ($m['role'] === 'admin') {

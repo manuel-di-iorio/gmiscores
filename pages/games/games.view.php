@@ -27,6 +27,14 @@
     ];
 
     $tableActions = [
+    [
+        "label" => __('games_action_manage'),
+        "icon" => "fas fa-cog",
+        "url" => function ($data) {
+          return "game.php?id={$data['game_id']}";
+        },
+        "class" => "btn-link"
+      ],  
       [
         "label" => __('games_action_leaderboards'),
         "icon" => "fas fa-trophy",

@@ -24,13 +24,14 @@
        if (empty($gameName)) {
          $formError = '<div style="background:#f44336;color:#fff;padding:8px 16px;border-radius:4px;margin-bottom:16px"><h4>Errore: nome del gioco richiesto</h4></div>';
        }
-       if (!$formError && strlen($gameName) > 100) {
-         $formError = '<div style="background:#f44336;color:#fff;padding:8px 16px;border-radius:4px;margin-bottom:16px"><h4>Errore: nome del gioco troppo lungo (max 100 caratteri)</h4></div>';
-       }
-       if (!$formError) {
-       $clientSecret = bin2hex(random_bytes(16));
-         Game::create($user["id"], $gameName, $clientSecret, $selectedTeamId);
-         $gameId = $db->insert_id;
+        if (!$formError && strlen($gameName) > 100) {
+          $formError = '<div style="background:#f44336;color:#fff;padding:8px 16px;border-radius:4px;margin-bottom:16px"><h4>Errore: nome del gioco troppo lungo (max 100 caratteri)</h4></div>';
+        }
+        if (!$formError) {
+        $clientSecret = bin2hex(random_bytes(16));
+        $requirePlayerAuth = isset($_POST["require_player_auth"]) && $_POST["require_player_auth"] === "1";
+          Game::create($user["id"], $gameName, $clientSecret, $selectedTeamId, $requirePlayerAuth);
+          $gameId = $db->insert_id;
          header("Location: game.php?id=$gameId");
          exit;
        }

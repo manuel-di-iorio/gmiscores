@@ -8,6 +8,7 @@ class Player {
     'columns'    => [
       'player_id' => ['type' => 'int',    'auto' => true],
       'username'  => ['type' => 'string', 'unique' => true],
+      'user_id'   => ['type' => 'int',    'nullable' => true],
     ],
     'indexes'    => [
       ['columns' => ['username'], 'unique' => true],
@@ -39,7 +40,47 @@ class Player {
     global $dbTablePlayers;
     $sql = "SELECT * FROM $dbTablePlayers WHERE username=?";
     return exec_query($sql, [ "s", $playerName ]);
-  } 
+  }
+
+  /**
+   * Get the player by user_id
+   */
+  public static function getByUserId(int $userId) {
+    global $dbTablePlayers;
+    $sql = "SELECT * FROM $dbTablePlayers WHERE user_id=?";
+    return exec_query($sql, [ "i", $userId ]);
+  }
+
+  /**
+   * Get or create a player for an authenticated user
+   */
+  public static function getOrCreateForUser(int $userId) {
+    global $dbTablePlayers;
+
+    $result = Player::getByUserId($userId);
+    if ($result->num_rows) {
+      return $result->fetch_assoc();
+    }
+
+    Player::createWithUser($userId);
+    $result = Player::getByUserId($userId);
+    return $result->fetch_assoc();
+  }
+
+  /**
+   * Create a player linked to a user (username is empty for authenticated players)
+   */
+  public static function createWithUser(int $userId) {
+    global $dbTablePlayers;
+
+    $sql = "INSERT INTO $dbTablePlayers (username, user_id)
+            SELECT '', ?
+            WHERE NOT EXISTS (
+              SELECT user_id FROM $dbTablePlayers WHERE user_id = ?
+            ) LIMIT 1";
+
+    exec_query($sql, [ "ii", $userId, $userId ]);
+  }
 
   /** Get the count of all players */
   public static function count() {
@@ -51,6 +92,7 @@ class Player {
 
   public static function listAllWithScores(?string $search = null, int $page = 0, int $perPage = 50, ?string $sortBy = null, ?string $sortDir = null, bool $bannedOnly = false) {
     global $dbTablePlayers;
+    global $dbTableUsers;
     global $dbTableScores;
     global $dbTableGames;
     global $dbTableBans;
@@ -58,14 +100,14 @@ class Player {
 
     $allowedSorts = [
       'id' => 'p.player_id',
-      'username' => 'p.username',
+      'username' => 'COALESCE(u.username, p.username)',
       'top_score' => 'top_score',
       'game' => 'top_game',
     ];
     $sortCol = $allowedSorts[$sortBy] ?? null;
     $sortDirection = strtoupper($sortDir) === 'ASC' ? 'ASC' : 'DESC';
 
-    $sql = "SELECT p.player_id, p.username,
+    $sql = "SELECT p.player_id, COALESCE(u.username, p.username) AS username,
                    (SELECT g2.name FROM $dbTableScores s2
                     INNER JOIN $dbTableGames g2 ON s2.game_id = g2.game_id
                     WHERE s2.player_id = p.player_id
@@ -85,15 +127,17 @@ class Player {
                      SELECT 1 FROM $dbTableBans b
                      WHERE b.player_id = p.player_id
                    ) THEN 1 ELSE 0 END AS has_bans
-            FROM $dbTablePlayers p";
+            FROM $dbTablePlayers p
+            LEFT JOIN $dbTableUsers u ON p.user_id = u.id";
 
     $conditions = [];
     $params = [];
     $types = "";
 
     if (!is_null($search) && $search !== '') {
-      $conditions[] = "p.username LIKE ?";
-      $types .= "s";
+      $conditions[] = "(p.username LIKE ? OR u.username LIKE ?)";
+      $types .= "ss";
+      $params[] = "%" . $search . "%";
       $params[] = "%" . $search . "%";
     }
 
@@ -142,25 +186,28 @@ class Player {
 
   public static function listByGameWithBanStatus(int $gameId, ?string $search = null, bool $bannedOnly = false, int $page = 0, int $perPage = 50) {
     global $dbTablePlayers;
+    global $dbTableUsers;
     global $dbTableScores;
     global $dbTableBans;
 
     $offset = $page * $perPage;
 
-    $sql = "SELECT DISTINCT p.player_id, p.username,
+    $sql = "SELECT DISTINCT p.player_id, COALESCE(u.username, p.username) AS username, p.user_id,
                    CASE WHEN EXISTS (
                      SELECT 1 FROM $dbTableBans b
                      WHERE b.player_id = p.player_id AND b.game_id = ?
                    ) THEN 1 ELSE 0 END AS is_banned
             FROM $dbTablePlayers p
+            LEFT JOIN $dbTableUsers u ON p.user_id = u.id
             INNER JOIN $dbTableScores s ON s.player_id = p.player_id AND s.game_id = ?
             WHERE 1=1";
 
     $params = [ "ii", $gameId, $gameId ];
 
     if (!is_null($search) && $search !== '') {
-      $sql .= " AND p.username LIKE ?";
-      $params[0] .= "s";
+      $sql .= " AND (p.username LIKE ? OR u.username LIKE ?)";
+      $params[0] .= "ss";
+      $params[] = "%" . $search . "%";
       $params[] = "%" . $search . "%";
     }
 
@@ -184,19 +231,22 @@ class Player {
 
   public static function countByGameWithBanStatus(int $gameId, ?string $search = null, bool $bannedOnly = false) {
     global $dbTablePlayers;
+    global $dbTableUsers;
     global $dbTableScores;
     global $dbTableBans;
 
     $sql = "SELECT COUNT(DISTINCT p.player_id) AS count
             FROM $dbTablePlayers p
+            LEFT JOIN $dbTableUsers u ON p.user_id = u.id
             INNER JOIN $dbTableScores s ON s.player_id = p.player_id AND s.game_id = ?
             WHERE 1=1";
 
     $params = [ "i", $gameId ];
 
     if (!is_null($search) && $search !== '') {
-      $sql .= " AND p.username LIKE ?";
-      $params[0] .= "s";
+      $sql .= " AND (p.username LIKE ? OR u.username LIKE ?)";
+      $params[0] .= "ss";
+      $params[] = "%" . $search . "%";
       $params[] = "%" . $search . "%";
     }
 
@@ -216,18 +266,21 @@ class Player {
 
   public static function countAllWithScores(?string $search = null, bool $bannedOnly = false) {
     global $dbTablePlayers;
+    global $dbTableUsers;
     global $dbTableBans;
 
     $sql = "SELECT COUNT(p.player_id) AS count
-            FROM $dbTablePlayers p";
+            FROM $dbTablePlayers p
+            LEFT JOIN $dbTableUsers u ON p.user_id = u.id";
 
     $conditions = [];
     $params = [];
     $types = "";
 
     if (!is_null($search) && $search !== '') {
-      $conditions[] = "p.username LIKE ?";
-      $types .= "s";
+      $conditions[] = "(p.username LIKE ? OR u.username LIKE ?)";
+      $types .= "ss";
+      $params[] = "%" . $search . "%";
       $params[] = "%" . $search . "%";
     }
 

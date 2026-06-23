@@ -7,15 +7,16 @@ class User {
     'timestamps' => true,
     'columns'    => [
       'id'              => ['type' => 'int',    'auto' => true],
-      'discord_user_id' => ['type' => 'string', 'unique' => true],
+      'auth_discord_id' => ['type' => 'string', 'unique' => true],
       'username'        => ['type' => 'string'],
       'approved'        => ['type' => 'bool',   'default' => false],
       'admin'           => ['type' => 'bool',   'default' => false],
+      'auth_discord_id' => ['type' => 'string', 'nullable' => true],
       'created_at'      => ['type' => 'datetime'],
       'updated_at'      => ['type' => 'datetime'],
     ],
     'indexes'    => [
-      ['columns' => ['discord_user_id'], 'unique' => true],
+      ['columns' => ['auth_discord_id'], 'unique' => true],
       ['columns' => ['created_at']],
     ],
     'relations'  => [
@@ -28,7 +29,7 @@ class User {
   public static function upsert(string $discordUserId, $username, $avatar) {
     global $dbTableUsers;
 
-    $sql = "INSERT INTO $dbTableUsers (discord_user_id, username) VALUES (?, ?)
+    $sql = "INSERT INTO $dbTableUsers (auth_discord_id, username) VALUES (?, ?)
     ON DUPLICATE KEY UPDATE username = ?";
 
     exec_query($sql, [ "sss", $discordUserId, $username, $username ]);
@@ -39,7 +40,7 @@ class User {
    */
   public static function getById(string $userId) {
     global $dbTableUsers;
-    $sql = "SELECT id, discord_user_id, username, approved, admin FROM $dbTableUsers WHERE id = ?";
+    $sql = "SELECT id, auth_discord_id, username, approved, admin FROM $dbTableUsers WHERE id = ?";
     return exec_query($sql, [ "i", $userId ]);
   }
 
@@ -50,7 +51,7 @@ class User {
     global $dbTableUsers;
     $offset = $page * $perPage;
 
-    $sql = "SELECT id, discord_user_id, username, approved, admin FROM $dbTableUsers";
+    $sql = "SELECT id, auth_discord_id, username, approved, admin FROM $dbTableUsers";
 
     $conditions = [];
     $params = [];
@@ -141,7 +142,7 @@ class User {
    */
   public static function getByDiscordUserId(string $discordUserId) {
     global $dbTableUsers;
-    $sql = "SELECT id, discord_user_id, username FROM $dbTableUsers WHERE discord_user_id = ?";
+    $sql = "SELECT id, auth_discord_id, username FROM $dbTableUsers WHERE auth_discord_id = ?";
     return exec_query($sql, [ "s", $discordUserId ]);
   }
 

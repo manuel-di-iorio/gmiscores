@@ -1,38 +1,5 @@
-/// @func gmi_scores_on_request([leaderboard])
-/// @desc Parse the scores returned from the Get Scores request. 
-///       The scores are stored into the 'gmi_scores_list' array and gmi_scores_player_score struct
-/// @ret {real} HTTP Status Code. 200 or error code (>= 400 & <600)
+/// @func gmi_scores_on_request()
+/// @desc DEPRECATED - use gmi_event_http() instead. This function is no longer needed.
 function gmi_scores_on_request() {
-	// Check if an error happened
-	if (async_load[? "status"] != 0) return 500;
-    
-    var _result = async_load[? "result"];
-    show_debug_message("[GMI Scores] Received JSON: " + _result);
-    
-	if (async_load[? "http_status"] != 200) {
-        try {
-            var error = json_parse(_result);
-            show_debug_message("[GMI Scores] Request error: " + error.code + " - Message: " + error.message);
-            return error.status;	
-        } catch (err) {
-		    show_debug_message("[GMI Scores] Request error: " + err.message);
-        }
-	}
-
-	if (async_load[? "id"] == gmi_scores_list_req) {
-		// Cleanup the old scores data
-		if (gmi_scores_list != noone) gmi_scores_list = undefined;
-
-		// Parse the new scores
-        try {
-      		var result = json_parse(_result);		
-      		var list = result.scores;
-      		gmi_scores_list = list;
-      		gmi_scores_player_score = result.playerScore;
-        } catch (err) {
-		    show_debug_message("[GMI Scores] Request error: " + err.message);
-        }
-	}
-
-	return 200;
+	show_debug_message("[GMI] gmi_scores_on_request is deprecated, use gmi_event_http() instead");
 }

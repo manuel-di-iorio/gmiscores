@@ -14,16 +14,23 @@ function insert_score($params) {
     "data" => $data,
     "minScore" => $minScore,
     "maxScore" => $maxScore,
-    "env" => $env
+    "env" => $env,
+    "userId" => $userId
   ] = $params;
 
-  Player::create($playerName);
-  $player = Player::getByName($playerName)->fetch_assoc();
+  $userId = $userId ?? null;
+
+  if ($userId) {
+    $player = Player::getOrCreateForUser($userId);
+  } else {
+    Player::create($playerName);
+    $player = Player::getByName($playerName)->fetch_assoc();
+  }
   $playerId = $player["player_id"];
 
   $result = Score::findByGameLeaderboardAndPlayerId($gameId, $leaderboardId, $playerId);
   if (!$result->num_rows) {
-    $scoreId = Score::create($gameId, $playerId, $score, $ip, $country, NULL, $sign, $leaderboardId, $tags, $data, $env);
+    $scoreId = Score::create($gameId, $playerId, $score, $ip, $country, NULL, $sign, $leaderboardId, $tags, $data, $env, $userId);
     $scoreAction = "inserted";
   } else {
     $scoreAction = "nothing";

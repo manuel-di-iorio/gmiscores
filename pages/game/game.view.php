@@ -197,19 +197,25 @@ $configContent = '
           <i class="input-regenerate-secret-btn fas fa-sync" onclick="openModal(\'modal-regenerate-secret\')" data-tippy-content="' . __('game_details_secret_regenerate_tooltip') . '"></i>
           <i class="input-secret-eye-btn fas fa-eye" onclick="toggleSecretVisibility(this)" data-tippy-content="' . __('game_details_secret_toggle_tooltip') . '"></i>
         </div>
-      </div>
-    </div>
 
-    <div style="flex:1;min-width:300px">
-      <div class="internal-card">
-        <div class="internal-card__title"><i class="fas fa-edit"></i> ' . __('game_rename_title') . '</div>
-        <form method="POST" action="/game-rename.php?id=' . $gameId . '">
-          ' . csrf_field() . '
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color)">
+          <label class="form-label">' . __('game_rename_title') . '</label>
           <div class="input-group">
             <input id="input-game-name" name="name" type="text" class="w-full px-3.5 py-2.5 border border-solid border-[var(--border-color)] rounded-lg text-[0.95rem] leading-normal bg-input-bg text-input-text placeholder:text-[var(--text-color-secondary)] transition-colors duration-200 box-border focus:border-[var(--primary-color)] focus:outline-none focus:shadow-[0_0_0_3px_rgba(99,102,241,0.12)] disabled:bg-input-bg-disabled disabled:text-input-text-disabled disabled:cursor-not-allowed" value="' . htmlspecialchars($game["name"]) . '" required>
           </div>
-          ' . ui_button(__('game_rename_button'), 'primary', 'md', ['icon' => 'fa fa-edit', 'type' => 'submit', 'class' => 'mt-2']) . '
-        </form>
+
+          <label class="flex items-center gap-3 cursor-pointer" style="margin-top:12px">
+            <input type="checkbox" id="toggle-player-auth" class="w-4 h-4 rounded border-[var(--border-color)] text-[var(--primary-color)] focus:ring-[var(--primary-color)]" ' . ($game["require_player_auth"] ? 'checked' : '') . '>
+            <div>
+              <span class="text-sm font-semibold text-[var(--text-color)]">' . __('game_require_player_auth') . '</span>
+              <p class="text-xs text-[var(--text-color-secondary)] mt-0.5">' . __('game_require_player_auth_desc') . '</p>
+            </div>
+          </label>
+          <div style="margin-top:12px;display:flex;align-items:center;gap:8px">
+            ' . ui_button(__('game_save'), 'primary', 'sm', ['icon' => 'fas fa-save', 'attrs' => ['id' => 'btn-save-player-auth']]) . '
+            <span id="spinner-player-auth" style="display:none">' . ui_spinner('sm') . '</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -277,6 +283,45 @@ function deleteGame() {
     body: "id=" + encodeURIComponent(modalSelectedGameId) + "&csrf_token=" + encodeURIComponent(csrfToken)
   }).then(function() { location.href = "games.php"; });
 }
+
+function saveRequirePlayerAuth() {
+  var btn = document.getElementById("btn-save-player-auth");
+  var spinner = document.getElementById("spinner-player-auth");
+  var checkbox = document.getElementById("toggle-player-auth");
+  var nameInput = document.getElementById("input-game-name");
+  var enabled = checkbox.checked ? "1" : "0";
+
+  var body = "id=" + encodeURIComponent(<?= $gameId ?>) + "&enabled=" + enabled + "&name=" + encodeURIComponent(nameInput.value) + "&csrf_token=" + encodeURIComponent(csrfToken);
+
+  fetchWithSpinner({
+    button: btn,
+    spinner: spinner,
+    fetch: {
+      url: "/api/internal/games/toggle-player-auth.php",
+      options: {
+        method: "POST",
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: body
+      }
+    },
+    onSuccess: function(data) {
+      if (data.status === 200) {
+        uiToastSuccess(<?= json_encode(__("toast_settings_saved")) ?>);
+      } else {
+        uiToastError(<?= json_encode(__("toast_error_update")) ?>);
+      }
+    },
+    onError: function() {
+      uiToastError(<?= json_encode(__("toast_network_error")) ?>);
+    }
+  });
+}
+
+document.addEventListener("click", function(e) {
+  if (e.target && e.target.id === "btn-save-player-auth") {
+    saveRequirePlayerAuth();
+  }
+});
 </script>
 
 <?php require_once("game.view.script.php"); ?>

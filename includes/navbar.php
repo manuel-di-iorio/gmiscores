@@ -43,7 +43,7 @@ if ($selectedTeamId !== null && isset($user)) {
 <nav id="navbar">
   <div class="LogoContainer">
     <a href="./index.php" class="navbar-logo-link">
-      <img src="assets/images/logo<?= $navbarLogoColor ?>.svg" class="round Logo" alt="Logo Piattaforma">
+      <img src="/assets/images/logo<?= $navbarLogoColor ?>.svg" class="round Logo" alt="Logo Piattaforma">
     </a>
   </div>
   
@@ -77,9 +77,10 @@ if ($selectedTeamId !== null && isset($user)) {
   
   <?php if (isset($user)) { ?>      
     <div class="user-info">
+      <span class="user-avatar"><?= strtoupper(mb_substr($user["username"], 0, 1)) ?></span>
       <span class="username"><?= htmlspecialchars($user["username"]) ?></span>
     </div>
-    <a href="logout.php" class="navbar-logout-icon" title="<?= __('nav_logout') ?>"><i class="fas fa-sign-out-alt"></i></a>
+    <a href="logout.php" class="navbar-logout-icon" data-tippy-content="<?= __('nav_logout') ?>"><i class="fas fa-sign-out-alt"></i></a>
   <?php } else { ?>
     <a href="login.php" class="navbar-login-btn"><?= __('nav_login') ?></a>
   <?php } ?>

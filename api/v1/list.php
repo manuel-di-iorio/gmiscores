@@ -24,23 +24,62 @@ $limit = isset($_GET["limit"]) ? max(0, min(1000, (int)$_GET["limit"])) : 10;
 $order = isset($_GET["order"]) && strtoupper($_GET["order"]) === "ASC" ? "ASC" : "DESC";
 $startTime = isset($_GET["startTime"]) ? $_GET["startTime"] : NULL;
 $endTime = isset($_GET["endTime"]) ? $_GET["endTime"] : NULL;
-$playerIdOrName = isset($_GET["player"]) ? $_GET["player"] : NULL;
-$includePlayer = isset($_GET["includePlayer"]) ? $_GET["includePlayer"] : NULL;
 $env = isset($_GET["env"]) ? $_GET["env"] : "production";
+
+$token = isset($_GET["token"]) ? $_GET["token"] : NULL;
+
+$requiresAuth = Game::requiresPlayerAuth($gameId);
+
+$userId = null;
+$playerIdOrName = null;
+$includePlayer = null;
+
+if ($token) {
+  try {
+    $tokenData = json_decode(aes_decrypt($token, true), true);
+    if (isset($tokenData["id"])) {
+      $userResult = User::getById($tokenData["id"]);
+      if ($userResult->num_rows) {
+        $loggedUser = $userResult->fetch_assoc();
+        $userId = (int)$loggedUser["id"];
+
+        $playerResult = Player::getByUserId($userId);
+        if ($playerResult->num_rows) {
+          $player = $playerResult->fetch_assoc();
+          $playerIdOrName = (string)$player["player_id"];
+        }
+      }
+    }
+  } catch (Exception $e) {
+    $userId = null;
+    $playerIdOrName = null;
+  }
+}
+
+if ($requiresAuth) {
+  if (!$userId) {
+    api_reply_error("Player authentication required", "AuthenticationRequired", 401);
+  }
+} else {
+  if (isset($_GET["player"])) {
+    $playerIdOrName = $_GET["player"];
+  }
+  if (isset($_GET["includePlayer"])) {
+    $includePlayer = $_GET["includePlayer"];
+  }
+}
 
 // leaderboard_id: INT (new client) or tag string (old client)
 $leaderboardId = NULL;
 
 if (isset($_GET["leaderboard_id"])) {
   if (is_numeric($_GET["leaderboard_id"])) {
-    // New client: leaderboard_id as INT
     $leaderboardId = (int)$_GET["leaderboard_id"];
     $lb = Leaderboard::getById($leaderboardId);
     if (!$lb || $lb['game_id'] != $gameId) {
       api_reply_error("Invalid leaderboard_id", "ValidationError", 400);
     }
   } else {
-    // Old client: leaderboard_id as tag string
     $tags = (string)$_GET["leaderboard_id"];
   }
 }

@@ -11,6 +11,7 @@ class Game {
       'client_secret' => ['type' => 'string'],
       'user_id'       => ['type' => 'int'],
       'team_id'       => ['type' => 'int',      'nullable' => true],
+      'require_player_auth' => ['type' => 'bool', 'default' => false],
       'created_at'    => ['type' => 'datetime'],
       'updated_at'    => ['type' => 'datetime'],
     ],
@@ -34,6 +35,28 @@ class Game {
     global $dbTableGames;
     $sql = "SELECT client_secret FROM $dbTableGames WHERE game_id=?";
     return exec_query($sql, [ "i", $gameId ]);
+  }
+
+  /**
+   * Check if a game requires player authentication
+   */
+  public static function requiresPlayerAuth(int $gameId) {
+    global $dbTableGames;
+    $sql = "SELECT require_player_auth FROM $dbTableGames WHERE game_id=?";
+    $result = exec_query($sql, [ "i", $gameId ]);
+    if ($result->num_rows) {
+      return (bool)$result->fetch_assoc()["require_player_auth"];
+    }
+    return false;
+  }
+
+  /**
+   * Toggle require_player_auth for a game
+   */
+  public static function toggleRequirePlayerAuth(int $gameId, int $userId) {
+    global $dbTableGames;
+    $sql = "UPDATE $dbTableGames SET require_player_auth = NOT require_player_auth WHERE game_id = ? AND user_id = ?";
+    exec_query($sql, [ "ii", $gameId, $userId ]);
   }
 
   public static function listByUser(int $userId, ?string $nameFilter = null) {
@@ -80,14 +103,14 @@ class Game {
     return exec_query($sql, $params);
   }
 
-  public static function create(int $userId, string $gameName, string $clientSecret, ?int $teamId = NULL) {
+  public static function create(int $userId, string $gameName, string $clientSecret, ?int $teamId = NULL, bool $requirePlayerAuth = false) {
     global $dbTableGames;
     if (is_null($teamId)) {
-      $sql = "INSERT INTO $dbTableGames (name, user_id, client_secret) VALUES(?, ?, ?)";
-      exec_query($sql, [ "sis", $gameName, $userId, $clientSecret ]);
+      $sql = "INSERT INTO $dbTableGames (name, user_id, client_secret, require_player_auth) VALUES(?, ?, ?, ?)";
+      exec_query($sql, [ "sisi", $gameName, $userId, $clientSecret, $requirePlayerAuth ? 1 : 0 ]);
     } else {
-      $sql = "INSERT INTO $dbTableGames (name, user_id, team_id, client_secret) VALUES(?, ?, ?, ?)";
-      exec_query($sql, [ "siis", $gameName, $userId, $teamId, $clientSecret ]);
+      $sql = "INSERT INTO $dbTableGames (name, user_id, team_id, client_secret, require_player_auth) VALUES(?, ?, ?, ?, ?)";
+      exec_query($sql, [ "sisii", $gameName, $userId, $teamId, $clientSecret, $requirePlayerAuth ? 1 : 0 ]);
     }
   }
 
@@ -140,7 +163,7 @@ class Game {
   public static function getByIdWithAccess(int $gameId, int $userId) {
     global $dbTableGames;
     global $dbTableTeamMembers;
-    $sql = "SELECT G.game_id, G.name, G.client_secret, G.team_id
+    $sql = "SELECT G.game_id, G.name, G.client_secret, G.team_id, G.require_player_auth
             FROM $dbTableGames G
             LEFT JOIN $dbTableTeamMembers TM ON G.team_id = TM.team_id AND TM.user_id = ?
             WHERE G.game_id = ? AND (G.user_id = ? OR TM.id IS NOT NULL)

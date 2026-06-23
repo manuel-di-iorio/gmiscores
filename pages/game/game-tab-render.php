@@ -36,6 +36,16 @@ switch ($activeTab) {
           "key" => "username",
         ],
         [
+          "label" => __('game_players_col_login'),
+          "key" => "user_id",
+          "format_callback" => function ($value) {
+            if ($value) {
+              return '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400"><i class="fab fa-discord"></i> Discord</span>';
+            }
+            return '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 dark:bg-gray-800/30 dark:text-gray-400"><i class="fas fa-user"></i> Guest</span>';
+          }
+        ],
+        [
           "label" => __('game_players_col_banned'),
           "key" => "is_banned",
           "format_callback" => function ($value) {

@@ -19,7 +19,7 @@ if (!empty($config["maintenance"])) {
   api_reply_error("Service unavailable: maintenance in progress", "MaintenanceMode", 503);
 }
 
-if (!isset($_POST["game"]) || !isset($_POST["score"]) || !isset($_POST["player"]) || !isset($_POST["hash"])) {
+if (!isset($_POST["game"]) || !isset($_POST["score"]) || !isset($_POST["hash"])) {
   api_reply_error("Missing parameters", "ValidationError", 400);
 }
 
@@ -27,12 +27,6 @@ check_rate_limit('add_score', 10, 60);
 
 $gameId = (int)$_POST["game"];
 $score = (string)$_POST["score"];
-$playerNameEncoded = $_POST["player"];
-$playerName = base64_decode($playerNameEncoded);
-$playerName = trim($playerName);
-if (empty($playerName) || strlen($playerName) > 64) {
-  api_reply_error("Invalid player name", "ValidationError", 400);
-}
 $clientHash = $_POST["hash"];
 $sign = isset($_POST["sign"]) ? $_POST["sign"] : NULL;
 $tags = isset($_POST["tags"]) && $_POST["tags"] !== '' ? (string)$_POST["tags"] : NULL;
@@ -43,19 +37,59 @@ $minScore = isset($_POST["minScore"]) ? (float)$_POST["minScore"] : NULL;
 $maxScore = isset($_POST["maxScore"]) ? (float)$_POST["maxScore"] : NULL;
 $env = isset($_POST["env"]) && $_POST["env"] === "test" ? "test" : "production";
 
+$token = isset($_POST["token"]) ? $_POST["token"] : NULL;
+
+$requiresAuth = Game::requiresPlayerAuth($gameId);
+
+$userId = null;
+$playerName = null;
+
+if ($token) {
+  try {
+    $tokenData = json_decode(aes_decrypt($token, true), true);
+    if (isset($tokenData["id"])) {
+      $userResult = User::getById($tokenData["id"]);
+      if ($userResult->num_rows) {
+        $loggedUser = $userResult->fetch_assoc();
+        $userId = (int)$loggedUser["id"];
+        $playerName = $loggedUser["username"];
+      }
+    }
+  } catch (Exception $e) {
+    $userId = null;
+    $playerName = null;
+  }
+}
+
+if ($requiresAuth) {
+  if (!$userId) {
+    api_reply_error("Player authentication required", "AuthenticationRequired", 401);
+  }
+} else {
+  if (!$playerName && isset($_POST["player"])) {
+    $playerNameEncoded = $_POST["player"];
+    $playerName = base64_decode($playerNameEncoded);
+    $playerName = trim($playerName);
+  }
+}
+
+if (empty($playerName) || strlen($playerName) > 64) {
+  api_reply_error("Invalid player name", "ValidationError", 400);
+}
+
+$playerNameEncoded = base64_encode($playerName);
+
 // leaderboard_id: INT (new client) or tag string (old client)
 $leaderboardId = NULL;
 
 if (isset($_POST["leaderboard_id"])) {
   if (is_numeric($_POST["leaderboard_id"])) {
-    // New client: leaderboard_id as INT
     $leaderboardId = (int)$_POST["leaderboard_id"];
     $lb = Leaderboard::getById($leaderboardId);
     if (!$lb || $lb['game_id'] != $gameId) {
       api_reply_error("Invalid leaderboard_id", "ValidationError", 400);
     }
   } else {
-    // Old client: leaderboard_id as tag string
     $tags = (string)$_POST["leaderboard_id"];
     $lbFromTag = true;
   }
@@ -87,9 +121,9 @@ $clientSecret = $result->fetch_assoc()["client_secret"];
 $salt = "game=$gameId";
 if (isset($_POST["leaderboard_id"])) {
   if (is_numeric($_POST["leaderboard_id"])) {
-    $salt .= "&leaderboard_id=$leaderboardId";      // new client: INT
+    $salt .= "&leaderboard_id=$leaderboardId";
   } else {
-    $salt .= "&leaderboard_id=" . $_POST["leaderboard_id"]; // old client: tag string
+    $salt .= "&leaderboard_id=" . $_POST["leaderboard_id"];
   }
 }
 if (isset($_POST["tags"])) $salt .= "&tags=$tags";
@@ -130,7 +164,8 @@ if ($result->num_rows) {
   "data" => $data,
   "minScore" => $minScore,
   "maxScore" => $maxScore,
-  "env" => $env
+  "env" => $env,
+  "userId" => $userId
 ]);
 
 header('Content-Type: application/json');

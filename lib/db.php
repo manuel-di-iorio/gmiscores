@@ -77,7 +77,11 @@ function exec_query(string $sql, $params=NULL) {
         return $result;
 
     } catch (Exception $e) {
-      api_reply_error("An error occured while processing the request.", "InternalServerError", 500);
+      if (isset($config) && $config["appEnv"] !== "local") {
+        api_reply_error("An error occured while processing the request.", "InternalServerError", 500);
+      } else {
+        api_reply_error($e->getMessage(), "InternalServerError", 500);
+      }
     }
 }
 

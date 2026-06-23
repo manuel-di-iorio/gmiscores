@@ -48,7 +48,11 @@ echo ui_tabs([
 
 <script>
 function deleteTeam() {
-  fetch('/team-settings.php?id=<?= $teamId ?>', { method: 'DELETE' })
-    .then(() => { location.href = 'teams.php'; });
+  fetch('/team-settings.php?id=<?= $teamId ?>', {
+    method: 'DELETE',
+    headers: { 'X-CSRF-Token': '<?= csrf_token() ?>' }
+  }).then(function(r) {
+    if (r.redirected) { location.href = r.url; } else { location.href = 'teams.php'; }
+  });
 }
 </script>

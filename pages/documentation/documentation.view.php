@@ -69,38 +69,107 @@
   // RESOURCES TAB CONTENT
   ob_start();
   ?>
-  <div class="resources-grid">
-    <div class="download-card">
-      <div class="download-icon">
-        <i class="fas fa-file-download"></i>
-      </div>
-      <h3 class="font-bold text-lg" style="margin: 0; color: var(--text-color-headings);"><?= __('docs_resources_library') ?></h3>
-      <p class="documentation-text" style="margin: 0; font-size: 0.9em;"><?= __('docs_resources_desc') ?></p>
-      <?= ui_button(__('docs_resources_download'), 'primary', 'md', ['icon' => 'fa fa-download', 'href' => '/sdk/GameMaker/sdk.yymps', 'attrs' => ['download' => ''], 'class' => 'ripple-btn']) ?>
+  <div class="download-card" style="margin-bottom:24px">
+    <div class="download-icon">
+      <i class="fas fa-file-download"></i>
     </div>
-    
+    <h3 class="font-bold text-lg" style="margin: 0; color: var(--text-color-headings);"><?= __('docs_resources_library') ?></h3>
+    <p class="documentation-text" style="margin: 0; font-size: 0.9em;"><?= __('docs_resources_desc') ?></p>
+    <?= ui_button(__('docs_resources_download'), 'primary', 'md', ['icon' => 'fa fa-download', 'href' => '/sdk/GameMaker/sdk.yymps', 'attrs' => ['download' => ''], 'class' => 'ripple-btn']) ?>
+  </div>
+
+  <div class="resources-grid">
     <div class="api-endpoint-right">
+      <h6 class="documentation-example-title"><?= __('docs_sdk_quickstart_title') ?></h6>
       <div class="terminal-mockup">
         <div class="terminal-header">
-          <span class="terminal-title">Send Score</span>
+          <span class="terminal-title">Create Event</span>
         </div>
         <div class="terminal-body code-block-wrapper">
           <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
             <i class="far fa-copy"></i>
           </button>
-          <div class="code-block jsHigh">gmi_scores_send({ leaderboard_id: 30, player: "Harry", score: 5000 }); // <?= __('docs_resources_preview_send') ?></div>
+          <div class="code-block jsHigh">gmi_init(GAME_ID, "GAME_SECRET");</div>
         </div>
       </div>
-      
+
       <div class="terminal-mockup" style="margin-top: 16px;">
         <div class="terminal-header">
-          <span class="terminal-title">Get Scores</span>
+          <span class="terminal-title">Step Event</span>
         </div>
         <div class="terminal-body code-block-wrapper">
           <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
             <i class="far fa-copy"></i>
           </button>
-          <div class="code-block jsHigh">gmi_scores_get_list({ leaderboard_id: 30 }); // <?= __('docs_resources_preview_list') ?></div>
+          <div class="code-block jsHigh">gmi_player_is_logged(); // <?= __('docs_sdk_polling_desc') ?></div>
+        </div>
+      </div>
+
+      <div class="terminal-mockup" style="margin-top: 16px;">
+        <div class="terminal-header">
+          <span class="terminal-title">Async HTTP Event</span>
+        </div>
+        <div class="terminal-body code-block-wrapper">
+          <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
+            <i class="far fa-copy"></i>
+          </button>
+          <div class="code-block jsHigh">gmi_event_http(); // <?= __('docs_sdk_event_desc') ?></div>
+        </div>
+      </div>
+
+      <h6 class="documentation-example-title" style="margin-top:24px"><?= __('docs_sdk_methods_title') ?></h6>
+
+      <div class="terminal-mockup">
+        <div class="terminal-header">
+          <span class="terminal-title">gmi_player_login()</span>
+        </div>
+        <div class="terminal-body code-block-wrapper">
+          <div class="code-block jsHigh">gmi_player_login(); // <?= __('docs_sdk_method_login') ?></div>
+        </div>
+      </div>
+
+      <div class="terminal-mockup" style="margin-top: 12px;">
+        <div class="terminal-header">
+          <span class="terminal-title">gmi_player_is_logged()</span>
+        </div>
+        <div class="terminal-body code-block-wrapper">
+          <div class="code-block jsHigh">if (gmi_player_is_logged()) {<br/>&nbsp;&nbsp;// <?= __('docs_sdk_method_logged_if') ?><br/>}</div>
+        </div>
+      </div>
+
+      <div class="terminal-mockup" style="margin-top: 12px;">
+        <div class="terminal-header">
+          <span class="terminal-title">gmi_player_logout()</span>
+        </div>
+        <div class="terminal-body code-block-wrapper">
+          <div class="code-block jsHigh">gmi_player_logout(); // <?= __('docs_sdk_method_logout') ?></div>
+        </div>
+      </div>
+
+      <div class="terminal-mockup" style="margin-top: 12px;">
+        <div class="terminal-header">
+          <span class="terminal-title">gmi_event_http()</span>
+        </div>
+        <div class="terminal-body code-block-wrapper">
+          <div class="code-block jsHigh">gmi_event_http(); // <?= __('docs_sdk_method_event_http') ?></div>
+        </div>
+      </div>
+
+      <div class="terminal-mockup" style="margin-top: 12px;">
+        <div class="terminal-header">
+          <span class="terminal-title">gmi_scores_send()</span>
+        </div>
+        <div class="terminal-body code-block-wrapper">
+          <div class="code-block jsHigh">// <?= __('docs_sdk_scores_guest') ?><br/>gmi_scores_send({ leaderboard_id: 30, player: "Harry", score: 5000 });<br/><br/>// <?= __('docs_sdk_scores_auth') ?><br/>// <?= __('docs_sdk_scores_auth_desc') ?><br/>gmi_scores_send({ leaderboard_id: 30, score: 5000 });</div>
+        </div>
+      </div>
+
+      <div class="terminal-mockup" style="margin-top: 12px;">
+        <div class="terminal-header">
+          <span class="terminal-title">gmi_scores_get_list()</span>
+        </div>
+        <div class="terminal-body code-block-wrapper">
+          <div class="code-block jsHigh">gmi_scores_get_list({ leaderboard_id: 30 }); // <?= __('docs_sdk_method_get_list') ?></div>
         </div>
       </div>
     </div>
@@ -236,26 +305,27 @@
                 <?= __('docs_param_env') ?>
               </div>
             </div>
+
+            <!-- token -->
+            <div class="api-param-row">
+              <div class="api-param-header">
+                <span class="api-param-name">token</span>
+                <span class="api-param-type">string</span>
+                <span class="api-param-badge api-param-badge--optional">optional</span>
+              </div>
+              <div class="api-param-desc">
+                <?= __('docs_param_token_desc') ?>
+              </div>
+            </div>
           </div>
 
           <div class="panel-info">
             <p><i class="fas fa-info-circle mr-2"></i><?= __('docs_note_add') ?></p>
           </div>
         </div>
-        
+
         <div class="api-endpoint-right">
           <h6 class="documentation-example-title"><?= __('docs_response') ?></h6>
-          <div class="terminal-mockup">
-            <div class="terminal-header">
-              <span class="terminal-title">Response</span>
-            </div>
-            <div class="terminal-body code-block-wrapper">
-              <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
-                <i class="far fa-copy"></i>
-              </button>
-              <div class="code-block jsHigh">{<br/>&nbsp;&nbsp;"status": 200,<br/>&nbsp;&nbsp;"scoreAction": "inserted",<br/>&nbsp;&nbsp;"position": 4<br/>}</div>
-            </div>
-          </div>
 
           <div style="font-size:0.82em; color:var(--text-color-secondary); line-height:1.5; margin: -8px 0 16px; padding: 0 4px;">
             // <?= __('docs_comment_score_action') ?><br/>
@@ -437,6 +507,18 @@
               </div>
               <div class="api-param-desc">
                 <?= __('docs_param_list_env') ?>
+              </div>
+            </div>
+
+            <!-- token -->
+            <div class="api-param-row">
+              <div class="api-param-header">
+                <span class="api-param-name">token</span>
+                <span class="api-param-type">string</span>
+                <span class="api-param-badge api-param-badge--optional">optional</span>
+              </div>
+              <div class="api-param-desc">
+                <?= __('docs_param_token_list_desc') ?>
               </div>
             </div>
           </div>

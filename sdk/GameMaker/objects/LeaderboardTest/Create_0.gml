@@ -1,5 +1,3 @@
-// Initialize GMI Cloud Services with the game data
-gmi_init("<game_id>", "<secret>");
-
-// Get the scores list
-gmi_scores_get_list({ leaderboard_id: <leaderboard_id>, player: "Harry" });
+// Initialize GMI Cloud Services
+gmi_init(36, "b7ec9cd400223e187b9e6eca70057d7f", "local");
+gmi_scores_get_list({ leaderboard_id: 30 });

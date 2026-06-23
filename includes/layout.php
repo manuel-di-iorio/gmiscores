@@ -30,7 +30,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
 
     <!-- Social meta -->
     <title><?= $config["platformTitle"] ?></title>
@@ -44,26 +44,27 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
 
     <!-- Style -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-    <link rel="stylesheet" href="assets/css/variables.css?v=<?= asset_version('assets/css/variables.css') ?>">
-    <link rel="stylesheet" href="assets/css/style.css?v=<?= asset_version('assets/css/style.css') ?>">
-    <link rel="stylesheet" href="assets/css/w3codecolor.css?v=<?= asset_version('assets/css/w3codecolor.css') ?>">
+    <link rel="stylesheet" href="/assets/css/variables.css?v=<?= asset_version('assets/css/variables.css') ?>">
+    <link rel="stylesheet" href="/assets/css/style.css?v=<?= asset_version('assets/css/style.css') ?>">
+    <link rel="stylesheet" href="/assets/css/w3codecolor.css?v=<?= asset_version('assets/css/w3codecolor.css') ?>">
     <?php if ($isIndexPage): ?>
-    <link rel="stylesheet" href="assets/css/landing.css?v=<?= asset_version('assets/css/landing.css') ?>">
+    <link rel="stylesheet" href="/assets/css/landing.css?v=<?= asset_version('assets/css/landing.css') ?>">
     <?php endif; ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="assets/ui-kit/Button/button.css?v=<?= asset_version('assets/ui-kit/Button/button.css') ?>">
-    <link rel="stylesheet" href="assets/ui-kit/Modal/modal.css?v=<?= asset_version('assets/ui-kit/Modal/modal.css') ?>">
-    <link rel="stylesheet" href="assets/ui-kit/Tabs/tabs.css?v=<?= asset_version('assets/ui-kit/Tabs/tabs.css') ?>">
-    <link rel="stylesheet" href="assets/ui-kit/Skeleton/skeleton.css?v=<?= asset_version('assets/ui-kit/Skeleton/skeleton.css') ?>">
-    <link rel="stylesheet" href="assets/ui-kit/Table/table.css?v=<?= asset_version('assets/ui-kit/Table/table.css') ?>">
-    <link rel="stylesheet" href="assets/ui-kit/Paginator/paginator.css?v=<?= asset_version('assets/ui-kit/Paginator/paginator.css') ?>">
-    <link rel="stylesheet" href="assets/ui-kit/ActionsMenu/actions-menu.css?v=<?= asset_version('assets/ui-kit/ActionsMenu/actions-menu.css') ?>">
-    <link rel="stylesheet" href="assets/ui-kit/Toast/toast.css?v=<?= asset_version('assets/ui-kit/Toast/toast.css') ?>">
-    <link rel="stylesheet" href="assets/css/cookie-banner.css?v=<?= asset_version('assets/css/cookie-banner.css') ?>">
-    <link rel="stylesheet" href="assets/css/navbar.css?v=<?= asset_version('assets/css/navbar.css') ?>">
-    <link rel="stylesheet" href="assets/css/layout.css?v=<?= asset_version('assets/css/layout.css') ?>">
-    <link rel="stylesheet" href="assets/css/internal-pages.css?v=<?= asset_version('assets/css/internal-pages.css') ?>">
-    <link rel="stylesheet" href="assets/css/documentation.css?v=<?= asset_version('assets/css/documentation.css') ?>">
+    <link rel="stylesheet" href="/assets/ui-kit/Button/button.css?v=<?= asset_version('assets/ui-kit/Button/button.css') ?>">
+    <link rel="stylesheet" href="/assets/ui-kit/Modal/modal.css?v=<?= asset_version('assets/ui-kit/Modal/modal.css') ?>">
+    <link rel="stylesheet" href="/assets/ui-kit/Tabs/tabs.css?v=<?= asset_version('assets/ui-kit/Tabs/tabs.css') ?>">
+    <link rel="stylesheet" href="/assets/ui-kit/Skeleton/skeleton.css?v=<?= asset_version('assets/ui-kit/Skeleton/skeleton.css') ?>">
+    <link rel="stylesheet" href="/assets/ui-kit/Table/table.css?v=<?= asset_version('assets/ui-kit/Table/table.css') ?>">
+    <link rel="stylesheet" href="/assets/ui-kit/Paginator/paginator.css?v=<?= asset_version('assets/ui-kit/Paginator/paginator.css') ?>">
+    <link rel="stylesheet" href="/assets/ui-kit/ActionsMenu/actions-menu.css?v=<?= asset_version('assets/ui-kit/ActionsMenu/actions-menu.css') ?>">
+    <link rel="stylesheet" href="/assets/ui-kit/Toast/toast.css?v=<?= asset_version('assets/ui-kit/Toast/toast.css') ?>">
+    <link rel="stylesheet" href="/assets/ui-kit/Spinner/spinner.css?v=<?= asset_version('assets/ui-kit/Spinner/spinner.css') ?>">
+    <link rel="stylesheet" href="/assets/css/cookie-banner.css?v=<?= asset_version('assets/css/cookie-banner.css') ?>">
+    <link rel="stylesheet" href="/assets/css/navbar.css?v=<?= asset_version('assets/css/navbar.css') ?>">
+    <link rel="stylesheet" href="/assets/css/layout.css?v=<?= asset_version('assets/css/layout.css') ?>">
+    <link rel="stylesheet" href="/assets/css/internal-pages.css?v=<?= asset_version('assets/css/internal-pages.css') ?>">
+    <link rel="stylesheet" href="/assets/css/documentation.css?v=<?= asset_version('assets/css/documentation.css') ?>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <script>
@@ -267,7 +268,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
       </div>
     <?php } ?>
     <?php if (!$isIndexPage) { // Conditionally include navbar
-      require_once("includes/navbar.php"); 
+      require_once(__DIR__ . "/../includes/navbar.php"); 
     } ?>
 
     <div class="PageContent" <?php if ($isIndexPage || !empty($hidePageHeader)) { echo 'style="margin-left: 0 !important; padding: 0 !important;"'; } ?>>
@@ -275,7 +276,7 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
       <?php if (!$isIndexPage && empty($hidePageHeader)) { ?>
         <header id="portfolio" style="padding-bottom:0">
           <!-- Small logo shown on small screens -->
-          <a href="./index.php"><img src="assets/images/logo.svg" class="shape-circle LogoSmall float-right m-4 hidden" id="logo-small"></a>
+          <a href="./index.php"><img src="/assets/images/logo.svg" class="shape-circle LogoSmall float-right m-4 hidden" id="logo-small"></a>
 
           <!-- Close sidebar button -->
           <span id="btn-sidebar-open" class="hidden text-[32px] cursor-pointer px-4 py-2" onclick="w3_open()"><i class="fas fa-bars"></i></span>
@@ -297,54 +298,16 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
       <!-- Page content -->
       <?php
         // Make table filters available to all views
-        require_once("includes/table-filters.php");
-        require_once("pages/$view/$view.view.php");
+        require_once(__DIR__ . "/../includes/table-filters.php");
+        require_once(__DIR__ . "/../pages/$view/$view.view.php");
       ?>
     </div>
 
     <!-- Footer -->
-    <footer class="modern-footer PageContentFooter" <?php if ($isIndexPage) { echo 'style="margin-left: 0 !important;"'; } ?>>
-      <div class="footer-content">
-        <div class="footer-section about">
-          <img src="assets/images/logo<?= $theme === 'dark' ? 'White' : '' ?>.svg" class="footer-logo" alt="Logo">
-          <p><?= __("footer_about") ?></p>
-          <p>&copy; <?= date("Y") ?> GameMaker Italia. <?= __("footer_copyright") ?></p>
-        </div>
-        <div class="footer-section links">
-          <h5 class="footer-heading"><?= __("footer_links_title") ?></h5>
-          <ul>
-            <li><a href="/documentation.php" class="footer-link"><?= __("footer_documentation") ?></a></li>
-            <li><a href="/terms.php" class="footer-link"><?= __("footer_terms") ?></a></li>
-            <li><a href="/privacy.php" class="footer-link"><?= __("footer_privacy") ?></a></li>
-            <li><a href="/cookie.php" class="footer-link"><?= __("footer_cookie") ?></a></li>
-            <li><a href="https://github.com/manuel-di-iorio/gmiscores/issues" class="footer-link" target="_blank" rel="noopener noreferrer"><?= __("footer_report_issue") ?></a></li>
-          </ul>
-        </div>
-        <div class="footer-section social">
-          <h5 class="footer-heading"><?= __("footer_follow_title") ?></h5>
-          <a href="https://discord.gg/85RCMD9VQD" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="fab fa-discord"></i></a>
-          <a href="https://www.facebook.com/gmitalia" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://twitter.com/gamemakerita" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-          <a href="https://github.com/manuel-di-iorio/gmiscores" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <a href="switch-theme.php?theme=<?= $theme === 'dark' ? 'light' : 'dark' ?>&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-theme-link">
-          <i class="fas <?= $theme === 'dark' ? 'fa-sun' : 'fa-moon' ?>"></i> <?= __('index_theme_toggle') ?>
-        </a>
-        <div class="footer-lang">
-          <a href="/switch-lang.php?lang=en&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-lang-link<?php if ($currentLang === 'en') { echo ' footer-lang-link--active'; } ?>"><?= __("lang_en") ?></a>
-          <span class="footer-lang-sep">|</span>
-          <a href="/switch-lang.php?lang=it&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-lang-link<?php if ($currentLang === 'it') { echo ' footer-lang-link--active'; } ?>"><?= __("lang_it") ?></a>
-          <span class="footer-lang-sep">|</span>
-          <a href="/switch-lang.php?lang=es&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-lang-link<?php if ($currentLang === 'es') { echo ' footer-lang-link--active'; } ?>"><?= __("lang_es") ?></a>
-          <span class="footer-lang-sep">|</span>
-          <a href="/switch-lang.php?lang=fr&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-lang-link<?php if ($currentLang === 'fr') { echo ' footer-lang-link--active'; } ?>"><?= __("lang_fr") ?></a>
-          <span class="footer-lang-sep">|</span>
-          <a href="/switch-lang.php?lang=de&go=<?= urlencode($_SERVER["REQUEST_URI"]) ?>" class="footer-lang-link<?php if ($currentLang === 'de') { echo ' footer-lang-link--active'; } ?>"><?= __("lang_de") ?></a>
-        </div>
-      </div>
-    </footer>
+    <?php
+      $footerMarginLeft = $isIndexPage ? '0 !important' : '';
+      require_once(__DIR__ . "/footer.php");
+    ?>
   </body>
 
   <style>
@@ -380,8 +343,8 @@ require_once __DIR__ . '/../assets/ui-kit/kit.php';
   <script src="https://unpkg.com/@popperjs/core@2"></script>
   <script src="https://unpkg.com/tippy.js@6"></script>
 
-  <script src="assets/ui-kit/Toast/toast.js?v=<?= asset_version('assets/ui-kit/Toast/toast.js') ?>"></script>
-  <script src="assets/js/main.js?v=<?= asset_version('assets/js/main.js') ?>" async></script>
+  <script src="/assets/ui-kit/Toast/toast.js?v=<?= asset_version('assets/ui-kit/Toast/toast.js') ?>"></script>
+  <script src="/assets/js/main.js?v=<?= asset_version('assets/js/main.js') ?>" async></script>
   <script>
     // Initialize the tooltips
     tippy('[data-tippy-content]', { delay: [300, 200] });

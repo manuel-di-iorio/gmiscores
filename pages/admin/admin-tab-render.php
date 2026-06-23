@@ -53,7 +53,7 @@ switch ($activeTab) {
         $html .= '<tr class="ui-table-row">
           <td class="ui-table-cell">' . (int)$u["id"] . '</td>
           <td class="ui-table-cell">' . htmlspecialchars($u["username"]) . '</td>
-          <td class="ui-table-cell"><code style="font-size:0.85em">' . htmlspecialchars($u["discord_user_id"]) . '</code></td>
+          <td class="ui-table-cell"><code style="font-size:0.85em">' . htmlspecialchars($u["auth_discord_id"]) . '</code></td>
           <td class="ui-table-cell">' . ($isUserApproved
             ? ui_badge('Yes', 'success', ['icon' => 'fas fa-check-circle'])
             : ui_badge('No', 'danger', ['icon' => 'fas fa-times-circle'])) . '</td>

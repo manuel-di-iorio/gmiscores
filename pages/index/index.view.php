@@ -121,33 +121,73 @@
     transform: translateY(-2px);
   }
 
-  .theme-toggle-home {
+  .hero-float-bar {
     position: fixed;
     top: 20px;
     right: 20px;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 1.3rem;
-    color: white;
-    transition: background 0.2s, transform 0.2s, opacity 0.3s;
+    gap: 6px;
+    padding: 6px;
+    border-radius: 14px;
+    background: rgba(15, 17, 23, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     z-index: 10000;
+    transition: opacity 0.3s;
   }
-
-  .theme-toggle-home.theme-toggle-hidden {
+  .hero-float-bar.hero-float-hidden {
     opacity: 0;
     pointer-events: none;
   }
-
-  .theme-toggle-home:hover {
-    background: rgba(255,255,255,0.2);
-    transform: scale(1.1);
+  .hero-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .hero-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  .hero-user-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px 4px 4px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+    transition: background 0.2s;
+  }
+  .hero-user-pill:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .hero-user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--gradient-start, #6366f1), var(--gradient-end, #ec4899));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    font-weight: 700;
+    color: white;
+  }
+  .hero-user-name {
+    font-size: 0.82em;
+    font-weight: 500;
+    white-space: nowrap;
   }
 
   .scroll-indicator {
@@ -454,7 +494,7 @@
 <!-- ===== STICKY HEADER ===== -->
 <header class="landing-header" role="banner">
   <a href="./index.php" class="header-logo">
-    <img src="assets/images/logo<?= $theme === 'dark' ? 'White' : '' ?>.svg" alt="Logo">
+    <img src="/assets/images/logo<?= $theme === 'dark' ? 'White' : '' ?>.svg" alt="Logo">
     <!-- <span><?= __("site_name") ?></span> -->
   </a>
   <nav class="header-nav">
@@ -463,13 +503,21 @@
     <a href="#caratteristiche" class="nav-link-underline"><?= __('index_nav_features') ?></a>
     <a href="#numeri" class="nav-link-underline"><?= __('index_nav_numbers') ?></a>
     <a href="#faq" class="nav-link-underline"><?= __('index_nav_faq') ?></a>
+    <?php if (isset($user)) { ?>
+      <a href="./home.php" class="header-user-pill">
+        <span class="header-user-avatar"><?= strtoupper(mb_substr($user["username"], 0, 1)) ?></span>
+        <span class="header-user-name"><?= htmlspecialchars($user["username"]) ?></span>
+      </a>
+    <?php } else { ?>
+      <a href="login.php" class="header-icon-btn" title="<?= __('nav_login') ?>"><i class="fas fa-sign-in-alt"></i></a>
+    <?php } ?>
     <a href="<?= isset($user) ? './home.php' : './add-game.php' ?>" class="header-cta"><?= __('index_nav_start') ?></a>
   </nav>
 </header>
 
 <!-- ===== HERO ===== -->
 <div class="HomeBanner dot-pattern">
-  <img src="assets/images/logoWhite.svg" class="hero-logo" alt="Logo">
+  <img src="/assets/images/logoWhite.svg" class="hero-logo" alt="Logo">
   <div id="hero-particles"></div>
   <div class="hero-floating-shape"></div>
   <div class="hero-floating-shape"></div>
@@ -546,8 +594,18 @@
   </div>
 </div>
 
-<div class="theme-toggle-home" onclick="switchThemeHome()" title="<?= __('index_theme_toggle') ?>">
-  <i class="fas <?= $theme === 'dark' ? 'fa-sun' : 'fa-moon' ?>"></i>
+<div class="hero-float-bar">
+  <?php if (isset($user)) { ?>
+    <a href="./home.php" class="hero-user-pill">
+      <span class="hero-user-avatar"><?= strtoupper(mb_substr($user["username"], 0, 1)) ?></span>
+      <span class="hero-user-name"><?= htmlspecialchars($user["username"]) ?></span>
+    </a>
+  <?php } else { ?>
+    <a href="login.php" class="hero-icon-btn" title="<?= __('nav_login') ?>"><i class="fas fa-sign-in-alt"></i></a>
+  <?php } ?>
+  <div class="hero-icon-btn" onclick="switchThemeHome()" title="<?= __('index_theme_toggle') ?>">
+    <i class="fas <?= $theme === 'dark' ? 'fa-sun' : 'fa-moon' ?>"></i>
+  </div>
 </div>
 
 <!-- ===== HOW IT WORKS ===== -->
@@ -677,6 +735,13 @@
       <h5><?= __('index_service2_title') ?></h5>
       <p><?= __('index_service2_desc') ?></p>
       <a href="./games.php" class="card-arrow" style="text-decoration:none;"><?= __('index_service2_link') ?> <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="FeatureCard fade-in-up-on-scroll tilt-card">
+      <div class="tilt-card__shine"></div>
+      <div class="FeatureCard__Icon"><i class="fas fa-user-shield"></i></div>
+      <h5><?= __('index_service3_title') ?></h5>
+      <p><?= __('index_service3_desc') ?></p>
+      <a href="./documentation.php" class="card-arrow" style="text-decoration:none;"><?= __('index_feature_link') ?> <i class="fas fa-arrow-right"></i></a>
     </div>
   </div>
 </div>
