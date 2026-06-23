@@ -15,13 +15,13 @@ function gmi_login(opts = {}) {
 	
 	// Request a session token from the server
 	var url = global.GMI_ENDPOINT_HOST + "/player-login-start.php";
-	show_debug_message("[GMI Player] Requesting login session...");
+	if (global.GMI_LOGS) show_debug_message("[GMI Player] Requesting login session...");
 	var _req_id = http_post_string(url, "");
 	global.gmi_requests[$ string(_req_id)] = {
 		on_success: function(_data) {
 			var _session = variable_struct_exists(_data, "session_token") ? _data.session_token : undefined;
 			if (is_undefined(_session)) {
-				show_debug_message("[GMI Player] Failed to get session token.");
+				if (global.GMI_LOGS) show_debug_message("[GMI Player] Failed to get session token.");
 				if (!is_undefined(global.GMI_PLAYER_LOGIN_CB.on_error)) {
 					global.GMI_PLAYER_LOGIN_CB.on_error({ status: 0, error: "No session token" });
 				}
@@ -33,14 +33,14 @@ function gmi_login(opts = {}) {
 			global.gmi_player_poll_count = 0;
 			
 			var loginUrl = global.GMI_ENDPOINT_HOST + "/../../player-auth/discord/login.php?session=" + _session;
-			show_debug_message("[GMI Player] Opening Discord login: " + loginUrl);
+			if (global.GMI_LOGS) show_debug_message("[GMI Player] Opening Discord login: " + loginUrl);
 			url_open(loginUrl);
 			
 			// Start internal polling
 			__gmi_player_poll_login();
 		},
 		on_error: function(_data) {
-			show_debug_message("[GMI Player] Failed to start login: " + string(_data));
+			if (global.GMI_LOGS) show_debug_message("[GMI Player] Failed to start login: " + string(_data));
 			if (!is_undefined(global.GMI_PLAYER_LOGIN_CB.on_error)) {
 				global.GMI_PLAYER_LOGIN_CB.on_error(_data);
 			}
@@ -61,7 +61,7 @@ function gmi_player_save_token() {
 	ds_map_secure_save(_map, "gmi_player.dat");
 	ds_map_destroy(_map);
 	
-	show_debug_message("[GMI] Token saved locally.");
+	if (global.GMI_LOGS) show_debug_message("[GMI] Token saved locally.");
 }
 
 /// @func gmi_player_restore_token()
@@ -88,7 +88,7 @@ function gmi_player_restore_token() {
 	global.GMI_PLAYER_ID = _savedUserId;
 	global.gmi_player_check_pending = true;
 	
-	show_debug_message("[GMI Player] Found saved token for '" + _savedUsername + "', verifying with server...");
+	if (global.GMI_LOGS) show_debug_message("[GMI Player] Found saved token for '" + _savedUsername + "', verifying with server...");
 	
 	var url = global.GMI_ENDPOINT_HOST + "/player-check-token.php?token=" + string_replace_all(string_replace_all(string_replace_all(_savedToken, "+", "%2B"), "/", "%2F"), "=", "%3D");
 	var _req_id = http_get(url);
@@ -102,6 +102,6 @@ function gmi_player_restore_token() {
 function gmi_player_clear_saved_token() {
 	if (file_exists("gmi_player.dat")) {
 		file_delete("gmi_player.dat");
-		show_debug_message("[GMI] Saved token deleted.");
+		if (global.GMI_LOGS) show_debug_message("[GMI] Saved token deleted.");
 	}
 }

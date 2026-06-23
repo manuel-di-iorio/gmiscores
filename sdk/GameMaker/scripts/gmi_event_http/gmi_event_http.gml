@@ -13,7 +13,7 @@ function gmi_event_http() {
 	variable_struct_remove(global.gmi_requests, _key);
 	
 	if (string_length(_result) < 2 || string_char_at(_result, 1) != "{") {
-		show_debug_message("[GMI] Non-JSON response: " + string_copy(_result, 1, 120));
+		if (global.GMI_LOGS) show_debug_message("[GMI] Non-JSON response: " + string_copy(_result, 1, 120));
 		if (!is_undefined(_req.on_error)) _req.on_error({ status: 0 });
 		return;
 	}
@@ -30,24 +30,26 @@ function gmi_event_http() {
 			global.GMI_PLAYER_TOKEN = _data.token;
 			global.GMI_PLAYER_USERNAME = _data.username;
 			global.GMI_PLAYER_ID = variable_struct_exists(_data, "user_id") ? _data.user_id : undefined;
-			show_debug_message("[GMI] Logged in as " + _data.username + " (restored, double confirmed)");
+			if (global.GMI_LOGS) show_debug_message("[GMI] Logged in as " + _data.username + " (restored, double confirmed)");
 		} else {
 			gmi_player_clear_saved_token();
 			global.GMI_PLAYER_LOGGED = false;
 			global.GMI_PLAYER_TOKEN = undefined;
 			global.GMI_PLAYER_USERNAME = undefined;
 			global.GMI_PLAYER_ID = undefined;
-			if (!_data.valid) {
-				show_debug_message("[GMI] Saved token invalid, please log in again.");
-			} else {
-				show_debug_message("[GMI] Account not approved, please wait for approval.");
+			if (global.GMI_LOGS) {
+				if (!_data.valid) {
+					show_debug_message("[GMI] Saved token invalid, please log in again.");
+				} else {
+					show_debug_message("[GMI] Account not approved, please wait for approval.");
+				}
 			}
 		}
 		return;
 	}
 	
 	if (_ok) {
-		show_debug_message("[GMI] OK #" + string(_req_id) + ": " + _result);
+		if (global.GMI_LOGS) show_debug_message("[GMI] OK #" + string(_req_id) + ": " + _result);
 		
 		// Auto-store known response types
 		if (variable_struct_exists(_data, "scores")) {
@@ -63,7 +65,7 @@ function gmi_event_http() {
 				global.GMI_PLAYER_SESSION = undefined;
 				global.GMI_PLAYER_LOGGING_IN = false;
 				global.gmi_player_poll_count = 0;
-				show_debug_message("[GMI] Player logged in as " + global.GMI_PLAYER_USERNAME + "!");
+				if (global.GMI_LOGS) show_debug_message("[GMI] Player logged in as " + global.GMI_PLAYER_USERNAME + "!");
 				gmi_player_save_token();
 				// Fire login callback
 				if (!is_undefined(global.GMI_PLAYER_LOGIN_CB) && !is_undefined(global.GMI_PLAYER_LOGIN_CB.on_success)) {
@@ -71,15 +73,15 @@ function gmi_event_http() {
 				}
 			} else {
 				global.GMI_PLAYER_LOGGING_IN = false;
-				// Chain next poll directly from HTTP response
-				__gmi_player_poll_login();
+				// Schedule next poll in configured seconds
+				call_later(global.gmi_player_poll_delay, time_source_units_seconds, __gmi_player_poll_login);
 			}
 		}
 		
 		// Fire user callback
 		if (!is_undefined(_req.on_success)) _req.on_success(_data);
 	} else {
-		show_debug_message("[GMI] ERR #" + string(_http_status) + " " + string(_req_id) + ": " + _result);
+		if (global.GMI_LOGS) show_debug_message("[GMI] ERR #" + string(_http_status) + " " + string(_req_id) + ": " + _result);
 		if (variable_struct_exists(_data, "logged")) {
 			global.GMI_PLAYER_LOGGING_IN = false;
 		}

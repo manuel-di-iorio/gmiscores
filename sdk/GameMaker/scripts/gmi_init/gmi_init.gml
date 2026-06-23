@@ -4,6 +4,9 @@
 /// @arg {string} [game_secret]
 /// @arg {string} [env]
 function gmi_init(clientId = undefined, clientSecret = undefined, env = undefined) {
+	// Debug logs (set to false to disable all debug output)
+	global.GMI_LOGS = true;
+	
 	// Load .env file if present (provides defaults for all parameters)
 	__gmi_load_env();
 	
@@ -37,8 +40,8 @@ function gmi_init(clientId = undefined, clientSecret = undefined, env = undefine
 	
 	// Poll state
 	global.gmi_player_poll_count = 0;
-	global.gmi_player_poll_interval = 180; // 3 sec at 60fps
 	global.gmi_player_poll_max = 60; // 60 * 3s = 3 min
+	global.gmi_player_poll_delay = 3; // seconds between polls
 	
 	// Token check state (for startup restore)
 	global.gmi_player_check_pending = false;

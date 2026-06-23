@@ -17,7 +17,7 @@ function gmi_logout(opts = {}) {
 	global.GMI_PLAYER_LOGGING_IN = false;
 	
 	var url = global.GMI_ENDPOINT_HOST + "/player-logout.php";
-	show_debug_message("[GMI Player] Logging out...");
+	if (global.GMI_LOGS) show_debug_message("[GMI Player] Logging out...");
 	var _req_id = http_get(url);
 	global.gmi_requests[$ string(_req_id)] = { on_success: on_success, on_error: on_error };
 }

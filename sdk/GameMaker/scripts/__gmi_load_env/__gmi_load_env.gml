@@ -41,5 +41,5 @@ function __gmi_load_env() {
 	
 	file_text_close(_file);
 	
-	show_debug_message("[GMI] .env loaded — game_id=" + string(global.gmi_env_game_id) + " env=" + string(global.gmi_env));
+	if (global.GMI_LOGS) show_debug_message("[GMI] .env loaded — game_id=" + string(global.gmi_env_game_id) + " env=" + string(global.gmi_env));
 }
