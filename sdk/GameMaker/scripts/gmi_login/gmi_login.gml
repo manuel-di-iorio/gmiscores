@@ -7,28 +7,45 @@ function gmi_login(opts = {}) {
 	var on_success = variable_struct_exists(opts, "on_success") ? opts.on_success : undefined;
 	var on_error = variable_struct_exists(opts, "on_error") ? opts.on_error : undefined;
 	
-	var hex = "0123456789abcdef";
-	var sessionToken = "";
-	for (var i = 0; i < 64; i++) {
-		sessionToken += string_char_at(hex, irandom(15) + 1);
-	}
-	
-	global.GMI_PLAYER_SESSION = sessionToken;
-	global.GMI_PLAYER_LOGGING_IN = false;
-	global.gmi_player_poll_count = 0;
-	
 	// Store login callbacks to fire when the session check succeeds
 	global.GMI_PLAYER_LOGIN_CB = {
 		on_success: on_success,
 		on_error: on_error
 	};
 	
-	var loginUrl = global.GMI_ENDPOINT_HOST + "/../../player-auth/discord/login.php?session=" + sessionToken;
-	show_debug_message("[GMI Player] Opening Discord login: " + loginUrl);
-	url_open(loginUrl);
-	
-	// Start internal polling
-	__gmi_player_poll_login();
+	// Request a session token from the server
+	var url = global.GMI_ENDPOINT_HOST + "/player-login-start.php";
+	show_debug_message("[GMI Player] Requesting login session...");
+	var _req_id = http_post_string(url, "");
+	global.gmi_requests[$ string(_req_id)] = {
+		on_success: function(_data) {
+			var _session = variable_struct_exists(_data, "session_token") ? _data.session_token : undefined;
+			if (is_undefined(_session)) {
+				show_debug_message("[GMI Player] Failed to get session token.");
+				if (!is_undefined(global.GMI_PLAYER_LOGIN_CB.on_error)) {
+					global.GMI_PLAYER_LOGIN_CB.on_error({ status: 0, error: "No session token" });
+				}
+				return;
+			}
+			
+			global.GMI_PLAYER_SESSION = _session;
+			global.GMI_PLAYER_LOGGING_IN = false;
+			global.gmi_player_poll_count = 0;
+			
+			var loginUrl = global.GMI_ENDPOINT_HOST + "/../../player-auth/discord/login.php?session=" + _session;
+			show_debug_message("[GMI Player] Opening Discord login: " + loginUrl);
+			url_open(loginUrl);
+			
+			// Start internal polling
+			__gmi_player_poll_login();
+		},
+		on_error: function(_data) {
+			show_debug_message("[GMI Player] Failed to start login: " + string(_data));
+			if (!is_undefined(global.GMI_PLAYER_LOGIN_CB.on_error)) {
+				global.GMI_PLAYER_LOGIN_CB.on_error(_data);
+			}
+		}
+	};
 }
 
 /// @func gmi_player_save_token()

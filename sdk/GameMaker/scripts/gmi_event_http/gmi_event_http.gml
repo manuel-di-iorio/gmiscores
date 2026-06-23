@@ -71,8 +71,8 @@ function gmi_event_http() {
 				}
 			} else {
 				global.GMI_PLAYER_LOGGING_IN = false;
-				// Schedule next poll
-				call_later(global.gmi_player_poll_interval, timeunit_frames, __gmi_player_poll_login);
+				// Chain next poll directly from HTTP response
+				__gmi_player_poll_login();
 			}
 		}
 		

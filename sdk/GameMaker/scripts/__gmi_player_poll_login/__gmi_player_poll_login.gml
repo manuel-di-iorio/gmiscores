@@ -7,11 +7,7 @@ function __gmi_player_poll_login() {
 		show_debug_message("[GMI] Polling timeout, please try again.");
 		return;
 	}
-	if (global.GMI_PLAYER_LOGGING_IN) {
-		// Still waiting for previous request, schedule next poll
-		call_later(global.gmi_player_poll_interval, timeunit_frames, __gmi_player_poll_login);
-		return;
-	}
+	if (global.GMI_PLAYER_LOGGING_IN) return;
 	
 	global.GMI_PLAYER_LOGGING_IN = true;
 	global.gmi_player_poll_count++;
