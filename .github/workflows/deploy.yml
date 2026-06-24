@@ -23,14 +23,7 @@ jobs:
           chmod +x git-ftp.sh
 
           # Exclude patterns
-          cat > .git-ftp-ignore << 'EOF'
-.git*
-.github/
-.env
-.gitignore
-.vscode/
-.ftpquota
-EOF
+          printf '%s\n' '.git*' '.github/' '.env' '.gitignore' '.vscode/' '.ftpquota' > .git-ftp-ignore
 
           FTP_URL="ftp://ftp.gmiscores.altervista.org/"
 
