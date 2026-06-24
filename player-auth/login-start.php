@@ -1,4 +1,5 @@
 <?php
+$apiMode = true;
 require_once("../lib/db.php");
 
 header("Access-Control-Allow-Origin: *");

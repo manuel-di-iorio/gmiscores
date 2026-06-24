@@ -20,8 +20,8 @@ try {
 
 $db->set_charset("utf8mb4");
 
-// Get the logged in user from the remember me cookie
-if (!isset($skipAuth) && !isset($user) && isset($_COOKIE["user"])) {
+// Get the logged in user from the remember me cookie (skip for API endpoints)
+if (!isset($apiMode) && !isset($user) && isset($_COOKIE["user"])) {
     try {
         $cookieUser = json_decode(aes_decrypt($_COOKIE["user"], true), true);
         $user = User::getById($cookieUser["id"])->fetch_assoc();

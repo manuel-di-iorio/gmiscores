@@ -1,4 +1,5 @@
 <?php
+$apiMode = true;
 require_once("../lib/db.php");
 require_once("../models/User.php");
 require_once("../models/Player.php");
