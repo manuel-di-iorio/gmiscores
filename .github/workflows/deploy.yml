@@ -24,13 +24,13 @@ jobs:
 
           # Exclude patterns
           cat > .git-ftp-ignore << 'EOF'
-          .git*
-          .github/
-          .env
-          .gitignore
-          .vscode/
-          .ftpquota
-          EOF
+.git*
+.github/
+.env
+.gitignore
+.vscode/
+.ftpquota
+EOF
 
           FTP_URL="ftp://ftp.gmiscores.altervista.org/"
 
@@ -40,8 +40,8 @@ jobs:
 
           if [[ -z "$LAST_COMMIT" ]]; then
             echo "Nuovo deploy completo"
-            ./git-ftp.sh init --user "$FTP_USER" --passwd "$FTP_PASS" "$FTP_URL"
+            ./git-ftp.sh init --vv --user "$FTP_USER" --passwd "$FTP_PASS" "$FTP_URL"
           else
             echo "Deploy incrementale (ultimo commit: $LAST_COMMIT)"
-            ./git-ftp.sh push --user "$FTP_USER" --passwd "$FTP_PASS" "$FTP_URL"
+            ./git-ftp.sh push --vv --user "$FTP_USER" --passwd "$FTP_PASS" "$FTP_URL"
           fi
