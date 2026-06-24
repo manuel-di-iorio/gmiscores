@@ -10,13 +10,13 @@ function gmi_init(clientId = undefined, clientSecret = undefined, env = undefine
 	// Load .env file if present (provides defaults for all parameters, for internal debug)
 	__gmi_load_env();
 	
-	if (is_undefined(clientId) && variable_global_exists("gmi_env_game_id") && !is_undefined(global.gmi_env_game_id)) {
+	if (!is_undefined(global.gmi_env_game_id)) {
 		clientId = global.gmi_env_game_id;
 	}
-	if (is_undefined(clientSecret) && variable_global_exists("gmi_env_game_secret") && !is_undefined(global.gmi_env_game_secret)) {
+	if (!is_undefined(global.gmi_env_game_secret)) {
 		clientSecret = global.gmi_env_game_secret;
 	}
-	if (is_undefined(env) && variable_global_exists("gmi_env") && !is_undefined(global.gmi_env)) {
+	if (!is_undefined(global.gmi_env)) {
 		env = global.gmi_env;
 	}
 	if (is_undefined(env)) env = "production";

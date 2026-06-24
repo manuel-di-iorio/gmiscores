@@ -3,8 +3,8 @@
     {"name":"Objects","order":1,"path":"folders/Objects.yy",},
     {"name":"Scripts","order":2,"path":"folders/Scripts.yy",},
     {"name":"__Internals","order":5,"path":"folders/Scripts/GMI Cloud/__Internals.yy",},
-    {"name":"Player","order":4,"path":"folders/Scripts/GMI Cloud/Player.yy",},
-    {"name":"Scores","order":3,"path":"folders/Scripts/GMI Cloud/Scores.yy",},
+    {"name":"Player","order":3,"path":"folders/Scripts/GMI Cloud/Player.yy",},
+    {"name":"Scores","order":4,"path":"folders/Scripts/GMI Cloud/Scores.yy",},
   ],
   "ResourceOrderSettings":[
     {"name":"__gmi_player_poll_login","order":1,"path":"scripts/__gmi_player_poll_login/__gmi_player_poll_login.yy",},
