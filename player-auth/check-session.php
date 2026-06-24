@@ -1,6 +1,6 @@
 <?php
-require_once("../../lib/db.php");
-require_once("../../models/User.php");
+require_once("../lib/db.php");
+require_once("../models/User.php");
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");

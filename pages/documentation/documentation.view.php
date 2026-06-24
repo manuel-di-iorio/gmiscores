@@ -127,15 +127,6 @@
 
       <div class="terminal-mockup" style="margin-top: 12px;">
         <div class="terminal-header">
-          <span class="terminal-title">gmi_event_http()</span>
-        </div>
-        <div class="terminal-body code-block-wrapper">
-          <div class="code-block jsHigh">gmi_event_http(); // <?= __('docs_sdk_method_event_http') ?></div>
-        </div>
-      </div>
-
-      <div class="terminal-mockup" style="margin-top: 12px;">
-        <div class="terminal-header">
           <span class="terminal-title">gmi_scores_send()</span>
         </div>
         <div class="terminal-body code-block-wrapper">
@@ -154,7 +145,9 @@
 
       <p class="documentation-text" style="margin-top: 20px;"><?= __('docs_sdk_token_persist_desc') ?></p>
 
-      <h6 class="documentation-example-title" style="margin-top:24px"><?= __('docs_sdk_globals_title') ?></h6>
+      <hr style="margin: 32px 0 24px; border: none; border-top: 1px solid var(--text-color-secondary); opacity: 0.3;">
+
+      <h6 class="documentation-example-title" style="margin-top:0"><?= __('docs_sdk_globals_title') ?></h6>
 
       <div class="terminal-mockup" style="margin-top: 12px;">
         <div class="terminal-header">
@@ -582,11 +575,289 @@
       
     </div>
   </div>
+
+  <!-- Autenticazione Player -->
+  <div style="margin-top:40px">
+    <h6 class="documentation-example-title" style="font-size:1.1em; margin-bottom:8px"><i class="fas fa-key" style="margin-right:8px"></i><?= __('docs_auth_flow_title') ?></h6>
+    <p class="documentation-text mb-4"><?= __('docs_auth_intro') ?></p>
+  </div>
+
+  <!-- POST /player-auth/login-start.php -->
+  <div class="accordion-container">
+    <button class="accordion-header">
+      <div class="accordion-header-left">
+        <span class="method-badge method-badge--post">POST</span>
+        <span class="font-mono font-semibold">/player-auth/login-start.php</span>
+      </div>
+      <i class="fas fa-chevron-down accordion-icon"></i>
+    </button>
+    <div class="accordion-content" style="display:none">
+      <div class="api-endpoint-grid">
+        <div class="api-endpoint-left">
+          <p class="documentation-text"><strong><?= __('docs_auth_step1_title') ?></strong></p>
+          <p class="documentation-text"><?= __('docs_auth_step1_desc') ?></p>
+          <div class="panel-info" style="margin-top:16px">
+            <p><i class="fas fa-info-circle mr-2"></i><?= __('docs_auth_no_body') ?></p>
+          </div>
+        </div>
+        <div class="api-endpoint-right">
+          <h6 class="documentation-example-title"><?= __('docs_response_example') ?></h6>
+          <div class="terminal-mockup">
+            <div class="terminal-header">
+              <span class="terminal-title">Response</span>
+            </div>
+            <div class="terminal-body code-block-wrapper">
+              <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
+                <i class="far fa-copy"></i>
+              </button>
+              <div class="code-block jsHigh">{<br/>&nbsp;&nbsp;"status": 200,<br/>&nbsp;&nbsp;"session_token": "a1b2c3d4... (64 caratteri hex)"<br/>}</div>
+            </div>
+          </div>
+          <h6 class="documentation-example-title" style="margin-top:16px">cURL</h6>
+          <div class="terminal-mockup">
+            <div class="terminal-header">
+              <span class="terminal-title">Shell</span>
+            </div>
+            <div class="terminal-body code-block-wrapper">
+              <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
+                <i class="far fa-copy"></i>
+              </button>
+              <div class="code-block jsHigh">curl -X POST "<?= $config["host"] ?>/player-auth/login-start.php"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GET /player-auth/discord/login.php -->
+  <div class="accordion-container">
+    <button class="accordion-header">
+      <div class="accordion-header-left">
+        <span class="method-badge method-badge--get">GET</span>
+        <span class="font-mono font-semibold">/player-auth/discord/login.php?session={token}</span>
+      </div>
+      <i class="fas fa-chevron-down accordion-icon"></i>
+    </button>
+    <div class="accordion-content" style="display:none">
+      <div class="api-endpoint-grid">
+        <div class="api-endpoint-left">
+          <p class="documentation-text"><strong><?= __('docs_auth_step2_title') ?></strong></p>
+          <p class="documentation-text"><?= __('docs_auth_step2_desc') ?></p>
+          <div class="api-params-title" style="margin-top:16px">Parametri (query):</div>
+          <div class="api-params-list">
+            <div class="api-param-row">
+              <div class="api-param-header">
+                <span class="api-param-name">session</span>
+                <span class="api-param-type">string</span>
+                <span class="api-param-badge api-param-badge--required">required</span>
+              </div>
+              <div class="api-param-desc"><?= __('docs_auth_session_from_prev') ?></div>
+            </div>
+          </div>
+          <div class="panel-info" style="margin-top:16px">
+            <p><i class="fas fa-info-circle mr-2"></i><?= __('docs_auth_redirect_info') ?></p>
+          </div>
+        </div>
+        <div class="api-endpoint-right">
+          <h6 class="documentation-example-title">Redirect URL</h6>
+          <div class="terminal-mockup">
+            <div class="terminal-header">
+              <span class="terminal-title">Browser redirect</span>
+            </div>
+            <div class="terminal-body code-block-wrapper">
+              <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
+                <i class="far fa-copy"></i>
+              </button>
+              <div class="code-block jsHigh"><?= $config["host"] ?>/player-auth/discord/login.php?session=a1b2c3d4...<br/><br/>// <?= __('docs_auth_browser_redirect') ?><br/>// <?= __('docs_auth_after_login') ?></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GET /player-auth/check-session.php -->
+  <div class="accordion-container">
+    <button class="accordion-header">
+      <div class="accordion-header-left">
+        <span class="method-badge method-badge--get">GET</span>
+        <span class="font-mono font-semibold">/player-auth/check-session.php?session={token}</span>
+      </div>
+      <i class="fas fa-chevron-down accordion-icon"></i>
+    </button>
+    <div class="accordion-content" style="display:none">
+      <div class="api-endpoint-grid">
+        <div class="api-endpoint-left">
+          <p class="documentation-text"><strong><?= __('docs_auth_step3_title') ?></strong></p>
+          <p class="documentation-text"><?= __('docs_auth_step3_desc') ?></p>
+          <div class="api-params-title" style="margin-top:16px">Parametri (query):</div>
+          <div class="api-params-list">
+            <div class="api-param-row">
+              <div class="api-param-header">
+                <span class="api-param-name">session</span>
+                <span class="api-param-type">string</span>
+                <span class="api-param-badge api-param-badge--required">required</span>
+              </div>
+              <div class="api-param-desc"><?= __('docs_auth_session_from_1') ?></div>
+            </div>
+          </div>
+          <div class="panel-info" style="margin-top:16px">
+            <p><i class="fas fa-info-circle mr-2"></i><?= __('docs_auth_session_expire') ?></p>
+          </div>
+        </div>
+        <div class="api-endpoint-right">
+          <h6 class="documentation-example-title"><?= __('docs_auth_waiting_login') ?></h6>
+          <div class="terminal-mockup">
+            <div class="terminal-header">
+              <span class="terminal-title">Response (not yet logged)</span>
+            </div>
+            <div class="terminal-body code-block-wrapper">
+              <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
+                <i class="far fa-copy"></i>
+              </button>
+              <div class="code-block jsHigh">{<br/>&nbsp;&nbsp;"status": 200,<br/>&nbsp;&nbsp;"logged": false<br/>}</div>
+            </div>
+          </div>
+
+          <h6 class="documentation-example-title" style="margin-top:16px"><?= __('docs_auth_login_done') ?></h6>
+          <div class="terminal-mockup">
+            <div class="terminal-header">
+              <span class="terminal-title">Response (logged in)</span>
+            </div>
+            <div class="terminal-body code-block-wrapper">
+              <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
+                <i class="far fa-copy"></i>
+              </button>
+              <div class="code-block jsHigh">{<br/>&nbsp;&nbsp;"status": 200,<br/>&nbsp;&nbsp;"logged": true,<br/>&nbsp;&nbsp;"token": "eyJ0eXAiOiJKV1Qi...",<br/>&nbsp;&nbsp;"username": "PlayerName",<br/>&nbsp;&nbsp;"user_id": 42<br/>}</div>
+            </div>
+          </div>
+
+          <h6 class="documentation-example-title" style="margin-top:16px">cURL</h6>
+          <div class="terminal-mockup">
+            <div class="terminal-header">
+              <span class="terminal-title">Shell</span>
+            </div>
+            <div class="terminal-body code-block-wrapper">
+              <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
+                <i class="far fa-copy"></i>
+              </button>
+              <div class="code-block jsHigh">curl "<?= $config["host"] ?>/player-auth/check-session.php?session=a1b2c3d4..."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GET /player-auth/check-token.php -->
+  <div class="accordion-container">
+    <button class="accordion-header">
+      <div class="accordion-header-left">
+        <span class="method-badge method-badge--get">GET</span>
+        <span class="font-mono font-semibold">/player-auth/check-token.php?token={token}&amp;game={game}</span>
+      </div>
+      <i class="fas fa-chevron-down accordion-icon"></i>
+    </button>
+    <div class="accordion-content" style="display:none">
+      <div class="api-endpoint-grid">
+        <div class="api-endpoint-left">
+          <p class="documentation-text"><strong><?= __('docs_auth_step5_title') ?></strong></p>
+          <p class="documentation-text"><?= __('docs_auth_step5_desc') ?></p>
+          <div class="api-params-title" style="margin-top:16px">Parametri (query):</div>
+          <div class="api-params-list">
+            <div class="api-param-row">
+              <div class="api-param-header">
+                <span class="api-param-name">token</span>
+                <span class="api-param-type">string</span>
+                <span class="api-param-badge api-param-badge--required">required</span>
+              </div>
+              <div class="api-param-desc"><?= __('docs_auth_saved_token') ?></div>
+            </div>
+            <div class="api-param-row">
+              <div class="api-param-header">
+                <span class="api-param-name">game</span>
+                <span class="api-param-type">int</span>
+                <span class="api-param-badge api-param-badge--required">required</span>
+              </div>
+              <div class="api-param-desc"><?= __('docs_auth_game_id_desc') ?></div>
+            </div>
+          </div>
+          <div class="panel-info" style="margin-top:16px">
+            <p><i class="fas fa-info-circle mr-2"></i><?= __('docs_auth_token_persist_desc') ?></p>
+          </div>
+        </div>
+        <div class="api-endpoint-right">
+          <h6 class="documentation-example-title"><?= __('docs_auth_token_valid') ?></h6>
+          <div class="terminal-mockup">
+            <div class="terminal-header">
+              <span class="terminal-title">Response (valid)</span>
+            </div>
+            <div class="terminal-body code-block-wrapper">
+              <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
+                <i class="far fa-copy"></i>
+              </button>
+              <div class="code-block jsHigh">{<br/>&nbsp;&nbsp;"status": 200,<br/>&nbsp;&nbsp;"valid": true,<br/>&nbsp;&nbsp;"approved": true,<br/>&nbsp;&nbsp;"token": "eyJ0eXAiOiJKV1Qi... <?= __('docs_auth_token_updated') ?>",<br/>&nbsp;&nbsp;"username": "PlayerName",<br/>&nbsp;&nbsp;"user_id": 42<br/>}</div>
+            </div>
+          </div>
+
+          <h6 class="documentation-example-title" style="margin-top:16px"><?= __('docs_auth_token_valid_ban') ?></h6>
+          <div class="terminal-mockup">
+            <div class="terminal-header">
+              <span class="terminal-title">Response (with game param)</span>
+            </div>
+            <div class="terminal-body code-block-wrapper">
+              <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
+                <i class="far fa-copy"></i>
+              </button>
+              <div class="code-block jsHigh">{<br/>&nbsp;&nbsp;"status": 200,<br/>&nbsp;&nbsp;"valid": true,<br/>&nbsp;&nbsp;"approved": true,<br/>&nbsp;&nbsp;"is_banned": false,<br/>&nbsp;&nbsp;"token": "...",<br/>&nbsp;&nbsp;"username": "PlayerName",<br/>&nbsp;&nbsp;"user_id": 42<br/>}</div>
+            </div>
+          </div>
+
+          <h6 class="documentation-example-title" style="margin-top:16px"><?= __('docs_auth_token_invalid') ?></h6>
+          <div class="terminal-mockup">
+            <div class="terminal-header">
+              <span class="terminal-title">Response (invalid)</span>
+            </div>
+            <div class="terminal-body code-block-wrapper">
+              <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
+                <i class="far fa-copy"></i>
+              </button>
+              <div class="code-block jsHigh">{<br/>&nbsp;&nbsp;"status": 200,<br/>&nbsp;&nbsp;"valid": false<br/>}</div>
+            </div>
+          </div>
+
+          <h6 class="documentation-example-title" style="margin-top:16px">cURL</h6>
+          <div class="terminal-mockup">
+            <div class="terminal-header">
+              <span class="terminal-title">Shell</span>
+            </div>
+            <div class="terminal-body code-block-wrapper">
+              <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
+                <i class="far fa-copy"></i>
+              </button>
+              <div class="code-block jsHigh">curl "<?= $config["host"] ?>/player-auth/check-token.php?token=eyJ0eXAiOiJKV1Qi..."&amp;game=1<br/><br/>// <?= __('docs_code_secret') ?>:<br/>curl "<?= $config["host"] ?>/player-auth/check-token.php?token=...&amp;game=1"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-info" style="margin-top:16px">
+    <p><i class="fas fa-info-circle mr-2"></i><?= __('docs_auth_note_player') ?></p>
+  </div>
+
   <?php
   $endpointsContent = ob_get_clean();
 
   // RENDER TABS
   echo ui_tabs([
+    ["id" => "resources", "label" => "SDK", "icon" => "fas fa-download", "content" => '
+      <div class="documentation-section">
+        ' . $resourcesContent . '
+      </div>
+    '],
     ["id" => "endpoints", "label" => __('docs_subtitle'), "icon" => "fas fa-code", "content" => '
       <div class="documentation-section">
         ' . $endpointsContent . '
@@ -600,11 +871,6 @@
     ["id" => "errors", "label" => __('docs_errors_title'), "icon" => "fas fa-exclamation-triangle", "content" => '
       <div class="documentation-section">
         ' . $errorsContent . '
-      </div>
-    '],
-    ["id" => "resources", "label" => "SDK", "icon" => "fas fa-download", "content" => '
-      <div class="documentation-section">
-        ' . $resourcesContent . '
       </div>
     '],
   ]);

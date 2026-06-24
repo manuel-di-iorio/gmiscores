@@ -14,7 +14,7 @@ function gmi_login(opts = {}) {
 	};
 	
 	// Request a session token from the server
-	var url = global.GMI_ENDPOINT_HOST + "/player-login-start.php";
+	var url = global.GMI_ENDPOINT_HOST + "/../../player-auth/login-start.php";
 	if (global.GMI_LOGS) show_debug_message("[GMI Player] Requesting login session...");
 	var _req_id = http_post_string(url, "");
 	global.gmi_requests[$ string(_req_id)] = {
@@ -90,7 +90,7 @@ function gmi_player_restore_token() {
 	
 	if (global.GMI_LOGS) show_debug_message("[GMI Player] Found saved token for '" + _savedUsername + "', verifying with server...");
 	
-	var url = global.GMI_ENDPOINT_HOST + "/player-check-token.php?token=" + string_replace_all(string_replace_all(string_replace_all(_savedToken, "+", "%2B"), "/", "%2F"), "=", "%3D");
+	var url = global.GMI_ENDPOINT_HOST + "/../../player-auth/check-token.php?token=" + string_replace_all(string_replace_all(string_replace_all(_savedToken, "+", "%2B"), "/", "%2F"), "=", "%3D") + "&game=" + string(global.GMI_GAME_CLIENT_ID);
 	var _req_id = http_get(url);
 	global.gmi_requests[$ string(_req_id)] = { on_success: undefined, on_error: undefined };
 	
