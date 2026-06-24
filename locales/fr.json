@@ -685,8 +685,6 @@
   "login_privacy": "Politique de Confidentialité",
   "login_cookie": "Politique de Cookies",
   "login_button": "Connexion avec Discord",
-  "migrate_result_title": "Résultat",
-  "migrate_migrations_title": "Migrations",
   "migrate_col_file": "Fichier",
   "migrate_col_description": "Description",
   "migrate_col_status": "Statut",
