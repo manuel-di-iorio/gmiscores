@@ -7,7 +7,7 @@ function gmi_init(clientId = undefined, clientSecret = undefined, env = undefine
 	// Debug logs (set to false to disable all debug output)
 	global.GMI_LOGS = true;
 	
-	// Load .env file if present (provides defaults for all parameters)
+	// Load .env file if present (provides defaults for all parameters, for internal debug)
 	__gmi_load_env();
 	
 	if (is_undefined(clientId) && variable_global_exists("gmi_env_game_id") && !is_undefined(global.gmi_env_game_id)) {

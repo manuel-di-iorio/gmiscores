@@ -7,6 +7,7 @@ function gmi_scores_get_list(opts = {}) {
 	var page = variable_struct_exists(opts, "page") ? opts.page : 0;
 	var limit = variable_struct_exists(opts, "limit") ? opts.limit : 10;
 	var order = variable_struct_exists(opts, "order") ? opts.order : "DESC";
+	var tags = variable_struct_exists(opts, "tags") ? opts.tags : undefined;
 	var start_time = variable_struct_exists(opts, "startTime") ? opts.startTime : undefined;
 	var end_time = variable_struct_exists(opts, "endTime") ? opts.endTime : undefined;
 	var player = variable_struct_exists(opts, "player") ? opts.player : undefined;
@@ -22,6 +23,7 @@ function gmi_scores_get_list(opts = {}) {
 	if (!is_undefined(page)) url += "&page=" + string(page);
 	if (!is_undefined(limit)) url += "&limit=" + string(limit);
 	if (!is_undefined(order)) url += "&order=" + order;
+	if (!is_undefined(tags)) url += "&tags=" + string(tags);
 	if (!is_undefined(start_time)) url += "&startTime=" + start_time;
 	if (!is_undefined(end_time)) url += "&endTime=" + end_time;
 

@@ -8,6 +8,7 @@ function gmi_scores_send(opts = {}) {
 	var leaderboard_id = opts.leaderboard_id;
 	var insert_mode = variable_struct_exists(opts, "insertMode") ? opts.insertMode : "higher";
 	var scoreData = variable_struct_exists(opts, "data") ? opts.data : undefined;
+	var tags = variable_struct_exists(opts, "tags") ? opts.tags : undefined;
 	var on_success = variable_struct_exists(opts, "on_success") ? opts.on_success : undefined;
 	var on_error = variable_struct_exists(opts, "on_error") ? opts.on_error : undefined;
 
@@ -19,6 +20,7 @@ function gmi_scores_send(opts = {}) {
 
 	var data = "game=" + string(global.GMI_GAME_CLIENT_ID);
 	data += "&leaderboard_id=" + string(leaderboard_id);
+	if (!is_undefined(tags)) data += "&tags=" + string(tags);
 	data += "&score=" + string(points) + "&player=" + base64_encode(is_undefined(player) ? "" : player);
 
 	var hash = sha1_string_utf8(data + global.GMI_GAME_CLIENT_SECRET);

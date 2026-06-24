@@ -38,10 +38,7 @@ function insert_score($params) {
     $currentScore = $result->fetch_assoc();
     $scoreId = $currentScore["score_id"];
     
-    if ($insertMode === "all") {
-      Score::update($scoreId, $score, $ip, $country, $sign, $data);
-      $scoreAction = "updated";
-    } elseif (
+    if (
       ($insertMode === "higher" && $score > $currentScore["score"]) ||
       ($insertMode === "lower" && $score < $currentScore["score"]) 
     ) {        

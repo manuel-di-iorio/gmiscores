@@ -67,9 +67,7 @@ if ($requiresAuth) {
   }
 } else {
   if (!$playerName && isset($_POST["player"])) {
-    $playerNameEncoded = $_POST["player"];
-    $playerName = base64_decode($playerNameEncoded);
-    $playerName = trim($playerName);
+    $playerName = trim(base64_decode($_POST["player"]));
   }
 }
 
@@ -91,7 +89,6 @@ if (isset($_POST["leaderboard_id"])) {
     }
   } else {
     $tags = (string)$_POST["leaderboard_id"];
-    $lbFromTag = true;
   }
 }
 
@@ -103,7 +100,7 @@ if (!$leaderboardId) {
   $leaderboardId = $allLbs[0]['leaderboard_id'];
 }
 
-if (!is_null($insertMode) && $insertMode !== "higher" && $insertMode !== "lower" && $insertMode !== "all") {
+if (!is_null($insertMode) && $insertMode !== "higher" && $insertMode !== "lower") {
   api_reply_error("Invalid parameter 'insertMode'", "ValidationError", 400);
 }
 
