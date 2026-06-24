@@ -77,6 +77,9 @@ function exec_query(string $sql, $params=NULL) {
         return $result;
 
     } catch (Exception $e) {
+      if (isset($migrationMode)) {
+        throw $e;
+      }
       if (isset($config) && $config["appEnv"] !== "local") {
         api_reply_error("An error occured while processing the request.", "InternalServerError", 500);
       } else {

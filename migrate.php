@@ -1,16 +1,7 @@
 <?php
 $skipAuth = true;
+$migrationMode = true;
 require_once("lib/db.php");
-
-if (!isset($user)) {
-  echo "ERROR: Not logged in";
-  exit;
-}
-
-if (!isset($user["admin"]) || (int)$user["admin"] !== 1) {
-  echo "ERROR: Not an admin";
-  exit;
-}
 
 $migrationsDir = __DIR__ . '/migrations';
 $dbTableMigrations = 'migrations';
