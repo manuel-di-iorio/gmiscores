@@ -30,7 +30,7 @@ jobs:
           chmod +x git-ftp.sh
 
           # Exclude patterns
-          printf '%s\n' '.git*' '.github/' '.env' '.gitignore' '.vscode/' '.ftpquota' > .git-ftp-ignore
+          printf '%s\n' '.git*' '.github/' '.env' '.gitignore' '.vscode/' '.ftpquota' 'sdk/' > .git-ftp-ignore
 
           FTP_URL="ftp://ftp.gmiscores.altervista.org/"
 
@@ -40,7 +40,7 @@ jobs:
 
           if [[ "${{ inputs.force_full }}" == "true" ]]; then
             echo "Deploy completo forzato"
-            ./git-ftp.sh init -vv --user "$FTP_USER" --passwd "$FTP_PASS" "$FTP_URL"
+            ./git-ftp.sh push -vv -a --user "$FTP_USER" --passwd "$FTP_PASS" "$FTP_URL"
           elif [[ -z "$LAST_COMMIT" ]]; then
             echo "Nuovo deploy completo"
             ./git-ftp.sh init -vv --user "$FTP_USER" --passwd "$FTP_PASS" "$FTP_URL"
