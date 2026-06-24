@@ -39,6 +39,38 @@
       <p class="documentation-text" style="margin-bottom:0"><?= __('docs_security_text') ?></p>
     </div>
   </div>
+
+  <div style="margin-top: 24px;">
+    <h6 class="documentation-example-title" style="margin-bottom: 12px"><i class="fas fa-lock" style="margin-right: 8px"></i><?= __('docs_security_how_title') ?></h6>
+    <p class="documentation-text"><?= __('docs_security_how_text') ?></p>
+
+    <div class="terminal-mockup" style="margin-top: 16px;">
+      <div class="terminal-header">
+        <span class="terminal-title"><?= __('docs_security_example_title') ?></span>
+      </div>
+      <div class="terminal-body code-block-wrapper">
+        <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
+          <i class="far fa-copy"></i>
+        </button>
+        <div class="code-block jsHigh">// <?= __('docs_security_example_comment') ?><br/>var data = "game=" + game_id + "&amp;leaderboard_id=" + lb_id + "&amp;score=" + score + "&amp;player=" + base64_encode(player);<br/>var secret = "SECRET_DEL_GIOCO";<br/>var hash = sha1_string_utf8(data + secret);<br/><br/>// <?= __('docs_security_example_send') ?><br/>http_post_string(ENDPOINT + "/add.php", data + "&amp;hash=" + hash);</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <h6 class="documentation-example-title" style="margin-bottom: 12px"><i class="fas fa-check-circle" style="margin-right: 8px; color: #4ade80"></i><?= __('docs_security_protected_title') ?></h6>
+      <ul class="documentation-text" style="margin-left: 20px; line-height: 1.8;">
+        <li><?= __('docs_security_protected_1') ?></li>
+        <li><?= __('docs_security_protected_2') ?></li>
+        <li><?= __('docs_security_protected_3') ?></li>
+        <li><?= __('docs_security_protected_4') ?></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel-info" style="margin-top: 24px; border-color: #f59e0b; display: block;">
+    <p style="margin-bottom: 8px;"><i class="fas fa-exclamation-triangle mr-2" style="color: #f59e0b"></i><strong><?= __('docs_security_limitation_title') ?></strong></p>
+    <p class="documentation-text" style="margin-bottom: 0;"><?= __('docs_security_limitation_text') ?></p>
+  </div>
   <?php
   $securityContent = ob_get_clean();
 
@@ -130,7 +162,7 @@
           <span class="terminal-title">gmi_scores_send()</span>
         </div>
         <div class="terminal-body code-block-wrapper">
-          <div class="code-block jsHigh">// <?= __('docs_sdk_scores_guest') ?><br/>gmi_scores_send({ leaderboard_id: 30, player: "Harry", score: 5000 });<br/><br/>// <?= __('docs_sdk_scores_auth') ?><br/>// <?= __('docs_sdk_scores_auth_desc') ?><br/>gmi_scores_send({ leaderboard_id: 30, score: 5000 });</div>
+          <div class="code-block jsHigh">// <?= __('docs_sdk_scores_guest') ?><br/>gmi_scores_send({<br/>&nbsp;&nbsp;leaderboard_id: 30,<br/>&nbsp;&nbsp;player: "Harry",<br/>&nbsp;&nbsp;score: 5000,<br/>&nbsp;&nbsp;on_success: function(data) {<br/>&nbsp;&nbsp;&nbsp;&nbsp;// <?= __('docs_sdk_scores_send_desc') ?><br/>&nbsp;&nbsp;&nbsp;&nbsp;show_debug_message("Posizione: " + string(data.position));<br/>&nbsp;&nbsp;},<br/>&nbsp;&nbsp;on_error: function(err) {<br/>&nbsp;&nbsp;&nbsp;&nbsp;show_debug_message("Errore: " + string(err));<br/>&nbsp;&nbsp;}<br/>});<br/><br/>// <?= __('docs_sdk_scores_auth') ?><br/>// <?= __('docs_sdk_scores_auth_desc') ?><br/>gmi_scores_send({<br/>&nbsp;&nbsp;leaderboard_id: 30,<br/>&nbsp;&nbsp;score: 5000<br/>});</div>
         </div>
       </div>
 
@@ -139,7 +171,7 @@
           <span class="terminal-title">gmi_scores_get_list()</span>
         </div>
         <div class="terminal-body code-block-wrapper">
-          <div class="code-block jsHigh">gmi_scores_get_list({ leaderboard_id: 30 }); // <?= __('docs_sdk_method_get_list') ?></div>
+          <div class="code-block jsHigh">gmi_scores_get_list({<br/>&nbsp;&nbsp;leaderboard_id: 30,<br/>&nbsp;&nbsp;on_success: function(data) {<br/>&nbsp;&nbsp;&nbsp;&nbsp;// <?= __('docs_sdk_scores_list_desc') ?><br/>&nbsp;&nbsp;&nbsp;&nbsp;var scores = data.scores;<br/>&nbsp;&nbsp;&nbsp;&nbsp;var playerScore = data.playerScore;<br/>&nbsp;&nbsp;&nbsp;&nbsp;for (var i = 0; i < array_length(scores); i++) {<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;show_debug_message(scores[i].username + ": " + string(scores[i].score));<br/>&nbsp;&nbsp;&nbsp;&nbsp;}<br/>&nbsp;&nbsp;},<br/>&nbsp;&nbsp;on_error: function(err) {<br/>&nbsp;&nbsp;&nbsp;&nbsp;show_debug_message("Errore: " + string(err));<br/>&nbsp;&nbsp;}<br/>});</div>
         </div>
       </div>
 
@@ -183,6 +215,10 @@
   // ENDPOINTS TAB CONTENT
   ob_start();
   ?>
+  <div class="panel-info" style="margin-bottom: 24px;">
+    <p><i class="fas fa-info-circle mr-2"></i><?= __('docs_api_advanced_banner') ?></p>
+  </div>
+
   <p class="documentation-text font-semibold mb-4"><?= __('docs_subtitle') ?></p>
 
   <!-- POST /add.php Accordion -->
@@ -644,7 +680,7 @@
         <div class="api-endpoint-left">
           <p class="documentation-text"><strong><?= __('docs_auth_step2_title') ?></strong></p>
           <p class="documentation-text"><?= __('docs_auth_step2_desc') ?></p>
-          <div class="api-params-title" style="margin-top:16px">Parametri (query):</div>
+          <div class="api-params-title" style="margin-top:16px"><?= __('docs_params_query') ?></div>
           <div class="api-params-list">
             <div class="api-param-row">
               <div class="api-param-header">
@@ -691,7 +727,7 @@
         <div class="api-endpoint-left">
           <p class="documentation-text"><strong><?= __('docs_auth_step3_title') ?></strong></p>
           <p class="documentation-text"><?= __('docs_auth_step3_desc') ?></p>
-          <div class="api-params-title" style="margin-top:16px">Parametri (query):</div>
+          <div class="api-params-title" style="margin-top:16px"><?= __('docs_params_query') ?></div>
           <div class="api-params-list">
             <div class="api-param-row">
               <div class="api-param-header">
@@ -764,7 +800,7 @@
         <div class="api-endpoint-left">
           <p class="documentation-text"><strong><?= __('docs_auth_step4_title') ?></strong></p>
           <p class="documentation-text"><?= __('docs_auth_step4_desc') ?></p>
-          <div class="api-params-title" style="margin-top:16px">Parametri (query):</div>
+          <div class="api-params-title" style="margin-top:16px"><?= __('docs_params_query') ?></div>
           <div class="api-params-list">
             <div class="api-param-row">
               <div class="api-param-header">
@@ -858,14 +894,14 @@
         ' . $resourcesContent . '
       </div>
     '],
-    ["id" => "endpoints", "label" => __('docs_subtitle'), "icon" => "fas fa-code", "content" => '
-      <div class="documentation-section">
-        ' . $endpointsContent . '
-      </div>
-    '],
     ["id" => "security", "label" => __('docs_security_title'), "icon" => "fas fa-lock", "content" => '
       <div class="documentation-section">
         ' . $securityContent . '
+      </div>
+    '],
+    ["id" => "endpoints", "label" => __('docs_subtitle'), "icon" => "fas fa-code", "content" => '
+      <div class="documentation-section">
+        ' . $endpointsContent . '
       </div>
     '],
     ["id" => "errors", "label" => __('docs_errors_title'), "icon" => "fas fa-exclamation-triangle", "content" => '
