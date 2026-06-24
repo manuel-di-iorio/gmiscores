@@ -1,4 +1,5 @@
 <?php
+$skipAuth = true;
 require_once("lib/db.php");
 
 if (!isset($user)) {

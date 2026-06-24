@@ -7,11 +7,10 @@ class User {
     'timestamps' => true,
     'columns'    => [
       'id'              => ['type' => 'int',    'auto' => true],
-      'auth_discord_id' => ['type' => 'string', 'unique' => true],
+      'auth_discord_id' => ['type' => 'string', 'nullable' => true, 'unique' => true],
       'username'        => ['type' => 'string'],
       'approved'        => ['type' => 'bool',   'default' => false],
       'admin'           => ['type' => 'bool',   'default' => false],
-      'auth_discord_id' => ['type' => 'string', 'nullable' => true],
       'created_at'      => ['type' => 'datetime'],
       'updated_at'      => ['type' => 'datetime'],
     ],
