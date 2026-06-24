@@ -762,8 +762,8 @@
     <div class="accordion-content" style="display:none">
       <div class="api-endpoint-grid">
         <div class="api-endpoint-left">
-          <p class="documentation-text"><strong><?= __('docs_auth_step5_title') ?></strong></p>
-          <p class="documentation-text"><?= __('docs_auth_step5_desc') ?></p>
+          <p class="documentation-text"><strong><?= __('docs_auth_step4_title') ?></strong></p>
+          <p class="documentation-text"><?= __('docs_auth_step4_desc') ?></p>
           <div class="api-params-title" style="margin-top:16px">Parametri (query):</div>
           <div class="api-params-list">
             <div class="api-param-row">
