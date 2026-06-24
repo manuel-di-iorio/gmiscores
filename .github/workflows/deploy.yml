@@ -3,6 +3,13 @@ name: Deploy to Altervista
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      force_full:
+        description: 'Forza deploy completo (init)'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   deploy:
@@ -31,10 +38,13 @@ jobs:
           LAST_COMMIT=$(curl --silent --user "${FTP_USER}:${FTP_PASS}" \
             "${FTP_URL}.git-ftp.log" || true)
 
-          if [[ -z "$LAST_COMMIT" ]]; then
+          if [[ "${{ inputs.force_full }}" == "true" ]]; then
+            echo "Deploy completo forzato"
+            ./git-ftp.sh init -vv --user "$FTP_USER" --passwd "$FTP_PASS" "$FTP_URL"
+          elif [[ -z "$LAST_COMMIT" ]]; then
             echo "Nuovo deploy completo"
-            ./git-ftp.sh init --vv --user "$FTP_USER" --passwd "$FTP_PASS" "$FTP_URL"
+            ./git-ftp.sh init -vv --user "$FTP_USER" --passwd "$FTP_PASS" "$FTP_URL"
           else
             echo "Deploy incrementale (ultimo commit: $LAST_COMMIT)"
-            ./git-ftp.sh push --vv --user "$FTP_USER" --passwd "$FTP_PASS" "$FTP_URL"
+            ./git-ftp.sh push -vv --user "$FTP_USER" --passwd "$FTP_PASS" "$FTP_URL"
           fi
