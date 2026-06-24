@@ -258,10 +258,10 @@ switch ($activeTab) {
           <td class="ui-table-cell">' . $gameName . '</td>
           <td class="ui-table-cell">' . $dateValue . '</td>
           <td class="ui-table-cell actions-cell">
-            <a href="javascript:void(0)" class="admin-score-action admin-score-action--danger" data-admin-score-delete data-post-url="/admin-scores-delete.php" data-post-body="' . htmlspecialchars($deletePostBody) . '" data-player="' . $playerName . '" data-tippy-content="' . 'Delete score' . '" aria-label="' . 'Delete score' . '">
+            <a href="javascript:void(0)" class="admin-score-action admin-score-action--danger" data-admin-score-delete data-post-url="/admin-scores-delete.php" data-post-body="' . htmlspecialchars($deletePostBody) . '" data-player="' . $playerName . '" data-tippy-content="' . __('scores_action_delete') . '" aria-label="' . __('scores_action_delete') . '">
               <i class="fas fa-trash"></i>
             </a>
-            <a href="javascript:void(0)" class="admin-score-action admin-score-action--danger" data-admin-score-ban data-post-url="/admin-scores-ban-player.php" data-post-body="' . htmlspecialchars($banPostBody) . '" data-player="' . $playerName . '" data-game="' . $gameName . '" data-tippy-content="' . 'Ban player' . '" aria-label="' . 'Ban player' . '">
+            <a href="javascript:void(0)" class="admin-score-action admin-score-action--danger" data-admin-score-ban data-post-url="/admin-scores-ban-player.php" data-post-body="' . htmlspecialchars($banPostBody) . '" data-player="' . $playerName . '" data-game="' . $gameName . '" data-tippy-content="' . __('scores_action_ban') . '" aria-label="' . __('scores_action_ban') . '">
               <i class="fas fa-user-times"></i>
             </a>
           </td>
@@ -550,8 +550,8 @@ switch ($activeTab) {
   case 'migrate':
     $html = '
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-  <p style="color:var(--text-color-secondary,#6b7280);margin:0">' . 'Run database migrations to update the schema.' . '</p>
-  ' . ui_button('Sync Indexes', 'primary', 'md', ['icon' => 'fas fa-sync', 'attrs' => ['onclick' => "openModal('modal-sync-indexes')"]]) . '
+  <p style="color:var(--text-color-secondary,#6b7280);margin:0">' . __('migrate_desc') . '</p>
+  ' . ui_button(__('admin_sync_indexes'), 'primary', 'md', ['icon' => 'fas fa-sync', 'attrs' => ['onclick' => "openModal('modal-sync-indexes')"]]) . '
 </div>';
 
     if (!empty($migrateOutput)) {

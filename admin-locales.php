@@ -31,11 +31,6 @@ foreach ($otherLangs as $lang) {
 
 function findUsedKeys($dir) {
   $used = [];
-  $patterns = [
-    'php' => '/__\([\'"]([a-zA-Z0-9_]+)[\'"]\)/',
-    'js' => '/__\([\'"]([a-zA-Z0-9_]+)[\'"]\)/',
-    'html' => '/data-translate="([a-zA-Z0-9_]+)"/',
-  ];
   $extensions = ['php', 'js', 'html'];
 
   $iterator = new RecursiveIteratorIterator(
@@ -55,12 +50,39 @@ function findUsedKeys($dir) {
     $content = file_get_contents($file->getPathname());
     if ($content === false) continue;
 
-    $pattern = $patterns[$ext] ?? null;
-    if ($pattern && preg_match_all($pattern, $content, $matches)) {
+    if (preg_match_all('/__\([\'"]([a-zA-Z0-9_]+)[\'"]/', $content, $matches)) {
       foreach ($matches[1] as $key) {
         $used[$key] = $relativePath;
       }
     }
+
+    if ($ext === 'js' || $ext === 'php') {
+      if (preg_match_all('/_t\.([a-zA-Z0-9_]+)/', $content, $matches)) {
+        foreach ($matches[1] as $key) {
+          $used[$key] = $relativePath;
+        }
+      }
+    }
+
+    if ($ext === 'php' && preg_match_all('/var\s+_t\s*=\s*\{((?:[^}])*)\}/s', $content, $blockMatches)) {
+      foreach ($blockMatches[1] as $block) {
+        if (preg_match_all('/([a-zA-Z0-9_]+)\s*:/', $block, $propMatches)) {
+          foreach ($propMatches[1] as $key) {
+            $used[$key] = $relativePath;
+          }
+        }
+      }
+    }
+
+    if ($ext === 'js' && preg_match_all('/(?:var|let|const|,)\s+_t\s*=\s*\{((?:[^}])*)\}/s', $content, $blockMatches)) {
+        foreach ($blockMatches[1] as $block) {
+          if (preg_match_all('/([a-zA-Z0-9_]+)\s*:/', $block, $propMatches)) {
+            foreach ($propMatches[1] as $key) {
+              $used[$key] = $relativePath;
+            }
+          }
+        }
+      }
   }
   return $used;
 }
