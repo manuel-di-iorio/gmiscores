@@ -68,6 +68,23 @@ function listUrl($params = []) {
   return $config["host"] . "/api/v1/list.php" . ($query ? "?$query" : "");
 }
 
+function playerAuthUrl($path, $params = []) {
+  global $config;
+  $query = http_build_query($params);
+  return $config["host"] . "/player-auth/" . $path . ($query ? "?$query" : "");
+}
+
+function apiV1Url($path, $params = []) {
+  global $config;
+  $query = http_build_query($params);
+  return $config["host"] . "/api/v1/" . $path . ($query ? "?$query" : "");
+}
+
+function clearLoginSessions() {
+  global $db;
+  $db->query("DELETE FROM player_login_sessions");
+}
+
 $player = base64_encode("test");
 $player2 = base64_encode("test2");
 $secretData = Game::getClientSecretById($gameId)->fetch_assoc();
@@ -99,13 +116,36 @@ $testName = "";
 function ok() {
   global $passed, $testName;
   $passed++;
-  echo "  OK: $testName\n";
+  echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . "</span></li>\n";
 }
 
 function fail($detail = "") {
   global $failed, $testName;
   $failed++;
-  echo "  FAIL: $testName" . ($detail ? " — $detail" : "") . "\n";
+  $extra = $detail ? " <span class=\"detail\">— " . htmlspecialchars($detail) . "</span>" : "";
+  echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . $extra . "</span></li>\n";
+}
+
+function reportPass($name, $detail = "") {
+  global $passed;
+  $passed++;
+  $extra = $detail ? " <span class=\"detail\">" . htmlspecialchars($detail) . "</span>" : "";
+  echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($name) . $extra . "</span></li>\n";
+}
+
+function reportFail($name, $detail = "") {
+  global $failed;
+  $failed++;
+  $extra = $detail ? " <span class=\"detail\">— " . htmlspecialchars($detail) . "</span>" : "";
+  echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($name) . $extra . "</span></li>\n";
+}
+
+function assertTest($name, $cond, $detail = "") {
+  if ($cond) {
+    reportPass($name);
+  } else {
+    reportFail($name, $detail);
+  }
 }
 
 function addRequest($name, $data, $expectStatus = 200) {
@@ -117,18 +157,18 @@ function addRequest($name, $data, $expectStatus = 200) {
   if ($expectStatus === 200) {
     if (isset($resp["status"]) && $resp["status"] === 200) {
       $passed++;
-      echo "  OK: $testName\n";
+      echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . "</span></li>\n";
     } else {
       $failed++;
-      echo "  FAIL: $testName — expected 200, got " . json_encode($resp) . "\n";
+      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">— expected 200, got " . htmlspecialchars(json_encode($resp)) . "</span></span></li>\n";
     }
   } else {
     if (!isset($resp["status"]) || $resp["status"] !== 200) {
       $passed++;
-      echo "  OK: $testName (expected error $expectStatus)\n";
+      echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">(expected error $expectStatus)</span></span></li>\n";
     } else {
       $failed++;
-      echo "  FAIL: $testName — expected error $expectStatus, got 200\n";
+      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">— expected error $expectStatus, got 200</span></span></li>\n";
     }
   }
 }
@@ -141,18 +181,18 @@ function listRequest($name, $params, $expectStatus = 200) {
   if ($expectStatus === 200) {
     if (isset($resp["status"]) && $resp["status"] === 200) {
       $passed++;
-      echo "  OK: $testName\n";
+      echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . "</span></li>\n";
     } else {
       $failed++;
-      echo "  FAIL: $testName — expected 200, got " . json_encode($resp) . "\n";
+      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">— expected 200, got " . htmlspecialchars(json_encode($resp)) . "</span></span></li>\n";
     }
   } else {
     if (!isset($resp["status"]) || $resp["status"] !== 200) {
       $passed++;
-      echo "  OK: $testName (expected error $expectStatus)\n";
+      echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">(expected error $expectStatus)</span></span></li>\n";
     } else {
       $failed++;
-      echo "  FAIL: $testName — expected error $expectStatus, got 200\n";
+      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">— expected error $expectStatus, got 200</span></span></li>\n";
     }
   }
 }
@@ -160,7 +200,8 @@ function listRequest($name, $params, $expectStatus = 200) {
 // =========================================================================
 // ADD TESTS — Happy path
 // =========================================================================
-echo "=== ADD API — Happy Path ===\n";
+echo "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>Score API Test Report</title>\n<style>\n*,*::before,*::after{box-sizing:border-box}\nbody{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#cbd5e1;margin:0;padding:2rem 2.5rem;min-height:100vh}\nh1{color:#f1f5f9;font-size:1.6rem;font-weight:700;margin:0 0 .25rem;letter-spacing:-.02em}\n.subtitle{color:#64748b;font-size:.875rem;margin:0 0 2.5rem}\nh2{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#475569;margin:2rem 0 .4rem;padding-bottom:.4rem;border-bottom:1px solid #1e293b}\nul{list-style:none;padding:0;margin:0}\nli{display:flex;align-items:baseline;gap:.5rem;padding:.3rem .6rem;border-radius:5px;font-size:.84rem;line-height:1.5;margin-bottom:1px}\nli.ok{background:rgba(34,197,94,.07)}\nli.ok .icon{color:#22c55e;font-weight:700;flex-shrink:0;font-size:.85rem}\nli.fail{background:rgba(239,68,68,.1)}\nli.fail .icon{color:#ef4444;font-weight:700;flex-shrink:0;font-size:.85rem}\n.label{color:#e2e8f0}\n.detail{color:#64748b;font-size:.78rem;font-family:'Courier New',monospace}\n.summary{margin-top:2.5rem;padding:1.5rem 2rem;border-radius:10px;display:flex;gap:2.5rem;align-items:center;border:1px solid}\n.summary.all-pass{background:rgba(34,197,94,.07);border-color:rgba(34,197,94,.2)}\n.summary.has-fail{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.2)}\n.stat .num{font-size:2.8rem;font-weight:800;line-height:1}\n.stat .lbl{font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem}\n.num.pass{color:#22c55e}\n.num.fail{color:#ef4444}\n.divider{width:1px;background:#1e293b;align-self:stretch}\n.msg{font-size:1rem;font-weight:600}\n.msg.ok{color:#22c55e}\n.msg.fail{color:#ef4444}\n</style>\n</head>\n<body>\n<h1>Score API Test Report</h1>\n<p class=\"subtitle\">Generated " . date('Y-m-d H:i:s') . "</p>\n";
+echo "<section>\n<h2>ADD API &mdash; Happy Path</h2>\n<ul>\n";
 
 // 1. Minimal: game + score + player + hash (no leaderboard_id)
 addRequest("add: minimal (game, score, player, hash)", [
@@ -367,7 +408,7 @@ addRequest("add: score as string '100'", [
 // =========================================================================
 // ADD TESTS — Update behavior (insertMode)
 // =========================================================================
-echo "\n=== ADD API — Update Behavior ===\n";
+echo "</ul></section>\n<section>\n<h2>ADD API &mdash; Update Behavior</h2>\n<ul>\n";
 
 // 23. insertMode=higher: first insert high, then try lower (should NOT update)
 clearScores();
@@ -390,9 +431,9 @@ $resp2 = rawRequest("POST", addUrl(), [
   "hash" => computeAddHash(["score" => 100], $testLbId),
 ]);
 if (isset($resp2["scoreAction"]) && $resp2["scoreAction"] === "nothing") {
-  $passed++; echo "  OK: insertMode=higher: lower score does not update\n";
+  $passed++; echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">insertMode=higher: lower score does not update</span></li>\n";
 } else {
-  $failed++; echo "  FAIL: insertMode=higher: expected 'nothing', got " . json_encode($resp2) . "\n";
+  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">insertMode=higher <span class=\"detail\">— expected 'nothing', got " . htmlspecialchars(json_encode($resp2)) . "</span></span></li>\n";
 }
 
 // 24. insertMode=higher: first insert low, then try higher (should update)
@@ -415,9 +456,9 @@ $resp2 = rawRequest("POST", addUrl(), [
   "hash" => computeAddHash(["score" => 100], $testLbId),
 ]);
 if (isset($resp2["scoreAction"]) && $resp2["scoreAction"] === "updated") {
-  $passed++; echo "  OK: insertMode=higher: higher score updates\n";
+  $passed++; echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">insertMode=higher: higher score updates</span></li>\n";
 } else {
-  $failed++; echo "  FAIL: insertMode=higher: expected 'updated', got " . json_encode($resp2) . "\n";
+  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">insertMode=higher <span class=\"detail\">— expected 'updated', got " . htmlspecialchars(json_encode($resp2)) . "</span></span></li>\n";
 }
 
 // 25. insertMode=lower: first insert high, then try lower (should update)
@@ -440,9 +481,9 @@ $resp2 = rawRequest("POST", addUrl(), [
   "hash" => computeAddHash(["score" => 100], $testLbId),
 ]);
 if (isset($resp2["scoreAction"]) && $resp2["scoreAction"] === "updated") {
-  $passed++; echo "  OK: insertMode=lower: lower score updates\n";
+  $passed++; echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">insertMode=lower: lower score updates</span></li>\n";
 } else {
-  $failed++; echo "  FAIL: insertMode=lower: expected 'updated', got " . json_encode($resp2) . "\n";
+  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">insertMode=lower <span class=\"detail\">— expected 'updated', got " . htmlspecialchars(json_encode($resp2)) . "</span></span></li>\n";
 }
 
 // 26. insertMode=lower: first insert low, then try higher (should NOT update)
@@ -465,15 +506,15 @@ $resp2 = rawRequest("POST", addUrl(), [
   "hash" => computeAddHash(["score" => 100], $testLbId),
 ]);
 if (isset($resp2["scoreAction"]) && $resp2["scoreAction"] === "nothing") {
-  $passed++; echo "  OK: insertMode=lower: higher score does not update\n";
+  $passed++; echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">insertMode=lower: higher score does not update</span></li>\n";
 } else {
-  $failed++; echo "  FAIL: insertMode=lower: expected 'nothing', got " . json_encode($resp2) . "\n";
+  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">insertMode=lower <span class=\"detail\">— expected 'nothing', got " . htmlspecialchars(json_encode($resp2)) . "</span></span></li>\n";
 }
 
 // =========================================================================
 // ADD TESTS — Error paths
 // =========================================================================
-echo "\n=== ADD API — Error Paths ===\n";
+echo "</ul></section>\n<section>\n<h2>ADD API &mdash; Error Paths</h2>\n<ul>\n";
 
 // 27. Missing game
 addRequest("add error: missing game", [
@@ -551,9 +592,9 @@ addRequest("add error: non-existent game", [
 $testName = "add error: GET method not allowed";
 $resp = rawRequest("GET", addUrl(["game" => $gameId, "score" => $score]));
 if (!isset($resp["status"]) || $resp["status"] !== 200) {
-  $passed++; echo "  OK: $testName (expected error)\n";
+  $passed++; echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">(expected error)</span></span></li>\n";
 } else {
-  $failed++; echo "  FAIL: $testName — expected error, got 200\n";
+  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">— expected error, got 200</span></span></li>\n";
 }
 
 // 37. Hash with wrong secret
@@ -568,15 +609,15 @@ addRequest("add error: hash with wrong secret", [
 $testName = "add error: empty POST body";
 $resp = rawRequest("POST", addUrl(), []);
 if (!isset($resp["status"]) || $resp["status"] !== 200) {
-  $passed++; echo "  OK: $testName (expected error)\n";
+  $passed++; echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">(expected error)</span></span></li>\n";
 } else {
-  $failed++; echo "  FAIL: $testName — expected error, got 200\n";
+  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">— expected error, got 200</span></span></li>\n";
 }
 
 // =========================================================================
 // LIST TESTS — Happy path
 // =========================================================================
-echo "\n=== LIST API — Happy Path ===\n";
+echo "</ul></section>\n<section>\n<h2>LIST API &mdash; Happy Path</h2>\n<ul>\n";
 
 // 1. Minimal: game only
 listRequest("list: minimal (game only)", [
@@ -785,7 +826,7 @@ listRequest("list: leaderboard_id tag + tags (tag overrides)", [
 // =========================================================================
 // LIST TESTS — Error paths
 // =========================================================================
-echo "\n=== LIST API — Error Paths ===\n";
+echo "</ul></section>\n<section>\n<h2>LIST API &mdash; Error Paths</h2>\n<ul>\n";
 
 // 33. Missing game
 listRequest("list error: missing game", [
@@ -818,23 +859,206 @@ listRequest("list error: non-existent game", [
 $testName = "list error: POST method not allowed";
 $resp = rawRequest("POST", listUrl(["game" => $gameId]));
 if (!isset($resp["status"]) || $resp["status"] !== 200) {
-  $passed++; echo "  OK: $testName (expected error)\n";
+  $passed++; echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">(expected error)</span></span></li>\n";
 } else {
-  $failed++; echo "  FAIL: $testName — expected error, got 200\n";
+  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">— expected error, got 200</span></span></li>\n";
 }
+
+// =========================================================================
+// PLAYER LOGIN TESTS — OAuth flow (browser step mocked)
+// =========================================================================
+// The real flow is: SDK calls login-start -> opens a browser -> Discord OAuth2
+// -> discord/callback.php links the authenticated user to the login session.
+// OAuth2 cannot be replayed in an automated test, so we mock the browser+Discord
+// step by writing user_id directly into player_login_sessions, exactly like
+// callback.php does after a successful Discord authentication.
+echo "</ul></section>\n<section>\n<h2>PLAYER LOGIN API &mdash; OAuth Flow (browser mocked)</h2>\n<ul>\n";
+
+// --- login-start ---------------------------------------------------------
+
+// 1. POST login-start returns a valid 64-hex session token
+clearLoginSessions();
+$resp = rawRequest("POST", playerAuthUrl("login-start.php"));
+$sessionToken = $resp["session_token"] ?? "";
+assertTest(
+  "login-start: POST returns a 64-hex session_token",
+  isset($resp["status"]) && $resp["status"] === 200 && (bool)preg_match('/^[a-f0-9]{64}$/', $sessionToken),
+  "got " . json_encode($resp)
+);
+
+// 2. login-start GET not allowed
+$resp = rawRequest("GET", playerAuthUrl("login-start.php"));
+assertTest(
+  "login-start error: GET method not allowed",
+  isset($resp["status"]) && $resp["status"] === 405,
+  "got " . json_encode($resp)
+);
+
+// --- check-session (polling, before OAuth completes) ---------------------
+
+// 3. Pending session → logged=false
+$resp = rawRequest("GET", playerAuthUrl("check-session.php", ["session" => $sessionToken]));
+assertTest(
+  "check-session: pending session returns logged=false",
+  isset($resp["logged"]) && $resp["logged"] === false,
+  "got " . json_encode($resp)
+);
+
+// 4. Missing session param → 400
+$resp = rawRequest("GET", playerAuthUrl("check-session.php"));
+assertTest(
+  "check-session error: missing session param",
+  isset($resp["status"]) && $resp["status"] === 400,
+  "got " . json_encode($resp)
+);
+
+// 5. Invalid session token length → 400
+$resp = rawRequest("GET", playerAuthUrl("check-session.php", ["session" => "abc123"]));
+assertTest(
+  "check-session error: invalid session token length",
+  isset($resp["status"]) && $resp["status"] === 400,
+  "got " . json_encode($resp)
+);
+
+// 6. POST not allowed → 405
+$resp = rawRequest("POST", playerAuthUrl("check-session.php", ["session" => $sessionToken]));
+assertTest(
+  "check-session error: POST method not allowed",
+  isset($resp["status"]) && $resp["status"] === 405,
+  "got " . json_encode($resp)
+);
+
+// --- MOCK: simulate the browser + Discord OAuth callback -----------------
+
+// 7. Link the user to the session (mock of discord/callback.php), then poll
+exec_query(
+  "UPDATE player_login_sessions SET user_id = ? WHERE session_token = ?",
+  ["is", $userId, $sessionToken]
+);
+$resp = rawRequest("GET", playerAuthUrl("check-session.php", ["session" => $sessionToken]));
+$loginToken = $resp["token"] ?? "";
+assertTest(
+  "check-session: after mocked OAuth returns logged=true + token + username",
+  isset($resp["logged"]) && $resp["logged"] === true
+    && isset($resp["user_id"]) && (int)$resp["user_id"] === $userId
+    && !empty($resp["token"]) && isset($resp["username"]),
+  "got " . json_encode($resp)
+);
+
+// 8. Session is single-use: consumed (deleted) after a successful poll
+$resp = rawRequest("GET", playerAuthUrl("check-session.php", ["session" => $sessionToken]));
+assertTest(
+  "check-session: session consumed (single-use) after success",
+  isset($resp["logged"]) && $resp["logged"] === false,
+  "got " . json_encode($resp)
+);
+
+// --- check-token ---------------------------------------------------------
+
+// Build a valid encrypted token exactly like the server issues it
+$validToken = aes_encrypt(json_encode(["id" => $userId]), true);
+
+// 9. Valid token + game → valid=true
+$resp = rawRequest("GET", playerAuthUrl("check-token.php", ["token" => $validToken, "game" => $gameId]));
+assertTest(
+  "check-token: valid token returns valid=true",
+  isset($resp["valid"]) && $resp["valid"] === true
+    && isset($resp["user_id"]) && (int)$resp["user_id"] === $userId,
+  "got " . json_encode($resp)
+);
+
+// 10. Token issued by check-session also validates
+if (!empty($loginToken)) {
+  $resp = rawRequest("GET", playerAuthUrl("check-token.php", ["token" => $loginToken, "game" => $gameId]));
+  assertTest(
+    "check-token: token issued by check-session is valid",
+    isset($resp["valid"]) && $resp["valid"] === true,
+    "got " . json_encode($resp)
+  );
+} else {
+  reportFail("check-token: token issued by check-session is valid", "no login token captured");
+}
+
+// 11. Missing token → 400
+$resp = rawRequest("GET", playerAuthUrl("check-token.php", ["game" => $gameId]));
+assertTest(
+  "check-token error: missing token",
+  isset($resp["status"]) && $resp["status"] === 400,
+  "got " . json_encode($resp)
+);
+
+// 12. Missing game → 400
+$resp = rawRequest("GET", playerAuthUrl("check-token.php", ["token" => $validToken]));
+assertTest(
+  "check-token error: missing game",
+  isset($resp["status"]) && $resp["status"] === 400,
+  "got " . json_encode($resp)
+);
+
+// 13. Garbage token → valid=false (status 200)
+// Must be a base64 string that decodes to ≥49 bytes (16 IV + 32 HMAC + 1 payload) so
+// openssl_decrypt() receives a full-length IV and emits no E_WARNING that would
+// corrupt the JSON output on servers with display_errors=On (e.g. XAMPP dev).
+// The HMAC check still fails → Exception caught → valid=false.
+$garbageToken = base64_encode(str_repeat("\x42", 64));
+$resp = rawRequest("GET", playerAuthUrl("check-token.php", ["token" => $garbageToken, "game" => $gameId]));
+assertTest(
+  "check-token: garbage token returns valid=false",
+  isset($resp["valid"]) && $resp["valid"] === false,
+  "got " . json_encode($resp)
+);
+
+// 14. Token for a non-existent user → valid=false
+$ghostToken = aes_encrypt(json_encode(["id" => 99999999]), true);
+$resp = rawRequest("GET", playerAuthUrl("check-token.php", ["token" => $ghostToken, "game" => $gameId]));
+assertTest(
+  "check-token: non-existent user returns valid=false",
+  isset($resp["valid"]) && $resp["valid"] === false,
+  "got " . json_encode($resp)
+);
+
+// 15. POST not allowed → 405
+$resp = rawRequest("POST", playerAuthUrl("check-token.php", ["token" => $validToken, "game" => $gameId]));
+assertTest(
+  "check-token error: POST method not allowed",
+  isset($resp["status"]) && $resp["status"] === 405,
+  "got " . json_encode($resp)
+);
+
+// --- player-logout -------------------------------------------------------
+
+// 16. player-logout clears the cookie and returns success
+$resp = rawRequest("POST", apiV1Url("player-logout.php"));
+assertTest(
+  "player-logout: returns status 200",
+  isset($resp["status"]) && $resp["status"] === 200,
+  "got " . json_encode($resp)
+);
 
 // =========================================================================
 // Cleanup & Summary
 // =========================================================================
 clearAllScores();
+clearLoginSessions();
 
-echo "\n========================================\n";
-echo "Results: $passed passed, $failed failed\n";
-echo "========================================\n";
+$summaryClass = $failed > 0 ? "has-fail" : "all-pass";
+$total = $passed + $failed;
+echo "</ul></section>\n";
+echo "<div class=\"summary $summaryClass\">\n";
+echo "  <div class=\"stat\"><div class=\"num pass\">$passed</div><div class=\"lbl\">Passed</div></div>\n";
+if ($failed > 0) {
+  echo "  <div class=\"divider\"></div>\n";
+  echo "  <div class=\"stat\"><div class=\"num fail\">$failed</div><div class=\"lbl\">Failed</div></div>\n";
+}
+echo "  <div class=\"divider\"></div>\n";
+echo "  <div class=\"stat\"><div class=\"num\" style=\"color:#94a3b8\">$total</div><div class=\"lbl\">Total</div></div>\n";
+$msgClass = $failed > 0 ? "fail" : "ok";
+$msgText = $failed > 0 ? "$failed test" . ($failed > 1 ? "s" : "") . " failed" : "All tests passed!";
+echo "  <div class=\"divider\"></div>\n";
+echo "  <div class=\"msg $msgClass\">$msgText</div>\n";
+echo "</div>\n</body>\n</html>\n";
 
 if ($failed > 0) {
   http_response_code(500);
-  exit("TESTS FAILED");
+  exit();
 }
-
-echo "Tests OK";
