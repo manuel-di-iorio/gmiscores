@@ -14,3 +14,4 @@ $dbTableTeamMembers = "team_members";
 $dbTableMigrations = "migrations";
 
 // API tables
+$dbTableApiErrors = "api_errors";
