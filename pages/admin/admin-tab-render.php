@@ -547,6 +547,100 @@ switch ($activeTab) {
     }
     break;
 
+  case 'api-errors':
+    $csrfToken = csrf_token();
+    $html = '<div id="api-errors-container">
+      <div style="text-align:center;padding:40px 20px;color:var(--text-color-secondary,#6b7280)">
+        <i class="fas fa-spinner fa-spin" style="font-size:1.5em;opacity:0.5"></i>
+      </div>
+    </div>';
+    echo $html;
+    echo '<script>
+(function() {
+  var container = document.getElementById("api-errors-container");
+  if (!container) return;
+
+  var currentPage = 0;
+  var csrfToken = "' . addslashes($csrfToken) . '";
+
+  function loadPage(page) {
+    container.innerHTML = "<div style=\"text-align:center;padding:40px 20px;color:var(--text-color-secondary,#6b7280)\"><i class=\"fas fa-spinner fa-spin\" style=\"font-size:1.5em;opacity:0.5\"></i></div>";
+
+    fetch("/api/internal/admin/api-errors.php?page=" + page + "&csrf_token=" + encodeURIComponent(csrfToken), {
+      credentials: "same-origin"
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data.errors || data.errors.length === 0) {
+        container.innerHTML = "<div style=\"text-align:center;padding:40px 20px;color:var(--text-color-secondary,#6b7280)\"><i class=\"fas fa-check-circle\" style=\"font-size:2.5em;opacity:0.3;margin-bottom:12px;display:block\"></i>No errors logged.</div>";
+        return;
+      }
+
+      var html = "<div style=\"font-size:0.85em;color:var(--text-color-secondary,#6b7280);margin-bottom:12px\">Total: " + data.total + " errors</div>";
+      html += "<div class=\"ui-table-container\"><table class=\"ui-table\"><thead class=\"ui-table-header\"><tr>";
+      html += "<th class=\"ui-table-header-cell\">Date</th>";
+      html += "<th class=\"ui-table-header-cell\">Code</th>";
+      html += "<th class=\"ui-table-header-cell\">Status</th>";
+      html += "<th class=\"ui-table-header-cell\">Endpoint</th>";
+      html += "<th class=\"ui-table-header-cell\">Method</th>";
+      html += "<th class=\"ui-table-header-cell\">IP</th>";
+      html += "<th class=\"ui-table-header-cell\">Message</th>";
+      html += "<th class=\"ui-table-header-cell\">Request Data</th>";
+      html += "</tr></thead><tbody class=\"ui-table-body\">";
+
+      data.errors.forEach(function(e) {
+        var statusClass = e.status >= 500 ? "danger" : (e.status >= 400 ? "warning" : "default");
+        html += "<tr class=\"ui-table-row\">";
+        html += "<td class=\"ui-table-cell\" style=\"white-space:nowrap;font-size:0.85em\">" + escapeHtml(e.created_at) + "</td>";
+        html += "<td class=\"ui-table-cell\"><code style=\"font-size:0.85em\">" + escapeHtml(e.error_code) + "</code></td>";
+        html += "<td class=\"ui-table-cell\"><span class=\"ui-badge ui-badge--" + statusClass + "\">" + e.status + "</span></td>";
+        html += "<td class=\"ui-table-cell\"><code style=\"font-size:0.85em\">" + escapeHtml(e.endpoint) + "</code></td>";
+        html += "<td class=\"ui-table-cell\">" + escapeHtml(e.method) + "</td>";
+        html += "<td class=\"ui-table-cell\"><code style=\"font-size:0.85em\">" + escapeHtml(e.ip || "-") + "</code></td>";
+        html += "<td class=\"ui-table-cell\" style=\"max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap\" title=\"" + escapeHtml(e.message) + "\">" + escapeHtml(e.message) + "</td>";
+        html += "<td class=\"ui-table-cell\" style=\"max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:0.8em;color:var(--text-color-secondary,#6b7280)\" title=\"" + escapeHtml(e.request_data || "") + "\">" + escapeHtml(e.request_data || "-") + "</td>";
+        html += "</tr>";
+      });
+
+      html += "</tbody></table></div>";
+
+      var totalPages = Math.ceil(data.total / data.perPage) - 1;
+      if (totalPages > 0) {
+        html += "<div style=\"text-align:center;margin-top:16px;display:flex;justify-content:center;gap:8px;align-items:center\">";
+        if (data.page > 0) {
+          html += "<button class=\"ui-btn ui-btn--secondary ui-btn--sm\" onclick=\"window._apiErrorsLoadPage(" + (data.page - 1) + ")\"><i class=\"fas fa-chevron-left\"></i> Previous</button>";
+        }
+        html += "<span style=\"font-size:0.85em;color:var(--text-color-secondary,#6b7280)\">Page " + (data.page + 1) + " of " + (totalPages + 1) + "</span>";
+        if (data.page < totalPages) {
+          html += "<button class=\"ui-btn ui-btn--secondary ui-btn--sm\" onclick=\"window._apiErrorsLoadPage(" + (data.page + 1) + ")\">Next <i class=\"fas fa-chevron-right\"></i></button>";
+        }
+        html += "</div>";
+      }
+
+      container.innerHTML = html;
+    })
+    .catch(function(err) {
+      container.innerHTML = "<div style=\"text-align:center;padding:40px 20px;color:#dc2626\"><i class=\"fas fa-exclamation-triangle\" style=\"font-size:2.5em;opacity:0.3;margin-bottom:12px;display:block\"></i>Error loading data: " + escapeHtml(err.message) + "</div>";
+    });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return "";
+    var div = document.createElement("div");
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+  window._apiErrorsLoadPage = function(page) {
+    currentPage = page;
+    loadPage(page);
+  };
+
+  loadPage(0);
+})();
+</script>';
+    break;
+
   case 'migrate':
     $html = '
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">

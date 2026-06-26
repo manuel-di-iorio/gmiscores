@@ -191,12 +191,13 @@ $activeContent = ob_get_clean();
 
 // Build tab array with lazy loading for inactive tabs
 $tabs = [];
-$tabIds = ['users', 'players', 'scores', 'analytics', 'migrate'];
+$tabIds = ['users', 'players', 'scores', 'analytics', 'api-errors', 'migrate'];
 $tabLabels = [
   'users' => 'Users',
   'players' => 'Players',
   'scores' => 'Scores',
   'analytics' => 'Analytics',
+  'api-errors' => 'API Errors',
   'migrate' => 'Migrations',
 ];
 $tabIcons = [
@@ -204,6 +205,7 @@ $tabIcons = [
   'players' => 'fas fa-user-friends',
   'scores' => 'fas fa-star',
   'analytics' => 'fas fa-chart-pie',
+  'api-errors' => 'fas fa-exclamation-triangle',
   'migrate' => 'fas fa-database',
 ];
 
@@ -218,7 +220,7 @@ foreach ($tabIds as $id) {
     $tab['content'] = $activeContent;
   } else {
     $tab['url'] = '/admin.php?tab=' . $id . '&ajax=1';
-    $skeletonType = $id === 'analytics' ? 'chart' : 'table-row';
+    $skeletonType = ($id === 'analytics' || $id === 'api-errors') ? 'chart' : 'table-row';
     $tab['content'] = ui_skeleton($skeletonType, $skeletonType === 'chart' ? 2 : 8);
   }
 
