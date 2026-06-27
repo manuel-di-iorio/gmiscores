@@ -47,7 +47,7 @@ if ($action === 'progress') {
     exit;
   }
 
-  $validSteps = ['welcome', 'create-game', 'add-game-name', 'add-game-auth', 'game-id', 'client-secret', 'leaderboard-tab', 'analytics', 'api-submit', 'complete', '__complete__'];
+  $validSteps = ['welcome', 'create-game', 'add-game-name', 'add-game-auth', 'game-id', 'client-secret', 'leaderboard-tab', 'players-tab', 'analytics', 'api-submit', 'complete', '__complete__'];
   if (!in_array($step, $validSteps)) {
     http_response_code(400);
     echo json_encode(['error' => 'Invalid step']);

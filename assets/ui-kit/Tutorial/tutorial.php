@@ -35,14 +35,15 @@ function ui_tutorial_render() {
 
   $html = '<div id="ui-tutorial-root" data-tutorial-steps="' . htmlspecialchars(json_encode(array_map(function($s) {
     return [
-      'id'     => $s['id'],
-      'page'   => $s['page'],
-      'target' => $s['target'],
-      'title'  => $s['title'],
-      'desc'   => $s['desc'],
-      'pos'    => $s['pos'],
-      'arrow'  => $s['arrow'] ?? true,
-      'final'  => $s['final'] ?? false,
+      'id'         => $s['id'],
+      'page'       => $s['page'],
+      'disableBack'=> $s['disableBack'] ?? false,
+      'target'     => $s['target'],
+      'title'      => $s['title'],
+      'desc'       => $s['desc'],
+      'pos'        => $s['pos'],
+      'arrow'      => $s['arrow'] ?? true,
+      'final'      => $s['final'] ?? false,
     ];
   }, $steps))) . '" '
   . 'data-tutorial-current="' . htmlspecialchars($currentStepId ?? '') . '" '

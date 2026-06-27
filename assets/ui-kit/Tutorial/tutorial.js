@@ -18,7 +18,13 @@
   var strGetStarted = root.dataset.tutorialGetStarted || 'Get Started';
   var strWaitingTitle = root.dataset.tutorialWaitingTitle || 'Almost there!';
   var strWaitingDesc = root.dataset.tutorialWaitingDesc || 'Create a game to continue. The tutorial will resume automatically.';
-  var pagesRequiringId = ['game'];
+  function stepDisablesNav(step) {
+    return step.disableBack === true;
+  }
+
+  function buildNavUrl(page, stepId) {
+    return '/' + page + '.php?tutorial=' + encodeURIComponent(stepId);
+  }
 
   if (!steps.length || !isActive) return;
 
@@ -140,6 +146,8 @@
     }
 
     var isLast = step.final || stepIndex === totalSteps - 1;
+    var prevStep = stepIndex > 0 ? steps[stepIndex - 1] : null;
+    var canGoBack = prevStep && (prevStep.page === currentPage || !stepDisablesNav(prevStep));
     var nextLabel = isLast ? strFinish : strNext;
     var skipLabel = isLast ? '' : '<button class="ui-tutorial-bubble__skip" id="ui-tutorial-skip">' + escapeHtml(strSkip) + '</button>';
     var arrowHtml = step.arrow !== false ? '<div class="ui-tutorial-bubble__arrow ui-tutorial-bubble__arrow--' + (step.pos || 'bottom') + '"></div>' : '';
@@ -152,7 +160,7 @@
       '<div class="ui-tutorial-bubble__actions">' +
         skipLabel +
         '<div class="ui-tutorial-bubble__btns">' +
-          (stepIndex > 0 ? '<button class="ui-tutorial-bubble__btn ui-tutorial-bubble__btn--secondary" id="ui-tutorial-back">' + escapeHtml(strBack) + '</button>' : '') +
+          (canGoBack ? '<button class="ui-tutorial-bubble__btn ui-tutorial-bubble__btn--secondary" id="ui-tutorial-back">' + escapeHtml(strBack) + '</button>' : '') +
           '<button class="ui-tutorial-bubble__btn ui-tutorial-bubble__btn--primary" id="ui-tutorial-next">' + escapeHtml(nextLabel) + '</button>' +
         '</div>' +
       '</div>';
@@ -212,7 +220,7 @@
         renderHighlight(targetEl);
         renderBubble(step, stepIndex);
         positionBubble(targetEl, step);
-      }, 350);
+      }, 300);
     });
   }
 
@@ -234,9 +242,8 @@
     document.body.appendChild(overlayEl);
 
     document.getElementById('ui-tutorial-finish').addEventListener('click', function() {
-      updateProgress('__complete__', function() {
-        cleanup();
-      });
+      cleanup();
+      updateProgress('__complete__', null);
     });
   }
 
@@ -244,25 +251,24 @@
     var nextIndex = currentIndex + 1;
     if (nextIndex >= steps.length) {
       cleanup();
-      updateProgress('__complete__', function() {});
+      updateProgress('__complete__', null);
       return;
     }
     var nextStep = steps[nextIndex];
     var isDifferentPage = nextStep.page !== currentPage;
-    var canNavigate = !isDifferentPage || pagesRequiringId.indexOf(nextStep.page) === -1;
-    updateProgress(nextStep.id, function() {
-      if (canNavigate) {
-        cleanup();
-        if (isDifferentPage) {
-          window.location.href = '/' + nextStep.page + '.php?tutorial=' + encodeURIComponent(nextStep.id);
-        } else {
-          showStep(nextIndex);
-        }
+    var canNavigate = !isDifferentPage || !stepDisablesNav(nextStep);
+    updateProgress(nextStep.id, null);
+    if (canNavigate) {
+      cleanup();
+      if (isDifferentPage) {
+        window.location.href = buildNavUrl(nextStep.page, nextStep.id);
       } else {
-        if (bubbleEl) bubbleEl.remove();
-        showWaitingBubble();
+        showStep(nextIndex);
       }
-    });
+    } else {
+      if (bubbleEl) bubbleEl.remove();
+      showWaitingBubble();
+    }
   }
 
   function showWaitingBubble() {
@@ -287,17 +293,15 @@
     if (prevIndex < 0) return;
     var prevStep = steps[prevIndex];
     var isDifferentPage = prevStep.page !== currentPage;
-    var canNavigate = !isDifferentPage || pagesRequiringId.indexOf(prevStep.page) === -1;
-    updateProgress(prevStep.id, function() {
-      if (canNavigate) {
-        cleanup();
-        if (isDifferentPage) {
-          window.location.href = '/' + prevStep.page + '.php?tutorial=' + encodeURIComponent(prevStep.id);
-        } else {
-          showStep(prevIndex);
-        }
+    var canNavigate = !isDifferentPage || !stepDisablesNav(prevStep);
+    updateProgress(prevStep.id, null);
+    if (canNavigate) {
+      if (isDifferentPage) {
+        window.location.href = buildNavUrl(prevStep.page, prevStep.id);
+      } else {
+        showStep(prevIndex);
       }
-    });
+    }
   }
 
   function skipTutorial() {
@@ -355,9 +359,8 @@
 
     if (forcedStep !== null) {
       currentIndex = forcedStep;
-      updateProgress(steps[forcedStep].id, function() {
-        showStep(forcedStep);
-      });
+      updateProgress(steps[forcedStep].id, null);
+      showStep(forcedStep);
       return;
     }
 
