@@ -124,7 +124,7 @@
 </style>
 
 <div class="sdk-login-brand">
-  <img src="/assets/images/logo<?= $theme === 'dark' ? 'White' : '' ?>.svg" alt="GMI Scores">
+  <img src="/assets/images/logo<?= $theme === 'dark' ? 'White' : '' ?>.svg" alt="Platform Logo">
 </div>
 
 <div class="sdk-login-page">

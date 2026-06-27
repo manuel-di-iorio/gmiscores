@@ -1,12 +1,15 @@
 <?php
 
+global $config;
+$site = $config["platformTitle"] ?? 'GMI Scores';
+
 return [
   'steps' => [
     [
       'id'     => 'welcome',
       'page'   => 'home',
       'target' => '.home-stats-grid',
-      'title'  => __('tutorial_welcome_title'),
+      'title'  => __('tutorial_welcome_title', ['site' => $site]),
       'desc'   => __('tutorial_welcome_desc'),
       'pos'    => 'bottom',
       'arrow'  => true,
@@ -44,7 +47,7 @@ return [
       'disableBack'=> true,
       'target'     => '#input-gameid',
       'title'      => __('tutorial_game_id_title'),
-      'desc'       => __('tutorial_game_id_desc'),
+      'desc'       => __('tutorial_game_id_desc', ['site' => $site]),
       'pos'        => 'bottom',
       'arrow'      => true,
     ],
@@ -102,7 +105,7 @@ return [
       'page'   => 'home',
       'target' => '.home-stats-grid',
       'title'  => __('tutorial_complete_title'),
-      'desc'   => __('tutorial_complete_desc'),
+      'desc'   => __('tutorial_complete_desc', ['site' => $site]),
       'pos'    => 'bottom',
       'arrow'  => true,
       'final'  => true,
