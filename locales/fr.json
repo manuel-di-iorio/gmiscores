@@ -734,7 +734,7 @@
   "tutorial_leaderboard_tab_title": "Classements",
   "tutorial_leaderboard_tab_desc": "Créez et gérez les classements de votre jeu. Vous pouvez créer plusieurs classements pour suivre différentes catégories, comme les scores quotidiens, les meilleurs résultats ou les classements par niveau.",
   "tutorial_players_tab_title": "Joueurs",
-  "tutorial_players_tab_desc": "Consultez tous les joueurs qui ont soumis des scores à votre jeu. Vous pouvez voir leurs statistiques, sanctionner les joueurs déloyaux et gérer l'accès.",
+  "tutorial_players_tab_desc": "Tous les joueurs qui ont interagi avec votre jeu. Vous pouvez les consulter et sanctionner les déloyaux.",
   "tutorial_api_submit_title": "Envoyer des scores via l'API",
   "tutorial_api_submit_desc": "Utilisez notre REST API pour envoyer les scores des joueurs depuis votre jeu. Consultez la documentation pour les endpoints, l'authentification et les exemples de code.",
   "tutorial_analytics_title": "Statistiques",

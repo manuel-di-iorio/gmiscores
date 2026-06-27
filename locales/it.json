@@ -734,7 +734,7 @@
   "tutorial_leaderboard_tab_title": "Classifiche",
   "tutorial_leaderboard_tab_desc": "Crea e gestisci le classifiche del tuo gioco. Puoi creare più classifiche per tracciare categorie diverse, come punteggi giornalieri, migliori risultati in assoluto o classifiche per livello.",
   "tutorial_players_tab_title": "Giocatori",
-  "tutorial_players_tab_desc": "Visualizza tutti i giocatori che hanno inviato punteggi al tuo gioco. Puoi vedere le loro statistiche, bandire i giocatori scorretti e gestire l'accesso.",
+  "tutorial_players_tab_desc": "Tutti i giocatori che hanno interagito con il tuo gioco. Puoi visualizzarli e bandire quelli scorretti.",
   "tutorial_api_submit_title": "Invia punteggi via API",
   "tutorial_api_submit_desc": "Usa la nostra REST API per inviare i punteggi dei giocatori dal tuo gioco. Consulta la documentazione per endpoint, autenticazione ed esempi di codice.",
   "tutorial_analytics_title": "Analytics",

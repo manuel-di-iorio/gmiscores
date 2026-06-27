@@ -734,7 +734,7 @@
   "tutorial_leaderboard_tab_title": "Ranglisten",
   "tutorial_leaderboard_tab_desc": "Erstellen und verwalten Sie Ranglisten für Ihr Spiel. Sie können mehrere Ranglisten erstellen, um verschiedene Kategorien zu verfolgen, wie tägliche Ergebnisse, Bestleistungen oder Ranglisten pro Level.",
   "tutorial_players_tab_title": "Spieler",
-  "tutorial_players_tab_desc": "Sehen Sie alle Spieler, die Ergebnisse an Ihr Spiel gesendet haben. Sie können deren Statistiken einsehen, unfaire Spieler sperren und den Zugang verwalten.",
+  "tutorial_players_tab_desc": "Alle Spieler, die mit Ihrem Spiel interagiert haben. Sie können sie einsehen und unfaire sperren.",
   "tutorial_api_submit_title": "Ergebnisse per API senden",
   "tutorial_api_submit_desc": "Verwenden Sie unsere REST API, um Spielerergebnisse aus Ihrem Spiel zu senden. Schauen Sie in die Dokumentation für Endpoints, Authentifizierung und Codebeispiele.",
   "tutorial_analytics_title": "Analytik",
