@@ -422,7 +422,7 @@ switch ($activeTab) {
     <div class="p-5 flex-1 flex flex-col">
       <div class="font-semibold text-headings mb-3">
         <i class="fas fa-globe text-primary-color mr-2"></i>' . 'Countries' . '
-        ' . ($moreCountries > 0 ? '<span style="font-weight:400;font-size:0.8em;color:var(--text-color-secondary,#6b7280);margin-left:8px">(' . 'Top 30 — ' . $moreCountries . ' more' . ')</span>' : '') . '
+        ' . ($moreCountries > 0 ? '<span style="font-weight:400;font-size:0.8em;color:var(--text-color-secondary,#6b7280);margin-left:8px">(' . 'Top 30 - ' . $moreCountries . ' more' . ')</span>' : '') . '
       </div>
       <div class="chart-container" style="max-height:350px">
         <canvas id="chartAdminCountries"></canvas>

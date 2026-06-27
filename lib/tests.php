@@ -122,7 +122,7 @@ function ok() {
 function fail($detail = "") {
   global $failed, $testName;
   $failed++;
-  $extra = $detail ? " <span class=\"detail\">— " . htmlspecialchars($detail) . "</span>" : "";
+  $extra = $detail ? " <span class=\"detail\">- " . htmlspecialchars($detail) . "</span>" : "";
   echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . $extra . "</span></li>\n";
 }
 
@@ -136,7 +136,7 @@ function reportPass($name, $detail = "") {
 function reportFail($name, $detail = "") {
   global $failed;
   $failed++;
-  $extra = $detail ? " <span class=\"detail\">— " . htmlspecialchars($detail) . "</span>" : "";
+  $extra = $detail ? " <span class=\"detail\">- " . htmlspecialchars($detail) . "</span>" : "";
   echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($name) . $extra . "</span></li>\n";
 }
 
@@ -160,7 +160,7 @@ function addRequest($name, $data, $expectStatus = 200) {
       echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . "</span></li>\n";
     } else {
       $failed++;
-      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">— expected 200, got " . htmlspecialchars(json_encode($resp)) . "</span></span></li>\n";
+      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">- expected 200, got " . htmlspecialchars(json_encode($resp)) . "</span></span></li>\n";
     }
   } else {
     if (!isset($resp["status"]) || $resp["status"] !== 200) {
@@ -168,7 +168,7 @@ function addRequest($name, $data, $expectStatus = 200) {
       echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">(expected error $expectStatus)</span></span></li>\n";
     } else {
       $failed++;
-      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">— expected error $expectStatus, got 200</span></span></li>\n";
+      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">- expected error $expectStatus, got 200</span></span></li>\n";
     }
   }
 }
@@ -184,7 +184,7 @@ function listRequest($name, $params, $expectStatus = 200) {
       echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . "</span></li>\n";
     } else {
       $failed++;
-      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">— expected 200, got " . htmlspecialchars(json_encode($resp)) . "</span></span></li>\n";
+      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">- expected 200, got " . htmlspecialchars(json_encode($resp)) . "</span></span></li>\n";
     }
   } else {
     if (!isset($resp["status"]) || $resp["status"] !== 200) {
@@ -192,13 +192,13 @@ function listRequest($name, $params, $expectStatus = 200) {
       echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">(expected error $expectStatus)</span></span></li>\n";
     } else {
       $failed++;
-      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">— expected error $expectStatus, got 200</span></span></li>\n";
+      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">- expected error $expectStatus, got 200</span></span></li>\n";
     }
   }
 }
 
 // =========================================================================
-// ADD TESTS — Happy path
+// ADD TESTS - Happy path
 // =========================================================================
 echo "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>Score API Test Report</title>\n<style>\n*,*::before,*::after{box-sizing:border-box}\nbody{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#cbd5e1;margin:0;padding:2rem 2.5rem;min-height:100vh}\nh1{color:#f1f5f9;font-size:1.6rem;font-weight:700;margin:0 0 .25rem;letter-spacing:-.02em}\n.subtitle{color:#64748b;font-size:.875rem;margin:0 0 2.5rem}\nh2{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#475569;margin:2rem 0 .4rem;padding-bottom:.4rem;border-bottom:1px solid #1e293b}\nul{list-style:none;padding:0;margin:0}\nli{display:flex;align-items:baseline;gap:.5rem;padding:.3rem .6rem;border-radius:5px;font-size:.84rem;line-height:1.5;margin-bottom:1px}\nli.ok{background:rgba(34,197,94,.07)}\nli.ok .icon{color:#22c55e;font-weight:700;flex-shrink:0;font-size:.85rem}\nli.fail{background:rgba(239,68,68,.1)}\nli.fail .icon{color:#ef4444;font-weight:700;flex-shrink:0;font-size:.85rem}\n.label{color:#e2e8f0}\n.detail{color:#64748b;font-size:.78rem;font-family:'Courier New',monospace}\n.summary{margin-top:2.5rem;padding:1.5rem 2rem;border-radius:10px;display:flex;gap:2.5rem;align-items:center;border:1px solid}\n.summary.all-pass{background:rgba(34,197,94,.07);border-color:rgba(34,197,94,.2)}\n.summary.has-fail{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.2)}\n.stat .num{font-size:2.8rem;font-weight:800;line-height:1}\n.stat .lbl{font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem}\n.num.pass{color:#22c55e}\n.num.fail{color:#ef4444}\n.divider{width:1px;background:#1e293b;align-self:stretch}\n.msg{font-size:1rem;font-weight:600}\n.msg.ok{color:#22c55e}\n.msg.fail{color:#ef4444}\n</style>\n</head>\n<body>\n<h1>Score API Test Report</h1>\n<p class=\"subtitle\">Generated " . date('Y-m-d H:i:s') . "</p>\n";
 echo "<section>\n<h2>ADD API &mdash; Happy Path</h2>\n<ul>\n";
@@ -406,7 +406,7 @@ addRequest("add: score as string '100'", [
 ]);
 
 // =========================================================================
-// ADD TESTS — Update behavior (insertMode)
+// ADD TESTS - Update behavior (insertMode)
 // =========================================================================
 echo "</ul></section>\n<section>\n<h2>ADD API &mdash; Update Behavior</h2>\n<ul>\n";
 
@@ -433,7 +433,7 @@ $resp2 = rawRequest("POST", addUrl(), [
 if (isset($resp2["scoreAction"]) && $resp2["scoreAction"] === "nothing") {
   $passed++; echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">insertMode=higher: lower score does not update</span></li>\n";
 } else {
-  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">insertMode=higher <span class=\"detail\">— expected 'nothing', got " . htmlspecialchars(json_encode($resp2)) . "</span></span></li>\n";
+  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">insertMode=higher <span class=\"detail\">- expected 'nothing', got " . htmlspecialchars(json_encode($resp2)) . "</span></span></li>\n";
 }
 
 // 24. insertMode=higher: first insert low, then try higher (should update)
@@ -458,7 +458,7 @@ $resp2 = rawRequest("POST", addUrl(), [
 if (isset($resp2["scoreAction"]) && $resp2["scoreAction"] === "updated") {
   $passed++; echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">insertMode=higher: higher score updates</span></li>\n";
 } else {
-  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">insertMode=higher <span class=\"detail\">— expected 'updated', got " . htmlspecialchars(json_encode($resp2)) . "</span></span></li>\n";
+  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">insertMode=higher <span class=\"detail\">- expected 'updated', got " . htmlspecialchars(json_encode($resp2)) . "</span></span></li>\n";
 }
 
 // 25. insertMode=lower: first insert high, then try lower (should update)
@@ -483,7 +483,7 @@ $resp2 = rawRequest("POST", addUrl(), [
 if (isset($resp2["scoreAction"]) && $resp2["scoreAction"] === "updated") {
   $passed++; echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">insertMode=lower: lower score updates</span></li>\n";
 } else {
-  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">insertMode=lower <span class=\"detail\">— expected 'updated', got " . htmlspecialchars(json_encode($resp2)) . "</span></span></li>\n";
+  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">insertMode=lower <span class=\"detail\">- expected 'updated', got " . htmlspecialchars(json_encode($resp2)) . "</span></span></li>\n";
 }
 
 // 26. insertMode=lower: first insert low, then try higher (should NOT update)
@@ -508,11 +508,11 @@ $resp2 = rawRequest("POST", addUrl(), [
 if (isset($resp2["scoreAction"]) && $resp2["scoreAction"] === "nothing") {
   $passed++; echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">insertMode=lower: higher score does not update</span></li>\n";
 } else {
-  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">insertMode=lower <span class=\"detail\">— expected 'nothing', got " . htmlspecialchars(json_encode($resp2)) . "</span></span></li>\n";
+  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">insertMode=lower <span class=\"detail\">- expected 'nothing', got " . htmlspecialchars(json_encode($resp2)) . "</span></span></li>\n";
 }
 
 // =========================================================================
-// ADD TESTS — Error paths
+// ADD TESTS - Error paths
 // =========================================================================
 echo "</ul></section>\n<section>\n<h2>ADD API &mdash; Error Paths</h2>\n<ul>\n";
 
@@ -594,7 +594,7 @@ $resp = rawRequest("GET", addUrl(["game" => $gameId, "score" => $score]));
 if (!isset($resp["status"]) || $resp["status"] !== 200) {
   $passed++; echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">(expected error)</span></span></li>\n";
 } else {
-  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">— expected error, got 200</span></span></li>\n";
+  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">- expected error, got 200</span></span></li>\n";
 }
 
 // 37. Hash with wrong secret
@@ -611,11 +611,11 @@ $resp = rawRequest("POST", addUrl(), []);
 if (!isset($resp["status"]) || $resp["status"] !== 200) {
   $passed++; echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">(expected error)</span></span></li>\n";
 } else {
-  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">— expected error, got 200</span></span></li>\n";
+  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">- expected error, got 200</span></span></li>\n";
 }
 
 // =========================================================================
-// LIST TESTS — Happy path
+// LIST TESTS - Happy path
 // =========================================================================
 echo "</ul></section>\n<section>\n<h2>LIST API &mdash; Happy Path</h2>\n<ul>\n";
 
@@ -824,7 +824,7 @@ listRequest("list: leaderboard_id tag + tags (tag overrides)", [
 ]);
 
 // =========================================================================
-// LIST TESTS — Error paths
+// LIST TESTS - Error paths
 // =========================================================================
 echo "</ul></section>\n<section>\n<h2>LIST API &mdash; Error Paths</h2>\n<ul>\n";
 
@@ -861,11 +861,11 @@ $resp = rawRequest("POST", listUrl(["game" => $gameId]));
 if (!isset($resp["status"]) || $resp["status"] !== 200) {
   $passed++; echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">(expected error)</span></span></li>\n";
 } else {
-  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">— expected error, got 200</span></span></li>\n";
+  $failed++; echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">- expected error, got 200</span></span></li>\n";
 }
 
 // =========================================================================
-// PLAYER LOGIN TESTS — OAuth flow (browser step mocked)
+// PLAYER LOGIN TESTS - OAuth flow (browser step mocked)
 // =========================================================================
 // The real flow is: SDK calls login-start -> opens a browser -> Discord OAuth2
 // -> discord/callback.php links the authenticated user to the login session.

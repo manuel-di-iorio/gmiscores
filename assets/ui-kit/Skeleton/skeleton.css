@@ -1,4 +1,4 @@
-/* Shimmer animation — not replicable with Tailwind */
+/* Shimmer animation - not replicable with Tailwind */
 @keyframes ui-skeleton-shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }

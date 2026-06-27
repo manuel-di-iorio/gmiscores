@@ -1,4 +1,4 @@
-/* Dynamic states toggled by JS — must be in CSS, not Tailwind */
+/* Dynamic states toggled by JS - must be in CSS, not Tailwind */
 .ui-tabs__panel { display: none; }
 .ui-tabs__panel.is-active { display: block; animation: uiTabsFadeIn 0.25s ease; }
 

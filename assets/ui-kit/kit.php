@@ -16,3 +16,4 @@ require_once __DIR__ . '/Skeleton/skeleton.php';
 require_once __DIR__ . '/ActionsMenu/actions-menu.php';
 require_once __DIR__ . '/Toast/toast.php';
 require_once __DIR__ . '/Spinner/spinner.php';
+require_once __DIR__ . '/Tutorial/tutorial.php';

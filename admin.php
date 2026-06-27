@@ -166,7 +166,7 @@ switch ($activeTab) {
 
 require_once("lib/csrf.php");
 
-// AJAX mode — output only the requested tab's HTML
+// AJAX mode - output only the requested tab's HTML
 if (isset($_GET['ajax'])) {
   header('Content-Type: text/html; charset=utf-8');
   require "pages/admin/admin-tab-render.php";

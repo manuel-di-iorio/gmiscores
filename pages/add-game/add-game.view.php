@@ -13,7 +13,7 @@
 
     <div class="mb-4">
       <label class="flex items-center gap-2 cursor-pointer">
-        <input class="w-4 h-4 rounded border-[var(--border-color)] text-[var(--primary-color)] focus:ring-[var(--primary-color)]" type="checkbox" name="require_player_auth" id="require_player_auth" value="1" checked>
+        <input class="w-4 h-4 rounded border-[var(--border-color)] text-[var(--primary-color)] focus:ring-[var(--primary-color)]" type="checkbox" name="require_player_auth" id="require_player_auth" value="1">
         <span class="text-sm text-[var(--text-color)]"><?= __('add_game_require_player_auth') ?></span>
       </label>
       <p class="mt-1 text-xs text-[var(--text-color-secondary)]"><?= __('add_game_require_player_auth_desc') ?></p>

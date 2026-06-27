@@ -27,7 +27,7 @@ if ($check->num_rows === 0) {
 }
 $check->close();
 
-// Already logged in via cookie — link session directly
+// Already logged in via cookie - link session directly
 if (isset($user)) {
   if (!isset($_GET["done"])) {
     $stmt = $db->prepare("UPDATE player_login_sessions SET user_id = ? WHERE session_token = ?");
@@ -37,7 +37,7 @@ if (isset($user)) {
     header("Location: /player-auth/discord/login.php?session=" . urlencode($session) . "&done=1");
     exit;
   }
-  // Session already linked and done=1 present — render the success page
+  // Session already linked and done=1 present - render the success page
   $view = "player-login-sdk";
   $pageName = "Player Login";
   require_once(__DIR__ . "/../../includes/layout-minimal.php");

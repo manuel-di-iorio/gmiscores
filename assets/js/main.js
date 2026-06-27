@@ -86,7 +86,7 @@ function toggleAccordion(el) {
 })();
 
 // ================================================================
-// INTERSECTION OBSERVER — Multi-animation scroll reveal
+// INTERSECTION OBSERVER - Multi-animation scroll reveal
 // ================================================================
 (function initScrollAnimations() {
   const animClasses = [

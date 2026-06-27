@@ -80,7 +80,7 @@ foreach ($expected as $table => $indexes) {
       exec_query($sql);
       $created[] = "$table: $indexName ($colList)";
     } catch (Exception $e) {
-      $errors[] = "$table: $indexName — " . $e->getMessage();
+      $errors[] = "$table: $indexName - " . $e->getMessage();
     }
   }
 
@@ -94,7 +94,7 @@ foreach ($expected as $table => $indexes) {
         exec_query($sql);
         $dropped[] = "$table: $indexName (" . implode(',', $cols) . ")";
       } catch (Exception $e) {
-        $errors[] = "$table: DROP $indexName — " . $e->getMessage();
+        $errors[] = "$table: DROP $indexName - " . $e->getMessage();
       }
     }
   }
