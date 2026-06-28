@@ -544,7 +544,7 @@
   "docs_errors_text": "Si une requête échoue, la réponse sera de ce type :",
   "docs_errors_retry_info": "Lors de l'utilisation du SDK, les requêtes GET (ex. liste des scores) sont automatiquement réessayées jusqu'à 3 fois en cas d'erreur réseau.",
   "docs_offline_sync_title": "Synchronisation Hors Ligne",
-  "docs_offline_sync_intro": "Le framework de synchronisation hors ligne permet de mettre en file d'attente les scores et autres opérations lorsque le joueur est hors ligne. Les données sont enregistrées localement et envoyées automatiquement au serveur lorsque la connexion est rétablie. Les opérations sont idempotentes : chaque opération a un UUID unique que le serveur utilise pour éviter les doublons.",
+  "docs_offline_sync_intro": "Le framework de synchronisation hors ligne permet de mettre en file d'attente les scores et autres opérations lorsque le joueur est hors ligne. Les données sont enregistrées localement et envoyées automatiquement au serveur lorsque la connexion est rétablie.",
   "docs_offline_sync_how_title": "Comment ça marche",
   "docs_offline_sync_how_text": "Lorsque le réseau n'est pas disponible, le score est mis en file d'attente localement dans un fichier persistant. Toutes les 15 secondes (ou au démarrage du jeu), le SDK envoie un lot d'opérations au serveur via <code>POST /api/v1/sync.php</code>. Le serveur traite chaque opération et répond avec un statut : <code>applied</code> (nouvelle), <code>duplicate</code> (déjà traitée) ou <code>failed</code> (erreur réseau).",
   "docs_offline_sync_example_comment": "Exemple d'utilisation",

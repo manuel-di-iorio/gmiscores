@@ -544,7 +544,7 @@
   "docs_errors_text": "Si una solicitud falla, la respuesta será de este tipo:",
   "docs_errors_retry_info": "Al usar el SDK, las solicitudes GET (ej. lista de puntuaciones) se reintentan automáticamente hasta 3 veces en caso de error de red.",
   "docs_offline_sync_title": "Sincronización Offline",
-  "docs_offline_sync_intro": "El framework de sincronización offline permite encolar puntuaciones y otras operaciones cuando el jugador está sin conexión. Los datos se guardan localmente y se envían automáticamente al servidor cuando se restaura la conectividad. Las operaciones son idempotentes: cada operación tiene un UUID único que el servidor usa para evitar duplicados.",
+  "docs_offline_sync_intro": "El framework de sincronización offline permite encolar puntuaciones y otras operaciones cuando el jugador está sin conexión. Los datos se guardan localmente y se envían automáticamente al servidor cuando se restaura la conectividad.",
   "docs_offline_sync_how_title": "Cómo funciona",
   "docs_offline_sync_how_text": "Cuando la red no está disponible, la puntuación se encola localmente en un archivo persistente. Cada 15 segundos (o al iniciar el juego), el SDK envía un lote de operaciones al servidor a través de <code>POST /api/v1/sync.php</code>. El servidor procesa cada operación y responde con un estado: <code>applied</code> (nueva), <code>duplicate</code> (ya procesada) o <code>failed</code> (error de red).",
   "docs_offline_sync_example_comment": "Ejemplo de uso",

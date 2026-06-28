@@ -544,7 +544,7 @@
   "docs_errors_text": "If a request fails, the response will be of this type:",
   "docs_errors_retry_info": "When using the SDK, GET requests (e.g. score list) are automatically retried up to 3 times on network failure.",
   "docs_offline_sync_title": "Offline Sync",
-  "docs_offline_sync_intro": "The offline sync framework allows queuing scores and other operations when the player is offline. Data is saved locally and sent automatically to the server when connectivity is restored. Operations are idempotent: each operation has a unique UUID that the server uses to prevent duplicates.",
+  "docs_offline_sync_intro": "The offline sync framework allows queuing scores and other operations when the player is offline. Data is saved locally and sent automatically to the server when connectivity is restored.",
   "docs_offline_sync_how_title": "How it works",
   "docs_offline_sync_how_text": "When the network is unavailable, the score is queued locally in a persistent file. Every 15 seconds (or on game startup), the SDK sends a batch of operations to the server via <code>POST /api/v1/sync.php</code>. The server processes each operation and responds with a status: <code>applied</code> (new), <code>duplicate</code> (already processed) or <code>failed</code> (network error).",
   "docs_offline_sync_example_comment": "Usage example",
