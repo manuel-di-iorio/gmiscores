@@ -24,7 +24,7 @@ $offset = $page * $perPage;
 $countResult = $db->query("SELECT COUNT(*) AS cnt FROM api_errors");
 $total = $countResult->fetch_assoc()["cnt"];
 
-$result = $db->query("SELECT id, error_code, message, status, endpoint, method, ip, request_data, created_at FROM api_errors ORDER BY created_at DESC LIMIT $perPage OFFSET $offset");
+$result = $db->query("SELECT id, error_code, message, status, endpoint, method, ip, game_id, request_data, created_at FROM api_errors ORDER BY created_at DESC LIMIT $perPage OFFSET $offset");
 
 $errors = [];
 while ($row = $result->fetch_assoc()) {

@@ -581,6 +581,7 @@ switch ($activeTab) {
       html += "<th class=\"ui-table-header-cell\">Date</th>";
       html += "<th class=\"ui-table-header-cell\">Code</th>";
       html += "<th class=\"ui-table-header-cell\">Status</th>";
+      html += "<th class=\"ui-table-header-cell\">Game</th>";
       html += "<th class=\"ui-table-header-cell\">Endpoint</th>";
       html += "<th class=\"ui-table-header-cell\">Method</th>";
       html += "<th class=\"ui-table-header-cell\">IP</th>";
@@ -594,6 +595,7 @@ switch ($activeTab) {
         html += "<td class=\"ui-table-cell\" style=\"white-space:nowrap;font-size:0.85em\">" + escapeHtml(e.created_at) + "</td>";
         html += "<td class=\"ui-table-cell\"><code style=\"font-size:0.85em\">" + escapeHtml(e.error_code) + "</code></td>";
         html += "<td class=\"ui-table-cell\"><span class=\"ui-badge ui-badge--" + statusClass + "\">" + e.status + "</span></td>";
+        html += "<td class=\"ui-table-cell\"><code style=\"font-size:0.85em\">" + (e.game_id ? escapeHtml(e.game_id) : "-") + "</code></td>";
         html += "<td class=\"ui-table-cell\"><code style=\"font-size:0.85em\">" + escapeHtml(e.endpoint) + "</code></td>";
         html += "<td class=\"ui-table-cell\">" + escapeHtml(e.method) + "</td>";
         html += "<td class=\"ui-table-cell\"><code style=\"font-size:0.85em\">" + escapeHtml(e.ip || "-") + "</code></td>";

@@ -13,6 +13,7 @@ function api_reply_error(string $message, string $code, int $status) {
     if (strpos($uriPath, "/api/v1/") === 0) {
       $method = $_SERVER["REQUEST_METHOD"] ?? "N/A";
       $ip = $_SERVER["HTTP_CF_CONNECTING_IP"] ?? $_SERVER["REMOTE_ADDR"] ?? "N/A";
+      $gameId = isset($_POST["game"]) ? (int)$_POST["game"] : (isset($_GET["game"]) ? (int)$_GET["game"] : null);
 
       $requestData = null;
       if ($method === "POST") {
@@ -25,9 +26,9 @@ function api_reply_error(string $message, string $code, int $status) {
         $requestData = json_encode($sanitized);
       }
 
-      $stmt = $db->prepare("INSERT INTO api_errors (error_code, message, status, endpoint, method, ip, request_data) VALUES (?, ?, ?, ?, ?, ?, ?)");
+      $stmt = $db->prepare("INSERT INTO api_errors (error_code, message, status, endpoint, method, ip, game_id, request_data) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
       if ($stmt) {
-        $stmt->bind_param("ssisssi", $code, $message, $status, $uriPath, $method, $ip, $requestData);
+        $stmt->bind_param("ssisssis", $code, $message, $status, $uriPath, $method, $ip, $gameId, $requestData);
         $stmt->execute();
         $stmt->close();
       }
