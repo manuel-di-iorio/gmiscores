@@ -56,6 +56,67 @@ function rawRequest($method, $url, $data = null) {
   return json_decode($response, true);
 }
 
+function rawJsonRequest($method, $url, $data = null) {
+  $content = $data ? json_encode($data) : null;
+  $ctx = stream_context_create([
+    'http' => [
+      'method' => $method,
+      'header'  => "Content-type: application/json",
+      'content' => $content,
+      'ignore_errors' => true
+    ]
+  ]);
+  $response = file_get_contents($url, false, $ctx);
+  return json_decode($response, true);
+}
+
+function rawRequestsParallel($requests) {
+  $mh = curl_multi_init();
+  $ch = [];
+  foreach ($requests as $i => $req) {
+    $method = $req['method'] ?? 'GET';
+    $url = $req['url'];
+    $body = $req['body'] ?? null;
+    $headers = $req['headers'] ?? [];
+
+    $c = curl_init($url);
+    curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($c, CURLOPT_CUSTOMREQUEST, $method);
+    curl_setopt($c, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($c, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_setopt($c, CURLOPT_TIMEOUT, 30);
+    if ($method === 'POST' && $body) {
+      curl_setopt($c, CURLOPT_POSTFIELDS, $body);
+    }
+    if (!empty($headers)) {
+      curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
+    }
+    curl_multi_add_handle($mh, $c);
+    $ch[$i] = $c;
+  }
+
+  do {
+    $status = curl_multi_exec($mh, $running);
+    if ($running) {
+      curl_multi_select($mh, 1);
+    }
+  } while ($running && $status === CURLM_OK);
+
+  $results = [];
+  foreach ($ch as $i => $c) {
+    $results[$i] = json_decode(curl_multi_getcontent($c), true);
+    curl_multi_remove_handle($mh, $c);
+    curl_close($c);
+  }
+  curl_multi_close($mh);
+  return $results;
+}
+
+function syncUrl() {
+  global $config;
+  return $config["host"] . "/api/v1/sync.php";
+}
+
 function addUrl($params = []) {
   global $config;
   $query = http_build_query($params);
@@ -109,35 +170,41 @@ function computeAddHash($overrides = [], $lbId = null, $tagVal = null) {
 }
 
 $score = 50;
+$testStartTime = microtime(true);
 $passed = 0;
 $failed = 0;
 $testName = "";
+$lastTestTime = 0;
 
 function ok() {
-  global $passed, $testName;
+  global $passed, $testName, $lastTestTime;
   $passed++;
-  echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . "</span></li>\n";
+  $time = $lastTestTime > 0 ? " <span class=\"detail\">(" . round($lastTestTime * 1000, 0) . "ms)</span>" : "";
+  echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . $time . "</span></li>\n";
 }
 
 function fail($detail = "") {
-  global $failed, $testName;
+  global $failed, $testName, $lastTestTime;
   $failed++;
   $extra = $detail ? " <span class=\"detail\">- " . htmlspecialchars($detail) . "</span>" : "";
-  echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . $extra . "</span></li>\n";
+  $time = $lastTestTime > 0 ? " <span class=\"detail\">(" . round($lastTestTime * 1000, 0) . "ms)</span>" : "";
+  echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . $extra . $time . "</span></li>\n";
 }
 
 function reportPass($name, $detail = "") {
-  global $passed;
+  global $passed, $lastTestTime;
   $passed++;
   $extra = $detail ? " <span class=\"detail\">" . htmlspecialchars($detail) . "</span>" : "";
-  echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($name) . $extra . "</span></li>\n";
+  $time = $lastTestTime > 0 ? " <span class=\"detail\">(" . round($lastTestTime * 1000, 0) . "ms)</span>" : "";
+  echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($name) . $extra . $time . "</span></li>\n";
 }
 
 function reportFail($name, $detail = "") {
-  global $failed;
+  global $failed, $lastTestTime;
   $failed++;
   $extra = $detail ? " <span class=\"detail\">- " . htmlspecialchars($detail) . "</span>" : "";
-  echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($name) . $extra . "</span></li>\n";
+  $time = $lastTestTime > 0 ? " <span class=\"detail\">(" . round($lastTestTime * 1000, 0) . "ms)</span>" : "";
+  echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($name) . $extra . $time . "</span></li>\n";
 }
 
 function assertTest($name, $cond, $detail = "") {
@@ -149,32 +216,34 @@ function assertTest($name, $cond, $detail = "") {
 }
 
 function addRequest($name, $data, $expectStatus = 200) {
-  global $config, $passed, $failed;
+  global $config, $passed, $failed, $lastTestTime;
   $testName = $name;
   clearScores();
   clearRateLimit();
+  $t0 = microtime(true);
   $resp = rawRequest("POST", addUrl(), $data);
+  $lastTestTime = microtime(true) - $t0;
   if ($expectStatus === 200) {
     if (isset($resp["status"]) && $resp["status"] === 200) {
       $passed++;
-      echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . "</span></li>\n";
+      echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">(" . round($lastTestTime * 1000, 0) . "ms)</span></span></li>\n";
     } else {
       $failed++;
-      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">- expected 200, got " . htmlspecialchars(json_encode($resp)) . "</span></span></li>\n";
+      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">- expected 200, got " . htmlspecialchars(json_encode($resp)) . " (" . round($lastTestTime * 1000, 0) . "ms)</span></span></li>\n";
     }
   } else {
     if (!isset($resp["status"]) || $resp["status"] !== 200) {
       $passed++;
-      echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">(expected error $expectStatus)</span></span></li>\n";
+      echo "<li class=\"ok\"><span class=\"icon\">&#10003;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">(expected error $expectStatus) (" . round($lastTestTime * 1000, 0) . "ms)</span></span></li>\n";
     } else {
       $failed++;
-      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">- expected error $expectStatus, got 200</span></span></li>\n";
+      echo "<li class=\"fail\"><span class=\"icon\">&#10007;</span><span class=\"label\">" . htmlspecialchars($testName) . " <span class=\"detail\">- expected error $expectStatus, got 200 (" . round($lastTestTime * 1000, 0) . "ms)</span></span></li>\n";
     }
   }
 }
 
 function listRequest($name, $params, $expectStatus = 200) {
-  global $passed, $failed;
+  global $passed, $failed, $lastTestTime;
   $testName = $name;
   clearRateLimit("get_scores");
   $resp = rawRequest("GET", listUrl($params));
@@ -1036,6 +1105,236 @@ assertTest(
 );
 
 // =========================================================================
+// SYNC API TESTS
+// =========================================================================
+echo "<section>\n<h2>SYNC API</h2><ul>\n";
+
+function syncOpId() {
+  return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+    mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+    mt_rand(0, 0xffff),
+    mt_rand(0, 0x0fff) | 0x4000,
+    mt_rand(0, 0x3fff) | 0x8000,
+    mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+  );
+}
+
+function syncHash($overrides = []) {
+  global $gameId, $player, $secret, $testLbId;
+  $s = $overrides["score"] ?? 100;
+  $p = $overrides["player"] ?? $player;
+  $lb = $overrides["leaderboard_id"] ?? $testLbId;
+  $salt = "game=$gameId";
+  if ($lb !== null) $salt .= "&leaderboard_id=$lb";
+  $salt .= "&score=$s&player=$p";
+  return sha1($salt . $secret);
+}
+
+// 1. Single op → applied (sequential — needed for test 2)
+clearScores();
+$opId1 = syncOpId();
+$hash1 = syncHash(["score" => 200]);
+$resp = rawJsonRequest("POST", syncUrl(), [
+  "operations" => [[
+    "op_id" => $opId1,
+    "type" => "score.submit",
+    "payload" => [
+      "game" => $gameId, "score" => 200, "player" => $player,
+      "hash" => $hash1, "leaderboard_id" => $testLbId
+    ]
+  ]]
+]);
+assertTest(
+  "sync: single op → applied",
+  isset($resp["status"]) && $resp["status"] === 200
+  && isset($resp["results"][0]) && $resp["results"][0]["status"] === "applied",
+  "got " . json_encode($resp)
+);
+
+// 2. Same op again → duplicate (depends on test 1)
+$resp = rawJsonRequest("POST", syncUrl(), [
+  "operations" => [[
+    "op_id" => $opId1,
+    "type" => "score.submit",
+    "payload" => [
+      "game" => $gameId, "score" => 200, "player" => $player,
+      "hash" => $hash1, "leaderboard_id" => $testLbId
+    ]
+  ]]
+]);
+assertTest(
+  "sync: duplicate op → duplicate status",
+  isset($resp["results"][0]) && $resp["results"][0]["status"] === "duplicate",
+  "got " . json_encode($resp)
+);
+
+// 3-10. Independent tests → parallel batch
+clearScores();
+clearRateLimit('sync_batch');
+
+$opId2a = syncOpId();
+$opId2b = syncOpId();
+$opId3a = syncOpId();
+$opId3b = syncOpId();
+$opId4 = syncOpId();
+$opId5 = syncOpId();
+$ops21 = [];
+for ($i = 0; $i < 21; $i++) {
+  $ops21[] = ["op_id" => syncOpId(), "type" => "score.submit", "payload" => ["game" => $gameId]];
+}
+
+$syncTests = [
+  ['name' => 'batch of 2', 'body' => ["operations" => [
+    ["op_id" => $opId2a, "type" => "score.submit", "payload" => ["game" => $gameId, "score" => 300, "player" => $player, "hash" => syncHash(["score" => 300]), "leaderboard_id" => $testLbId]],
+    ["op_id" => $opId2b, "type" => "score.submit", "payload" => ["game" => $gameId, "score" => 400, "player" => $player, "hash" => syncHash(["score" => 400]), "leaderboard_id" => $testLbId]]
+  ]]],
+  ['name' => 'wrong hash', 'body' => ["operations" => [
+    ["op_id" => $opId3a, "type" => "score.submit", "payload" => ["game" => $gameId, "score" => 500, "player" => $player, "hash" => "invalidhash", "leaderboard_id" => $testLbId]],
+    ["op_id" => $opId3b, "type" => "score.submit", "payload" => ["game" => $gameId, "score" => 600, "player" => $player, "hash" => syncHash(["score" => 600]), "leaderboard_id" => $testLbId]]
+  ]]],
+  ['name' => 'unknown type', 'body' => ["operations" => [
+    ["op_id" => $opId4, "type" => "cloud_save.set", "payload" => ["game" => $gameId]]
+  ]]],
+  ['name' => 'missing op_id', 'body' => ["operations" => [
+    ["type" => "score.submit", "payload" => ["game" => $gameId]]
+  ]]],
+  ['name' => 'invalid game_id', 'body' => ["operations" => [
+    ["op_id" => $opId5, "type" => "score.submit", "payload" => ["game" => 0]]
+  ]]],
+  ['name' => 'empty body', 'body' => []],
+  ['name' => '>20 ops', 'body' => ["operations" => $ops21]],
+];
+
+$reqs = [];
+foreach ($syncTests as $t) {
+  $reqs[] = [
+    'method' => 'POST', 'url' => syncUrl(),
+    'body' => json_encode($t['body']),
+    'headers' => ['Content-type: application/json']
+  ];
+}
+$reqs[] = ['method' => 'GET', 'url' => syncUrl()];
+
+$results = rawRequestsParallel($reqs);
+
+// Batch of 2
+$resp = $results[0];
+assertTest(
+  "sync: batch of 2 → both applied",
+  isset($resp["results"][0]) && $resp["results"][0]["status"] === "applied"
+  && isset($resp["results"][1]) && $resp["results"][1]["status"] === "applied",
+  "got " . json_encode($resp)
+);
+
+// Wrong hash
+$resp = $results[1];
+assertTest(
+  "sync: wrong hash → failed",
+  isset($resp["results"][0]) && $resp["results"][0]["status"] === "failed",
+  "got " . json_encode($resp)
+);
+assertTest(
+  "sync: wrong hash → other op still applied",
+  isset($resp["results"][1]) && $resp["results"][1]["status"] === "applied",
+  "got " . json_encode($resp)
+);
+
+// Unknown type
+$resp = $results[2];
+assertTest(
+  "sync: unknown type → failed with UnknownOperationType",
+  isset($resp["results"][0]) && $resp["results"][0]["status"] === "failed"
+  && isset($resp["results"][0]["error"]) && $resp["results"][0]["error"] === "UnknownOperationType",
+  "got " . json_encode($resp)
+);
+
+// Missing op_id
+$resp = $results[3];
+assertTest(
+  "sync: missing op_id → failed",
+  isset($resp["results"][0]) && $resp["results"][0]["status"] === "failed",
+  "got " . json_encode($resp)
+);
+
+// Invalid game_id
+$resp = $results[4];
+assertTest(
+  "sync: invalid game_id → failed",
+  isset($resp["results"][0]) && $resp["results"][0]["status"] === "failed",
+  "got " . json_encode($resp)
+);
+
+// Empty body
+$resp = $results[5];
+assertTest(
+  "sync: empty body → 400",
+  isset($resp["status"]) && $resp["status"] === 400,
+  "got " . json_encode($resp)
+);
+
+// >20 ops
+$resp = $results[6];
+assertTest(
+  "sync: >20 ops → 400",
+  isset($resp["status"]) && $resp["status"] === 400,
+  "got " . json_encode($resp)
+);
+
+// GET not allowed
+$resp = $results[7];
+assertTest(
+  "sync: GET not allowed → 405",
+  isset($resp["status"]) && $resp["status"] === 405,
+  "got " . json_encode($resp)
+);
+
+clearScores();
+clearRateLimit('sync_batch');
+
+// =========================================================================
+// RATE LIMIT TESTS
+// =========================================================================
+echo "<section>\n<h2>Rate Limit</h2><ul>\n";
+
+clearRateLimit('add_score');
+
+// Send 10 requests sequentially (rate limit requires sequential processing)
+$limitOk = true;
+for ($i = 0; $i < 10; $i++) {
+  clearScores();
+  $hash = computeAddHash(["score" => 100 + $i], $testLbId);
+  $resp = rawRequest("POST", addUrl(), [
+    "game" => $gameId, "score" => 100 + $i, "player" => $player,
+    "hash" => $hash, "leaderboard_id" => $testLbId
+  ]);
+  if (!isset($resp["status"]) || $resp["status"] !== 200) { $limitOk = false; break; }
+}
+
+assertTest("rate limit: 10 requests within limit → all 200", $limitOk);
+
+// 11th request should be rate limited
+clearScores();
+$hash = computeAddHash(["score" => 999], $testLbId);
+$resp = rawRequest("POST", addUrl(), [
+  "game" => $gameId, "score" => 999, "player" => $player,
+  "hash" => $hash, "leaderboard_id" => $testLbId
+]);
+assertTest(
+  "rate limit: 11th request returns 429",
+  isset($resp["status"]) && $resp["status"] === 429,
+  "got " . json_encode($resp)
+);
+
+assertTest(
+  "rate limit: error code is RateLimitExceeded",
+  isset($resp["code"]) && $resp["code"] === "RateLimitExceeded",
+  "got " . json_encode($resp)
+);
+
+clearRateLimit('add_score');
+clearScores();
+
+// =========================================================================
 // Cleanup & Summary
 // =========================================================================
 clearAllScores();
@@ -1043,6 +1342,7 @@ clearLoginSessions();
 
 $summaryClass = $failed > 0 ? "has-fail" : "all-pass";
 $total = $passed + $failed;
+$elapsed = round(microtime(true) - $testStartTime, 2);
 echo "</ul></section>\n";
 echo "<div class=\"summary $summaryClass\">\n";
 echo "  <div class=\"stat\"><div class=\"num pass\">$passed</div><div class=\"lbl\">Passed</div></div>\n";
@@ -1052,6 +1352,8 @@ if ($failed > 0) {
 }
 echo "  <div class=\"divider\"></div>\n";
 echo "  <div class=\"stat\"><div class=\"num\" style=\"color:#94a3b8\">$total</div><div class=\"lbl\">Total</div></div>\n";
+echo "  <div class=\"divider\"></div>\n";
+echo "  <div class=\"stat\"><div class=\"num\" style=\"color:#94a3b8\">{$elapsed}s</div><div class=\"lbl\">Time</div></div>\n";
 $msgClass = $failed > 0 ? "fail" : "ok";
 $msgText = $failed > 0 ? "$failed test" . ($failed > 1 ? "s" : "") . " failed" : "All tests passed!";
 echo "  <div class=\"divider\"></div>\n";

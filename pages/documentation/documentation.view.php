@@ -95,6 +95,10 @@
       </div>
     </div>
   </div>
+
+  <div class="panel-info" style="margin-top: 20px">
+    <p><i class="fas fa-info-circle mr-2"></i><?= __('docs_errors_retry_info') ?></p>
+  </div>
   <?php
   $errorsContent = ob_get_clean();
 
@@ -612,6 +616,101 @@
     </div>
   </div>
 
+  <!-- POST /sync.php Accordion -->
+  <div class="accordion-container">
+    <button class="accordion-header">
+      <div class="accordion-header-left">
+        <span class="method-badge method-badge--post">POST</span>
+        <span class="font-mono font-semibold">/sync.php</span>
+      </div>
+      <i class="fas fa-chevron-down accordion-icon"></i>
+    </button>
+    <div class="accordion-content" style="display:none">
+      
+      <div class="api-endpoint-grid">
+        <div class="api-endpoint-left">
+          <div class="api-params-title"><?= __('docs_params_title') ?></div>
+          
+          <div class="api-params-list">
+            <!-- operations -->
+            <div class="api-param-row">
+              <div class="api-param-header">
+                <span class="api-param-name">operations</span>
+                <span class="api-param-type">array</span>
+                <span class="api-param-badge api-param-badge--required">required</span>
+              </div>
+              <div class="api-param-desc">
+                <?= __('docs_param_sync_operations') ?>
+              </div>
+            </div>
+
+            <!-- operations[].op_id -->
+            <div class="api-param-row">
+              <div class="api-param-header">
+                <span class="api-param-name">operations[].op_id</span>
+                <span class="api-param-type">string</span>
+                <span class="api-param-badge api-param-badge--required">required</span>
+              </div>
+              <div class="api-param-desc">
+                <?= __('docs_param_sync_op_id') ?>
+              </div>
+            </div>
+
+            <!-- operations[].type -->
+            <div class="api-param-row">
+              <div class="api-param-header">
+                <span class="api-param-name">operations[].type</span>
+                <span class="api-param-type">string</span>
+                <span class="api-param-badge api-param-badge--required">required</span>
+              </div>
+              <div class="api-param-desc">
+                <?= __('docs_param_sync_type') ?>
+              </div>
+            </div>
+
+            <!-- operations[].payload -->
+            <div class="api-param-row">
+              <div class="api-param-header">
+                <span class="api-param-name">operations[].payload</span>
+                <span class="api-param-type">object</span>
+                <span class="api-param-badge api-param-badge--required">required</span>
+              </div>
+              <div class="api-param-desc">
+                <?= __('docs_param_sync_payload') ?>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-info">
+            <p><i class="fas fa-info-circle mr-2"></i><?= __('docs_note_sync') ?></p>
+          </div>
+        </div>
+
+        <div class="api-endpoint-right">
+          <h6 class="documentation-example-title"><?= __('docs_response') ?></h6>
+
+          <div style="font-size:0.82em; color:var(--text-color-secondary); line-height:1.5; margin: -8px 0 16px; padding: 0 4px;">
+            // <?= __('docs_sync_response_comment') ?>
+          </div>
+
+          <h6 class="documentation-example-title"><?= __('docs_example_gms') ?></h6>
+          <div class="terminal-mockup">
+            <div class="terminal-header">
+              <span class="terminal-title">GameMaker Integration</span>
+            </div>
+            <div class="terminal-body code-block-wrapper">
+              <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
+                <i class="far fa-copy"></i>
+              </button>
+              <div class="code-block jsHigh">// <?= __('docs_sync_sdk_example_comment') ?><br/>var _body = {<br/>&nbsp;&nbsp;operations: [{<br/>&nbsp;&nbsp;&nbsp;&nbsp;op_id: "a1b2c3d4-...",<br/>&nbsp;&nbsp;&nbsp;&nbsp;type: "score.submit",<br/>&nbsp;&nbsp;&nbsp;&nbsp;payload: {<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;game: GAME_ID,<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;score: 5000,<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;player: "Harry",<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hash: "..."<br/>&nbsp;&nbsp;&nbsp;&nbsp;}<br/>&nbsp;&nbsp;}]<br/>};<br/>http_request("<?= $baseApiPath ?>/sync.php", "POST", json_stringify(_body));</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
   <!-- Autenticazione Player -->
   <div style="margin-top:40px">
     <h6 class="documentation-example-title" style="font-size:1.1em; margin-bottom:8px"><i class="fas fa-key" style="margin-right:8px"></i><?= __('docs_auth_flow_title') ?></h6>
@@ -887,6 +986,37 @@
   <?php
   $endpointsContent = ob_get_clean();
 
+  // OFFLINE SYNC TAB CONTENT
+  ob_start();
+  ?>
+  <div class="documentation-section">
+    <p class="documentation-text"><?= __('docs_offline_sync_intro') ?></p>
+
+    <h6 class="documentation-example-title" style="margin-top: 20px"><i class="fas fa-cogs" style="margin-right: 8px"></i><?= __('docs_offline_sync_how_title') ?></h6>
+    <p class="documentation-text"><?= __('docs_offline_sync_how_text') ?></p>
+
+    <div class="terminal-mockup" style="margin-top: 16px;">
+      <div class="terminal-header">
+        <span class="terminal-title"><?= __('docs_offline_sync_example_comment') ?></span>
+      </div>
+      <div class="terminal-body code-block-wrapper">
+        <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
+          <i class="far fa-copy"></i>
+        </button>
+        <div class="code-block jsHigh">// <?= __('docs_offline_sync_example_comment') ?><br/><br/>// <?= __('docs_offline_sync_example_step1') ?><br/>gmi_scores_send({ score: 5000, leaderboard_id: 1 });</div>
+      </div>
+    </div>
+
+    <h6 class="documentation-example-title" style="margin-top: 24px"><i class="fas fa-fingerprint" style="margin-right: 8px"></i><?= __('docs_offline_sync_idempotency_title') ?></h6>
+    <p class="documentation-text"><?= __('docs_offline_sync_idempotency_text') ?></p>
+
+    <div class="panel-info" style="margin-top: 16px">
+      <p><i class="fas fa-info-circle mr-2"></i><?= __('docs_offline_sync_note') ?></p>
+    </div>
+  </div>
+  <?php
+  $offlineSyncContent = ob_get_clean();
+
   // RENDER TABS
   echo ui_tabs([
     ["id" => "resources", "label" => "SDK", "icon" => "fas fa-download", "content" => '
@@ -902,6 +1032,11 @@
     ["id" => "endpoints", "label" => __('docs_subtitle'), "icon" => "fas fa-code", "content" => '
       <div class="documentation-section">
         ' . $endpointsContent . '
+      </div>
+    '],
+    ["id" => "offline-sync", "label" => __('docs_offline_sync_title'), "icon" => "fas fa-sync-alt", "content" => '
+      <div class="documentation-section">
+        ' . $offlineSyncContent . '
       </div>
     '],
     ["id" => "errors", "label" => __('docs_errors_title'), "icon" => "fas fa-exclamation-triangle", "content" => '

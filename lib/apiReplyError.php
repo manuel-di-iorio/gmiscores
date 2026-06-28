@@ -27,7 +27,7 @@ function api_reply_error(string $message, string $code, int $status) {
 
       $stmt = $db->prepare("INSERT INTO api_errors (error_code, message, status, endpoint, method, ip, request_data) VALUES (?, ?, ?, ?, ?, ?, ?)");
       if ($stmt) {
-        $stmt->bind_param("sssiss", $code, $message, $status, $uriPath, $method, $ip, $requestData);
+        $stmt->bind_param("ssisssi", $code, $message, $status, $uriPath, $method, $ip, $requestData);
         $stmt->execute();
         $stmt->close();
       }

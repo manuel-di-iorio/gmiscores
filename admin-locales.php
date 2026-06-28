@@ -200,7 +200,6 @@ foreach ($orphanKeys as &$keys) { sort($keys); }
         <option value="missing">Mancanti</option>
         <option value="orphan">Orfane</option>
         <option value="unused">Inutilizzate</option>
-        <option value="ok">Solo complete</option>
       </select>
       <input type="text" id="filterSearch" placeholder="Cerca chiave...">
       <button id="exportCsv" style="margin-left:auto;padding:8px 16px;background:#3b82f6;color:white;border:none;border-radius:6px;cursor:pointer;font-size:14px;">Esporta CSV</button>
@@ -219,6 +218,7 @@ foreach ($orphanKeys as &$keys) { sort($keys); }
       <tbody>
         <?php foreach ($results as $row):
           $hasMissing = in_array(false, $row['locales']);
+          if (!$row['unused'] && !$hasMissing) continue;
           $rowClass = '';
           if ($row['unused']) $rowClass = 'highlight-unused';
           elseif ($hasMissing) $rowClass = 'highlight-missing';
@@ -245,6 +245,17 @@ foreach ($orphanKeys as &$keys) { sort($keys); }
         <?php endforeach; ?>
       </tbody>
     </table>
+
+    <?php
+    $problemCount = 0;
+    foreach ($results as $row) {
+      $hasMissing = in_array(false, $row['locales']);
+      if ($row['unused'] || $hasMissing) $problemCount++;
+    }
+    ?>
+    <?php if ($problemCount === 0): ?>
+    <p style="text-align:center;color:#6b7280;padding:32px 0;font-style:italic;">Nessun problema trovato. Tutte le chiavi sono complete e utilizzate.</p>
+    <?php endif; ?>
 
     <?php if (!empty($orphanKeys)): ?>
     <div class="orphan-section">

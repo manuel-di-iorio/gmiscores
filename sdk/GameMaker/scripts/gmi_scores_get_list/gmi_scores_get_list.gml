@@ -38,8 +38,15 @@ function gmi_scores_get_list(opts = {}) {
 	var dataForHash = "game=" + string(global.GMI_GAME_CLIENT_ID);
 	if (!is_undefined(leaderboard_id)) dataForHash += "&leaderboard_id=" + string(leaderboard_id);
 	url += "&hash=" + sha1_string_utf8(dataForHash + global.GMI_GAME_CLIENT_SECRET);
-    if (global.GMI_LOGS) show_debug_message("[GMI] GetList: " + url);
+    if (global.GMI_LOGS) show_debug_message("[GMI] GetList → GET /list.php: " + url);
 
 	var _req_id = http_get(url);
-	global.gmi_requests[$ string(_req_id)] = { on_success: on_success, on_error: on_error };
+	global.gmi_requests[$ string(_req_id)] = {
+		on_success: on_success,
+		on_error: on_error,
+		method: "GET",
+		url: url,
+		max_retries: global.gmi_http_max_retries,
+		attempts: 0
+	};
 }

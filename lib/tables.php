@@ -15,3 +15,4 @@ $dbTableMigrations = "migrations";
 
 // API tables
 $dbTableApiErrors = "api_errors";
+$dbTableSyncOperations = "sync_operations";

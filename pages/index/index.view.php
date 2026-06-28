@@ -743,6 +743,13 @@
       <p><?= __('index_service3_desc') ?></p>
       <a href="./documentation.php" class="card-arrow" style="text-decoration:none;"><?= __('index_feature_link') ?> <i class="fas fa-arrow-right"></i></a>
     </div>
+    <div class="FeatureCard fade-in-up-on-scroll tilt-card">
+      <div class="tilt-card__shine"></div>
+      <div class="FeatureCard__Icon"><i class="fas fa-cloud-upload-alt"></i></div>
+      <h5><?= __('index_service4_title') ?></h5>
+      <p><?= __('index_service4_desc') ?></p>
+      <a href="./documentation.php" class="card-arrow" style="text-decoration:none;"><?= __('index_service4_link') ?> <i class="fas fa-arrow-right"></i></a>
+    </div>
   </div>
 </div>
 

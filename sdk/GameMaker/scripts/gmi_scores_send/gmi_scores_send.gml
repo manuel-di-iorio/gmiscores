@@ -29,9 +29,14 @@ function gmi_scores_send(opts = {}) {
 	if (!is_undefined(insert_mode)) totalData += "&insertMode=" + insert_mode;
 	if (!is_undefined(scoreData)) totalData += "&data=" + scoreData;
 	if (!is_undefined(authToken)) totalData += "&token=" + string_replace_all(string_replace_all(string_replace_all(authToken, "+", "%2B"), "/", "%2F"), "=", "%3D");
-        
-    if (global.GMI_LOGS) show_debug_message("[GMI] SendScore: " + totalData);
+
+	if (global.GMI_LOGS) show_debug_message("[GMI] SendScore → POST /add.php: " + totalData);
 
 	var _req_id = http_post_string(global.GMI_ENDPOINT_HOST + "/add.php", totalData);
-	global.gmi_requests[$ string(_req_id)] = { on_success: on_success, on_error: on_error };
+	global.gmi_requests[$ string(_req_id)] = {
+		on_success: on_success,
+		on_error: on_error,
+		fallback_payload: totalData,
+		fallback_type: "score.submit"
+	};
 }

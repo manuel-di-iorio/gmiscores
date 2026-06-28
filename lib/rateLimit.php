@@ -4,7 +4,7 @@
  * Check rate limit using a sliding window in MySQL.
  *
  * Limits are per identifier (IP) per endpoint.
- * Cleans up expired entries on each call (no cron needed).
+ * Cleanup expired entries on each call (no cron needed).
  *
  * @param string $endpoint  Endpoint name (e.g. 'add_score', 'get_scores')
  * @param int    $maxRequests  Max requests allowed in the window
@@ -17,10 +17,11 @@ function check_rate_limit(string $endpoint, int $maxRequests = 10, int $windowSe
   $identifier = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown';
   $cutoff = date('Y-m-d H:i:s', time() - $windowSeconds);
 
-  // Cleanup expired entries periodically (~1 in 20 calls)
-  if (rand(1, 20) === 1) {
-    exec_query("DELETE FROM $table WHERE endpoint = ? AND requested_at < ?", ["ss", $endpoint, $cutoff]);
-  }
+  // Record this request first
+  exec_query(
+    "INSERT INTO $table (identifier, endpoint, requested_at) VALUES (?, ?, NOW())",
+    ["ss", $identifier, $endpoint]
+  );
 
   // Count requests in the current window
   $countResult = exec_query(
@@ -29,9 +30,15 @@ function check_rate_limit(string $endpoint, int $maxRequests = 10, int $windowSe
   );
   $row = $countResult->fetch_assoc();
   $count = $row ? (int)$row['cnt'] : 0;
+  
+  error_log("[GMI RATE] endpoint=$endpoint count=$count max=$maxRequests id=$identifier");
 
-  // If at limit, reject
-  if ($count >= $maxRequests) {
+  // If exceeded, delete the record we just inserted and reject
+  if ($count > $maxRequests) {
+    exec_query(
+      "DELETE FROM $table WHERE identifier = ? AND endpoint = ? ORDER BY id DESC LIMIT 1",
+      ["ss", $identifier, $endpoint]
+    );
     $retryAfter = $windowSeconds;
     header('X-RateLimit-Limit: ' . $maxRequests);
     header('X-RateLimit-Remaining: 0');
@@ -40,14 +47,8 @@ function check_rate_limit(string $endpoint, int $maxRequests = 10, int $windowSe
     api_reply_error('Rate limit exceeded. Try again in ' . $retryAfter . ' seconds.', 'RateLimitExceeded', 429);
   }
 
-  // Record this request
-  exec_query(
-    "INSERT INTO $table (identifier, endpoint, requested_at) VALUES (?, ?, NOW())",
-    ["ss", $identifier, $endpoint]
-  );
-
   // Send rate limit headers
   header('X-RateLimit-Limit: ' . $maxRequests);
-  header('X-RateLimit-Remaining: ' . ($maxRequests - $count - 1));
+  header('X-RateLimit-Remaining: ' . ($maxRequests - $count));
   header('X-RateLimit-Reset: ' . (time() + $windowSeconds));
 }

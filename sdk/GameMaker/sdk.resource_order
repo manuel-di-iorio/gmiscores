@@ -8,11 +8,15 @@
   ],
   "ResourceOrderSettings":[
     {"name":"__gmi_player_poll_login","order":1,"path":"scripts/__gmi_player_poll_login/__gmi_player_poll_login.yy",},
+    {"name":"__gmi_sync_enqueue","order":8,"path":"scripts/__gmi_sync_enqueue/__gmi_sync_enqueue.yy",},
+    {"name":"__gmi_sync_load","order":6,"path":"scripts/__gmi_sync_load/__gmi_sync_load.yy",},
+    {"name":"__gmi_sync_persist","order":7,"path":"scripts/__gmi_sync_persist/__gmi_sync_persist.yy",},
     {"name":"dec_to_hex","order":3,"path":"scripts/dec_to_hex/dec_to_hex.yy",},
     {"name":"gmi_draw_debug","order":2,"path":"scripts/gmi_draw_debug/gmi_draw_debug.yy",},
     {"name":"gmi_event_http","order":1,"path":"scripts/gmi_event_http/gmi_event_http.yy",},
     {"name":"gmi_scores_get_list","order":1,"path":"scripts/gmi_scores_get_list/gmi_scores_get_list.yy",},
     {"name":"gmi_scores_send","order":4,"path":"scripts/gmi_scores_send/gmi_scores_send.yy",},
+    {"name":"gmi_sync_flush","order":9,"path":"scripts/gmi_sync_flush/gmi_sync_flush.yy",},
     {"name":"uuid_generate","order":2,"path":"scripts/uuid_generate/uuid_generate.yy",},
   ],
 }

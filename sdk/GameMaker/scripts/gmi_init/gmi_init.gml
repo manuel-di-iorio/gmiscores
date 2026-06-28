@@ -53,7 +53,26 @@ function gmi_init(clientId = undefined, clientSecret = undefined, env = undefine
 	// Request registry: maps string(request_id) -> { on_success, on_error }
 	global.gmi_requests = {};
 	
+	// HTTP retry state
+	global.gmi_http_max_retries = 3;
+	
+	// Offline sync state
+	global.gmi_sync_queue = [];
+	global.gmi_sync_flush_pending = false;
+	global.gmi_sync_flush_delay = 15;
+	global.gmi_sync_max_attempts = 15;
+	global.gmi_sync_max_batch = 20;
+	global.GMI_ENDPOINT_SYNC = global.GMI_ENDPOINT_HOST + "/sync.php";
+	
 	// Try to restore saved token from disk
 	gmi_player_restore_token();
+	
+	// Load persisted sync queue and flush if non-empty
+	__gmi_sync_load();
+	if (array_length(global.gmi_sync_queue) > 0) {
+		gmi_sync_flush();
+	}
+	
+	// Periodic flush
+	call_later(global.gmi_sync_flush_delay, time_source_units_seconds, gmi_sync_flush, true);
 }
-
