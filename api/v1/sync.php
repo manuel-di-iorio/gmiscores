@@ -91,7 +91,9 @@ foreach ($operations as $op) {
     SyncOperation::record($gameId, $opId, $playerId, $type, 'applied', json_encode($handlerResult['data']));
     $results[] = array_merge(["op_id" => $opId, "status" => "applied"], $handlerResult['data']);
   } else {
-    SyncOperation::record($gameId, $opId, $playerId, $type, 'failed', json_encode(["error" => $handlerResult['error']]));
+    if (!isset($handlerResult['status'])) {
+      SyncOperation::record($gameId, $opId, $playerId, $type, 'failed', json_encode(["error" => $handlerResult['error']]));
+    }
     $results[] = ["op_id" => $opId, "status" => "failed", "error" => $handlerResult['error']];
   }
 }

@@ -569,7 +569,7 @@
   "docs_offline_sync_title": "Offline-Sync",
   "docs_offline_sync_intro": "Das Offline-Sync-Framework ermöglicht das Warteschlangen von Scores und anderen Operationen, wenn der Spieler offline ist. Die Daten werden lokal gespeichert und automatisch an den Server gesendet, wenn die Verbindung wiederhergestellt ist. Operationen sind idempotent: Jede Operation hat eine eindeutige UUID, die der Server zur Vermeidung von Duplikaten verwendet.",
   "docs_offline_sync_how_title": "So funktioniert es",
-  "docs_offline_sync_how_text": "Wenn <code>gmi_scores_send</code> mit <code>offline: true</code> aufgerufen wird oder das Netzwerk fehlschlägt, wird der Score lokal in einer persistenten Datei in die Warteschlange gestellt. Alle 15 Sekunden (oder beim Spielstart) sendet das SDK einen Batch von Operationen an den Server über <code>POST /api/v1/sync.php</code>. Der Server verarbeitet jede Operation und antwortet mit einem Status: <code>applied</code> (neu), <code>duplicate</code> (bereits verarbeitet) oder <code>failed</code> (Fehler).",
+  "docs_offline_sync_how_text": "Wenn das Netzwerk nicht verfügbar ist, wird der Score lokal in einer persistenten Datei in die Warteschlange gestellt. Alle 15 Sekunden (oder beim Spielstart) sendet das SDK einen Batch von Operationen an den Server über <code>POST /api/v1/sync.php</code>. Der Server verarbeitet jede Operation und antwortet mit einem Status: <code>applied</code> (neu), <code>duplicate</code> (bereits verarbeitet) oder <code>failed</code> (Netzwerkfehler).",
   "docs_offline_sync_example_comment": "Verwendungsbeispiel",
   "docs_offline_sync_example_step1": "Direkt senden (Standardverhalten)",
   "docs_offline_sync_idempotency_title": "Idempotenz",

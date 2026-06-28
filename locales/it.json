@@ -546,7 +546,7 @@
   "docs_offline_sync_title": "Offline Sync",
   "docs_offline_sync_intro": "Il framework di sincronizzazione offline permette di accodare punteggi e altre operazioni quando il giocatore è offline. I dati vengono salvati localmente e inviati automaticamente al server quando la connessione torna disponibile. Le operazioni sono idempotenti: ogni operazione ha un UUID univoco che il server usa per evitare duplicati.",
   "docs_offline_sync_how_title": "Come funziona",
-  "docs_offline_sync_how_text": "Quando <code>gmi_scores_send</code> viene chiamato con <code>offline: true</code> o se la rete fallisce, il punteggio viene accodato localmente in un file persistente. Ogni 15 secondi (o all'avvio del gioco), il SDK invia un batch di operazioni al server tramite <code>POST /api/v1/sync.php</code>. Il server processa ogni operazione e risponde con lo stato: <code>applied</code> (nuova), <code>duplicate</code> (già processata) o <code>failed</code> (errore).",
+  "docs_offline_sync_how_text": "Quando la rete non è disponibile, il punteggio viene accodato localmente in un file persistente. Ogni 15 secondi (o all'avvio del gioco), il SDK invia un batch di operazioni al server tramite <code>POST /api/v1/sync.php</code>. Il server processa ogni operazione e risponde con lo stato: <code>applied</code> (nuova), <code>duplicate</code> (già processata) o <code>failed</code> (errore di rete).",
   "docs_offline_sync_example_comment": "Esempio di utilizzo",
   "docs_offline_sync_example_step1": "Invio diretto (comportamento standard)",
   "docs_offline_sync_idempotency_title": "Idempotenza",

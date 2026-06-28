@@ -1003,7 +1003,7 @@
         <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
           <i class="far fa-copy"></i>
         </button>
-        <div class="code-block jsHigh">// <?= __('docs_offline_sync_example_comment') ?><br/><br/>// <?= __('docs_offline_sync_example_step1') ?><br/>gmi_scores_send({ score: 5000, leaderboard_id: 1 });</div>
+        <div class="code-block jsHigh">// <?= __('docs_offline_sync_example_step1') ?><br/>gmi_scores_send({ score: 5000, leaderboard_id: 1 });</div>
       </div>
     </div>
 

@@ -546,7 +546,7 @@
   "docs_offline_sync_title": "Offline Sync",
   "docs_offline_sync_intro": "The offline sync framework allows queuing scores and other operations when the player is offline. Data is saved locally and sent automatically to the server when connectivity is restored. Operations are idempotent: each operation has a unique UUID that the server uses to prevent duplicates.",
   "docs_offline_sync_how_title": "How it works",
-  "docs_offline_sync_how_text": "When <code>gmi_scores_send</code> is called with <code>offline: true</code> or if the network fails, the score is queued locally in a persistent file. Every 15 seconds (or on game startup), the SDK sends a batch of operations to the server via <code>POST /api/v1/sync.php</code>. The server processes each operation and responds with a status: <code>applied</code> (new), <code>duplicate</code> (already processed) or <code>failed</code> (error).",
+  "docs_offline_sync_how_text": "When the network is unavailable, the score is queued locally in a persistent file. Every 15 seconds (or on game startup), the SDK sends a batch of operations to the server via <code>POST /api/v1/sync.php</code>. The server processes each operation and responds with a status: <code>applied</code> (new), <code>duplicate</code> (already processed) or <code>failed</code> (network error).",
   "docs_offline_sync_example_comment": "Usage example",
   "docs_offline_sync_example_step1": "Direct send (standard behavior)",
   "docs_offline_sync_idempotency_title": "Idempotency",
