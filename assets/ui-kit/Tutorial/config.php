@@ -1,7 +1,7 @@
 <?php
 
 global $config;
-$site = $config["platformTitle"] ?? 'GMI Scores';
+$site = $config["platformTitle"];
 
 return [
   'steps' => [
