@@ -32,7 +32,7 @@ jobs:
           # Exclude patterns
           printf '%s\n' '.git*' '.github/' '.env' '.gitignore' '.vscode/' '.ftpquota' 'sdk/' > .git-ftp-ignore
 
-          FTP_URL="ftp://ftp.gmiscores.altervista.org/"
+          FTP_URL="ftp://ftp.gmicloud.altervista.org/"
 
           # Check if this is a fresh deploy or an update
           LAST_COMMIT=$(curl --silent --user "${FTP_USER}:${FTP_PASS}" \
