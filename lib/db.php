@@ -1,6 +1,5 @@
 <?php
 require_once("config.php");
-require_once("https.php");
 require_once("crypt.php");
 require_once("getTheme.php");
 require_once("getLang.php");
