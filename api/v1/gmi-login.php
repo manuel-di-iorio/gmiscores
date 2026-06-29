@@ -30,7 +30,7 @@ $response = file_get_contents('https://discordapp.com/api/v6/oauth2/token', fals
   ]
 ]));
 if ($response === FALSE) {
-  header("Location: /?error=GetTokensRequestError");
+  header("Location: /home.php?error=GetTokensRequestError");
   exit;
 }
 $tokens = json_decode($response, true);
@@ -44,7 +44,7 @@ $response = file_get_contents('https://discordapp.com/api/v6/users/@me', false, 
   ]
 ]));
 if ($response === FALSE) {
-  header("Location: $redirectUri?error=GetUserDataRequestError");
+  header("Location: /home.php?error=GetUserDataRequestError");
   exit;
 }
 $discordUser = json_decode($response, true);

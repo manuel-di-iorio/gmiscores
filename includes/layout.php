@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__ . "/../lib/csrf.php");
-$pageURI = $_SERVER["REQUEST_URI"];
+$pageURI = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 $isIndexPage = basename($pageURI) === 'index.php' || $pageURI === '/'; // Check for index.php or root
 $gameNameShowBackIcon = strpos($pageURI, "/game-scores.php") === 0 || strpos($pageURI, "/game-scores-export.php") === 0 || strpos($pageURI, "/game-scores-import.php") === 0 || strpos($pageURI, "/game-bans.php") === 0 || 
   strpos($pageURI, "/game.php") === 0 || strpos($pageURI, "/leaderboards.php") === 0 ||

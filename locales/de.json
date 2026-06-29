@@ -767,5 +767,9 @@
   "tutorial_finish": "Fertig",
   "tutorial_get_started": "Los geht's",
   "tutorial_waiting_title": "Fahren Sie auf der Spielseite fort",
-  "tutorial_waiting_desc": "Erstellen Sie ein Spiel oder öffnen Sie ein bereits vorhandenes. Das Tutorial wird automatisch fortgesetzt."
+  "tutorial_waiting_desc": "Erstellen Sie ein Spiel oder öffnen Sie ein bereits vorhandenes. Das Tutorial wird automatisch fortgesetzt.",
+  "error_login": "Anmeldefehler",
+  "error_get_tokens": "Authentifizierung mit Discord fehlgeschlagen. Bitte versuchen Sie es erneut.",
+  "error_get_user_data": "Abrufen der Benutzerdaten von Discord fehlgeschlagen. Bitte versuchen Sie es erneut.",
+  "error_generic": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 }

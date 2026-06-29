@@ -767,5 +767,9 @@
   "tutorial_finish": "Finish",
   "tutorial_get_started": "Get Started",
   "tutorial_waiting_title": "Continue on the game page",
-  "tutorial_waiting_desc": "Proceed to create a game or open an existing one. The tutorial will resume automatically."
+  "tutorial_waiting_desc": "Proceed to create a game or open an existing one. The tutorial will resume automatically.",
+  "error_login": "Login error",
+  "error_get_tokens": "Failed to authenticate with Discord. Please try again.",
+  "error_get_user_data": "Failed to retrieve user data from Discord. Please try again.",
+  "error_generic": "An unexpected error occurred. Please try again."
 }

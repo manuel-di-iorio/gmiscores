@@ -1,3 +1,6 @@
+<?php if ($loginError): ?>
+<script>uiToastError(<?= json_encode(__("error_login")) ?>, <?= json_encode($loginError) ?>);</script>
+<?php endif; ?>
 <style>
   .home-stats-grid {
     display: grid;

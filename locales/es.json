@@ -767,5 +767,9 @@
   "tutorial_finish": "Finalizar",
   "tutorial_get_started": "Empezar",
   "tutorial_waiting_title": "Continúa en la página del juego",
-  "tutorial_waiting_desc": "Procede a crear un juego o abre uno existente. El tutorial se reanudará automáticamente."
+  "tutorial_waiting_desc": "Procede a crear un juego o abre uno existente. El tutorial se reanudará automáticamente.",
+  "error_login": "Error de inicio de sesión",
+  "error_get_tokens": "No se pudo autenticar con Discord. Inténtalo de nuevo.",
+  "error_get_user_data": "No se pudieron obtener los datos del usuario de Discord. Inténtalo de nuevo.",
+  "error_generic": "Se produjo un error inesperado. Inténtalo de nuevo."
 }

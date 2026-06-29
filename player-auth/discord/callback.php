@@ -33,7 +33,7 @@ $response = file_get_contents('https://discordapp.com/api/v6/oauth2/token', fals
 ]));
 
 if ($response === FALSE) {
-  header("Location: /?error=GetTokensRequestError");
+  header("Location: /player-auth/discord/login.php?error=GetTokensRequestError");
   exit;
 }
 
@@ -48,7 +48,7 @@ $response = file_get_contents('https://discordapp.com/api/v6/users/@me', false, 
 ]));
 
 if ($response === FALSE) {
-  header("Location: /?error=GetUserDataRequestError");
+  header("Location: /player-auth/discord/login.php?error=GetUserDataRequestError");
   exit;
 }
 

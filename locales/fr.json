@@ -767,5 +767,9 @@
   "tutorial_finish": "Terminer",
   "tutorial_get_started": "Commencer",
   "tutorial_waiting_title": "Continuez sur la page du jeu",
-  "tutorial_waiting_desc": "Procédez à la création d'un jeu ou ouvrez-en un existant. Le tutoriel reprendra automatiquement."
+  "tutorial_waiting_desc": "Procédez à la création d'un jeu ou ouvrez-en un existant. Le tutoriel reprendra automatiquement.",
+  "error_login": "Erreur de connexion",
+  "error_get_tokens": "Échec de l'authentification avec Discord. Veuillez réessayer.",
+  "error_get_user_data": "Échec de la récupération des données utilisateur depuis Discord. Veuillez réessayer.",
+  "error_generic": "Une erreur inattendue s'est produite. Veuillez réessayer."
 }

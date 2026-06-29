@@ -2,6 +2,20 @@
 session_start();
 require_once(__DIR__ . "/../../lib/db.php");
 
+// Handle error from OAuth callback
+if (isset($_GET["error"])) {
+  $errorMessages = [
+    "GetTokensRequestError" => __("error_get_tokens"),
+    "GetUserDataRequestError" => __("error_get_user_data"),
+  ];
+  $errorKey = $_GET["error"];
+  $loginError = $errorMessages[$errorKey] ?? __("error_generic");
+  $view = "player-login-sdk-error";
+  $pageName = "Player Login";
+  require_once(__DIR__ . "/../../includes/layout-minimal.php");
+  exit;
+}
+
 $session = isset($_GET["session"]) ? preg_replace('/[^a-f0-9]/i', '', $_GET["session"]) : '';
 if (empty($session) || strlen($session) !== 64) {
   header("Location: /");

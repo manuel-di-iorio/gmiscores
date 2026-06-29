@@ -767,5 +767,9 @@
   "tutorial_finish": "Fine",
   "tutorial_get_started": "Inizia",
   "tutorial_waiting_title": "Continua dalla pagina del gioco",
-  "tutorial_waiting_desc": "Procedi a creare un gioco o aprine uno già creato. Il tutorial riprenderà automaticamente."
+  "tutorial_waiting_desc": "Procedi a creare un gioco o aprine uno già creato. Il tutorial riprenderà automaticamente.",
+  "error_login": "Errore di accesso",
+  "error_get_tokens": "Autenticazione con Discord non riuscita. Riprova.",
+  "error_get_user_data": "Recupero dati utente da Discord non riuscito. Riprova.",
+  "error_generic": "Si è verificato un errore imprevisto. Riprova."
 }

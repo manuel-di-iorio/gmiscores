@@ -6,6 +6,18 @@ require_once("models/Score.php");
 require_once("models/Team.php");
 require_once("includes/table.php");
 
+if (isset($_GET["error"])) {
+  $errorMessages = [
+    "GetTokensRequestError" => __("error_get_tokens"),
+    "GetUserDataRequestError" => __("error_get_user_data"),
+  ];
+  $errorKey = $_GET["error"];
+  $loginError = $errorMessages[$errorKey] ?? __("error_generic");
+  unset($_GET["error"]);
+} else {
+  $loginError = null;
+}
+
 $userId = $user["id"];
 $selectedTeamId = isset($_COOKIE['selected_team_id']) && $_COOKIE['selected_team_id'] !== '' ? (int)$_COOKIE['selected_team_id'] : null;
 
