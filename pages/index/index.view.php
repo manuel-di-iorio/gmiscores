@@ -705,8 +705,8 @@
       <div class="tilt-card__shine"></div>
       <div class="FeatureCard__Icon"><i class="fab fa-github"></i></div>
       <h5><?= __('index_feature7_title') ?></h5>
-      <p><?= __('index_feature7_desc1') ?> <a href="https://github.com/manuel-di-iorio/gmiscores" style="color:var(--primary-color);"><?= __('index_feature7_github') ?></a>. <?= __('index_feature7_desc2') ?></p>
-      <a href="https://github.com/manuel-di-iorio/gmiscores" class="card-arrow" style="text-decoration:none;" target="_blank"><?= __('index_feature_link') ?> <i class="fas fa-arrow-right"></i></a>
+      <p><?= __('index_feature7_desc1') ?> <a href="https://github.com/manuel-di-iorio/gmicloud" style="color:var(--primary-color);"><?= __('index_feature7_github') ?></a>. <?= __('index_feature7_desc2') ?></p>
+      <a href="https://github.com/manuel-di-iorio/gmicloud" class="card-arrow" style="text-decoration:none;" target="_blank"><?= __('index_feature_link') ?> <i class="fas fa-arrow-right"></i></a>
     </div>
     <div class="FeatureCard fade-in-up-on-scroll tilt-card">
       <div class="tilt-card__shine"></div>

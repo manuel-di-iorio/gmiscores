@@ -22,7 +22,7 @@ function gmi_init(clientId = undefined, clientSecret = undefined, env = undefine
 	if (is_undefined(env)) env = "production";
 	
 	if (env == "production") {
-	   global.GMI_ENDPOINT_HOST = "https://gmiscores.altervista.org/api/v1";
+	   global.GMI_ENDPOINT_HOST = "https://gmicloud.altervista.org/api/v1";
     } else {
         global.GMI_ENDPOINT_HOST = "http://localhost:8080/api/v1";
     }

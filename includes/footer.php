@@ -28,7 +28,7 @@ $footerMarginLeft = $footerMarginLeft ?? '0!important';
         <li><a href="/terms.php" class="footer-link"><?= __("footer_terms") ?></a></li>
         <li><a href="/privacy.php" class="footer-link"><?= __("footer_privacy") ?></a></li>
         <li><a href="/cookie.php" class="footer-link"><?= __("footer_cookie") ?></a></li>
-        <li><a href="https://github.com/manuel-di-iorio/gmiscores/issues" class="footer-link" target="_blank" rel="noopener noreferrer"><?= __("footer_report_issue") ?></a></li>
+        <li><a href="https://github.com/manuel-di-iorio/gmicloud/issues" class="footer-link" target="_blank" rel="noopener noreferrer"><?= __("footer_report_issue") ?></a></li>
       </ul>
     </div>
     <div class="footer-section social">
@@ -36,7 +36,7 @@ $footerMarginLeft = $footerMarginLeft ?? '0!important';
       <a href="https://discord.gg/85RCMD9VQD" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="fab fa-discord"></i></a>
       <a href="https://www.facebook.com/gmitalia" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
       <a href="https://twitter.com/gamemakerita" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-      <a href="https://github.com/manuel-di-iorio/gmiscores" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="https://github.com/manuel-di-iorio/gmicloud" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
     </div>
   </div>
   <div class="footer-bottom">
