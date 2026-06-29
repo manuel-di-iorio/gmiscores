@@ -17,5 +17,10 @@ if (!file_exists($file)) {
 
 $_SERVER['REQUEST_METHOD'] = strtoupper($method);
 
+if (in_array($method, ['POST', 'PUT', 'PATCH'])) {
+  $rawBody = file_get_contents('php://input');
+  parse_str($rawBody, $_POST);
+}
+
 chdir(dirname($file));
 include $file;
