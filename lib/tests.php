@@ -44,37 +44,29 @@ function rawRequest($method, $url, $data = null) {
   if ($method === "POST" && $data) {
     $content = http_build_query($data);
   }
-  $c = curl_init($url);
-  curl_setopt_array($c, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_CUSTOMREQUEST => $method,
-    CURLOPT_HTTPHEADER => ["Content-type: application/x-www-form-urlencoded"],
-    CURLOPT_POSTFIELDS => $content,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_CONNECTTIMEOUT => 10,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_FRESH_CONNECT => false,
+  $ctx = stream_context_create([
+    'http' => [
+      'method' => $method,
+      'header'  => "Content-type: application/x-www-form-urlencoded",
+      'content' => $content,
+      'ignore_errors' => true
+    ]
   ]);
-  $response = curl_exec($c);
-  curl_close($c);
+  $response = file_get_contents($url, false, $ctx);
   return json_decode($response, true);
 }
 
 function rawJsonRequest($method, $url, $data = null) {
   $content = $data ? json_encode($data) : null;
-  $c = curl_init($url);
-  curl_setopt_array($c, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_CUSTOMREQUEST => $method,
-    CURLOPT_HTTPHEADER => ["Content-type: application/json"],
-    CURLOPT_POSTFIELDS => $content,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_CONNECTTIMEOUT => 10,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_FRESH_CONNECT => false,
+  $ctx = stream_context_create([
+    'http' => [
+      'method' => $method,
+      'header'  => "Content-type: application/json",
+      'content' => $content,
+      'ignore_errors' => true
+    ]
   ]);
-  $response = curl_exec($c);
-  curl_close($c);
+  $response = file_get_contents($url, false, $ctx);
   return json_decode($response, true);
 }
 
