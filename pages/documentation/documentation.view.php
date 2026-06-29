@@ -52,7 +52,7 @@
         <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
           <i class="far fa-copy"></i>
         </button>
-        <div class="code-block jsHigh">// <?= __('docs_security_example_comment') ?><br/>var data = "game=" + game_id + "&amp;leaderboard_id=" + lb_id + "&amp;score=" + score + "&amp;player=" + base64_encode(player);<br/>var secret = "SECRET_DEL_GIOCO";<br/>var hash = sha1_string_utf8(data + secret);<br/><br/>// <?= __('docs_security_example_send') ?><br/>http_post_string(ENDPOINT + "/add.php", data + "&amp;hash=" + hash);</div>
+        <div class="code-block jsHigh">// <?= __('docs_security_example_comment') ?><br/>var data = "game=" + game_id + "&amp;leaderboard_id=" + lb_id + "&amp;score=" + score + "&amp;player=" + base64_encode(player);<br/>var secret = "SECRET_DEL_GIOCO";<br/>var hash = sha1_string_utf8(data + secret);<br/><br/>// <?= __('docs_security_example_send') ?><br/>http_post_string(ENDPOINT + "/scores/add.php", data + "&amp;hash=" + hash);</div>
       </div>
     </div>
 
@@ -225,12 +225,12 @@
 
   <p class="documentation-text font-semibold mb-4"><?= __('docs_subtitle') ?></p>
 
-  <!-- POST /add.php Accordion -->
+  <!-- POST /scores/add.php Accordion -->
   <div class="accordion-container">
     <button class="accordion-header">
       <div class="accordion-header-left">
         <span class="method-badge method-badge--post">POST</span>
-        <span class="font-mono font-semibold">/add.php</span>
+        <span class="font-mono font-semibold">/scores/add.php</span>
       </div>
       <i class="fas fa-chevron-down accordion-icon"></i>
     </button>
@@ -384,7 +384,7 @@
               <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
                 <i class="far fa-copy"></i>
               </button>
-              <div class="code-block jsHigh">var points = 100; // <?= __('docs_code_points') ?><br/>var player = "Harry"; // <?= __('docs_code_player') ?><br/>var data = "game=ID&amp;leaderboard_id=ID_LEADERBOARD&amp;score=" + string(points) + "&amp;player=" + base64_encode(player);<br/>var secret = "SECRET_DEL_GIOCO"; // <?= __('docs_code_secret') ?><br/>var hash = "&amp;hash=" + sha1_string_utf8(data + secret);<br/>http_post_string("<?= $baseApiPath ?>/add.php", data + hash);</div>
+              <div class="code-block jsHigh">var points = 100; // <?= __('docs_code_points') ?><br/>var player = "Harry"; // <?= __('docs_code_player') ?><br/>var data = "game=ID&amp;leaderboard_id=ID_LEADERBOARD&amp;score=" + string(points) + "&amp;player=" + base64_encode(player);<br/>var secret = "SECRET_DEL_GIOCO"; // <?= __('docs_code_secret') ?><br/>var hash = "&amp;hash=" + sha1_string_utf8(data + secret);<br/>http_post_string("<?= $baseApiPath ?>/scores/add.php", data + hash);</div>
             </div>
           </div>
         </div>
@@ -393,12 +393,12 @@
     </div>
   </div>
 
-  <!-- GET /list.php Accordion -->
+  <!-- GET /scores/list.php Accordion -->
   <div class="accordion-container">
     <button class="accordion-header">
       <div class="accordion-header-left">
         <span class="method-badge method-badge--get">GET</span>
-        <span class="font-mono font-semibold">/list.php</span>
+        <span class="font-mono font-semibold">/scores/list.php</span>
       </div>
       <i class="fas fa-chevron-down accordion-icon"></i>
     </button>
@@ -595,7 +595,7 @@
               <button class="copy-code-btn" onclick="copyBlockContent(this)" data-tippy-content="Copia codice">
                 <i class="far fa-copy"></i>
               </button>
-              <div class="code-block jsHigh">// <?= __('docs_code_create_comment') ?><br/>// <?= __('docs_code_request_comment') ?><br/>scores = noone;<br/>getScores = http_get("<?= $baseApiPath ?>/list.php?game=ID");</div>
+              <div class="code-block jsHigh">// <?= __('docs_code_create_comment') ?><br/>// <?= __('docs_code_request_comment') ?><br/>scores = noone;<br/>getScores = http_get("<?= $baseApiPath ?>/scores/list.php?game=ID");</div>
             </div>
           </div>
 

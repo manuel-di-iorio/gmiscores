@@ -120,13 +120,13 @@ function syncUrl() {
 function addUrl($params = []) {
   global $config;
   $query = http_build_query($params);
-  return $config["host"] . "/api/v1/add.php" . ($query ? "?$query" : "");
+  return $config["host"] . "/api/v1/scores/add.php" . ($query ? "?$query" : "");
 }
 
 function listUrl($params = []) {
   global $config;
   $query = http_build_query($params);
-  return $config["host"] . "/api/v1/list.php" . ($query ? "?$query" : "");
+  return $config["host"] . "/api/v1/scores/list.php" . ($query ? "?$query" : "");
 }
 
 function playerAuthUrl($path, $params = []) {

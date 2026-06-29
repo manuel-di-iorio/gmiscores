@@ -17,7 +17,7 @@ function gmi_scores_get_list(opts = {}) {
 	var on_success = variable_struct_exists(opts, "on_success") ? opts.on_success : undefined;
 	var on_error = variable_struct_exists(opts, "on_error") ? opts.on_error : undefined;
 	
-	var url = global.GMI_ENDPOINT_HOST + "/list.php?game=" + string(global.GMI_GAME_CLIENT_ID);
+	var url = global.GMI_ENDPOINT_HOST + "/scores/list.php?game=" + string(global.GMI_GAME_CLIENT_ID);
 	url += "&leaderboard_id=" + string(leaderboard_id);
 
 	if (!is_undefined(page)) url += "&page=" + string(page);
@@ -38,7 +38,7 @@ function gmi_scores_get_list(opts = {}) {
 	var dataForHash = "game=" + string(global.GMI_GAME_CLIENT_ID);
 	if (!is_undefined(leaderboard_id)) dataForHash += "&leaderboard_id=" + string(leaderboard_id);
 	url += "&hash=" + sha1_string_utf8(dataForHash + global.GMI_GAME_CLIENT_SECRET);
-    if (global.GMI_LOGS) show_debug_message("[GMI] GetList → GET /list.php: " + url);
+    if (global.GMI_LOGS) show_debug_message("[GMI] GetList → GET /scores/list.php: " + url);
 
 	var _req_id = http_get(url);
 	global.gmi_requests[$ string(_req_id)] = {
