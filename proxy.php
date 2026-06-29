@@ -17,4 +17,5 @@ if (!file_exists($file)) {
   exit;
 }
 
+chdir(dirname($file));
 include $file;
