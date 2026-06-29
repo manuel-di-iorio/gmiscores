@@ -1,4 +1,4 @@
-# GMI Scores - GameMaker Italia Platform
+# GMI Cloud - GameMaker Italia Platform
 
 A server-side platform for managing game leaderboards, scores, and player data. Designed for game developers using GameMaker Studio 2, it provides a REST API for score submission and retrieval, player authentication, cloud save synchronization, and team-based game management.
 
