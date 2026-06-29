@@ -1,8 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 $path = $_GET['path'] ?? '';
 
 if ($path === '' || strpos($path, 'api/') !== 0) {
@@ -17,5 +14,10 @@ if (!file_exists($file)) {
   exit;
 }
 
-chdir(dirname($file));
-include $file;
+header("Content-Type: application/json");
+echo json_encode([
+  "debug_method" => $_SERVER["REQUEST_METHOD"],
+  "debug_orig_method" => $_SERVER["HTTP_X_ORIGINAL_METHOD"] ?? "not_set",
+  "debug_get" => $_GET,
+]);
+exit;
