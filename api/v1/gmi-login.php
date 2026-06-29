@@ -1,5 +1,6 @@
 <?php
 require_once("../../lib/db.php");
+require_once("../../lib/http.php");
 session_start();
 
 // Validate OAuth state parameter (CSRF protection)
@@ -15,19 +16,13 @@ $code = $_GET["code"];
 $redirectUri = isset($_SESSION["loginGo"]) ? $_SESSION["loginGo"] : "/home.php";
 
 // Get the tokens
-$response = file_get_contents('https://discordapp.com/api/v6/oauth2/token', false, stream_context_create([
-  'http' => [
-      'method' => 'POST',
-      'header'  => "Content-type: application/x-www-form-urlencoded",
-      'content' => http_build_query([
-          'client_id' => $config['discordLoginClientId'],
-          'client_secret' => $config['discordLoginClientSecret'],
-          'grant_type' => 'authorization_code',
-          'code' => $code,
-          'redirect_uri' => $config["loginCallback"],
-          'scope' => 'identify'
-      ])
-  ]
+$response = httpPost('https://discord.com/api/v10/oauth2/token', http_build_query([
+  'client_id' => $config['discordLoginClientId'],
+  'client_secret' => $config['discordLoginClientSecret'],
+  'grant_type' => 'authorization_code',
+  'code' => $code,
+  'redirect_uri' => $config["loginCallback"],
+  'scope' => 'identify'
 ]));
 if ($response === FALSE) {
   header("Location: /home.php?error=GetTokensRequestError");
@@ -36,13 +31,7 @@ if ($response === FALSE) {
 $tokens = json_decode($response, true);
 
 // Get the user data
-$response = file_get_contents('https://discordapp.com/api/v6/users/@me', false, stream_context_create([
-  'http' => [
-      'method' => 'GET',
-      'header'  => "Content-type: application/json\r\n" . 
-      "Authorization: Bearer " . $tokens["access_token"] . "\r\n"
-  ]
-]));
+$response = httpGet('https://discord.com/api/v10/users/@me', $tokens["access_token"]);
 if ($response === FALSE) {
   header("Location: /home.php?error=GetUserDataRequestError");
   exit;

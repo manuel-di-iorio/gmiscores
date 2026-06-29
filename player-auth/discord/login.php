@@ -64,7 +64,7 @@ $oauthState = bin2hex(random_bytes(32));
 $_SESSION["oauth_state"] = $oauthState;
 
 // Redirect directly to Discord OAuth
-$loginRedirectUrl = "https://discordapp.com/api/oauth2/authorize?client_id=" . $config["discordLoginClientId"] . "&response_type=code&scope=identify&redirect_uri=" . urlencode($config["playerLoginCallback"]) . "&state=" . $oauthState;
+$loginRedirectUrl = "https://discord.com/api/oauth2/authorize?client_id=" . $config["discordLoginClientId"] . "&response_type=code&scope=identify&redirect_uri=" . urlencode($config["playerLoginCallback"]) . "&state=" . $oauthState;
 
 header("Location: " . $loginRedirectUrl);
 exit;
