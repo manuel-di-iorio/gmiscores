@@ -23,7 +23,6 @@ $config = [
   "cookieDomain" => $env['COOKIE_DOMAIN'],
   "recaptchaKey" => $env['RECAPTCHA_KEY'],
   "recaptchaSecret" => $env['RECAPTCHA_SECRET'],
-  "httpsRedirect" => $env['HTTPS_REDIRECT'],
   "maintenance" => $env['MAINTENANCE'] === 'true',
   "maintenanceMessage" => $env['MAINTENANCE_MESSAGE'],
 ];
