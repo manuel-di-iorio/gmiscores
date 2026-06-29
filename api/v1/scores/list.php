@@ -1,10 +1,10 @@
 <?php
-require_once("../../../lib/db.php");
-require_once("../../../lib/rateLimit.php");
-require_once("../../../models/Score.php");
-require_once("../../../models/Game.php");
-require_once("../../../models/Player.php");
-require_once("../../../models/Leaderboard.php");
+require_once(__DIR__ . "/../../../lib/db.php");
+require_once(__DIR__ . "/../../../lib/rateLimit.php");
+require_once(__DIR__ . "/../../../models/Score.php");
+require_once(__DIR__ . "/../../../models/Game.php");
+require_once(__DIR__ . "/../../../models/Player.php");
+require_once(__DIR__ . "/../../../models/Leaderboard.php");
 
 header("Access-Control-Allow-Origin: *");
 
