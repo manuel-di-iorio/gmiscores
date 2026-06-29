@@ -1,7 +1,7 @@
 <?php
 
 $path = $_GET['path'] ?? '';
-$originalMethod = $_GET['orig_method'] ?? 'GET';
+$method = $_GET['_method'] ?? 'GET';
 
 if ($path === '' || strpos($path, 'api/') !== 0) {
   http_response_code(404);
@@ -15,7 +15,7 @@ if (!file_exists($file)) {
   exit;
 }
 
-$_SERVER['REQUEST_METHOD'] = $originalMethod;
+$_SERVER['REQUEST_METHOD'] = strtoupper($method);
 
 chdir(dirname($file));
 include $file;
