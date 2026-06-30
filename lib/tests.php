@@ -47,7 +47,7 @@ function rawRequest($method, $url, $data = null) {
   $ctx = stream_context_create([
     'http' => [
       'method' => $method,
-      'header'  => "Content-type: application/x-www-form-urlencoded",
+      'header'  => "Content-type: application/x-www-form-urlencoded\r\nX-Test-Run: 1",
       'content' => $content,
       'ignore_errors' => true
     ]
@@ -61,7 +61,7 @@ function rawJsonRequest($method, $url, $data = null) {
   $ctx = stream_context_create([
     'http' => [
       'method' => $method,
-      'header'  => "Content-type: application/json",
+      'header'  => "Content-type: application/json\r\nX-Test-Run: 1",
       'content' => $content,
       'ignore_errors' => true
     ]
@@ -89,7 +89,9 @@ function rawRequestsParallel($requests) {
       curl_setopt($c, CURLOPT_POSTFIELDS, $body);
     }
     if (!empty($headers)) {
-      curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt($c, CURLOPT_HTTPHEADER, array_merge($headers, ['X-Test-Run: 1']));
+    } else {
+      curl_setopt($c, CURLOPT_HTTPHEADER, ['X-Test-Run: 1']);
     }
     curl_multi_add_handle($mh, $c);
     $ch[$i] = $c;

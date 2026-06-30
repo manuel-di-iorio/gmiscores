@@ -6,8 +6,8 @@
 function api_reply_error(string $message, string $code, int $status) {
   global $db;
 
-  // Log non-validation errors for API v1 endpoints
-  if ($code !== "ValidationError" && isset($db)) {
+  // Log non-validation errors for API v1 endpoints (skip during test runs)
+  if ($code !== "ValidationError" && isset($db) && empty($_SERVER["HTTP_X_TEST_RUN"])) {
     $uri = $_SERVER["REQUEST_URI"] ?? "";
     $uriPath = parse_url($uri, PHP_URL_PATH);
     if (strpos($uriPath, "/api/v1/") === 0) {
