@@ -69,7 +69,7 @@ function ui_page_header(string $title, array $options = []): string {
     <div class="ui-page-header mt-5 mb-7 overflow-hidden rounded-xl
                 border border-border-color bg-surface-card shadow-card-subtle
                 ' . htmlspecialchars($extraClass, ENT_QUOTES, 'UTF-8') . '">
-      <div class="flex flex-col gap-5 border-l-4 border-primary-color px-5 py-7 sm:px-7 sm:py-8 lg:flex-row lg:items-center lg:justify-between">
+      <div class="flex flex-col gap-5 border-l-4 border-primary-color px-5 pt-7 pb-3 sm:px-7 sm:pt-8 sm:pb-3 lg:flex-row lg:items-center lg:justify-between lg:py-8">
         <div class="flex min-w-0 flex-1 items-start gap-4">
           ' . $backHtml . '
           <div class="min-w-0">
